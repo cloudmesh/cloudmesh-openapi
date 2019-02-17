@@ -3,10 +3,10 @@ OpenAPI merge
 
 IMPORTANT
 
-
-  cloudmesh.common
-  
-  cloudmesh.cmd5
+```
+cloudmesh.common  
+cloudmesh.cmd5
+```
 
 MUST BE INSTALLED FROM SOURCE AS THE VERSION ON PYPI IS NOT YET UPDATED
 
