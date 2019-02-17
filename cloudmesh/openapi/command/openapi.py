@@ -19,6 +19,7 @@ class OpenapiCommand(PluginCommand):
           Usage:
                 openapi merge [SERVICES...] [--dir=DIR]
                 openapi list [--dir=DIR]
+                openapi description [SERVICES...] [--dir=DIR]
 
           This command does some useful things.
 
@@ -34,7 +35,7 @@ class OpenapiCommand(PluginCommand):
 
         arguments.dir = path_expand(arguments["--dir"] or ".")
 
-        pprint(arguments)
+        # pprint(arguments)
 
         if arguments.list:
             files = m.get(arguments.dir)
@@ -45,5 +46,8 @@ class OpenapiCommand(PluginCommand):
         elif arguments.merge:
             d = m.merge(arguments.dir, arguments.SERVICES)
             print(yaml.dump(d, default_flow_style=False))
+
+        elif arguments.description:
+            d = m.description(arguments.dir, arguments.SERVICES)
 
         return ""
