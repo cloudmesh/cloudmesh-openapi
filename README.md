@@ -17,6 +17,8 @@ An example for yaml files are provided in
 
 * <https://github.com/cloudmesh-community/nist/tree/master/spec>
 
+Please note that the spec dire is containing openapi specifications that are not yet completed or are actively worked on. YOu are invited to participate.
+
 YOu can download some examples, as well as the `.header.yaml` file you will need with for example curl 
 
 Once you have `user.yaml` `timestap.yaml` and `.header.yaml` in your directory you can say
