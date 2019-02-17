@@ -25,6 +25,7 @@ Once you have `user.yaml` `timestap.yaml` and `.header.yaml` in your directory y
 
 ```bash
 $ cms openapi description user timestamp
+$ cms openapi merge user timestamp
 ```
 
 Please note that this script does not yet rewrite the `$ref` appropriately, but if you like to help you can do so.
