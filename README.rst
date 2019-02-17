@@ -1,16 +1,17 @@
 OpenAPI merge
 =============
 
-IMPORTANT: 
+IMPORTANT
 
 
   cloudmesh.common
+  
   cloudmesh.cmd5
 
 MUST BE INSTALLED FROM SOURCE AS THE VERSION ON PYPI IS NOT YET UPDATED
 
 
-YOu need to have the yaml file in the current directory and execute this program in this directory
+You need to have the yaml file in the current directory and execute this program in this directory
 
 An example for yaml files are provided in 
 
