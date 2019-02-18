@@ -1,6 +1,4 @@
-## Cloudmesh OpenAPI Merge
-
-
+# Cloudmesh OpenAPI Merge
 
 ## Prerequisits
 
