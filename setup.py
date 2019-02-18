@@ -31,27 +31,29 @@ def readfile(filename):
 requiers = """
 psutil
 pygments
-ruamel.yaml
+cloudmesh.cmd5
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
 
 version = readfile("VERSION")[0].strip()
-readme = readfile('README.md')
+
+with open('README.md') as f:
+    long_description = f.read()
 
 NAME = "cloudmesh.openapi"
 DESCRIPTION = "A command called openapi and foo for the cloudmesh shell"
 AUTHOR = "Gregor von Laszewski"
 AUTHOR_EMAIL = "laszewski@gmail.com"
 URL = "https://github.com/cloudmesh/cloudmesh.openapi"
-LONG_DESCRIPTION = "\n".join(readme)
 
 setup(
         name=NAME,
         author=AUTHOR,
         author_email=AUTHOR_EMAIL,
         description=DESCRIPTION,
-        long_description=LONG_DESCRIPTION,
+        long_description=long_description,
+        long_description_content_type="text/markdown",
         version=version,
         license="Apache 2.0",
         url=URL,
