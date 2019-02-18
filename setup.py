@@ -31,6 +31,7 @@ def readfile(filename):
 requiers = """
 psutil
 pygments
+ruamel.yaml
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
@@ -45,8 +46,7 @@ AUTHOR_EMAIL = "laszewski@gmail.com"
 URL = "https://github.com/cloudmesh/cloudmesh.openapi"
 LONG_DESCRIPTION = "\n".join(readme)
 
-setup \
-        (
+setup(
         name=NAME,
         author=AUTHOR,
         author_email=AUTHOR_EMAIL,

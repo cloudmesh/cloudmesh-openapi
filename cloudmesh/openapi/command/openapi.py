@@ -1,11 +1,11 @@
 from __future__ import print_function
-from cloudmesh.shell.command import command
-from cloudmesh.shell.command import PluginCommand
-from cloudmesh.openapi.api.manager import Manager
-from cloudmesh.common.console import Console
-from cloudmesh.common.util import path_expand
-from pprint import pprint
+
 import yaml
+from cloudmesh.common.util import path_expand
+from cloudmesh.shell.command import PluginCommand
+from cloudmesh.shell.command import command
+
+from cloudmesh.openapi.api.manager import Manager, OpenAPIMarkdown
 
 
 class OpenapiCommand(PluginCommand):
@@ -20,11 +20,15 @@ class OpenapiCommand(PluginCommand):
                 openapi merge [SERVICES...] [--dir=DIR]
                 openapi list [--dir=DIR]
                 openapi description [SERVICES...] [--dir=DIR]
+                openapi md FILE [--indent=INDENT]
+
 
           This command does some useful things.
 
           Arguments:
-              DIR   a file name
+              DIR   The directory of the specifications
+              FILE  The specification
+
 
           Options:
               -f      specify the file
@@ -49,5 +53,19 @@ class OpenapiCommand(PluginCommand):
 
         elif arguments.description:
             d = m.description(arguments.dir, arguments.SERVICES)
+
+        elif arguments.md:
+
+            converter = OpenAPIMarkdown()
+
+            if arguments["--indent"] is None:
+                indent = 1
+            else:
+                indent = int(arguments["--indent"])
+            filename = arguments["FILE"]
+
+            converter.title(filename, indent=indent)
+            converter.convert_definitions(filename, indent=indent + 1)
+            converter.convert_paths(filename, indent=indent + 1)
 
         return ""

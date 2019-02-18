@@ -1,10 +1,7 @@
-import sys
 import os
-from cloudmesh.common.util import path_expand
 from glob import glob
-from pathlib import Path
+import sys
 import yaml
-from pprint import pprint
 
 
 class Manager(object):
@@ -33,10 +30,9 @@ class Manager(object):
                     print(exc)
                     sys.exit()
 
-
     def merge(self, directory, services, header=".header"):
         try:
-            with open(self.name(directory, header), 'r') as  stream:
+            with open(self.name(directory, header), 'r') as stream:
                 data = yaml.load(stream)
         except Exception as e:
             data = {}
@@ -52,7 +48,7 @@ class Manager(object):
                 s.append(self.name(directory, service))
             services = s
 
-        for field in ['info','paths', 'definitions']:
+        for field in ['info', 'paths', 'definitions']:
             data[field] = {}
 
         data["info"]["description"] = "|-\n"
@@ -63,10 +59,11 @@ class Manager(object):
                 try:
                     spec = yaml.load(stream)
 
-                    data["info"]["description"] += "# " + spec["info"]["title"] + "\n"
+                    data["info"]["description"] += "# " + spec["info"][
+                        "title"] + "\n"
                     data["info"]["description"] += spec["info"]["description"]
 
-                    #print (data["info"]["description"])
+                    # print (data["info"]["description"])
 
                     for field in ['paths', 'definitions']:
                         if field in spec:
@@ -77,15 +74,15 @@ class Manager(object):
                     print(exc)
                     sys.exit()
 
-            #data["info"]["description"] =data["info"]["description"]
+            # data["info"]["description"] =data["info"]["description"]
 
         return data
 
     def name(self, directory, n):
         return os.path.join(directory, n + ".yaml")
 
-    def get(self, dir):
-        files = glob(os.path.join(dir, "*.yaml"))
+    def get(self, directory):
+        files = glob(os.path.join(directory, "*.yaml"))
         return files
 
     """
@@ -143,3 +140,151 @@ class Manager(object):
 
         merge(services, out)
         """
+
+
+class OpenAPIMarkdown(object):
+    try:
+        columns, lines = os.get_terminal_size()
+    except Exception as e:
+        rows, columns = map(int, os.popen('stty size', 'r').read().split())
+
+    def ERROR(self, *args, **kwargs):
+        print("ERROR", *args, file=sys.stderr, **kwargs)
+
+    def convert_definitions(self, filename, indent=1):
+        with open(filename, "r") as f:
+            spec = yaml.load(f)
+            # print (yaml.dump( spec, default_flow_style=False, default_style='' ))
+            print(spec["info"]["description"])
+            print()
+            for definition in spec["definitions"]:
+                # print (indent * "#", definition)
+                print(indent * "#", 'Properties', definition)
+                print()
+                print("|", "Property", "|", "Type", "|", "Description", "|")
+                print("|", "---", "|", "---", "|", "-------------", "|")
+                properties = spec["definitions"][definition]['properties']
+                for property in properties:
+                    if 'description' not in properties[property]:
+                        properties[property][
+                            'description'] = "ERROR: description missing"
+
+                    if 'type' not in properties[property]:
+                        properties[property]['type'] = ""
+
+                    if properties[property]['type'] == "array":
+                        if "type" in properties[property]["items"]:
+                            properties[property]['type'] = "array[{}]".format(
+                                properties[property]["items"]["type"])
+                        elif "$ref" in properties[property]["items"]:
+                            properties[property]['type'] = "array[{}]".format(
+                                properties[property]["items"]["$ref"])
+
+                    print("|", property, "|", properties[property]['type'], "|",
+                          properties[property]['description'], "|")
+                print()
+
+    def section_link_from_ref(self, response):
+        # See [section one](#section-one).
+        link = ""
+        try:
+            response["section"] = response['schema']['$ref'].replace(
+                "#/definitions/", "")
+            response["lsection"] = response["section"].lower()
+        except Exception as e:
+            response["section"] = ""
+            response["lsection"] = ""
+        if response["section"] != "":
+            link = "[{section}](#{lsection})".format(**response)
+        else:
+            link = ""
+        response["link"] = link
+        return response
+
+    def title(self, filename, indent=1):
+        with open(filename, "r") as f:
+            spec = yaml.load(f)
+        print("#" * indent, spec["info"]["title"])
+        print()
+        print("Version:", spec["info"]["version"] + ",", spec["info"][
+            "x-date"])
+        print()
+
+    def convert_paths(self, filename, indent=2):
+        with open(filename, "r") as f:
+            spec = yaml.load(f)
+            # print (yaml.dump( spec, default_flow_style=False, default_style='' ))
+            print()
+            print(indent * "#", "Paths")
+            print()
+            paths = spec["paths"]
+            for path in paths:
+                print((indent + 1) * "#", path)
+                print()
+                # print ("|", "Property", "|", "Type", "|", "Description", "|")
+                # print ("|", "---", "|", "---", "|", "-------------", "|")
+                urls = paths[path]
+                for method in urls:
+                    print((indent + 2) * '#', method.upper(), path)
+                    print()
+                    #
+                    # DESCRIPTION
+                    #
+                    # print ((indent + 3) * "#", "Description")
+                    # print()
+                    try:
+                        description = paths[path][method]['description']
+                    except Exception as e:
+                        description = "ERROR: missing"
+                    print(description)
+                    print()
+                    #
+                    # RESPONSES
+                    #
+                    # print ((indent + 3) * "#", "Responses")
+                    print("Responses")
+                    print()
+                    try:
+                        responses = paths[path][method]['responses']
+                    except Exception as e:
+                        responses = "ERROR: undefined"
+                    for code in responses:
+                        print("|", "Code", "|", "Description", "|", "Schema",
+                              "|")
+                        print("|", "---", "|", "---", "|", "-------------", "|")
+                        response = responses[code]
+                        if "schema" not in response:
+                            response['schema'] = ""
+
+                        response['code'] = code
+                        response = self.section_link_from_ref(response)
+                        print("| {code} | {description} | {link} |".format(
+                            **response))
+                        print()
+                    #
+                    # PARAMETERS
+                    #
+                    # print ((indent + 3) * "#", "PARAMETERS")
+                    parameters = None
+                    try:
+                        parameters = paths[path][method]['parameters']
+                        print("Parameters")
+                        print()
+                    except Exception as e:
+                        parameters = None
+                    if parameters is not None:
+                        print(
+                            "| Name | Located in | Description | Required | Schema |")
+                        print("| --- | --- | ------------- | --- | --- |")
+                        for parameter in parameters:
+                            if "required" not in parameter:
+                                parameter['required'] = False
+                            if "description" not in parameter:
+                                parameter[
+                                    'description'] = "ERROR: description missing"
+                            parameter = self.section_link_from_ref(parameter)
+
+                            print(
+                                "| {name} | {in} | {description} | {required} | {link} | ".format(
+                                    **parameter))
+                print()
