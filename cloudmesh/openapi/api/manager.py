@@ -3,6 +3,7 @@ from glob import glob
 import sys
 import yaml
 
+from pprint import pprint
 
 class Manager(object):
 
@@ -48,10 +49,11 @@ class Manager(object):
                 s.append(self.name(directory, service))
             services = s
 
-        for field in ['info', 'paths', 'definitions']:
+        for field in ['paths', 'definitions']:
             data[field] = {}
 
-        data["info"]["description"] = "|-\n"
+
+        data["info"]["description"] = ""
 
         for service in services:
 
@@ -69,12 +71,13 @@ class Manager(object):
                         if field in spec:
                             s = spec[field]
                             for entry in s:
+                                #print (field, entry)
                                 data[field][entry] = s[entry]
                 except yaml.YAMLError as exc:
                     print(exc)
                     sys.exit()
 
-            # data["info"]["description"] =data["info"]["description"]
+            data["info"]["description"] = "TBD"
 
         return data
 
