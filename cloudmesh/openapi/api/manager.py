@@ -195,7 +195,7 @@ class OpenAPIMarkdown(object):
             response["section"] = ""
             response["lsection"] = ""
         if response["section"] != "":
-            link = "[{section}](#{lsection})".format(**response)
+            link = "[{section}](#sec:spec-{lsection})".format(**response)
         else:
             link = ""
         response["link"] = link
@@ -204,7 +204,9 @@ class OpenAPIMarkdown(object):
     def title(self, filename, indent=1):
         with open(filename, "r") as f:
             spec = yaml.load(f)
-        print("#" * indent, spec["info"]["title"])
+        title = spec["info"]["title"]
+
+        print("#" * indent, title, "{#sec:spec-" + title.lower() + "}")
         print()
         print("Version:", spec["info"]["version"] + ",", spec["info"][
             "x-date"])
