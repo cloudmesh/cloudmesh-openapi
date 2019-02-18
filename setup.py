@@ -37,7 +37,7 @@ ruamel.yaml
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
 
 version = readfile("VERSION")[0].strip()
-readme = readfile('README.rst')
+readme = readfile('README.md')
 
 NAME = "cloudmesh.openapi"
 DESCRIPTION = "A command called openapi and foo for the cloudmesh shell"
