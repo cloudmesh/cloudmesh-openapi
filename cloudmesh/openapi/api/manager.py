@@ -6,6 +6,7 @@ import yaml
 from pprint import pprint
 
 class Manager(object):
+    indent = "  "
 
     def __init__(self):
         pass
@@ -80,6 +81,91 @@ class Manager(object):
             data["info"]["description"] = "TBD"
 
         return data
+
+    def codegen(self, services, srcdirectory=".", destdirectory="."):
+        s = []
+        if len(services) == 0:
+            services = self.get(srcdirectory)
+        else:
+            s = []
+            for service in services:
+                s.append(self.name(srcdirectory, service))
+            services = s
+
+        for service in services:
+            with open(service, 'r') as stream:
+                spec = yaml.load(stream)
+                paths = spec["paths"]
+                pathskeys = list(paths.keys())
+                #pprint (pathskeys)
+                for pathkey in pathskeys:
+                    #print (pathkey)
+                    ops = paths[pathkey]
+                    #print (ops)
+                    opskeys = list(ops.keys())
+                    #print (opskeys)
+                    for opkey in opskeys:
+                        opid = ops[opkey]["operationId"]
+                        #print (opid)
+                        (module, file, method) = opid.split(".")
+                        fullpathdir = os.path.join(srcdirectory, module)
+                        #print (fullpathdir)
+                        fullpathfile = os.path.join(fullpathdir, file + ".py")
+                        #print (fullpathfile)
+                        if not os.path.exists(module):
+                            os.makedirs(module)
+                        open(fullpathfile, 'w').close()
+                for pathkey in pathskeys:
+                    #print (pathkey)
+                    ops = paths[pathkey]
+                    #print (ops)
+                    opskeys = list(ops.keys())
+                    #print (opskeys)
+                    for opkey in opskeys:
+                        opid = ops[opkey]["operationId"]
+                        #print (opid)
+                        opsummary = ''
+                        if "summary" in ops[opkey]:
+                            opsummary = ops[opkey]["summary"]
+                        elif "description" in ops[opkey]:
+                            opsummary = ops[opkey]["description"]
+                        #print (opsummary)
+                        params = []
+                        if "parameters" in ops[opkey]:
+                            params = ops[opkey]["parameters"]
+                        #print (params)
+
+                        (module, file, method) = opid.split(".")
+                        fullpathdir = os.path.join(srcdirectory, module)
+                        fullpathfile = os.path.join(fullpathdir, file + ".py")
+                        with open(fullpathfile, 'a+') as pycode:
+                            pycode.write(self.methoddefhead(method,
+                                                            params,
+                                                            opsummary))
+
+    def methoddefhead(self, name, params, summary):
+        paramslist = [param["name"] for param in params]
+        paramsstr = ', '.join(paramslist)
+        defstr = "def {name}({paramsstr}):\n".format(name=name,
+                                                   paramsstr=paramsstr)
+        defstr = defstr + self.methoddoc(summary, params)
+        defstr = defstr + "\n{indent}return 'TO BE IMPLEMENTED'\n\n".format(
+                                                        indent=Manager.indent)
+        #print (defstr)
+        return defstr
+
+    def methoddoc(self, summary, params):
+        docstr = "{indent}'''{summary}\n\n".format(indent=Manager.indent,
+                                                   summary=summary)
+        if params:
+            docstr = docstr + "{indent}Params:\n".format(indent=Manager.indent)
+        for param in params:
+            paramstr = "{indent}{name} - {description}\n".format(
+                                                        indent=Manager.indent*2,
+                                                        **param)
+            docstr = docstr + paramstr
+        docstr = docstr + "\n{indent}'''\n".format(indent=Manager.indent)
+        return docstr
 
     def name(self, directory, n):
         return os.path.join(directory, n + ".yaml")

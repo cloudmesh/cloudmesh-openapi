@@ -21,14 +21,16 @@ class OpenapiCommand(PluginCommand):
                 openapi list [--dir=DIR]
                 openapi description [SERVICES...] [--dir=DIR]
                 openapi md FILE [--indent=INDENT]
-
+                openapi codegen [SERVICES...] [--srcdir=SRCDIR]
+                                [--destdir=DESTDIR]
 
           This command does some useful things.
 
           Arguments:
               DIR   The directory of the specifications
               FILE  The specification
-
+              SRCDIR   The directory of the specifications
+              DESTDIR  The directory where the generated code should be put
 
           Options:
               -f      specify the file
@@ -67,5 +69,6 @@ class OpenapiCommand(PluginCommand):
             converter.title(filename, indent=indent)
             converter.convert_definitions(filename, indent=indent + 1)
             converter.convert_paths(filename, indent=indent + 1)
-
+        elif arguments.codegen:
+            m.codegen(arguments.SERVICES, arguments.dir)
         return ""
