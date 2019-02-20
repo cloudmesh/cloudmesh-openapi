@@ -2,14 +2,17 @@ import os
 from glob import glob
 import sys
 import yaml
-
+from cloudmesh.common.console import Console
 from pprint import pprint
 
 class Manager(object):
     indent = "  "
 
-    def __init__(self):
-        pass
+    def __init__(self, debug=False):
+        if debug is None:
+            self.debug = False
+        else:
+            self.debug = debug
 
     def description(self, directory, services):
         if len(services) == 0:
@@ -57,7 +60,6 @@ class Manager(object):
         data["info"]["description"] = ""
 
         for service in services:
-
             with open(service, 'r') as stream:
                 try:
                     spec = yaml.load(stream)
@@ -74,9 +76,12 @@ class Manager(object):
                             for entry in s:
                                 #print (field, entry)
                                 data[field][entry] = s[entry]
-                except yaml.YAMLError as exc:
-                    print(exc)
+                #except yaml.YAMLError as exc:
+                except Exception as e:
+                    print ("ERROR: in service", service)
+                    print(e)
                     sys.exit()
+
 
             data["info"]["description"] = "TBD"
 

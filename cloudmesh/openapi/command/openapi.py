@@ -17,7 +17,7 @@ class OpenapiCommand(PluginCommand):
         ::
 
           Usage:
-                openapi merge [SERVICES...] [--dir=DIR]
+                openapi merge [SERVICES...] [--dir=DIR] [--debug]
                 openapi list [--dir=DIR]
                 openapi description [SERVICES...] [--dir=DIR]
                 openapi md FILE [--indent=INDENT]
@@ -37,7 +37,9 @@ class OpenapiCommand(PluginCommand):
 
         """
 
-        m = Manager()
+
+        debug = arguments["--debug"]
+        m = Manager(debug=debug)
 
         arguments.dir = path_expand(arguments["--dir"] or ".")
 
