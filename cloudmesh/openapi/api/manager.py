@@ -76,7 +76,10 @@ class Manager(object):
                             for entry in s:
                                 #print (field, entry)
                                 data[field][entry] = s[entry]
-                #except yaml.YAMLError as exc:
+                except yaml.YAMLError as exc:
+                    print("ERROR: in service", service)
+                    print(e)
+                    sys.exit()
                 except Exception as e:
                     print ("ERROR: in service", service)
                     print(e)
