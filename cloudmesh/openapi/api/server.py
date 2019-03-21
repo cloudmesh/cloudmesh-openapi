@@ -31,7 +31,7 @@ class Server(object):
 
         self.path = path_expand(spec)
         self.spec = self.path
-        self.directory = path_expand(directory)
+        self.directory = path_expand(directory)[:-1]
         self.host = host
         self.port = port
         self.debug = debug
@@ -50,5 +50,6 @@ class Server(object):
         r = Shell.live("connexion run {spec} --debug".format(**self.__dict__))
 
         # app = connexion.App(__name__, specification_dir=self.directory)
+        # ### app.add_cls(self.directory)
         # app.add_api(self.path)
-        # app.run(host=self.host, port=self.port, debug=self.debug)
+        # app.run(host=self.host, port=self.port, debug=self.debug, )
