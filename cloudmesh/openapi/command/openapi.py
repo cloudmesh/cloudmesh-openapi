@@ -37,7 +37,7 @@ class OpenapiCommand(PluginCommand):
               DESTDIR  The directory where the generated code should be put
 
           Options:
-              --verbose              specifies to run in debug mode
+              --verbose              specifies to run in debug mode [default: False]
               --port=PORT            the port for the server [default: 8080]
               --directory=DIRECTORY  the directory in which the server is run [default: ./]
               --server=SERVER        teh server [default: flask]

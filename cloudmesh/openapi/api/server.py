@@ -2,7 +2,7 @@ from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
 from cloudmesh.terminal.Terminal import VERBOSE
 from cloudmesh.common.Shell import Shell
-
+from pprint import pprint
 from pathlib import Path
 import sys
 from flask import jsonify
@@ -32,7 +32,7 @@ class Server(object):
 
         self.path = path_expand(spec)
         self.spec = self.path
-        self.directory = path_expand(directory)[:-1]
+        self.directory = os.path.dirname(self.path)
         self.host = host
         self.port = port
         self.debug = debug
@@ -54,20 +54,32 @@ class Server(object):
                     "tornado not install. Please use `pip install tornado`")
                 sys.exit(1)
                 return ""
+            if self.debug:
+                Console.error("Tornado does not support --verbose")
+                sys.exit(1)
+                return ""
+
         Console.ok(self.path)
 
     def run(self):
         Console.ok("starting server")
 
-        if self.server is not None:
-            self.server_command = "--server={server}".format(**self.__dict__)
+        # if self.server is not None:
+        #    self.server_command = "--server={server}".format(**self.__dict__)
 
-        command = ("connexion run {spec} {server_command} --debug".format(
-            **self.__dict__))
-        VERBOSE.print(command, label="OpenAPI Server", verbose=1)
-        r = Shell.live(command)
+        # command = ("connexion run {spec} {server_command} --debug".format(
+        #    **self.__dict__))
+        # VERBOSE.print(command, label="OpenAPI Server", verbose=1)
+        # r = Shell.live(command)
 
-        # app = connexion.App(__name__, specification_dir=self.directory)
+        sys.path.append(self.directory)
+        app = connexion.App(__name__,
+                            specification_dir=self.directory)
+        # app.app["config"]["DEBUG"] = True
+
         # ### app.add_cls(self.directory)
-        # app.add_api(self.path)
-        # app.run(host=self.host, port=self.port, debug=self.debug, )
+        app.add_api(self.path)
+        app.run(host=self.host,
+                port=self.port,
+                debug=self.debug,
+                server=self.server)
