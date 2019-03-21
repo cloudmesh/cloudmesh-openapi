@@ -3,7 +3,11 @@ from __future__ import print_function
 import yaml
 from cloudmesh.common.util import path_expand
 from cloudmesh.shell.command import PluginCommand
-from cloudmesh.shell.command import command
+from cloudmesh.shell.command import command, map_parameters
+
+from cloudmesh.openapi.api.server import Server
+from cloudmesh.common.console import Console
+from cloudmesh.terminal.Terminal import VERBOSE
 
 from cloudmesh.openapi.api.manager import Manager, OpenAPIMarkdown
 
@@ -17,14 +21,14 @@ class OpenapiCommand(PluginCommand):
         ::
 
           Usage:
-                openapi merge [SERVICES...] [--dir=DIR] [--debug]
+                openapi merge [SERVICES...] [--dir=DIR] [--verbose]
                 openapi list [--dir=DIR]
                 openapi description [SERVICES...] [--dir=DIR]
                 openapi md FILE [--indent=INDENT]
                 openapi codegen [SERVICES...] [--srcdir=SRCDIR]
                                 [--destdir=DESTDIR]
-
-          This command does some useful things.
+                openapi server start YAML [--directory=DIRECTORY] [--port=PORT] [--verbose]
+                openapi server stop YAML
 
           Arguments:
               DIR   The directory of the specifications
@@ -33,13 +37,25 @@ class OpenapiCommand(PluginCommand):
               DESTDIR  The directory where the generated code should be put
 
           Options:
-              -f      specify the file
+              --verbose              specifies to run in debug mode
+              --port=PORT            the port for the server [default: 8080]
+              --directory=DIRECTORY  the directory in which the server is run [default: ./]
+
+          Description:
+            This command does some useful things.
+
 
         """
 
+        map_parameters(arguments,
+                       'verbose',
+                       'port',
+                       'directory')
+        arguments.debug = arguments.verbose
 
-        debug = arguments["--debug"]
-        m = Manager(debug=debug)
+        VERBOSE.print(arguments)
+
+        m = Manager(debug=arguments.debug)
 
         arguments.dir = path_expand(arguments["--dir"] or ".")
 
@@ -73,4 +89,28 @@ class OpenapiCommand(PluginCommand):
             converter.convert_paths(filename, indent=indent + 1)
         elif arguments.codegen:
             m.codegen(arguments.SERVICES, arguments.dir)
+
+        elif arguments.server and arguments.start:
+
+            try:
+                s = Server(
+                    spec=arguments.YAML,
+                    directory=arguments.directory,
+                    port=arguments.port,
+                    debug=arguments.debug)
+
+                s.run()
+
+            except FileNotFoundError:
+
+                Console.error("specification file not found")
+
+            except Exception as e:
+                print(e)
+
+
+        elif arguments.server and arguments.stop:
+
+            print("implement me")
+
         return ""
