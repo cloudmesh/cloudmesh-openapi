@@ -27,7 +27,7 @@ class OpenapiCommand(PluginCommand):
                 openapi md FILE [--indent=INDENT]
                 openapi codegen [SERVICES...] [--srcdir=SRCDIR]
                                 [--destdir=DESTDIR]
-                openapi server start YAML [--directory=DIRECTORY] [--port=PORT] [--verbose]
+                openapi server start YAML [--directory=DIRECTORY] [--port=PORT] [--server=SERVER] [--verbose]
                 openapi server stop YAML
 
           Arguments:
@@ -40,7 +40,7 @@ class OpenapiCommand(PluginCommand):
               --verbose              specifies to run in debug mode
               --port=PORT            the port for the server [default: 8080]
               --directory=DIRECTORY  the directory in which the server is run [default: ./]
-
+              --server=SERVER        teh server [default: flask]
           Description:
             This command does some useful things.
 
@@ -52,6 +52,7 @@ class OpenapiCommand(PluginCommand):
                        'port',
                        'directory')
         arguments.debug = arguments.verbose
+        arguments.wsgi = arguments["--server"]
 
         VERBOSE.print(arguments)
 
@@ -97,6 +98,7 @@ class OpenapiCommand(PluginCommand):
                     spec=arguments.YAML,
                     directory=arguments.directory,
                     port=arguments.port,
+                    server=arguments.wsgi,
                     debug=arguments.debug)
 
                 s.run()

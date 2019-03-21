@@ -23,6 +23,7 @@ class Server(object):
                  spec=None,
                  directory="./",
                  host="127.0.0.1",
+                 server="flask",
                  port=8080,
                  debug=True):
         if spec is None:
@@ -36,18 +37,35 @@ class Server(object):
         self.port = port
         self.debug = debug
         self.code = os.path.dirname(self.path) + "/cpu.py"
+        self.server = server
+        self.server_command = ""
 
         data = dict(self.__dict__)
         data['name'] = __name__
 
         VERBOSE.print(data, label="Server parameters", verbose=9)
 
+        if server == "tornado":
+            try:
+                import tornado
+            except Exception as e:
+                print(e)
+                Console.error(
+                    "tornado not install. Please use `pip install tornado`")
+                sys.exit(1)
+                return ""
         Console.ok(self.path)
 
     def run(self):
         Console.ok("starting server")
 
-        r = Shell.live("connexion run {spec} --debug".format(**self.__dict__))
+        if self.server is not None:
+            self.server_command = "--server={server}".format(**self.__dict__)
+
+        command = ("connexion run {spec} {server_command} --debug".format(
+            **self.__dict__))
+        VERBOSE.print(command, label="OpenAPI Server", verbose=1)
+        r = Shell.live(command)
 
         # app = connexion.App(__name__, specification_dir=self.directory)
         # ### app.add_cls(self.directory)
