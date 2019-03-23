@@ -5,6 +5,7 @@ import yaml
 from cloudmesh.common.console import Console
 from pprint import pprint
 
+
 class Manager(object):
     indent = "  "
 
@@ -56,7 +57,6 @@ class Manager(object):
         for field in ['paths', 'definitions']:
             data[field] = {}
 
-
         data["info"]["description"] = ""
 
         for service in services:
@@ -74,17 +74,16 @@ class Manager(object):
                         if field in spec:
                             s = spec[field]
                             for entry in s:
-                                #print (field, entry)
+                                # print (field, entry)
                                 data[field][entry] = s[entry]
                 except yaml.YAMLError as exc:
                     print("ERROR: in service", service)
                     print(e)
                     sys.exit()
                 except Exception as e:
-                    print ("ERROR: in service", service)
+                    print("ERROR: in service", service)
                     print(e)
                     sys.exit()
-
 
             data["info"]["description"] = "TBD"
 
@@ -105,43 +104,43 @@ class Manager(object):
                 spec = yaml.load(stream)
                 paths = spec["paths"]
                 pathskeys = list(paths.keys())
-                #pprint (pathskeys)
+                # pprint (pathskeys)
                 for pathkey in pathskeys:
-                    #print (pathkey)
+                    # print (pathkey)
                     ops = paths[pathkey]
-                    #print (ops)
+                    # print (ops)
                     opskeys = list(ops.keys())
-                    #print (opskeys)
+                    # print (opskeys)
                     for opkey in opskeys:
                         opid = ops[opkey]["operationId"]
-                        #print (opid)
+                        # print (opid)
                         (module, file, method) = opid.split(".")
                         fullpathdir = os.path.join(srcdirectory, module)
-                        #print (fullpathdir)
+                        # print (fullpathdir)
                         fullpathfile = os.path.join(fullpathdir, file + ".py")
-                        #print (fullpathfile)
+                        # print (fullpathfile)
                         if not os.path.exists(module):
                             os.makedirs(module)
                         open(fullpathfile, 'w').close()
                 for pathkey in pathskeys:
-                    #print (pathkey)
+                    # print (pathkey)
                     ops = paths[pathkey]
-                    #print (ops)
+                    # print (ops)
                     opskeys = list(ops.keys())
-                    #print (opskeys)
+                    # print (opskeys)
                     for opkey in opskeys:
                         opid = ops[opkey]["operationId"]
-                        #print (opid)
+                        # print (opid)
                         opsummary = ''
                         if "summary" in ops[opkey]:
                             opsummary = ops[opkey]["summary"]
                         elif "description" in ops[opkey]:
                             opsummary = ops[opkey]["description"]
-                        #print (opsummary)
+                        # print (opsummary)
                         params = []
                         if "parameters" in ops[opkey]:
                             params = ops[opkey]["parameters"]
-                        #print (params)
+                        # print (params)
 
                         (module, file, method) = opid.split(".")
                         fullpathdir = os.path.join(srcdirectory, module)
@@ -155,11 +154,11 @@ class Manager(object):
         paramslist = [param["name"] for param in params]
         paramsstr = ', '.join(paramslist)
         defstr = "def {name}({paramsstr}):\n".format(name=name,
-                                                   paramsstr=paramsstr)
+                                                     paramsstr=paramsstr)
         defstr = defstr + self.methoddoc(summary, params)
         defstr = defstr + "\n{indent}return 'TO BE IMPLEMENTED'\n\n".format(
-                                                        indent=Manager.indent)
-        #print (defstr)
+            indent=Manager.indent)
+        # print (defstr)
         return defstr
 
     def methoddoc(self, summary, params):
@@ -169,8 +168,8 @@ class Manager(object):
             docstr = docstr + "{indent}Params:\n".format(indent=Manager.indent)
         for param in params:
             paramstr = "{indent}{name} - {description}\n".format(
-                                                        indent=Manager.indent*2,
-                                                        **param)
+                indent=Manager.indent * 2,
+                **param)
             docstr = docstr + paramstr
         docstr = docstr + "\n{indent}'''\n".format(indent=Manager.indent)
         return docstr

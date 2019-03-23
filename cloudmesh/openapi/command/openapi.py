@@ -110,7 +110,6 @@ class OpenapiCommand(PluginCommand):
             except Exception as e:
                 print(e)
 
-
         elif arguments.server and arguments.stop:
 
             print("implement me")
