@@ -99,48 +99,39 @@ install:
 	pip install .
 
 ######################################################################
-# PYPI - Only to be exectued by Gregor
+# PYPI
 ######################################################################
 
+
 twine:
-	pip install twine
+	pip install -U twine
 
-dist: twine clean
-	@echo "######################################"
-	@echo "# $(VERSION)"
-	@echo "######################################"
-	python setup.py sdist --formats=zip
-	# python setup.py bdist
-	python setup.py bdist_wheel
+dist:
+	python setup.py sdist bdist_wheel
+	twine check dist/*
 
-upload_test: dist
-#	python setup.py	 sdist bdist bdist_wheel upload -r pypitest
-	rm dist/*.zip
-	twine upload --repository pypitest dist/cloudmesh.bar-*.whl	dist/cloudmesh.bar-*.tar.gz
+patch: clean
+	$(call banner, patch to testpypi)
+	bumpversion --allow-dirty patch
+	python setup.py sdist bdist_wheel
+	git push origin master --tags
+	twine check dist/*
+	twine upload --repository testpypi https://test.pypi.org/legacy/ dist/*
 
-log:
-	gitchangelog | fgrep -v ":dev:" | fgrep -v ":new:" > ChangeLog
-	git commit -m "chg: dev: Update ChangeLog" ChangeLog
-	git push
-
-#register: dist
-#	@echo "######################################"
-#	@echo "# $(VERSION)"
-#	@echo "######################################"
-#	twine register dist/cloudmesh.$(package)-$(VERSION)-py2.py3-none-any.whl
-#	twine register dist/cloudmesh.$(package)-$(VERSION).macosx-10.12-x86_64.tar.gz
-#	twine register dist/cloudmesh.$(package)-$(VERSION).tar.gz
-#	twine register dist/cloudmesh.$(package)-$(VERSION).zip
-
-upload: dist
+release: clean dist
+	$(call banner, release to pypi)
+	bumpversion release
+	python setup.py sdist bdist_wheel
+	git push origin master --tags
+	twine check dist/*
 	twine upload dist/*
 
-#
-# GIT
-#
+pip: patch
+	pip install --index-url https://test.pypi.org/simple/ \
+	    --extra-index-url https://pypi.org/simple cloudmesh-$(package)
 
-tag:
-	touch README.rst
-	git tag $(VERSION)
-	git commit -a -m "$(VERSION)"
+log:
+	$(call banner, log)
+	gitchangelog | fgrep -v ":dev:" | fgrep -v ":new:" > ChangeLog
+	git commit -m "chg: dev: Update ChangeLog" ChangeLog
 	git push
