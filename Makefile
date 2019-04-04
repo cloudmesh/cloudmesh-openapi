@@ -110,19 +110,16 @@ dist:
 	python setup.py sdist bdist_wheel
 	twine check dist/*
 
-build: clean
+patch: clean
 	$(call banner, "bbuild")
-	bump2version --allow-dirty build
+	bump2version --allow-dirty patch
 	python setup.py sdist bdist_wheel
 	# git push origin master --tags
 	twine check dist/*
 	twine upload --repository testpypi  dist/*
-
-patch: clean
-	$(call banner, "patch")
-	bump2version patch --allow-dirty
-	@cat VERSION
-	@echo
+	$(call banner, "install")
+	sleep 10
+	pip install --index-url https://test.pypi.org/simple/ cloudmesh-$(package) -U
 
 minor: clean
 	$(call banner, "minor")
@@ -132,18 +129,17 @@ minor: clean
 
 release: clean
 	$(call banner, "release")
-	@ bump2version release --tag --allow-dirty
-	@cat VERSION
-	@echo
-	python setup.py sdist bdist_wheel
+	git tag "v$(VERSION)"
 	git push origin master --tags
+	python setup.py sdist bdist_wheel
 	twine check dist/*
-	twine upload --repository testpypi https://test.pypi.org/legacy/ dist/*
-	@bump2version --new-version "$(VERSION)-dev0" part --allow-dirty
-	@bump2version patch --allow-dirty
-	$(call banner, "new-version")
+	twine upload --repository pypi dist/*
+	$(call banner, "install")
 	@cat VERSION
 	@echo
+	sleep 10
+	pip install -U cloudmesh-common
+
 
 dev:
 	bump2version --new-version "$(VERSION)-dev0" part --allow-dirty
@@ -158,9 +154,10 @@ upload:
 	twine check dist/*
 	twine upload dist/*
 
-pip: patch
-	pip install --index-url https://test.pypi.org/simple/ \
-	    --extra-index-url https://pypi.org/simple cloudmesh-$(package)
+pip:
+	pip install --index-url https://test.pypi.org/simple/ cloudmesh-$(package) -U
+
+#	    --extra-index-url https://test.pypi.org/simple
 
 log:
 	$(call banner, log)
