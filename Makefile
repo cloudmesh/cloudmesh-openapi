@@ -124,6 +124,11 @@ release: clean dist
 	python setup.py sdist bdist_wheel
 	git push origin master --tags
 	twine check dist/*
+	twine upload --repository testpypi https://test.pypi.org/legacy/ dist/*
+
+
+upload:
+	twine check dist/*
 	twine upload dist/*
 
 pip: patch
