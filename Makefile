@@ -110,22 +110,49 @@ dist:
 	python setup.py sdist bdist_wheel
 	twine check dist/*
 
+build: clean
+	$(call banner, "bbuild")
+	bump2version --allow-dirty build
+	python setup.py sdist bdist_wheel
+	# git push origin master --tags
+	twine check dist/*
+	twine upload --repository testpypi  dist/*
+
 patch: clean
-	$(call banner, patch to testpypi)
-	bumpversion --allow-dirty patch
+	$(call banner, "patch")
+	bump2version patch --allow-dirty
+	@cat VERSION
+	@echo
+
+minor: clean
+	$(call banner, "minor")
+	bump2version minor --allow-dirty
+	@cat VERSION
+	@echo
+
+release: clean
+	$(call banner, "release")
+	@ bump2version release --tag --allow-dirty
+	@cat VERSION
+	@echo
 	python setup.py sdist bdist_wheel
 	git push origin master --tags
 	twine check dist/*
 	twine upload --repository testpypi https://test.pypi.org/legacy/ dist/*
+	@bump2version --new-version "$(VERSION)-dev0" part --allow-dirty
+	@bump2version patch --allow-dirty
+	$(call banner, "new-version")
+	@cat VERSION
+	@echo
 
-release: clean dist
-	$(call banner, release to pypi)
-	bumpversion release
-	python setup.py sdist bdist_wheel
-	git push origin master --tags
-	twine check dist/*
-	twine upload --repository testpypi https://test.pypi.org/legacy/ dist/*
+dev:
+	bump2version --new-version "$(VERSION)-dev0" part --allow-dirty
+	bump2version patch --allow-dirty
+	@cat VERSION
+	@echo
 
+reset:
+	bump2version --new-version "4.0.0-dev0" part --allow-dirty
 
 upload:
 	twine check dist/*
