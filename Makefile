@@ -99,48 +99,68 @@ install:
 	pip install .
 
 ######################################################################
-# PYPI - Only to be exectued by Gregor
+# PYPI
 ######################################################################
 
+
 twine:
-	pip install twine
+	pip install -U twine
 
-dist: twine clean
-	@echo "######################################"
-	@echo "# $(VERSION)"
-	@echo "######################################"
-	python setup.py sdist --formats=zip
-	# python setup.py bdist
-	python setup.py bdist_wheel
+dist:
+	python setup.py sdist bdist_wheel
+	twine check dist/*
 
-upload_test: dist
-#	python setup.py	 sdist bdist bdist_wheel upload -r pypitest
-	rm dist/*.zip
-	twine upload --repository pypitest dist/cloudmesh.bar-*.whl	dist/cloudmesh.bar-*.tar.gz
+patch: clean
+	$(call banner, "bbuild")
+	bump2version --allow-dirty patch
+	python setup.py sdist bdist_wheel
+	# git push origin master --tags
+	twine check dist/*
+	twine upload --repository testpypi  dist/*
+	$(call banner, "install")
+	sleep 10
+	pip install --index-url https://test.pypi.org/simple/ cloudmesh-$(package) -U
 
-log:
-	gitchangelog | fgrep -v ":dev:" | fgrep -v ":new:" > ChangeLog
-	git commit -m "chg: dev: Update ChangeLog" ChangeLog
-	git push
+minor: clean
+	$(call banner, "minor")
+	bump2version minor --allow-dirty
+	@cat VERSION
+	@echo
 
-#register: dist
-#	@echo "######################################"
-#	@echo "# $(VERSION)"
-#	@echo "######################################"
-#	twine register dist/cloudmesh.$(package)-$(VERSION)-py2.py3-none-any.whl
-#	twine register dist/cloudmesh.$(package)-$(VERSION).macosx-10.12-x86_64.tar.gz
-#	twine register dist/cloudmesh.$(package)-$(VERSION).tar.gz
-#	twine register dist/cloudmesh.$(package)-$(VERSION).zip
+release: clean
+	$(call banner, "release")
+	git tag "v$(VERSION)"
+	git push origin master --tags
+	python setup.py sdist bdist_wheel
+	twine check dist/*
+	twine upload --repository pypi dist/*
+	$(call banner, "install")
+	@cat VERSION
+	@echo
+	sleep 10
+	pip install -U cloudmesh-common
 
-upload: dist
+
+dev:
+	bump2version --new-version "$(VERSION)-dev0" part --allow-dirty
+	bump2version patch --allow-dirty
+	@cat VERSION
+	@echo
+
+reset:
+	bump2version --new-version "4.0.0-dev0" part --allow-dirty
+
+upload:
+	twine check dist/*
 	twine upload dist/*
 
-#
-# GIT
-#
+pip:
+	pip install --index-url https://test.pypi.org/simple/ cloudmesh-$(package) -U
 
-tag:
-	touch README.rst
-	git tag $(VERSION)
-	git commit -a -m "$(VERSION)"
+#	    --extra-index-url https://test.pypi.org/simple
+
+log:
+	$(call banner, log)
+	gitchangelog | fgrep -v ":dev:" | fgrep -v ":new:" > ChangeLog
+	git commit -m "chg: dev: Update ChangeLog" ChangeLog
 	git push

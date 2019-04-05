@@ -29,9 +29,9 @@ def readfile(filename):
 # add minimum requirements here
 #
 requiers = """
-psutil
-pygments
-cloudmesh.cmd5
+ruamel.yaml
+cloudmesh-cmd5
+cloudmesh-sys
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
@@ -41,11 +41,11 @@ version = readfile("VERSION")[0].strip()
 with open('README.md') as f:
     long_description = f.read()
 
-NAME = "cloudmesh.openapi"
+NAME = "cloudmesh-openapi"
 DESCRIPTION = "A command called openapi and foo for the cloudmesh shell"
 AUTHOR = "Gregor von Laszewski"
 AUTHOR_EMAIL = "laszewski@gmail.com"
-URL = "https://github.com/cloudmesh/cloudmesh.openapi"
+URL = "https://github.com/cloudmesh/cloudmesh-openapi"
 
 setup(
         name=NAME,
