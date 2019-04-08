@@ -1,6 +1,6 @@
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
-from cloudmesh.terminal.Terminal import VERBOSE
+from cloudmesh.DEBUG import VERBOSE
 from cloudmesh.common.Shell import Shell
 from pprint import pprint
 from pathlib import Path
@@ -43,7 +43,7 @@ class Server(object):
         data = dict(self.__dict__)
         data['name'] = __name__
 
-        VERBOSE.print(data, label="Server parameters", verbose=9)
+        VERBOSE(data, label="Server parameters")
 
         if server == "tornado":
             try:
@@ -69,7 +69,7 @@ class Server(object):
 
         # command = ("connexion run {spec} {server_command} --debug".format(
         #    **self.__dict__))
-        # VERBOSE.print(command, label="OpenAPI Server", verbose=1)
+        # VERBOSE(command, label="OpenAPI Server", verbose=1)
         # r = Shell.live(command)
 
         sys.path.append(self.directory)

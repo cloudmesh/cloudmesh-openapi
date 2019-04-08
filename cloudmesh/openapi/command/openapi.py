@@ -7,7 +7,7 @@ from cloudmesh.shell.command import command, map_parameters
 
 from cloudmesh.openapi.api.server import Server
 from cloudmesh.common.console import Console
-from cloudmesh.terminal.Terminal import VERBOSE
+from cloudmesh.DEBUG import VERBOSE
 
 from cloudmesh.openapi.api.manager import Manager, OpenAPIMarkdown
 
@@ -54,7 +54,7 @@ class OpenapiCommand(PluginCommand):
         arguments.debug = arguments.verbose
         arguments.wsgi = arguments["--server"]
 
-        VERBOSE.print(arguments)
+        VERBOSE(arguments)
 
         m = Manager(debug=arguments.debug)
 
