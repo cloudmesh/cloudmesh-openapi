@@ -1,3 +1,2 @@
 ruamel.yaml
-cloudmesh-cmd5
-cloudmesh-sys
+connexion[swagger-ui]

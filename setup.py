@@ -30,8 +30,7 @@ def readfile(filename):
 #
 requiers = """
 ruamel.yaml
-cloudmesh-cmd5
-cloudmesh-sys
+connexion[swagger-ui]
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
