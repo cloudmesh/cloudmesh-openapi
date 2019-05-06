@@ -1,0 +1,6 @@
+nose
+pytest
+coverage
+flake8
+bump2version
+pytest-cov
