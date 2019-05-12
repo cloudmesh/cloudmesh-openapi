@@ -101,7 +101,7 @@ class OpenapiCommand(PluginCommand):
                     server=arguments.wsgi,
                     debug=arguments.debug)
 
-                s.run()
+                s._run()
 
             except FileNotFoundError:
 
