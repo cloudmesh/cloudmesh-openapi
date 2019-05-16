@@ -7,7 +7,7 @@ from cloudmesh.shell.command import command, map_parameters
 
 from cloudmesh.openapi.api.server import Server
 from cloudmesh.common.console import Console
-from cloudmesh.DEBUG import VERBOSE
+from cloudmesh.common.DEBUG import VERBOSE
 
 from cloudmesh.openapi.api.manager import Manager, OpenAPIMarkdown
 
