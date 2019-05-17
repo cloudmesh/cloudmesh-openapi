@@ -1,6 +1,6 @@
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
-from cloudmesh.common.DEBUG import VERBOSE
+from cloudmesh.common.debug import VERBOSE
 import sys
 import connexion
 from importlib import import_module
