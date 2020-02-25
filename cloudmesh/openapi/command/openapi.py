@@ -21,14 +21,15 @@ class OpenapiCommand(PluginCommand):
         ::
 
           Usage:
-                openapi merge [SERVICES...] [--dir=DIR] [--verbose]
-                openapi list [--dir=DIR]
-                openapi description [SERVICES...] [--dir=DIR]
-                openapi md FILE [--indent=INDENT]
-                openapi codegen [SERVICES...] [--srcdir=SRCDIR]
-                                [--destdir=DESTDIR]
-                openapi server start YAML [--directory=DIRECTORY] [--port=PORT] [--server=SERVER] [--verbose]
-                openapi server stop YAML
+              openapi merge [SERVICES...] [--dir=DIR] [--verbose]
+              openapi list [--dir=DIR]
+              openapi description [SERVICES...] [--dir=DIR]
+              openapi md FILE [--indent=INDENT]
+              openapi codegen [SERVICES...] [--srcdir=SRCDIR]
+                              [--destdir=DESTDIR]
+              openapi server start YAML [--directory=DIRECTORY]
+                             [--port=PORT] [--server=SERVER] [--verbose]
+              openapi server stop YAML
 
           Arguments:
               DIR   The directory of the specifications

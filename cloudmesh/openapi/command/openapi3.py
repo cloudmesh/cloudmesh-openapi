@@ -12,23 +12,34 @@ from cloudmesh.common.debug import VERBOSE
 from cloudmesh.openapi.api.manager import Manager, OpenAPIMarkdown
 
 
-class OpenapiCommand(PluginCommand):
+class Openapi3Command(PluginCommand):
 
     # noinspection PyUnusedLocal
     @command
-    def do_openapi(self, args, arguments):
+    def do_openapi3(self, args, arguments):
         """
         ::
 
           Usage:
-                openapi merge [SERVICES...] [--dir=DIR] [--verbose]
-                openapi list [--dir=DIR]
-                openapi description [SERVICES...] [--dir=DIR]
-                openapi md FILE [--indent=INDENT]
-                openapi codegen [SERVICES...] [--srcdir=SRCDIR]
-                                [--destdir=DESTDIR]
-                openapi server start YAML [--directory=DIRECTORY] [--port=PORT] [--server=SERVER] [--verbose]
-                openapi server stop YAML
+              openapi3 generate FUNCTION YAML [--verbose]
+              openapi3 server start YAML
+                              NAME
+                              [--directory=DIRECTORY]
+                              [--port=PORT]
+                              [--server=SERVER]
+                              [--verbose]
+              openapi3 server stop NAME
+              openapi3 register add NAME ENDPOINT
+              openapi3 register remove NAME
+              openapi3 register list NAME
+              openapi3 tbd
+              openapi3 tbd merge [SERVICES...] [--dir=DIR] [--verbose]
+              openapi3 tdb list [--dir=DIR]
+              openapi3 tbd description [SERVICES...] [--dir=DIR]
+              openapi3 tbd md FILE [--indent=INDENT]
+              openapi3 tbd codegen [SERVICES...] [--srcdir=SRCDIR]
+                              [--destdir=DESTDIR]
+
 
           Arguments:
               DIR   The directory of the specifications
@@ -47,14 +58,42 @@ class OpenapiCommand(PluginCommand):
 
         """
 
+
         map_parameters(arguments,
                        'verbose',
                        'port',
                        'directory')
         arguments.debug = arguments.verbose
-        arguments.wsgi = arguments["--server"]
 
         VERBOSE(arguments)
+
+        if arguments.generate:
+
+            raise NotImplementedError
+
+        elif arguments.server and arguments.start:
+
+            raise NotImplementedError
+
+        elif arguments.server and arguments.stop:
+
+            raise NotImplementedError
+
+        elif arguments.register and arguments.add:
+
+            raise NotImplementedError
+
+        elif arguments.register and arguments.remove:
+
+            raise NotImplementedError
+
+        elif arguments.register and arguments.list:
+
+            raise NotImplementedError
+
+        '''
+
+        arguments.wsgi = arguments["--server"]
 
         m = Manager(debug=arguments.debug)
 
@@ -115,3 +154,4 @@ class OpenapiCommand(PluginCommand):
             print("implement me")
 
         return ""
+        '''
