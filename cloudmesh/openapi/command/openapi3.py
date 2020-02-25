@@ -21,7 +21,7 @@ class Openapi3Command(PluginCommand):
         ::
 
           Usage:
-              openapi3 generate FUNCTION YAML [--verbose]
+              openapi3 generate FUNCTION [YAML] [--verbose]
               openapi3 server start YAML
                               NAME
                               [--directory=DIRECTORY]
@@ -68,6 +68,10 @@ class Openapi3Command(PluginCommand):
         VERBOSE(arguments)
 
         if arguments.generate:
+
+            function = arguments.FUNCTION
+            yamlfile = arguments.YAML
+            directory = arguments.directory
 
             raise NotImplementedError
 
