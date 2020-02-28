@@ -32,7 +32,7 @@ class Server(object):
         self.host = host
         self.port = port
         self.debug = debug
-        self.code = spec.replace(".yaml", ".py")
+        self.code = self.spec.reanme(".yaml", ".py")
         self.server = server
         self.server_command = ""
 
@@ -57,7 +57,7 @@ class Server(object):
 
         Console.ok(self.path)
 
-    def _run(self):
+    def run(self):
         Console.ok("starting server")
 
         # if self.server is not None:
