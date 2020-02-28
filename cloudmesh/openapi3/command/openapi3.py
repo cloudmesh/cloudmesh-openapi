@@ -5,11 +5,9 @@ from cloudmesh.common.util import path_expand
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
 
-from cloudmesh.openapi.api.server import Server
+from cloudmesh.openapi3.function.server import Server
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
-
-from cloudmesh.openapi.api.manager import Manager, OpenAPIMarkdown
 
 
 class Openapi3Command(PluginCommand):
@@ -77,7 +75,22 @@ class Openapi3Command(PluginCommand):
 
         elif arguments.server and arguments.start:
 
-            raise NotImplementedError
+            try:
+                s = Server(
+                    spec=arguments.YAML,
+                    directory=arguments.directory,
+                    port=arguments.port,
+                    server=arguments.wsgi,
+                    debug=arguments.debug)
+
+                s._run()
+
+            except FileNotFoundError:
+
+                Console.error("specification file not found")
+
+            except Exception as e:
+                print(e)
 
         elif arguments.server and arguments.stop:
 
@@ -134,25 +147,7 @@ class Openapi3Command(PluginCommand):
         elif arguments.codegen:
             m.codegen(arguments.SERVICES, arguments.dir)
 
-        elif arguments.server and arguments.start:
-
-            try:
-                s = Server(
-                    spec=arguments.YAML,
-                    directory=arguments.directory,
-                    port=arguments.port,
-                    server=arguments.wsgi,
-                    debug=arguments.debug)
-
-                s._run()
-
-            except FileNotFoundError:
-
-                Console.error("specification file not found")
-
-            except Exception as e:
-                print(e)
-
+        
         elif arguments.server and arguments.stop:
 
             print("implement me")

@@ -32,7 +32,7 @@ class Server(object):
         self.host = host
         self.port = port
         self.debug = debug
-        self.code = os.path.dirname(self.path) + "/cpu.py"
+        self.code = spec.replace(".yaml", ".py")
         self.server = server
         self.server_command = ""
 
