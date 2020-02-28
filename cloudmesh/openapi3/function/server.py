@@ -57,7 +57,7 @@ class Server(object):
 
         Console.ok(self.path)
 
-    def run(self):
+    def _run(self):
         Console.ok("starting server")
 
         # if self.server is not None:
