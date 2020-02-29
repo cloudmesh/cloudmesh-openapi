@@ -1,4 +1,4 @@
-# OpenAPI3 FUnction generator
+# OpenAPI3 Function generator
 
 ## Install for development
 
