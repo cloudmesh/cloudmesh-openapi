@@ -31,8 +31,8 @@ paths:
         parser = {
                 int: 'integer',
                 bool: 'boolean',
-                float: 'float',
-                str: 'str',
+                float: 'number',
+                str: 'string',
                 list: textwrap.dedent('array\nitems: {}')
                 }
         try:
