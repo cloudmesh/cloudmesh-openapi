@@ -33,12 +33,14 @@ paths:
                 bool: 'boolean',
                 float: 'number',
                 str: 'string',
-                list: textwrap.dedent('array\nitems: {}')
+                list: 'array\nitems: {}'
+                dict: 'object\nadditionalProperties: true'
                 }
         try:
             t=parser[_type]
         except KeyError:
-            t='object'
+            # defaults to free-form object
+            t='object\nadditionalProperties: true'
         return t
 
     def generate_parameter(self, name, _type, description):
