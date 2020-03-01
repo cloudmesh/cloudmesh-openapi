@@ -16,18 +16,14 @@ paths:
       summary: {description}
       description: Optional extended description in CommonMark or HTML.
       operationId: {name}
-      responses:
-        '200':    # status code
-          description: {description}
-          content:
-            text/plain:
-              schema: 
-                type: {return_type}
       parameters:
-        {parameters} 
+        {parameters}
+      responses:
+        {responses}
 """
 
     def parse_type(self,_type):
+        """function to parse supported openapi3 data types"""
         parser = {
                 int: 'integer',
                 bool: 'boolean',
@@ -36,15 +32,18 @@ paths:
                 list: 'array\nitems: {}'
                 dict: 'object\nadditionalProperties: true'
                 }
+        # exits with KeyError if unsupported type is given
         try:
             t=parser[_type]
         except KeyError:
-            # defaults to free-form object
-            t='object\nadditionalProperties: true'
+            print('unsupported data type supplied:')
+            print(_type)
+            raise
         return t
 
     def generate_parameter(self, name, _type, description):
         """ function to generate parameters YAMAL contents"""
+        _type = parse_type(_type)
         spec = textwrap.dedent(f"""
             - in: query
               name: {name}
@@ -53,14 +52,38 @@ paths:
               description: {description}""")
         return spec
 
+    def generate_response(self, code, _type, description):
+        """function to generate response yaml contents"""
+        _type = parse_type(type)
+        if not _type.startswith('object'):
+            # int, bool, float, str, list
+            spec = textwrap.dedent(f"""
+              '{code}':
+                description: {description}
+                content:
+                  text/plain:
+                    schema:
+                      type: {_type}""")
+        else:
+            # dict (generic json)
+            spec = textwrap.dedent(f"""
+              '{code}':
+                description: {description}
+                content:
+                  application/json:
+                    schema:
+                      type: {_type}""")
+        return spec
+            
+
     def populateParameters(self,functionName):
         """ Function to loop all the parameters of given function and generate specification"""
         spec = str()
         for parameter, _type in functionName.__annotations__.items():
             if parameter == 'return':
-                break
+                continue # dicts are unordered, so use continue intead of break to be safe
             else:
-                spec = spec + self.generate_parameter(parameter, parse_type(_type), "not yet available, you can read it from docstring")
+                spec = spec + self.generate_parameter(parameter, _type, "not yet available, you can read it from docstring")
         return spec
     
     def generate_openapi(self, f, write=True):
@@ -68,16 +91,17 @@ paths:
         description = f.__doc__.strip().split("\n")[0]
         version = "1.0"  # hard coded for now
         title = f.__name__
-        return_type = parse_type(f.__annotations__['return'])
         parameters = self.populateParameters(f)
         parameters = textwrap.indent(parameters, ' ' * 8)
+        responses = self.generate_response('200', f.__annotations__['return'], 'OK')
+        responses = textwrap.indent(responses, ' ' * 8)
         spec = self.openAPITemplate.format(
             title=title,
             name=f.__name__,
             description=description,
             version=version,
-            return_type=return_type,
             parameters=parameters.strip()
+            responses=responses.strip()
         )
 
         if write:
