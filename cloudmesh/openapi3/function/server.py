@@ -17,11 +17,31 @@ class Server(object):
 
     def __init__(self,
                  spec=None,
-                 directory="./",
+                 directory=None,
                  host="127.0.0.1",
                  server="flask",
                  port=8080,
                  debug=True):
+        """
+        This class is used to manage an OpenAPI server that was generated with
+        the cloudmesh function generator tool.
+
+        We assume that the yaml specification as located at *spec* and the
+        directory contains the code for the operationIDs provided in the yaml
+        file.
+
+        If the directory is None, the code is located in the same directory as
+        the spec.
+
+        :param spec: the location of the yaml file
+        :param directory: the location of the base directory in
+                          which the code is located
+        :param host: the hostname on which the code is run, by default
+                     it is localhost
+        :param server: The server to be used. Either flask (default) or tornado
+        :param port: The port on which the service is run
+        :param debug: Boolean to set if debug mode is used.
+        """
         if spec is None:
             Console.error("No service specification file defined")
             raise FileNotFoundError
