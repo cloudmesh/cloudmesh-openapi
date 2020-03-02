@@ -77,13 +77,14 @@ class Openapi3Command(PluginCommand):
 
             try:
                 s = Server(
-                    spec=arguments.YAML,
-                    directory=arguments.directory,
-                    port=arguments.port,
-                    server=arguments.wsgi,
-                    debug=arguments.debug)
-
-                s._run()
+                    # spec=arguments.YAML,
+                    # directory=arguments.directory,
+                    # port=arguments.port,
+                    # server=arguments.wsgi,
+                    # debug=arguments.debug)
+                )
+                print(s.path,s.code,s.directory)
+                s.run()
 
             except FileNotFoundError:
 
@@ -94,7 +95,11 @@ class Openapi3Command(PluginCommand):
 
         elif arguments.server and arguments.stop:
 
-            raise NotImplementedError
+            try:
+                s = Server
+                s.shutdwon()
+            except Exception as e:
+                print("No server is running")
 
         elif arguments.register and arguments.add:
 

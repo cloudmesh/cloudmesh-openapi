@@ -4,7 +4,8 @@ from cloudmesh.common.debug import VERBOSE
 import sys
 import connexion
 from importlib import import_module
-import os
+import os, platform, socket
+from flask import Flask, request
 
 
 def dynamic_import(abs_module_path, class_name):
@@ -20,19 +21,22 @@ class Server(object):
                  directory="./",
                  host="127.0.0.1",
                  server="flask",
-                 port=8080,
-                 debug=True):
+                 port=5000,
+                 debug=True,
+                 alias="Test"):
         if spec is None:
-            Console.error("No service specification file defined")
+            # Console.error("No service specification file defined")
             raise FileNotFoundError
 
+
         self.path = path_expand(spec)
+        self.name = alias
         self.spec = self.path
         self.directory = os.path.dirname(self.path)
         self.host = host
         self.port = port
         self.debug = debug
-        self.code = self.spec.reanme(".yaml", ".py")
+        self.code = self.spec.rename(".yaml", ".py")
         self.server = server
         self.server_command = ""
 
@@ -79,3 +83,12 @@ class Server(object):
                 port=self.port,
                 debug=self.debug,
                 server=self.server)
+
+    def shutdown(self):
+
+        shutdown = request.environ.get('werkzeug.server.shutdown')
+        if shutdown == None:
+            return 'No server is running'
+        else:
+            shutdown()
+            return 'Server successfully shutdown'
