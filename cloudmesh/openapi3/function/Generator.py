@@ -29,8 +29,8 @@ paths:
                 bool: 'boolean',
                 float: 'number',
                 str: 'string',
-                list: 'array\nitems: {}'
-                dict: 'object\nadditionalProperties: true'
+                list: 'array\nitems: {}',
+                dict: 'object\nadditionalProperties: true',
                 }
         # exits with KeyError if unsupported type is given
         try:
@@ -43,7 +43,7 @@ paths:
 
     def generate_parameter(self, name, _type, description):
         """ function to generate parameters YAMAL contents"""
-        _type = parse_type(_type)
+        _type = self.parse_type(_type)
         spec = textwrap.dedent(f"""
             - in: query
               name: {name}
@@ -54,7 +54,7 @@ paths:
 
     def generate_response(self, code, _type, description):
         """function to generate response yaml contents"""
-        _type = parse_type(type)
+        _type = self.parse_type(_type)
         if not _type.startswith('object'):
             # int, bool, float, str, list
             spec = textwrap.dedent(f"""
@@ -100,8 +100,8 @@ paths:
             name=f.__name__,
             description=description,
             version=version,
-            parameters=parameters.strip()
-            responses=responses.strip()
+            parameters=parameters.strip(),
+            responses=responses.strip(),
         )
 
         if write:
