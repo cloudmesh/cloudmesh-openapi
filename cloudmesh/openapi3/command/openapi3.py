@@ -19,7 +19,10 @@ class Openapi3Command(PluginCommand):
         ::
 
           Usage:
-              openapi3 generate FUNCTION [YAML] [--verbose]
+              openapi3 generate FUNCTION [YAML]
+                                         [--baseurl=BASEURL]
+                                         [--directory=DIRECTORY]
+                                         [--verbose]
               openapi3 server start YAML
                               NAME
                               [--directory=DIRECTORY]
