@@ -1,5 +1,8 @@
 import pytest
 import yaml as yaml
+import sys
+sys.path.append("../cloudmesh/openapi3/function")
+import sample_function_gen as testfun
 
 
 @pytest.mark.incremental
@@ -26,11 +29,15 @@ class TestGenerator:
                 assert False, "Yaml file has syntax error"
 
     def test_paths(self):
-        """ function to check if YAML contains opeaapi , info , servers and paths information """
+        """ function to validate paths information """
         with open("../cloudmesh/openapi3/function/sampleFunction.yaml", "r") as stream:
             try:
                 paths = yaml.safe_load(stream).get("paths")
-                print(paths is None)
-                assert paths is not None , "paths value should not be null"
+                assert paths is not None, "paths value should not be null"
+                assert paths.keys().__contains__("/"+testfun.sampleFunction.__name__), "Resource name should be "+testfun.sampleFunction.__name__
+                getOperation= paths.get("/"+testfun.sampleFunction.__name__)
+                assert getOperation.keys().__contains__("get")  , "get operation is missing "
+                parameters = getOperation.get("get").get("parameters")
+                assert len(parameters)+1==len(testfun.sampleFunction.__annotations__.items()), "get operation is missing "
             except yaml.YAMLError as exc:
                 assert False, "Yaml file has syntax error"
