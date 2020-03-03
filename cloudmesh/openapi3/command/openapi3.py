@@ -30,6 +30,7 @@ class Openapi3Command(PluginCommand):
                               [--server=SERVER]
                               [--verbose]
               openapi3 server stop NAME
+              openapi3 server list [NAME]
               openapi3 register add NAME ENDPOINT
               openapi3 register remove NAME
               openapi3 register list NAME
