@@ -8,14 +8,14 @@ info:
   description: {description}
   version: "{version}"
 servers:
-  - url: http://localhost/cloudmesh/{title}
+  - url: http://localhost/cloudmesh
     description: Optional server description, e.g. Main (production) server
 paths:
-  /{name}:
+  /{baseurl}:
      get:
       summary: {description}
       description: Optional extended description in CommonMark or HTML.
-      operationId: {name}
+      operationId: {filename}.{name}
       parameters:
         {parameters}
       responses:
@@ -86,15 +86,16 @@ paths:
                 spec = spec + self.generate_parameter(parameter, _type, "not yet available, you can read it from docstring")
         return spec
     
-    def generate_openapi(self, f, write=True):
+    def generate_openapi(self, f, baseurl, outdir, write=True):
         """ function to generate open API of python function."""
         description = f.__doc__.strip().split("\n")[0]
-        version = "1.0"  # hard coded for now
+        version = "1.0"  # TODO:  hard coded for now
         title = f.__name__
         parameters = self.populateParameters(f)
         parameters = textwrap.indent(parameters, ' ' * 8)
         responses = self.generate_response('200', f.__annotations__['return'], 'OK')
         responses = textwrap.indent(responses, ' ' * 8)
+
         spec = self.openAPITemplate.format(
             title=title,
             name=f.__name__,
@@ -102,9 +103,11 @@ paths:
             version=version,
             parameters=parameters.strip(),
             responses=responses.strip(),
+            baseurl=baseurl,
+            filename=f.__code__.co_filename.strip().split(".")[0]
         )
 
         if write:
-            version = open(f"{title}.yaml", 'w').write(spec)
+            version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
 
         return spec

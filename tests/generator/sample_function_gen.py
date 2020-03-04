@@ -15,5 +15,5 @@ def sampleFunction(x: int, y: float) -> float:
 
 f = sampleFunction
 openAPI = generator.Generator()
-spec = openAPI.generate_openapi(f)
+spec = openAPI.generate_openapi(f, "tests/generator/", "../../../tests")
 # print(spec)
