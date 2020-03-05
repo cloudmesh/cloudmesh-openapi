@@ -1,4 +1,5 @@
 import textwrap
+from cloudmesh.common.console import Console
 
 class Generator:
     openAPITemplate = """
@@ -22,7 +23,7 @@ paths:
         {responses}
 """
 
-    def parse_type(self,_type):
+    def parse_type(self, _type):
         """function to parse supported openapi3 data types"""
         parser = {
                 int: 'integer',
@@ -86,7 +87,7 @@ paths:
                 spec = spec + self.generate_parameter(parameter, _type, "not yet available, you can read it from docstring")
         return spec
     
-    def generate_openapi(self, f, baseurl, outdir, write=True):
+    def generate_openapi(self, f, baseurl, outdir, yaml, write=True):
         """ function to generate open API of python function."""
         description = f.__doc__.strip().split("\n")[0]
         version = "1.0"  # TODO:  hard coded for now
@@ -104,10 +105,23 @@ paths:
             parameters=parameters.strip(),
             responses=responses.strip(),
             baseurl=baseurl,
-            filename=f.__code__.co_filename.strip().split(".")[0]
+            filename=f.__code__.co_filename.strip().split("\\")[-1].split(".")[0]
         )
 
-        if write:
-            version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
+        #return code
+        rc = 0
 
-        return spec
+        if write:
+            try:
+                if yaml != "":
+                    version = open(f"{outdir}/{yaml}.yaml", 'w').write(spec)
+                else:
+                    version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
+            except IOError:
+                Console.error("Unable to write yaml file")
+                rc = 1
+            except Exception as e:
+                print(e)
+                rc = 1
+
+        return rc
