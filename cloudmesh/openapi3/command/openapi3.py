@@ -80,15 +80,12 @@ class Openapi3Command(PluginCommand):
             try:
                 function = arguments.FUNCTION
                 yamlfile = arguments.YAML
-                baseurl = arguments.baseurl
+                baseurl = path_expand(arguments.baseurl)
                 filename = arguments.filename.strip().split(".")[0]
-                yamldirectory = arguments.yamldirectory
+                yamldirectory = path_expand(arguments.yamldirectory)
 
-                print("baseurl: ", baseurl)
                 sys.path.append(baseurl)
 
-                #for p in sys.path:
-                #    print(p)
                 module_name = pathlib.Path(f"{filename}").stem
 
                 imported_module = import_module(module_name)
@@ -99,7 +96,7 @@ class Openapi3Command(PluginCommand):
 
                 openAPI = generator.Generator()
 
-                rc = openAPI.generate_openapi(func_obj, baseurl, yamldirectory, yamlfile)
+                rc = openAPI.generate_openapi(func_obj, baseurl.split("\\")[-1], yamldirectory, yamlfile)
                 if rc != 0:
                     Console.error("Failed to generate openapi yaml")
                     raise Exception

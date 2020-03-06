@@ -8,7 +8,7 @@ servers:
   - url: http://localhost/cloudmesh
     description: Optional server description, e.g. Main (production) server
 paths:
-  /c:\users\jonathan\cm\cloudmesh-openapi\tests\generator:
+  /generator:
      get:
       summary: Multiply int and float sample.
       description: Optional extended description in CommonMark or HTML.
