@@ -1,6 +1,3 @@
-import sys
-import Generator as generator
-
 def sampleFunction(x: int, y: float) -> float:
     """
     Multiply int and float sample.
@@ -12,8 +9,3 @@ def sampleFunction(x: int, y: float) -> float:
     :return type: float
     """
     return x * y
-
-f = sampleFunction
-openAPI = generator.Generator()
-spec = openAPI.generate_openapi(f)
-# print(spec)

@@ -1,0 +1,33 @@
+
+openapi: 3.0.0
+info:
+  title: sampleFunction
+  description: Multiply int and float sample.
+  version: "1.0"
+servers:
+  - url: http://localhost/cloudmesh
+    description: Optional server description, e.g. Main (production) server
+paths:
+  /tests/generator/:
+     get:
+      summary: Multiply int and float sample.
+      description: Optional extended description in CommonMark or HTML.
+      operationId: sample_function_gen.sampleFunction
+      parameters:
+        - in: query
+          name: x
+          schema:
+            type: integer
+          description: not yet available, you can read it from docstring
+        - in: query
+          name: y
+          schema:
+            type: number
+          description: not yet available, you can read it from docstring
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: number

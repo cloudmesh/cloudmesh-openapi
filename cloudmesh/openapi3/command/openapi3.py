@@ -8,7 +8,9 @@ from cloudmesh.shell.command import command, map_parameters
 from cloudmesh.openapi3.function.server import Server
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
-
+from cloudmesh.openapi3.function import generator
+import sys, pathlib
+from importlib import import_module
 
 class Openapi3Command(PluginCommand):
 
@@ -19,7 +21,11 @@ class Openapi3Command(PluginCommand):
         ::
 
           Usage:
-              openapi3 generate FUNCTION [YAML] [--verbose]
+              openapi3 generate FUNCTION [YAML]
+                                         --baseurl=BASEURL
+                                         --filename=FILENAME
+                                         --yamldirectory=DIRECTORY
+                                         [--verbose]
               openapi3 server start YAML
                               NAME
                               [--directory=DIRECTORY]
@@ -27,6 +33,7 @@ class Openapi3Command(PluginCommand):
                               [--server=SERVER]
                               [--verbose]
               openapi3 server stop NAME
+              openapi3 server list [NAME]
               openapi3 register add NAME ENDPOINT
               openapi3 register remove NAME
               openapi3 register list NAME
@@ -60,18 +67,41 @@ class Openapi3Command(PluginCommand):
         map_parameters(arguments,
                        'verbose',
                        'port',
-                       'directory')
+                       'directory',
+                       'yamldirectory',
+                       'baseurl',
+                       'filename')
         arguments.debug = arguments.verbose
 
         VERBOSE(arguments)
 
         if arguments.generate:
 
-            function = arguments.FUNCTION
-            yamlfile = arguments.YAML
-            directory = arguments.directory
+            try:
+                function = arguments.FUNCTION
+                yamlfile = arguments.YAML
+                baseurl = path_expand(arguments.baseurl)
+                filename = arguments.filename.strip().split(".")[0]
+                yamldirectory = path_expand(arguments.yamldirectory)
 
-            raise NotImplementedError
+                sys.path.append(baseurl)
+
+                module_name = pathlib.Path(f"{filename}").stem
+
+                imported_module = import_module(module_name)
+
+                func_obj = getattr(imported_module, function)
+
+                setattr(sys.modules[module_name], function, func_obj)
+
+                openAPI = generator.Generator()
+
+                rc = openAPI.generate_openapi(func_obj, baseurl.split("\\")[-1], yamldirectory, yamlfile)
+                if rc != 0:
+                    Console.error("Failed to generate openapi yaml")
+                    raise Exception
+            except Exception as e:
+                print(e)
 
         elif arguments.server and arguments.start:
 
