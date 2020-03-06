@@ -21,11 +21,6 @@ class Server(object):
                  directory=None,
                  host="127.0.0.1",
                  server="flask",
-<<<<<<< HEAD
-                 port=5000,
-                 debug=True,
-                 alias="Test"):
-=======
                  port=8080,
                  debug=True):
         """
@@ -48,7 +43,6 @@ class Server(object):
         :param port: The port on which the service is run
         :param debug: Boolean to set if debug mode is used.
         """
->>>>>>> master
         if spec is None:
             # Console.error("No service specification file defined")
             raise FileNotFoundError
@@ -110,6 +104,8 @@ class Server(object):
                 server=self.server)
 
     def shutdown(self):
+
+        self.
 
         shutdown = request.environ.get('werkzeug.server.shutdown')
         if shutdown == None:

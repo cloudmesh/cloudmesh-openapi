@@ -127,7 +127,7 @@ class Openapi3Command(PluginCommand):
 
             try:
                 s = Server
-                s.shutdwon()
+                s.shutdown()
             except Exception as e:
                 print("No server is running")
 
