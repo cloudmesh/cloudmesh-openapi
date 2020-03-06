@@ -11,6 +11,10 @@ from cloudmesh.common.debug import VERBOSE
 from cloudmesh.openapi3.function import generator
 import sys, pathlib
 from importlib import import_module
+#added by Ishan
+from cloudmesh.common.Shell import Shell
+import os
+
 
 class Openapi3Command(PluginCommand):
 
@@ -103,28 +107,62 @@ class Openapi3Command(PluginCommand):
             except Exception as e:
                 print(e)
 
+
         elif arguments.server and arguments.start:
 
             try:
+
                 s = Server(
-                    # spec=arguments.YAML,
-                    # directory=arguments.directory,
-                    # port=arguments.port,
-                    # server=arguments.wsgi,
-                    # debug=arguments.debug)
-                )
-                print(s.path,s.code,s.directory)
-                s.run()
+
+                    spec=arguments.YAML,
+
+                    directory=arguments.directory,
+
+                    port=arguments.port,
+
+                    server=arguments.wsgi,
+
+                    debug=arguments.debug)
+
+                s._run()
+
 
             except FileNotFoundError:
 
                 Console.error("specification file not found")
 
+
             except Exception as e:
+
                 print(e)
 
-        elif arguments.server and arguments.stop:
 
+        elif arguments.server and arguments.stop:
+            '''
+
+            name = arguments.NAME
+
+
+            try:
+
+                get_pid = os.popen("ps -ef|grep {name}|grep -v grep|awk '{print $2}'")
+
+                pid = get_pid.read()
+
+
+            except FileNotFoundError:
+
+
+                Console.error("specification file not found")
+
+
+            except Exception as e:
+
+                print(e)
+
+            '''
+
+            raise NotImplementedError
             try:
                 s = Server
                 s.shutdown()

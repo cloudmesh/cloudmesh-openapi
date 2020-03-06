@@ -46,16 +46,16 @@ class Server(object):
         if spec is None:
             # Console.error("No service specification file defined")
             raise FileNotFoundError
-
-
-        self.path = path_expand(spec)
-        self.name = alias
+            
+        #self.path = path_expand(spec)
+        self.path = directory+"/"+spec
         self.spec = self.path
+        #self.spec = spec
         self.directory = os.path.dirname(self.path)
         self.host = host
         self.port = port
         self.debug = debug
-        self.code = self.spec.rename(".yaml", ".py")
+        self.code = spec.replace(".yaml",".py")
         self.server = server
         self.server_command = ""
 
@@ -80,7 +80,7 @@ class Server(object):
 
         Console.ok(self.path)
 
-    def run(self):
+    def _run(self):
         Console.ok("starting server")
 
         # if self.server is not None:
@@ -94,10 +94,11 @@ class Server(object):
         sys.path.append(self.directory)
         app = connexion.App(__name__,
                             specification_dir=self.directory)
+
         # app.app["config"]["DEBUG"] = True
 
         # ### app.add_cls(self.directory)
-        app.add_api(self.path)
+        app.add_api(self.spec)
         app.run(host=self.host,
                 port=self.port,
                 debug=self.debug,
@@ -105,11 +106,10 @@ class Server(object):
 
     def shutdown(self):
 
-        self.
-
         shutdown = request.environ.get('werkzeug.server.shutdown')
         if shutdown == None:
             return 'No server is running'
         else:
             shutdown()
             return 'Server successfully shutdown'
+
