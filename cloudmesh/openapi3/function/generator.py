@@ -1,4 +1,6 @@
 import textwrap
+from cloudmesh.common.console import Console
+from dataclasses import dataclass, is_dataclass
 
 class Generator:
     openAPITemplate = """
@@ -20,9 +22,16 @@ paths:
         {parameters}
       responses:
         {responses}
-"""
 
-    def parse_type(self,_type):
+components:
+  schemas:
+    {schemas}
+"""
+    # TODO: change all of these from 'x' to 'type: x'
+    #+change generate_parameter and generate_response from 'type: {_type}' to {_type}
+    #+change unrecognized to check is_dataclass
+    #+then point to $ref: "#/components/schemas/{_type.__name__}
+    def parse_type(self, _type):
         """function to parse supported openapi3 data types"""
         parser = {
                 int: 'integer',
@@ -74,7 +83,27 @@ paths:
                     schema:
                       type: {_type}""")
         return spec
-            
+
+    def generate_properties(self, attr, _type):
+        """function to generate properties of a schema"""
+        _type = self.parse_type(_type)
+        spec = textwrap.dedent(f"""
+          {attr}:
+            type: {_type}""")
+
+    def generate_schema(self,_class):
+        """function to generate schema in the components section from a dataclass"""
+        class_name = _class.__name__
+        if not is_dataclass(_class):
+            raise TypeError(f'{class_name} is not a dataclass. Use the @dataclass decorator to define the class properly')
+        properties=str()
+        for attr, _type in _class.__annotations__.items():
+            properties = properties + self.generate_properties(attr, _type)
+        spec = textwrap.dedent(f"""
+          {class_name}:
+            type: object
+            properties:
+              {properties}""")
 
     def populateParameters(self,functionName):
         """ Function to loop all the parameters of given function and generate specification"""
@@ -86,7 +115,7 @@ paths:
                 spec = spec + self.generate_parameter(parameter, _type, "not yet available, you can read it from docstring")
         return spec
     
-    def generate_openapi(self, f, baseurl, outdir, write=True):
+    def generate_openapi(self, f, baseurl, outdir, yaml, write=True):
         """ function to generate open API of python function."""
         description = f.__doc__.strip().split("\n")[0]
         version = "1.0"  # TODO:  hard coded for now
@@ -95,7 +124,8 @@ paths:
         parameters = textwrap.indent(parameters, ' ' * 8)
         responses = self.generate_response('200', f.__annotations__['return'], 'OK')
         responses = textwrap.indent(responses, ' ' * 8)
-
+        
+        # TODO: figure out where to define dataclasses and how best to pass them to generate_schema()
         spec = self.openAPITemplate.format(
             title=title,
             name=f.__name__,
@@ -104,10 +134,24 @@ paths:
             parameters=parameters.strip(),
             responses=responses.strip(),
             baseurl=baseurl,
-            filename=f.__code__.co_filename.strip().split(".")[0]
+            filename=f.__code__.co_filename.strip().split("\\")[-1].split(".")[0],
+            schemas=''
         )
 
-        if write:
-            version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
+        #return code
+        rc = 0
 
-        return spec
+        if write:
+            try:
+                if yaml != "":
+                    version = open(f"{outdir}/{yaml}.yaml", 'w').write(spec)
+                else:
+                    version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
+            except IOError:
+                Console.error("Unable to write yaml file")
+                rc = 1
+            except Exception as e:
+                print(e)
+                rc = 1
+
+        return rc
