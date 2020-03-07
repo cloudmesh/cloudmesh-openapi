@@ -138,7 +138,7 @@ class Openapi3Command(PluginCommand):
 
 
         elif arguments.server and arguments.stop:
-            '''
+            """
 
             name = arguments.NAME
 
@@ -160,12 +160,11 @@ class Openapi3Command(PluginCommand):
 
                 print(e)
 
-            '''
-
-            raise NotImplementedError
+            """
             try:
                 s = Server
-                s.shutdown()
+                s.shutdown(name=arguments.NAME)
+
             except Exception as e:
                 print("No server is running")
 

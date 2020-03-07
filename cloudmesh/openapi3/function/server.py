@@ -4,7 +4,7 @@ from cloudmesh.common.debug import VERBOSE
 import sys
 import connexion
 from importlib import import_module
-import os, platform, socket
+import os, platform, socket, signal
 from flask import Flask, request
 
 
@@ -22,7 +22,8 @@ class Server(object):
                  host="127.0.0.1",
                  server="flask",
                  port=8080,
-                 debug=True):
+                 debug=True,
+                 alias=None):
         """
         This class is used to manage an OpenAPI server that was generated with
         the cloudmesh function generator tool.
@@ -43,10 +44,11 @@ class Server(object):
         :param port: The port on which the service is run
         :param debug: Boolean to set if debug mode is used.
         """
+
         if spec is None:
             # Console.error("No service specification file defined")
             raise FileNotFoundError
-            
+
         #self.path = path_expand(spec)
         self.path = directory+"/"+spec
         self.spec = self.path
@@ -58,6 +60,24 @@ class Server(object):
         self.code = spec.replace(".yaml",".py")
         self.server = server
         self.server_command = ""
+        self.alias = {}
+
+        # Assigning an alias name to the server getting started and sending to a
+        # dict
+        # while alias is None:
+            # alias = input(f"Provide an alias for the server: ")
+            #
+            # if name in self.name.values():
+            #     name = input(f"Provide a unique name for the server: ")
+            # else:
+            #     current_name_keys = self.name.keys()
+            #     try:
+            #         last_value = current_name_keys[-1]
+            #         new_key = last_value.split('_')
+            #         new_key = new_key[0].join(int(new_key[-1])+1)
+            #         self.name.update({new_key : name})
+            #     except IndexError:
+            #         self.name['serverName_1'] = name
 
         data = dict(self.__dict__)
         data['name'] = __name__
@@ -106,10 +126,29 @@ class Server(object):
 
     def shutdown(self):
 
-        shutdown = request.environ.get('werkzeug.server.shutdown')
-        if shutdown == None:
-            return 'No server is running'
-        else:
-            shutdown()
-            return 'Server successfully shutdown'
+        Console.ok(f"shutting down {self.name}")
+
+        get_pid = os.popen("ps -ef|grep {name}|grep -v grep|awk '{print $2}'")
+        pid = get_pid.read()
+
+        os.kill(pid, signal.SIGSTOP)
+
+        Console.ok(f"{self.name} is shut down")
+
+
+        # check if pid still in list
+
+        # repalce grep findstr in windows add if statement
+        # maybe implement a pause functionality with signal.pause?
+
+        # maybe look into a way to kill parallel processes because signal
+        # kills proceses being executed on the main python thread
+
+        # Kill entire server option?
+        # shutdown = request.environ.get('werkzeug.server.shutdown')
+        # if shutdown == None:
+        #     return 'No server is running'
+        # else:
+        #     shutdown()
+        #     return 'Server successfully shutdown'
 
