@@ -1,4 +1,3 @@
-
 openapi: 3.0.0
 info:
   title: sampleFunction
@@ -9,7 +8,7 @@ servers:
     description: Optional server description, e.g. Main (production) server
 paths:
   /tests/generator/:
-     get:
+    get:
       summary: Multiply int and float sample.
       description: Optional extended description in CommonMark or HTML.
       operationId: sample_function_gen.sampleFunction

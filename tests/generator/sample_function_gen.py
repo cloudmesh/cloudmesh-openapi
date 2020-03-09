@@ -1,6 +1,8 @@
 import sys
 from cloudmesh.openapi3.function.generator import Generator
 
+
+# noinspection PyPep8Naming
 def sampleFunction(x: int, y: float) -> float:
     """
     Multiply int and float sample.
@@ -12,6 +14,7 @@ def sampleFunction(x: int, y: float) -> float:
     :return type: float
     """
     return x * y
+
 
 f = sampleFunction
 openAPI = Generator()
