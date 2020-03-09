@@ -27,25 +27,24 @@ components:
   schemas:
     {schemas}
 """
-    # TODO: change all of these from 'x' to 'type: x'
-    #+change generate_parameter and generate_response from 'type: {_type}' to {_type}
-    #+change unrecognized to check is_dataclass
-    #+then point to $ref: "#/components/schemas/{_type.__name__}
+
     def parse_type(self, _type):
         """function to parse supported openapi3 data types"""
         parser = {
-                int: 'integer',
-                bool: 'boolean',
-                float: 'number',
-                str: 'string',
-                list: 'array\nitems: {}',
-                dict: 'object\nadditionalProperties: true',
-                }
+                int: 'type: integer',
+                bool: 'type: boolean',
+                float: 'type: number',
+                str: 'type: string',
+                list: 'type: array\nitems: {}',
+                dict: 'type: object\nadditionalProperties: true'
+        }
+        if is_dataclass(_type):
+            return f'$ref: "#/components/schemas/{_type.__name__}'
         # exits with KeyError if unsupported type is given
         try:
             t=parser[_type]
         except KeyError:
-            print('unsupported data type supplied:')
+            print(f'unsupported data type supplied for {_type.__name__}:')
             print(_type)
             raise
         return t
@@ -56,9 +55,9 @@ components:
         spec = textwrap.dedent(f"""
             - in: query
               name: {name}
+              description: {description}
               schema:
-                type: {_type}
-              description: {description}""")
+                {_type}""")
         return spec
 
     def generate_response(self, code, _type, description):
@@ -72,16 +71,16 @@ components:
                 content:
                   text/plain:
                     schema:
-                      type: {_type}""")
+                      {_type}""")
         else:
-            # dict (generic json)
+            # dict (generic json) or dataclass ($ref)
             spec = textwrap.dedent(f"""
               '{code}':
                 description: {description}
                 content:
                   application/json:
                     schema:
-                      type: {_type}""")
+                      {_type}""")
         return spec
 
     def generate_properties(self, attr, _type):
@@ -89,10 +88,10 @@ components:
         _type = self.parse_type(_type)
         spec = textwrap.dedent(f"""
           {attr}:
-            type: {_type}""")
+            {_type}""")
 
     def generate_schema(self,_class):
-        """function to generate schema in the components section from a dataclass"""
+        """function to generate schema in the components section from @dataclass attributes"""
         class_name = _class.__name__
         if not is_dataclass(_class):
             raise TypeError(f'{class_name} is not a dataclass. Use the @dataclass decorator to define the class properly')
