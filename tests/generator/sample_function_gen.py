@@ -1,5 +1,5 @@
 import sys
-import Generator as generator
+from cloudmesh.openapi3.function.generator import Generator
 
 def sampleFunction(x: int, y: float) -> float:
     """
@@ -14,6 +14,6 @@ def sampleFunction(x: int, y: float) -> float:
     return x * y
 
 f = sampleFunction
-openAPI = generator.Generator()
+openAPI = Generator()
 spec = openAPI.generate_openapi(f, "tests/generator/", "../../../tests")
 # print(spec)
