@@ -1,48 +1,61 @@
 import textwrap
 from cloudmesh.common.console import Console
 from dataclasses import dataclass, is_dataclass
+import textwrap
+
+
+# TODO: docstrings comments missing
+# TODO: description missing
+# TODO: why are we not using the latest version of openapi?
+# TODO: why are we not using Inspect code from pyCharm?
+# TODO: why are we not using Code Format from pyCharm?
 
 class Generator:
-    openAPITemplate = """
-openapi: 3.0.0
-info:
-  title: {title}
-  description: {description}
-  version: "{version}"
-servers:
-  - url: http://localhost/cloudmesh
-    description: Optional server description, e.g. Main (production) server
-paths:
-  /{baseurl}:
-     get:
-      summary: {description}
-      description: Optional extended description in CommonMark or HTML.
-      operationId: {filename}.{name}
-      parameters:
-        {parameters}
-      responses:
-        {responses}
-
-components:
-  schemas:
-    {schemas}
-"""
+    openAPITemplate = textwrap.dedent("""
+        openapi: 3.0.0
+        info:
+          title: {title}
+          description: {description}
+          version: "{version}"
+        servers:
+          - url: http://localhost/cloudmesh
+            description: TODO THIS MUST BE CHANGEBLE
+        paths:
+          /{baseurl}:
+             get:
+              summary: {description}
+              description: Optional extended description in CommonMark or HTML.
+              operationId: {filename}.{name}
+              parameters:
+                {parameters}
+              responses:
+                {responses}
+        
+        components:
+          schemas:
+            {schemas}
+        """)
 
     def parse_type(self, _type):
-        """function to parse supported openapi3 data types"""
+        """
+        function to parse supported openapi3 data types
+
+        :param _type:
+        :return:
+        """
         parser = {
-                int: 'type: integer',
-                bool: 'type: boolean',
-                float: 'type: number',
-                str: 'type: string',
-                list: 'type: array\nitems: {}',
-                dict: 'type: object\nadditionalProperties: true'
+            int: 'type: integer',
+            bool: 'type: boolean',
+            float: 'type: number',
+            str: 'type: string',
+            list: 'type: array\nitems: {}',
+            dict: 'type: object\nadditionalProperties: true'
         }
         if is_dataclass(_type):
             return f'$ref: "#/components/schemas/{_type.__name__}'
         # exits with KeyError if unsupported type is given
         try:
-            t=parser[_type]
+            t = parser[_type]
         except KeyError:
             print(f'unsupported data type supplied for {_type.__name__}:')
             print(_type)
@@ -50,7 +63,14 @@ components:
         return t
 
     def generate_parameter(self, name, _type, description):
-        """ function to generate parameters YAMAL contents"""
+        """
+        function to generate parameters YAMAL contents
+
+        :param name:
+        :param _type:
+        :param description:
+        :return:
+        """
         _type = self.parse_type(_type)
         spec = textwrap.dedent(f"""
             - in: query
@@ -61,7 +81,14 @@ components:
         return spec
 
     def generate_response(self, code, _type, description):
-        """function to generate response yaml contents"""
+        """
+        function to generate response yaml contents
+
+        :param code:
+        :param _type:
+        :param description:
+        :return:
+        """
         _type = self.parse_type(_type)
         if not _type.startswith('object'):
             # int, bool, float, str, list
@@ -84,18 +111,32 @@ components:
         return spec
 
     def generate_properties(self, attr, _type):
-        """function to generate properties of a schema"""
+        """
+        function to generate properties of a schema
+
+        :param attr:
+        :param _type:
+        :return:
+        """
         _type = self.parse_type(_type)
         spec = textwrap.dedent(f"""
           {attr}:
             {_type}""")
 
-    def generate_schema(self,_class):
-        """function to generate schema in the components section from @dataclass attributes"""
+    def generate_schema(self, _class):
+        """
+        function to generate schema in the components section from @dataclass
+        attributes
+
+        :param _class:
+        :return:
+        """
         class_name = _class.__name__
         if not is_dataclass(_class):
-            raise TypeError(f'{class_name} is not a dataclass. Use the @dataclass decorator to define the class properly')
-        properties=str()
+            raise TypeError(
+                f'{class_name} is not a dataclass. '
+                'Use the @dataclass decorator to define the class properly')
+        properties = str()
         for attr, _type in _class.__annotations__.items():
             properties = properties + self.generate_properties(attr, _type)
         spec = textwrap.dedent(f"""
@@ -104,27 +145,50 @@ components:
             properties:
               {properties}""")
 
-    def populateParameters(self,functionName):
-        """ Function to loop all the parameters of given function and generate specification"""
+    def populateParameters(self, functionName):
+        """
+        Function to loop all the parameters of given function and generate
+        specification
+
+        :param functionName:
+        :return:
+        """
         spec = str()
         for parameter, _type in functionName.__annotations__.items():
             if parameter == 'return':
-                continue # dicts are unordered, so use continue intead of break to be safe
+                continue  # dicts are unordered, so use continue
+                # intead of break to be safe
             else:
-                spec = spec + self.generate_parameter(parameter, _type, "not yet available, you can read it from docstring")
+                spec = spec + self.generate_parameter(
+                    parameter,
+                    _type,
+                    "not yet available, you can read it from docstring")
         return spec
-    
+
     def generate_openapi(self, f, baseurl, outdir, yaml, write=True):
-        """ function to generate open API of python function."""
+        """
+        function to generate open API of python function.
+
+        :param f:
+        :param baseurl:
+        :param outdir:
+        :param yaml:
+        :param write:
+        :return:
+        """
         description = f.__doc__.strip().split("\n")[0]
         version = "1.0"  # TODO:  hard coded for now
         title = f.__name__
         parameters = self.populateParameters(f)
         parameters = textwrap.indent(parameters, ' ' * 8)
-        responses = self.generate_response('200', f.__annotations__['return'], 'OK')
+        responses = self.generate_response('200',
+                                           f.__annotations__['return'],
+                                           'OK')
         responses = textwrap.indent(responses, ' ' * 8)
-        
-        # TODO: figure out where to define dataclasses and how best to pass them to generate_schema()
+
+        # TODO: figure out where to define dataclasses and how
+        #  best to pass them to generate_schema()
+        filename = f.__code__.co_filename.strip().split("\\")[-1].split(".")[0]
         spec = self.openAPITemplate.format(
             title=title,
             name=f.__name__,
@@ -133,11 +197,11 @@ components:
             parameters=parameters.strip(),
             responses=responses.strip(),
             baseurl=baseurl,
-            filename=f.__code__.co_filename.strip().split("\\")[-1].split(".")[0],
+            filename=filename,
             schemas=''
         )
 
-        #return code
+        # return code
         rc = 0
 
         if write:
