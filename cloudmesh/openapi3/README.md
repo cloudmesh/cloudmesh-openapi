@@ -8,6 +8,11 @@
 * Jonathan Beckford
 * Prateek
 
+* Andrew Goldfarb
+1. Edited the sotp function to take process PID and use os.kill to stop the process based on the name of the python file. However, according to Ishan this is still not working. 
+2. Resolved conflicts between master and our working branch 
+3. Began work on assigning a default name if the user does not provide one for server start. Potetially, a function to assign an alias name to the whole process to amke it easier to reference. 
+
 ## Install for development
 
 cloudmesh-installer git pull analytics
