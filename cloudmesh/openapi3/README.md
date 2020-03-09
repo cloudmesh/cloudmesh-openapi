@@ -1,5 +1,13 @@
 # OpenAPI3 Function generator
 
+## Activity Log
+
+## Week prior to Mar 9th
+
+* bkgerreis 
+* Jonathan Beckford
+* Prateek
+
 ## Install for development
 
 cloudmesh-installer git pull analytics
