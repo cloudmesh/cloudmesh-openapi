@@ -12,6 +12,7 @@ from cloudmesh.openapi3.function import generator
 import sys, pathlib
 from importlib import import_module
 
+
 class Openapi3Command(PluginCommand):
 
     # noinspection PyUnusedLocal
@@ -63,7 +64,6 @@ class Openapi3Command(PluginCommand):
 
         """
 
-
         map_parameters(arguments,
                        'verbose',
                        'port',
@@ -96,7 +96,8 @@ class Openapi3Command(PluginCommand):
 
                 openAPI = generator.Generator()
 
-                rc = openAPI.generate_openapi(func_obj, baseurl.split("\\")[-1], yamldirectory, yamlfile)
+                rc = openAPI.generate_openapi(func_obj, baseurl.split("\\")[-1],
+                                              yamldirectory, yamlfile)
                 if rc != 0:
                     Console.error("Failed to generate openapi yaml")
                     raise Exception
