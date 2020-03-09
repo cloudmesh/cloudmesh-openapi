@@ -19,7 +19,7 @@ class Generator:
           version: "{version}"
         servers:
           - url: http://localhost/cloudmesh
-            description: TODO THIS MUST BE CHANGEBLE
+            description: TODO THIS MUST BE CHANGEABLE
         paths:
           /{baseurl}:
              get:
@@ -145,16 +145,16 @@ class Generator:
             properties:
               {properties}""")
 
-    def populateParameters(self, functionName):
+    def populate_parameters(self, function_name):
         """
         Function to loop all the parameters of given function and generate
         specification
 
-        :param functionName:
+        :param function_name:
         :return:
         """
         spec = str()
-        for parameter, _type in functionName.__annotations__.items():
+        for parameter, _type in function_name.__annotations__.items():
             if parameter == 'return':
                 continue  # dicts are unordered, so use continue
                 # intead of break to be safe
@@ -179,7 +179,7 @@ class Generator:
         description = f.__doc__.strip().split("\n")[0]
         version = "1.0"  # TODO:  hard coded for now
         title = f.__name__
-        parameters = self.populateParameters(f)
+        parameters = self.populate_parameters(f)
         parameters = textwrap.indent(parameters, ' ' * 8)
         responses = self.generate_response('200',
                                            f.__annotations__['return'],

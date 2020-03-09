@@ -69,11 +69,9 @@ class Server(object):
                 Console.error(
                     "tornado not install. Please use `pip install tornado`")
                 sys.exit(1)
-                return ""
             if self.debug:
                 Console.error("Tornado does not support --verbose")
                 sys.exit(1)
-                return ""
 
         Console.ok(self.path)
 
