@@ -1,6 +1,7 @@
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.debug import VERBOSE
+from cloudmesh.common.Shell import Shell
 import sys
 import connexion
 from importlib import import_module
@@ -23,7 +24,7 @@ class Server(object):
                  server="flask",
                  port=8080,
                  debug=True,
-                 alias=None):
+                 name=None):
         """
         This class is used to manage an OpenAPI server that was generated with
         the cloudmesh function generator tool.
@@ -45,12 +46,12 @@ class Server(object):
         :param debug: Boolean to set if debug mode is used.
         """
 
-        if spec is None:
-            # Console.error("No service specification file defined")
-            raise FileNotFoundError
+        # if spec is None:
+        #     # Console.error("No service specification file defined")
+        #     raise FileNotFoundError
 
         #self.path = path_expand(spec)
-        self.path = directory+"/"+spec
+        self.path = directory+spec
         self.spec = self.path
         #self.spec = spec
         self.directory = os.path.dirname(self.path)
@@ -60,11 +61,11 @@ class Server(object):
         self.code = spec.replace(".yaml",".py")
         self.server = server
         self.server_command = ""
-        self.alias = {}
+        self.name = name
 
         # Assigning an alias name to the server getting started and sending to a
         # dict
-        # while alias is None:
+        # while name is None:
             # alias = input(f"Provide an alias for the server: ")
             #
             # if name in self.name.values():
@@ -103,20 +104,20 @@ class Server(object):
     def _run(self):
         Console.ok("starting server")
 
-        # if self.server is not None:
-        #    self.server_command = "--server={server}".format(**self.__dict__)
+        if self.server is not None:
+           self.server_command = "--server={server}".format(**self.__dict__)
 
-        # command = ("connexion run {spec} {server_command} --debug".format(
-        #    **self.__dict__))
-        # VERBOSE(command, label="OpenAPI Server", verbose=1)
-        # r = Shell.live(command)
+        command = ("connexion run {spec} {server_command} --debug".format(
+           **self.__dict__))
+        VERBOSE(command, label="OpenAPI Server", verbose=1)
+        r = Shell.live(command)
 
         sys.path.append(self.directory)
         app = connexion.App(__name__,
                             specification_dir=self.directory)
 
         # app.app["config"]["DEBUG"] = True
-
+        # VERBOSE(app, label="Server parameters")
         # ### app.add_cls(self.directory)
         app.add_api(self.spec)
         app.run(host=self.host,
@@ -124,17 +125,23 @@ class Server(object):
                 debug=self.debug,
                 server=self.server)
 
-    def shutdown(self):
+    def shutdown(self, name):
 
-        Console.ok(f"shutting down {self.name}")
+        Console.ok(f"shutting down server {name}")
 
-        get_pid = os.popen("ps -ef|grep {name}|grep -v grep|awk '{print $2}'")
-        pid = get_pid.read()
+        lines = Shell.ps().splitlines()
 
-        os.kill(pid, signal.SIGSTOP)
-
-        Console.ok(f"{self.name} is shut down")
-
+        for names in lines:
+            if name in names and "server stop" not in names:
+                print(names)
+                process = names.split(' ')
+                api_pid = process[0]
+                print(api_pid)
+                os.kill(int(api_pid), signal.SIGSTOP)
+                Console.ok(f'Server {name} is shut down')
+            else:
+                print("Server not found")
+                break
 
         # check if pid still in list
 

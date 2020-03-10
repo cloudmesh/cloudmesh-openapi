@@ -74,7 +74,8 @@ class Openapi3Command(PluginCommand):
                        'directory',
                        'yamldirectory',
                        'baseurl',
-                       'filename')
+                       'filename',
+                       'name')
         arguments.debug = arguments.verbose
 
         VERBOSE(arguments)
@@ -122,9 +123,13 @@ class Openapi3Command(PluginCommand):
 
                     server=arguments.wsgi,
 
-                    debug=arguments.debug)
+                    debug=arguments.debug,
+
+                    name=arguments.name)
 
                 s._run()
+
+                VERBOSE(arguments, label="Server parameters")
 
 
             except FileNotFoundError:
@@ -162,11 +167,10 @@ class Openapi3Command(PluginCommand):
 
             """
             try:
-                s = Server
-                s.shutdown(name=arguments.NAME)
+                Server.shutdown(self, name=arguments.NAME)
+            except ConnectionError:
+                Console.Error("Server not running")
 
-            except Exception as e:
-                print("No server is running")
 
         elif arguments.register and arguments.add:
 
