@@ -8,9 +8,15 @@ from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import path_expand
 from cloudmesh.openapi3.function import generator
+import sys, pathlib
+from importlib import import_module
+#added by Ishan
+from cloudmesh.common.Shell import Shell
+import os
 from cloudmesh.openapi3.function.server import Server
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
+
 
 
 class Openapi3Command(PluginCommand):
@@ -70,7 +76,8 @@ class Openapi3Command(PluginCommand):
                        'directory',
                        'yamldirectory',
                        'baseurl',
-                       'filename')
+                       'filename',
+                       'name')
         arguments.debug = arguments.verbose
 
         VERBOSE(arguments)
@@ -104,28 +111,69 @@ class Openapi3Command(PluginCommand):
             except Exception as e:
                 print(e)
 
+
         elif arguments.server and arguments.start:
 
             try:
+
                 s = Server(
+
                     spec=arguments.YAML,
+
                     directory=arguments.directory,
+
                     port=arguments.port,
+
                     server=arguments.wsgi,
-                    debug=arguments.debug)
+
+                    debug=arguments.debug,
+
+                    name=arguments.name)
 
                 s._run()
+
+                VERBOSE(arguments, label="Server parameters")
+
 
             except FileNotFoundError:
 
                 Console.error("specification file not found")
 
+
             except Exception as e:
+
                 print(e)
 
-        elif arguments.server and arguments.stop:
 
-            raise NotImplementedError
+        elif arguments.server and arguments.stop:
+            """
+
+            name = arguments.NAME
+
+
+            try:
+
+                get_pid = os.popen("ps -ef|grep {name}|grep -v grep|awk '{print $2}'")
+
+                pid = get_pid.read()
+
+
+            except FileNotFoundError:
+
+
+                Console.error("specification file not found")
+
+
+            except Exception as e:
+
+                print(e)
+
+            """
+            try:
+                Server.shutdown(self, name=arguments.NAME)
+            except ConnectionError:
+                Console.Error("Server not running")
+
 
         elif arguments.register and arguments.add:
 
