@@ -4,7 +4,8 @@ from copy import deepcopy, copy
 from cloudmesh.common.util import readfile
 import textwrap
 
-def a (x: int, y: float) -> int:
+
+def a(x: int, y: float) -> int:
     """
     A sample.
 
@@ -17,11 +18,12 @@ def a (x: int, y: float) -> int:
     """
     return 1
 
+
 # help(a)
 
 func = a
 
-print ()
+print()
 counter = 1
 for f in [
     func.__name__,
@@ -43,10 +45,10 @@ for f in [
     func.__code__.co_stacksize,
     func.__code__.co_varnames,
     func.__doc__]:
-    print (counter, f)
-    counter +=1
+    print(counter, f)
+    counter += 1
 
-print (func.__annotations__)
+print(func.__annotations__)
 
 template = """
 openapi: 3.0.0
@@ -76,6 +78,7 @@ paths:
                   type: string
 """
 
+
 def generate_parameter(name, _type, description):
     spec = textwrap.dedent(f"""
         - in: query
@@ -90,14 +93,14 @@ def generate_parameter(name, _type, description):
 
 def generate_openapi(f, write=True):
     description = f.__doc__.strip().split("\n")[0]
-    version = open('../VERSION','r').read()
+    version = open('../VERSION', 'r').read()
     title = f.__name__
 
     spec = template.format(
-        title = title,
-        name = f.__name__,
-        description = description,
-        version = version
+        title=title,
+        name=f.__name__,
+        description=description,
+        version=version
     )
 
     if write:
@@ -105,15 +108,15 @@ def generate_openapi(f, write=True):
 
     return spec
 
-spec = generate_openapi(func)
 
+spec = generate_openapi(func)
 
 print(spec)
 
-for parameter, _type in  func.__annotations__.items():
+for parameter, _type in func.__annotations__.items():
     if parameter == "return":
         break
-    print (parameter, _type)
+    print(parameter, _type)
     if _type == int:
         _type = 'integer'
     elif _type == bool:
@@ -123,7 +126,7 @@ for parameter, _type in  func.__annotations__.items():
     else:
         _type = 'unkown'
 
-    spec = generate_parameter(parameter, _type, "not yet available, you can read it from docstring")
+    spec = generate_parameter(
+        parameter, _type,
+        "not yet available, you can read it from docstring")
     print(spec)
-
-

@@ -1,24 +1,27 @@
 from __future__ import print_function
 
-import yaml
-from cloudmesh.common.util import path_expand
-from cloudmesh.shell.command import PluginCommand
-from cloudmesh.shell.command import command, map_parameters
+import pathlib
+import sys
+from importlib import import_module
 
-from cloudmesh.openapi3.function.server import Server
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
+from cloudmesh.common.util import path_expand
 from cloudmesh.openapi3.function import generator
 import sys, pathlib
 from importlib import import_module
 #added by Ishan
 from cloudmesh.common.Shell import Shell
 import os
+from cloudmesh.openapi3.function.server import Server
+from cloudmesh.shell.command import PluginCommand
+from cloudmesh.shell.command import command, map_parameters
+
 
 
 class Openapi3Command(PluginCommand):
 
-    # noinspection PyUnusedLocal
+    # noinspection PyUnusedLocal,PyPep8Naming
     @command
     def do_openapi3(self, args, arguments):
         """
@@ -67,7 +70,6 @@ class Openapi3Command(PluginCommand):
 
         """
 
-
         map_parameters(arguments,
                        'verbose',
                        'port',
@@ -101,7 +103,8 @@ class Openapi3Command(PluginCommand):
 
                 openAPI = generator.Generator()
 
-                rc = openAPI.generate_openapi(func_obj, baseurl.split("\\")[-1], yamldirectory, yamlfile)
+                rc = openAPI.generate_openapi(func_obj, baseurl.split("\\")[-1],
+                                              yamldirectory, yamlfile)
                 if rc != 0:
                     Console.error("Failed to generate openapi yaml")
                     raise Exception

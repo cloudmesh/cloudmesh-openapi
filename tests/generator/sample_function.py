@@ -1,3 +1,4 @@
+# noinspection PyPep8Naming
 def sampleFunction(x: int, y: float) -> float:
     """
     Multiply int and float sample.
