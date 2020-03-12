@@ -194,6 +194,14 @@ class Server(object):
                 result = Shell.run("taskkill /IM python.exe /F")
             except Exception as e:
                 result = str(e)
+        elif sys.platform == 'darwin':
+            try:
+                pid = Script.run(f'pgrep -f {name}')
+                script = f'kill -9 {pid}'
+                result = Script.run(script)
+                result = 'server should be down...'
+            except subprocess.CalledProcessError:
+                result = 'server is already down...'
         else:
             try:
                 pid = Script.run(f'pgrep {name}')
