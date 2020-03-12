@@ -42,7 +42,11 @@ class Registry:
         :param name:  if none all
         :return:
         """
-        raise NotImplementedError
+
+        cm = CmDatabase()
+        for kind in ['vm', "image", "flavor"]:
+            entries = cm.find(cloud="local", kind="registry")
+        print(entries)
 
     def start(self):
         """
