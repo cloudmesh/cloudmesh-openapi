@@ -28,7 +28,19 @@ class Registry:
         :param filename:
         :return:
         """
-        raise NotImplementedError
+        with open("tests/sampleFunction.yaml", "r") as stream:
+            try:
+                spec = yaml.safe_load(stream)
+            except yaml.YAMLError as e:
+                print(e)
+                assert False, "Yaml file has syntax error"
+
+        title = spec["info"]["title"]
+        url = spec["servers"][0]["url"]
+
+        registry = Registry()
+        entry = registry.add(name=title, url=url)
+        return entry
 
     def delete(self, name=None):
         """
