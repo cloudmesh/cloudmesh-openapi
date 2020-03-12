@@ -32,52 +32,83 @@ with open("tests/sampleFunction.yaml", "r") as stream:
 @pytest.mark.incremental
 class TestGenerator:
 
-    def test_spec(self):
-        """
-        function to check if YAML synatx is correct or not
-        """
-        HEADING()
-        Benchmark.Start()
-        pprint (spec)
-        Benchmark.Stop()
 
-    def test_openapi_info_servers_paths(self):
-        """
-        function to check if YAML contains opeaapi, info ,servers, and paths
-        information
-        """
+    def test_registry_add(self):
         HEADING()
 
         Benchmark.Start()
 
-        keys = spec.keys()
-        pprint(keys)
-        assert keys.__contains__("openapi"), "openapi is not found"
-        assert keys.__contains__("info"), "info is not found"
-        assert keys.__contains__("servers"), "servers is not found"
-        assert keys.__contains__("paths"), "paths is not found"
+        title = spec["info"]["title"]
+        url = spec["servers"][0]["url"]
+
+        print(f"add {title} -> {url}")
+        registry = Registry()
+
+        entry = registry.add(name=title, url=url)
+        pprint (entry)
+
+        # ASSERT MISSING
 
         Benchmark.Stop()
 
-    def test_paths(self):
-        """
-        function to validate paths information
-        """
+    def test_registry_list_name(self):
         HEADING()
 
-        import tests.sample_function_gen as testfun
+        Benchmark.Start()
 
-        paths = spec.get("paths")
-        name = testfun.sampleFunction.__name__
-        getOperation = paths.get(f"/{name}")
+        title = spec["info"]["title"]
 
-        assert paths is not None, "paths value should not be null"
-        assert paths.keys().__contains__(f"/{name}"), "Resource name should be {name}"
-        assert getOperation.keys().__contains__("get"), "get operation is missing "
-        parameters = getOperation.get("get").get("parameters")
-        # assert len(parameters)+1==len(testfun.sampleFunction.__annotations__.items()), "get operation is missing "
+        print(f"delete {title}")
+        registry = Registry()
+
+        entry = registry.list(name=title)
+        pprint(entry)
+
+        # ASSERT MISSING
 
         Benchmark.Stop()
+
+    def test_registry_list(self):
+        HEADING()
+
+        Benchmark.Start()
+
+        title = spec["info"]["title"]
+
+        print(f"delete {title}")
+        registry = Registry()
+
+        entry = registry.list()
+        pprint(entry)
+
+        # ASSERT MISSING
+
+        Benchmark.Stop()
+
+    def test_registry_delete(self):
+        HEADING()
+        # list before and use len()
+
+        before = 1
+
+        Benchmark.Start()
+
+        title = spec["info"]["title"]
+
+        print(f"delete {title}")
+        registry = Registry()
+
+        entry = registry.delete(name=title)
+        pprint (entry)
+        # list after and use len
+
+        after = 1 # use len()
+
+        assert before == after + 1
+
+
+        Benchmark.Stop()
+
 
     def test_benchmark(self):
         HEADING()
