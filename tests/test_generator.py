@@ -11,31 +11,34 @@ from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.util import HEADING
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.Benchmark import Benchmark
+from pprint import pprint
+
+# sys.path.append("cloudmesh/openapi3/function")
+#
+
+
+#
+# get the spec for the tests
+#
+with open("tests/sampleFunction.yaml", "r") as stream:
+    try:
+        spec = yaml.safe_load(stream)
+    except yaml.YAMLError as e:
+        print(e)
+        assert False, "Yaml file has syntax error"
 
 
 @pytest.mark.incremental
 class TestGenerator:
 
-    def test_yaml_syntax(self):
+    def test_spec(self):
         """
         function to check if YAML synatx is correct or not
         """
         HEADING()
         Benchmark.Start()
-        with open("tests/sampleFunction.yaml",
-                  "r") as stream:
-            try:
-                self.spec = yaml.safe_load(stream)
-            except yaml.YAMLError as e:
-                print (e)
-                assert False, "Yaml file has syntax error"
-
+        pprint (spec)
         Benchmark.Stop()
-
-class a:
-
-    #sys.path.append("cloudmesh/openapi3/function")
-    #import tests.sample_function_gen as testfun
 
     def test_openapi_info_servers_paths(self):
         """
@@ -46,16 +49,13 @@ class a:
 
         Benchmark.Start()
 
-        with open("cloudmesh/openapi3/function/sampleFunction.yaml",
-                  "r") as stream:
-            try:
-                keys = yaml.safe_load(stream).keys()
-                assert keys.__contains__("openapi"), "openapi is not found"
-                assert keys.__contains__("info"), "info is not found"
-                assert keys.__contains__("servers"), "servers is not found"
-                assert keys.__contains__("paths"), "paths is not found"
-            except yaml.YAMLError as exc:
-                assert False, "Yaml file has syntax error"
+        keys = spec.keys()
+        pprint(keys)
+        assert keys.__contains__("openapi"), "openapi is not found"
+        assert keys.__contains__("info"), "info is not found"
+        assert keys.__contains__("servers"), "servers is not found"
+        assert keys.__contains__("paths"), "paths is not found"
+
         Benchmark.Stop()
 
     def test_paths(self):
@@ -64,23 +64,20 @@ class a:
         """
         HEADING()
 
-        Benchmark.Start()
-        with open("cloudmesh/openapi3/function/sampleFunction.yaml",
-                  "r") as stream:
-            try:
-                paths = yaml.safe_load(stream).get("paths")
-                assert paths is not None, "paths value should not be null"
-                assert paths.keys().__contains__(
-                    "/" + testfun.sampleFunction.__name__), "Resource name should be " + testfun.sampleFunction.__name__
-                getOperation = paths.get("/" + testfun.sampleFunction.__name__)
-                assert getOperation.keys().__contains__(
-                    "get"), "get operation is missing "
-                parameters = getOperation.get("get").get("parameters")
-                # assert len(parameters)+1==len(testfun.sampleFunction.__annotations__.items()), "get operation is missing "
-            except yaml.YAMLError as exc:
-                assert False, "Yaml file has syntax error"
+        import tests.sample_function_gen as testfun
+
+        paths = spec.get("paths")
+        name = testfun.sampleFunction.__name__
+        getOperation = paths.get(f"/{name}")
+
+        assert paths is not None, "paths value should not be null"
+        assert paths.keys().__contains__(f"/{name}"), "Resource name should be {name}"
+        assert getOperation.keys().__contains__("get"), "get operation is missing "
+        parameters = getOperation.get("get").get("parameters")
+        # assert len(parameters)+1==len(testfun.sampleFunction.__annotations__.items()), "get operation is missing "
+
         Benchmark.Stop()
 
     def test_benchmark(self):
         HEADING()
-        Benchmark.print(csv=True, sysinfo=False, tag=cloud)
+        Benchmark.print(csv=True, sysinfo=False, tag="generator")
