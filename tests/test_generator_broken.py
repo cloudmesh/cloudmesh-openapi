@@ -7,11 +7,12 @@ import pytest
 import yaml as yaml
 import sys
 
+sys.path.append("cloudmesh/openapi3/function")
+import tests.sample_function_gen as testfun
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.util import HEADING
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.Benchmark import Benchmark
-
 
 @pytest.mark.incremental
 class TestGenerator:
@@ -22,20 +23,13 @@ class TestGenerator:
         """
         HEADING()
         Benchmark.Start()
-        with open("tests/sampleFunction.yaml",
+        with open("cloudmesh/openapi3/function/sampleFunction.yaml",
                   "r") as stream:
             try:
-                self.spec = yaml.safe_load(stream)
-            except yaml.YAMLError as e:
-                print (e)
+                yaml.safe_load(stream)
+            except yaml.YAMLError as exc:
                 assert False, "Yaml file has syntax error"
-
         Benchmark.Stop()
-
-class a:
-
-    #sys.path.append("cloudmesh/openapi3/function")
-    #import tests.sample_function_gen as testfun
 
     def test_openapi_info_servers_paths(self):
         """
