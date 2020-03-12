@@ -50,7 +50,12 @@ class Registry:
         :param name:
         :return:
         """
-        raise NotImplementedError
+        entry = list(name)
+        cm = CmDatabase()
+        r = cm.delete(entry)
+        return r
+
+
 
     def list(self, name=None):
         """
@@ -60,7 +65,12 @@ class Registry:
         """
 
         cm = CmDatabase()
-        entries = cm.find(cloud="local", kind="registry")
+        if name == None:
+            entries = cm.find(cloud="local", kind="registry")
+
+        else:
+            entries = cm.find_name(name=name)
+
         return entries
 
     def start(self):

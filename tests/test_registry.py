@@ -90,18 +90,21 @@ class TestGenerator:
     def test_registry_delete(self):
         HEADING()
         # list before and use len()
-
-        before = 1
+        #before = 1
 
         Benchmark.Start()
 
         title = spec["info"]["title"]
 
-        print(f"delete {title}")
         registry = Registry()
+        entry = registry.list(name=title)
+        before = len(entry)
+        print(before)
+        print(f"delete {title}")
 
         entry = registry.delete(name=title)
-        pprint (entry)
+
+        pprint (len(entry))
         # list after and use len
 
         after = 1 # use len()
