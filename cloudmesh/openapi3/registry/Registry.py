@@ -1,5 +1,6 @@
 from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 from cloudmesh.common.Shell import Shell
+from cloudmesh.mongo.CmDatabase import CmDatabase
 
 class Registry:
 
@@ -20,13 +21,19 @@ class Registry:
         }
         return entry
 
-    def add_form_file(self, filename):
+    def add_from_file(self, filename):
         """
 
         :param filename:
         :return:
         """
-        raise NotImplementedError
+        spec = open(filename)
+        title = spec["info"]["title"]
+        url = spec["servers"][0]["url"]
+
+        registry = Registry()
+
+        entry = registry.add(name=title, url=url)
 
     def delete(self, name=None):
         """
@@ -42,7 +49,11 @@ class Registry:
         :param name:  if none all
         :return:
         """
-        raise NotImplementedError
+
+        cm = CmDatabase()
+        for kind in ['vm', "image", "flavor"]:
+            entries = cm.find(cloud="local", kind='registry')
+        print(entries)
 
     def start(self):
         """
