@@ -12,7 +12,7 @@ from cloudmesh.common.util import HEADING
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.Benchmark import Benchmark
 from pprint import pprint
-
+from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 # sys.path.append("cloudmesh/openapi3/function")
 #
 
@@ -57,6 +57,25 @@ class TestGenerator:
         assert keys.__contains__("paths"), "paths is not found"
 
         Benchmark.Stop()
+
+    def test_registry_data(self):
+        HEADING()
+
+        Benchmark.Start()
+
+
+        title = spec["info"]["title"]
+        url = spec["servers"][0]["url"]
+
+        print(title)
+        print(url)
+        registry = Registry(url)
+
+        entry = registry.generate_entry(name=title)
+        pprint (entry)
+
+        Benchmark.Stop()
+
 
     def test_paths(self):
         """
