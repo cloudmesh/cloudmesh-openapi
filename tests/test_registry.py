@@ -44,7 +44,9 @@ class TestGenerator:
         print(f"add {title} -> {url}")
         registry = Registry()
 
-        entry = registry.add(name=title, url=url)
+        pid = 1
+
+        entry = registry.add(name=title, url=url, pid=pid)
         pprint (entry)
 
         # ASSERT MISSING

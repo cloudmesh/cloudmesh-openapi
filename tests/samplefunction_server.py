@@ -1,4 +1,3 @@
-
 import connexion
 
 # Create the application instance

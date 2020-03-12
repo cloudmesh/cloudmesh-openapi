@@ -7,7 +7,7 @@ class Registry:
         pass
 
     @DatabaseUpdate()
-    def add(self, name=None, url=None):
+    def add(self, name=None, url=None, pid=None):
         entry = {
             "cm": {
                 "cloud": "local",
@@ -18,6 +18,8 @@ class Registry:
             "url": url,
             "name": name
         }
+        if pid:
+            entry["pid"] = pid
         return entry
 
     def add_form_file(self, filename):

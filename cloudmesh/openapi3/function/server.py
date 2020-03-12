@@ -105,6 +105,11 @@ class Server(object):
 
         Console.ok(self.path)
 
+
+    def start(self):
+        ###
+        pass
+
     def _run(self):
         Console.ok("starting server")
 
@@ -121,9 +126,10 @@ class Server(object):
 
         # Jonathan added - start
 
-        # BUG: code does not make senson on linux and osx
-        spec_path = "/".join(self.spec.replace('C:', '').split('\\'))
-        dir_path = "/".join(self.directory.replace('C:', '').split('\\'))
+        if sys.platform == 'win32':
+            spec_path = "/".join(self.spec.replace('C:', '').split('\\'))
+            dir_path = "/".join(self.directory.replace('C:', '').split('\\'))
+
         today_dt = date.today().strftime("%m%d%Y")
         print("spec path: ", spec_path)
 
@@ -162,10 +168,12 @@ class Server(object):
 
         # Jonathan added - end
 
-        # TODO: this was the original code whcis seems super nice, can that be run in the background and wer return
+        # TODO: this was the original code whcis seems super nice, can that
+        #  be run in the background and wer return
         # can we get process id
         # Can we list servere processes
         '''
+
         app = connexion.App(__name__,
                             specification_dir=self.directory)
 
@@ -183,9 +191,10 @@ class Server(object):
     def shutdown(self, name):
 
         Console.ok(f"shutting down server {name}")
-        '''
-        lines = Shell.ps().splitlines()
 
+
+        lines = Shell.ps().splitlines()
+        """
         for names in lines:
             if name in names and "server stop" not in names:
                 print(names)
@@ -197,8 +206,7 @@ class Server(object):
             else:
                 print("Server not found")
                 break
-        '''
-
+        """
         if sys.platform == 'win32':
             try:
 

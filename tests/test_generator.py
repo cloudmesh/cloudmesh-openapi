@@ -79,6 +79,22 @@ class TestGenerator:
 
         Benchmark.Stop()
 
+
+    def real_test(self):
+        """
+        Go to directory with python script and yaml:
+        cd ~/cm/cloudmesh-openapi/tests/generator
+        2. Start:
+        cms openapi3 server start sampleFunction.yaml samplefunction --directory=~/cm/cloudmesh-openapi/tests/generator/
+        3. Test out endpoint:
+        http://127.0.0.1:8080/cloudmesh/generator?x=3&y=2.5
+        4. Stop:
+        cms openapi3 server stop samplefunction
+
+        :return:
+        """
+        assert False
+
     def test_benchmark(self):
         HEADING()
         Benchmark.print(csv=True, sysinfo=False, tag="generator")
