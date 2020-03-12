@@ -56,15 +56,15 @@ class Server(object):
         #     # Console.error("No service specification file defined")
         #     raise FileNotFoundError
 
-        #self.path = path_expand(spec)
-        self.path = directory+spec
+        # self.path = path_expand(spec)
+        self.path = directory + spec
         self.spec = self.path
-        #self.spec = spec
+        # self.spec = spec
         self.directory = os.path.dirname(self.path)
         self.host = host
         self.port = port
         self.debug = debug
-        self.code = spec.replace(".yaml",".py")
+        self.code = spec.replace(".yaml", ".py")
         self.server = server
         self.server_command = ""
         self.name = name
@@ -72,22 +72,22 @@ class Server(object):
         # Assigning an alias name to the server getting started and sending to a
         # dict
         # while name is None:
-            # alias = input(f"Provide an alias for the server: ")
-            #
-            # if name in self.name.values():
-            #     name = input(f"Provide a unique name for the server: ")
-            # else:
-            #     current_name_keys = self.name.keys()
-            #     try:
-            #         last_value = current_name_keys[-1]
-            #         new_key = last_value.split('_')
-            #         new_key = new_key[0].join(int(new_key[-1])+1)
-            #         self.name.update({new_key : name})
-            #     except IndexError:
-            #         self.name['serverName_1'] = name
+        # alias = input(f"Provide an alias for the server: ")
+        #
+        # if name in self.name.values():
+        #     name = input(f"Provide a unique name for the server: ")
+        # else:
+        #     current_name_keys = self.name.keys()
+        #     try:
+        #         last_value = current_name_keys[-1]
+        #         new_key = last_value.split('_')
+        #         new_key = new_key[0].join(int(new_key[-1])+1)
+        #         self.name.update({new_key : name})
+        #     except IndexError:
+        #         self.name['serverName_1'] = name
 
         data = dict(self.__dict__)
-        #data['name'] = __name__
+        # data['name'] = __name__
 
         VERBOSE(data, label="Server parameters")
 
@@ -109,17 +109,19 @@ class Server(object):
         Console.ok("starting server")
 
         if self.server is not None:
-           self.server_command = "--server={server}".format(**self.__dict__)
+            self.server_command = "--server={server}".format(**self.__dict__)
 
-        #command = ("connexion run {spec} {server_command} --debug".format(
+        # command = ("connexion run {spec} {server_command} --debug".format(
         #   **self.__dict__))
-        #Console.ok(command)
-        #VERBOSE(command, label="OpenAPI Server", verbose=1)
-        #r = Shell.live(command)
+        # Console.ok(command)
+        # VERBOSE(command, label="OpenAPI Server", verbose=1)
+        # r = Shell.live(command)
 
-        #sys.path.append(self.directory)
+        # sys.path.append(self.directory)
 
         # Jonathan added - start
+
+        # BUG: code does not make senson on linux and osx
         spec_path = "/".join(self.spec.replace('C:', '').split('\\'))
         dir_path = "/".join(self.directory.replace('C:', '').split('\\'))
         today_dt = date.today().strftime("%m%d%Y")
@@ -140,7 +142,8 @@ class Server(object):
 
         print("server script: ", f"{dir_path}/{self.name}_server.py")
         try:
-            version = open(f"{dir_path}/{self.name}_server.py", 'w').write(flask_script)
+            version = open(f"{dir_path}/{self.name}_server.py", 'w').write(
+                flask_script)
         except IOError:
             Console.error("Unable to write server file")
         except Exception as e:
@@ -148,13 +151,20 @@ class Server(object):
 
         try:
             f = open(f"./{self.name}_server.log.{today_dt}", "w")
-            result = subprocess.Popen([sys.executable, f"./{self.name}_server.py"], stdout=f, stderr=f, shell=False);
+            result = subprocess.Popen([sys.executable,
+                                       f"./{self.name}_server.py"],
+                                      stdout=f,
+                                      stderr=f,
+                                      shell=False);
         except Exception as e:
             Console.error("Unable to start server")
             print(e)
 
         # Jonathan added - end
 
+        # TODO: this was the original code whcis seems super nice, can that be run in the background and wer return
+        # can we get process id
+        # Can we list servere processes
         '''
         app = connexion.App(__name__,
                             specification_dir=self.directory)
@@ -191,6 +201,9 @@ class Server(object):
 
         if sys.platform == 'win32':
             try:
+
+                # BUG: this does not kill the server, but kills all python programs, which is obviously a bug
+
                 result = Shell.run("taskkill /IM python.exe /F")
             except Exception as e:
                 result = str(e)
@@ -226,4 +239,3 @@ class Server(object):
         # else:
         #     shutdown()
         #     return 'Server successfully shutdown'
-

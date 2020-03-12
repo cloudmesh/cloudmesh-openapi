@@ -10,13 +10,12 @@ from cloudmesh.common.util import path_expand
 from cloudmesh.openapi3.function import generator
 import sys, pathlib
 from importlib import import_module
-#added by Ishan
+# added by Ishan
 from cloudmesh.common.Shell import Shell
 import os
 from cloudmesh.openapi3.function.server import Server
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
-
 
 
 class Openapi3Command(PluginCommand):
@@ -103,6 +102,8 @@ class Openapi3Command(PluginCommand):
 
                 openAPI = generator.Generator()
 
+                # BUG: theis is windows specific and must be done differently
+
                 rc = openAPI.generate_openapi(func_obj,
                                               baseurl.split("\\")[-1],
                                               yamldirectory, yamlfile)
@@ -116,19 +117,17 @@ class Openapi3Command(PluginCommand):
         elif arguments.server and arguments.start:
 
             try:
-                print("directory: ", Path(PureWindowsPath(path_expand(arguments.directory))))
+                #
+                # BUG: this is completely wrong as i it is not portable
+                #
+                print("directory: ",
+                      Path(PureWindowsPath(path_expand(arguments.directory))))
                 s = Server(
-
                     spec=arguments.YAML,
-
                     directory=path_expand(arguments.directory),
-
                     port=arguments.port,
-
                     server=arguments.wsgi,
-
                     debug=arguments.debug,
-
                     name=arguments.NAME)
 
                 s._run()
