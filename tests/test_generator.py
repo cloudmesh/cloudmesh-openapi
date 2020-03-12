@@ -1,26 +1,46 @@
+###############################################################
+# pytest -v --capture=no tests/test_generator.py
+# pytest -v  tests/test_generator.py
+# pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
+###############################################################
 import pytest
 import yaml as yaml
 import sys
 
-sys.path.append("../cloudmesh/openapi3/function")
-import sample_function_gen as testfun
-
+sys.path.append("cloudmesh/openapi3/function")
+import tests.sample_function_gen as testfun
+from cloudmesh.common.StopWatch import StopWatch
+from cloudmesh.common.util import HEADING
+from cloudmesh.common.util import path_expand
+from cloudmesh.common.Benchmark import Benchmark
 
 @pytest.mark.incremental
 class TestGenerator:
 
     def test_yaml_syntax(self):
-        """ function to check if YAML synatx is correct or not"""
-        with open("../cloudmesh/openapi3/function/sampleFunction.yaml",
+        """
+        function to check if YAML synatx is correct or not
+        """
+        HEADING()
+        Benchmark.Start()
+        with open("cloudmesh/openapi3/function/sampleFunction.yaml",
                   "r") as stream:
             try:
                 yaml.safe_load(stream)
             except yaml.YAMLError as exc:
                 assert False, "Yaml file has syntax error"
+        Benchmark.Stop()
 
     def test_openapi_info_servers_paths(self):
-        """ function to check if YAML contains opeaapi , info , servers and paths information """
-        with open("../cloudmesh/openapi3/function/sampleFunction.yaml",
+        """
+        function to check if YAML contains opeaapi, info ,servers, and paths
+        information
+        """
+        HEADING()
+
+        Benchmark.Start()
+
+        with open("cloudmesh/openapi3/function/sampleFunction.yaml",
                   "r") as stream:
             try:
                 keys = yaml.safe_load(stream).keys()
@@ -30,10 +50,16 @@ class TestGenerator:
                 assert keys.__contains__("paths"), "paths is not found"
             except yaml.YAMLError as exc:
                 assert False, "Yaml file has syntax error"
+        Benchmark.Stop()
 
     def test_paths(self):
-        """ function to validate paths information """
-        with open("../cloudmesh/openapi3/function/sampleFunction.yaml",
+        """
+        function to validate paths information
+        """
+        HEADING()
+
+        Benchmark.Start()
+        with open("cloudmesh/openapi3/function/sampleFunction.yaml",
                   "r") as stream:
             try:
                 paths = yaml.safe_load(stream).get("paths")
@@ -47,3 +73,8 @@ class TestGenerator:
                 # assert len(parameters)+1==len(testfun.sampleFunction.__annotations__.items()), "get operation is missing "
             except yaml.YAMLError as exc:
                 assert False, "Yaml file has syntax error"
+        Benchmark.Stop()
+
+    def test_benchmark(self):
+        HEADING()
+        Benchmark.print(csv=True, sysinfo=False, tag=cloud)
