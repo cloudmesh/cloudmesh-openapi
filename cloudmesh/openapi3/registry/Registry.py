@@ -1,5 +1,6 @@
 from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 from cloudmesh.common.Shell import Shell
+from cloudmesh.mongo.CmDatabase import CmDatabase
 
 class Registry:
 
@@ -58,8 +59,7 @@ class Registry:
         """
 
         cm = CmDatabase()
-        for kind in ['vm', "image", "flavor"]:
-            entries = cm.find(cloud="local", kind="registry")
+        entries = cm.find(cloud="local", kind="registry")
         print(entries)
 
     def start(self):
