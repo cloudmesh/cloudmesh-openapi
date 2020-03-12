@@ -13,6 +13,7 @@ from cloudmesh.common.util import path_expand
 from cloudmesh.common.Benchmark import Benchmark
 from pprint import pprint
 from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
+from cloudmesh.openapi3.registry.Registry import Registry
 # sys.path.append("cloudmesh/openapi3/function")
 #
 
@@ -63,15 +64,14 @@ class TestGenerator:
 
         Benchmark.Start()
 
-
         title = spec["info"]["title"]
         url = spec["servers"][0]["url"]
 
         print(title)
         print(url)
-        registry = Registry(url)
+        registry = Registry()
 
-        entry = registry.generate_entry(name=title)
+        entry = registry.add(name=title, url=url)
         pprint (entry)
 
         Benchmark.Stop()

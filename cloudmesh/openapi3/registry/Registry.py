@@ -3,8 +3,8 @@ from cloudmesh.common.Shell import Shell
 
 class Registry:
 
-    def _init__(self, url):
-        self.url = url
+    def __init__(self):
+        pass
 
     @DatabaseUpdate()
     def add(self, name=None, url=None):
