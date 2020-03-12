@@ -1,9 +1,0 @@
- * Serving Flask app "samplefunction_server" (lazy loading)
- * Environment: production
-   WARNING: This is a development server. Do not use it in a production deployment.
-   Use a production WSGI server instead.
- * Debug mode: off
- * Running on http://127.0.0.1:8080/ (Press CTRL+C to quit)
-c:\users\jonathan\venv\env3\lib\site-packages\connexion\apis\flask_api.py:192: FutureWarning: Implicit (flask) JSON serialization will change in the next major version. This is triggered because a response body is being serialized as JSON even though the mimetype is not a JSON type. This will be replaced by something that is mimetype-specific and may raise an error instead of silently converting everything to JSON. Please make sure to specify media/mime types in your specs.
-  warnings.warn(
-127.0.0.1 - - [11/Mar/2020 21:31:57] "[37mGET /cloudmesh/generator?x=3&y=2.5 HTTP/1.1[0m" 200 -
