@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-import pathlib
+from pathlib import Path, PureWindowsPath
 import sys
 from importlib import import_module
 
@@ -115,12 +115,12 @@ class Openapi3Command(PluginCommand):
         elif arguments.server and arguments.start:
 
             try:
-
+                print("directory: ", Path(PureWindowsPath(path_expand(arguments.directory))))
                 s = Server(
 
                     spec=arguments.YAML,
 
-                    directory=arguments.directory,
+                    directory=path_expand(arguments.directory),
 
                     port=arguments.port,
 
@@ -128,7 +128,7 @@ class Openapi3Command(PluginCommand):
 
                     debug=arguments.debug,
 
-                    name=arguments.name)
+                    name=arguments.NAME)
 
                 s._run()
 

@@ -2,11 +2,17 @@ from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.Shell import Shell
+from cloudmesh.management.script import Script
 import sys
 import connexion
 from importlib import import_module
 import os, platform, socket, signal
 from flask import Flask, request
+import textwrap
+from pathlib import Path, PureWindowsPath
+from datetime import date
+import subprocess
+import sys
 
 
 def dynamic_import(abs_module_path, class_name):
@@ -81,7 +87,7 @@ class Server(object):
             #         self.name['serverName_1'] = name
 
         data = dict(self.__dict__)
-        data['name'] = __name__
+        #data['name'] = __name__
 
         VERBOSE(data, label="Server parameters")
 
@@ -105,12 +111,51 @@ class Server(object):
         if self.server is not None:
            self.server_command = "--server={server}".format(**self.__dict__)
 
-        command = ("connexion run {spec} {server_command} --debug".format(
-           **self.__dict__))
-        VERBOSE(command, label="OpenAPI Server", verbose=1)
-        r = Shell.live(command)
+        #command = ("connexion run {spec} {server_command} --debug".format(
+        #   **self.__dict__))
+        #Console.ok(command)
+        #VERBOSE(command, label="OpenAPI Server", verbose=1)
+        #r = Shell.live(command)
 
-        sys.path.append(self.directory)
+        #sys.path.append(self.directory)
+
+        # Jonathan added - start
+        spec_path = "/".join(self.spec.replace('C:', '').split('\\'))
+        dir_path = "/".join(self.directory.replace('C:', '').split('\\'))
+        today_dt = date.today().strftime("%m%d%Y")
+        print("spec path: ", spec_path)
+
+        flask_script = textwrap.dedent(f'''
+            import connexion
+            
+            # Create the application instance
+            app = connexion.App(__name__, specification_dir='./')
+            
+            # Read the yaml file to configure the endpoints
+            app.add_api('{spec_path}')
+            
+            if __name__ == '__main__':
+                app.run(host='{self.host}',port={self.port},debug={self.debug},server={self.server})
+        ''')
+
+        print("server script: ", f"{dir_path}/{self.name}_server.py")
+        try:
+            version = open(f"{dir_path}/{self.name}_server.py", 'w').write(flask_script)
+        except IOError:
+            Console.error("Unable to write server file")
+        except Exception as e:
+            print(e)
+
+        try:
+            f = open(f"./{self.name}_server.log.{today_dt}", "w")
+            result = subprocess.Popen([sys.executable, f"./{self.name}_server.py"], stdout=f, stderr=f, shell=False);
+        except Exception as e:
+            Console.error("Unable to start server")
+            print(e)
+
+        # Jonathan added - end
+
+        '''
         app = connexion.App(__name__,
                             specification_dir=self.directory)
 
@@ -123,10 +168,12 @@ class Server(object):
                 debug=self.debug,
                 server=self.server)
 
+        '''
+
     def shutdown(self, name):
 
         Console.ok(f"shutting down server {name}")
-
+        '''
         lines = Shell.ps().splitlines()
 
         for names in lines:
@@ -140,6 +187,21 @@ class Server(object):
             else:
                 print("Server not found")
                 break
+        '''
+
+        if sys.platform == 'win32':
+            try:
+                result = Shell.run("taskkill /IM python.exe /F")
+            except Exception as e:
+                result = str(e)
+        else:
+            try:
+                pid = Script.run(f'pgrep {name}')
+                script = f'kill -2 {pid}'
+                result = Script.run(script)
+                result = 'server should be down...'
+            except subprocess.CalledProcessError:
+                result = 'server is already down...'
 
         # check if pid still in list
 

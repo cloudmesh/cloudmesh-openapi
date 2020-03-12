@@ -206,7 +206,7 @@ class Generator:
 
         if write:
             try:
-                if yaml != "":
+                if yaml != "" and yaml is not None:
                     version = open(f"{outdir}/{yaml}.yaml", 'w').write(spec)
                 else:
                     version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
