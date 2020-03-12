@@ -103,7 +103,8 @@ class Openapi3Command(PluginCommand):
 
                 openAPI = generator.Generator()
 
-                rc = openAPI.generate_openapi(func_obj, baseurl.split("\\")[-1],
+                rc = openAPI.generate_openapi(func_obj,
+                                              baseurl.split("\\")[-1],
                                               yamldirectory, yamlfile)
                 if rc != 0:
                     Console.error("Failed to generate openapi yaml")
