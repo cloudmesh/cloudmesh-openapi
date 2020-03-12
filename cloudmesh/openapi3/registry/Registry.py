@@ -1,6 +1,6 @@
 from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 from cloudmesh.common.Shell import Shell
-import yaml
+
 class Registry:
 
     def __init__(self):
@@ -28,19 +28,7 @@ class Registry:
         :param filename:
         :return:
         """
-        with open("tests/sampleFunction.yaml", "r") as stream:
-            try:
-                spec = yaml.safe_load(stream)
-            except yaml.YAMLError as e:
-                print(e)
-                assert False, "Yaml file has syntax error"
-
-        title = spec["info"]["title"]
-        url = spec["servers"][0]["url"]
-
-        registry = Registry()
-        entry = registry.add(name=title, url=url)
-        return entry
+        raise NotImplementedError
 
     def delete(self, name=None):
         """
@@ -50,15 +38,17 @@ class Registry:
         """
         raise NotImplementedError
 
-        # CmDatabase()
-
     def list(self, name=None):
         """
 
         :param name:  if none all
         :return:
         """
-        raise NotImplementedError
+
+        cm = CmDatabase()
+        for kind in ['vm', "image", "flavor"]:
+            entries = cm.find(cloud="local", kind="registry")
+        print(entries)
 
     def start(self):
         """
