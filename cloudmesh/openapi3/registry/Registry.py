@@ -1,6 +1,7 @@
 from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 from cloudmesh.common.Shell import Shell
 from cloudmesh.mongo.CmDatabase import CmDatabase
+import yaml
 
 class Registry:
 
