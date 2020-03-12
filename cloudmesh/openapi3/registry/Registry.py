@@ -61,7 +61,7 @@ class Registry:
 
         cm = CmDatabase()
         entries = cm.find(cloud="local", kind="registry")
-        print(entries)
+        return entries
 
     def start(self):
         """
