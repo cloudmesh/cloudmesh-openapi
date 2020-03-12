@@ -6,6 +6,11 @@ from flask import jsonify
 
 
 def get_processor_name():
+    """
+    The name of the processor
+
+    :return: the name of the processor
+    """
     if platform.system() == "Windows":
         p = platform.processor()
     elif platform.system() == "Darwin":
