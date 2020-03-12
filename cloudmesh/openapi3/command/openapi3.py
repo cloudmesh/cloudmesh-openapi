@@ -1,18 +1,11 @@
 from __future__ import print_function
 
-from pathlib import Path, PureWindowsPath
-import sys
-from importlib import import_module
-
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import path_expand
 from cloudmesh.openapi3.function import generator
 import sys, pathlib
 from importlib import import_module
-# added by Ishan
-from cloudmesh.common.Shell import Shell
-import os
 from cloudmesh.openapi3.function.server import Server
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
@@ -117,11 +110,6 @@ class Openapi3Command(PluginCommand):
         elif arguments.server and arguments.start:
 
             try:
-                #
-                # BUG: this is completely wrong as i it is not portable
-                #
-                print("directory: ",
-                      Path(PureWindowsPath(path_expand(arguments.directory))))
                 s = Server(
                     spec=arguments.YAML,
                     directory=path_expand(arguments.directory),
@@ -146,29 +134,7 @@ class Openapi3Command(PluginCommand):
 
 
         elif arguments.server and arguments.stop:
-            """
 
-            name = arguments.NAME
-
-
-            try:
-
-                get_pid = os.popen("ps -ef|grep {name}|grep -v grep|awk '{print $2}'")
-
-                pid = get_pid.read()
-
-
-            except FileNotFoundError:
-
-
-                Console.error("specification file not found")
-
-
-            except Exception as e:
-
-                print(e)
-
-            """
             try:
                 Server.shutdown(self, name=arguments.NAME)
             except ConnectionError:
