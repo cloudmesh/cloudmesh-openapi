@@ -81,7 +81,7 @@ class Openapi3Command(PluginCommand):
                        'name')
         arguments.debug = arguments.verbose
 
-        VERBOSE(arguments)
+        # VERBOSE(arguments)
 
         if arguments.generate:
 
