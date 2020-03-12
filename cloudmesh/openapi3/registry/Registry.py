@@ -1,9 +1,45 @@
 from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 from cloudmesh.common.Shell import Shell
 from cloudmesh.mongo.CmDatabase import CmDatabase
+from cloudmesh.common.Printer import Printer
 import yaml
 
 class Registry:
+    kind = "register"
+
+    output = {
+        "register": {
+            "sort_keys": ["cm.name"],
+            "order": ["cm.name",
+                      "status",
+                      "url",
+                      "pid"],
+            "header": ["Name",
+                       "Status",
+                       "Url",
+                       "Pid"]
+        }
+    }
+
+    # noinspection PyPep8Naming
+    def Print(self, data, output=None):
+
+        if output == "table":
+
+            order = self.output[Registry.kind]['order']  # not pretty
+            header = self.output[Registry.kind]['header']  # not pretty
+            # humanize = self.output[kind]['humanize']  # not pretty
+
+            print(Printer.flatwrite(data,
+                                    sort_keys=["name"],
+                                    order=order,
+                                    header=header,
+                                    output=output,
+                                    # humanize=humanize
+                                    )
+                  )
+        else:
+            print(Printer.write(data, output=output))
 
     def __init__(self):
         pass
@@ -18,7 +54,8 @@ class Registry:
                 "dirver": None
             },
             "url": url,
-            "name": name
+            "name": name,
+            "status": "defined"
         }
         if pid:
             entry["pid"] = pid

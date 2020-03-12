@@ -16,7 +16,7 @@ import os
 from cloudmesh.openapi3.function.server import Server
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
-
+from cloudmesh.openapi3.registry.Registry import Registry
 
 class Openapi3Command(PluginCommand):
 
@@ -39,10 +39,10 @@ class Openapi3Command(PluginCommand):
                               [--server=SERVER]
                               [--verbose]
               openapi3 server stop NAME
-              openapi3 server list [NAME]
+              openapi3 server list [NAME] [--output=OUTPUT]
               openapi3 register add NAME ENDPOINT
               openapi3 register remove NAME
-              openapi3 register list NAME
+              openapi3 register list [NAME] [--output=OUTPUT]
               openapi3 tbd
               openapi3 tbd merge [SERVICES...] [--dir=DIR] [--verbose]
               openapi3 tdb list [--dir=DIR]
@@ -51,18 +51,19 @@ class Openapi3Command(PluginCommand):
               openapi3 tbd codegen [SERVICES...] [--srcdir=SRCDIR]
                               [--destdir=DESTDIR]
 
-
           Arguments:
               DIR   The directory of the specifications
               FILE  The specification
-              SRCDIR   The directory of the specifications
-              DESTDIR  The directory where the generated code should be put
 
           Options:
               --verbose              specifies to run in debug mode [default: False]
               --port=PORT            the port for the server [default: 8080]
               --directory=DIRECTORY  the directory in which the server is run [default: ./]
-              --server=SERVER        teh server [default: flask]
+              --server=SERVER        the server [default: flask]
+              --output=OUTPUT        the outputformat, table, csv, yaml, json [default: table]
+              --srcdir=SRCDIR   The directory of the specifications
+              --destdir=DESTDIR  The directory where the generated code should be put
+
           Description:
             This command does some useful things.
 
@@ -70,6 +71,7 @@ class Openapi3Command(PluginCommand):
         """
 
         map_parameters(arguments,
+                       'output',
                        'verbose',
                        'port',
                        'directory',
@@ -185,7 +187,12 @@ class Openapi3Command(PluginCommand):
 
         elif arguments.register and arguments.list:
 
-            raise NotImplementedError
+            registry = Registry()
+            result = registry.list()
+
+            registry.Print(data=result, output=arguments.output)
+
+
 
         '''
 
