@@ -24,7 +24,7 @@ class Registry:
             entry["pid"] = pid
         return entry
 
-    def add_form_file(self, filename):
+    def add_form_file(self, filename, pid=None):
         """
 
         :param filename:
@@ -41,7 +41,7 @@ class Registry:
         url = spec["servers"][0]["url"]
 
         registry = Registry()
-        entry = registry.add(name=title, url=url)
+        entry = registry.add(name=title, url=url, pid=pid)
         return entry
 
     def delete(self, name=None):
