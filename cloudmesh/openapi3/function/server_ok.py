@@ -7,6 +7,18 @@ from importlib import import_module
 import os
 
 
+import os, time
+
+def daemon(func):
+    def wrapper(*args, **kwargs):
+        pid = os.fork()
+        if pid != 0:
+            print ("PID", pid)
+        if pid: return
+        r = func(*args, **kwargs)
+        os._exit(os.EX_OK)
+    return wrapper
+
 def dynamic_import(abs_module_path, class_name):
     module_object = import_module(abs_module_path)
     target_class = getattr(module_object, class_name)
@@ -66,6 +78,7 @@ class Server(object):
 
         Console.ok(self.directory)
 
+    @daemon
     def _run(self):
         Console.ok("starting server")
 
@@ -75,7 +88,8 @@ class Server(object):
 
         # ### app.add_cls(self.directory)
         app.add_api(self.spec)
-        app.run(host=self.host,
-                port=self.port,
-                debug=self.debug,
-                server=self.server)
+        r = app.run(host=self.host,
+                    port=self.port,
+                    debug=self.debug,
+                    server=self.server)
+        print ("R", r)

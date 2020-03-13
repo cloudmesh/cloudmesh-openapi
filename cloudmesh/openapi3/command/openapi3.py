@@ -181,7 +181,7 @@ class Openapi3Command(PluginCommand):
 
         elif arguments.server and arguments.gstart:
 
-            VERBOSE(arguments)
+            # VERBOSE(arguments)
 
             try:
                 s = GServer(
