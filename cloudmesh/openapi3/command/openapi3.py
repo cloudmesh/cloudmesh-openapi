@@ -6,7 +6,7 @@ from cloudmesh.common.util import path_expand
 from cloudmesh.openapi3.function import generator
 import sys, pathlib
 from importlib import import_module
-from cloudmesh.openapi3.function.server_ok import Server
+from cloudmesh.openapi3.function.server import Server
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
 from cloudmesh.openapi3.registry.Registry import Registry
