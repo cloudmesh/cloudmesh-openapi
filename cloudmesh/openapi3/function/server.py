@@ -1,93 +1,76 @@
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.debug import VERBOSE
-from cloudmesh.common.Shell import Shell
-from cloudmesh.management.script import Script
 import sys
 import connexion
 from importlib import import_module
-import os, platform, socket, signal
-from flask import Flask, request
-import textwrap
-from pathlib import Path, PureWindowsPath
-from datetime import date
+import os
+from platform import platform
+from cloudmesh.common.Shell import Shell
 import subprocess
-import sys
+from cloudmesh.openapi3.registry.Registry import Registry
+import textwrap
 
+import os, time
+
+def daemon(func):
+    def wrapper(*args, **kwargs):
+        pid = os.fork()
+
+        if pid != 0:
+            print ("PID", pid)
+
+        if pid: return
+        r = func(*args, **kwargs)
+
+        os._exit(os.EX_OK)
+        return pid
+    return wrapper
 
 def dynamic_import(abs_module_path, class_name):
     module_object = import_module(abs_module_path)
     target_class = getattr(module_object, class_name)
     return target_class
 
-
 class Server(object):
 
+    @staticmethod
+    def get_name(name, spec):
+        if name is None:
+            return os.path.basename(spec).replace(".yaml", "")
+        else:
+            return name
+
     def __init__(self,
+                 name=None,
                  spec=None,
                  directory=None,
                  host="127.0.0.1",
                  server="flask",
                  port=8080,
-                 debug=True,
-                 name=None):
-        """
-        This class is used to manage an OpenAPI server that was generated with
-        the cloudmesh function generator tool.
+                 debug=True):
+        if spec is None:
+            Console.error("No service specification file defined")
+            raise FileNotFoundError
 
-        We assume that the yaml specification as located at *spec* and the
-        directory contains the code for the operationIDs provided in the yaml
-        file.
 
-        If the directory is None, the code is located in the same directory as
-        the spec.
+        self.spec = path_expand(spec)
 
-        :param spec: the location of the yaml file
-        :param directory: the location of the base directory in
-                          which the code is located
-        :param host: the hostname on which the code is run, by default
-                     it is localhost
-        :param server: The server to be used. Either flask (default) or tornado
-        :param port: The port on which the service is run
-        :param debug: Boolean to set if debug mode is used.
-        """
+        if directory is None:
+            self.directory = os.path.dirname(self.spec)
+        else:
+            self.directory = directory
 
-        # if spec is None:
-        #     # Console.error("No service specification file defined")
-        #     raise FileNotFoundError
+        self.name = Server.get_name(name, self.spec)
 
-        # self.path = path_expand(spec)
-        self.path = directory + spec
-        self.spec = self.path
-        # self.spec = spec
-        self.directory = os.path.dirname(self.path)
         self.host = host
         self.port = port
         self.debug = debug
-        self.code = spec.replace(".yaml", ".py")
-        self.server = server
+        self.server = server or "flask"
         self.server_command = ""
-        self.name = name
-
-        # Assigning an alias name to the server getting started and sending to a
-        # dict
-        # while name is None:
-        # alias = input(f"Provide an alias for the server: ")
-        #
-        # if name in self.name.values():
-        #     name = input(f"Provide a unique name for the server: ")
-        # else:
-        #     current_name_keys = self.name.keys()
-        #     try:
-        #         last_value = current_name_keys[-1]
-        #         new_key = last_value.split('_')
-        #         new_key = new_key[0].join(int(new_key[-1])+1)
-        #         self.name.update({new_key : name})
-        #     except IndexError:
-        #         self.name['serverName_1'] = name
 
         data = dict(self.__dict__)
-        # data['name'] = __name__
+        #data['import'] = __name__
 
         VERBOSE(data, label="Server parameters")
 
@@ -99,18 +82,76 @@ class Server(object):
                 Console.error(
                     "tornado not install. Please use `pip install tornado`")
                 sys.exit(1)
+                return ""
             if self.debug:
                 Console.error("Tornado does not support --verbose")
                 sys.exit(1)
+                return ""
 
-        Console.ok(self.path)
+        Console.ok(self.directory)
 
 
-    def start(self):
-        ###
-        pass
+    @daemon
+    def _run_deamon(self):
+        self._run_app()
 
-    def _run(self):
+    def _run_app(self):
+        Console.ok("starting server")
+
+        sys.path.append(self.directory)
+        app = connexion.App(__name__,
+                            specification_dir=self.directory)
+
+        # ### app.add_cls(self.directory)
+        app.add_api(self.spec)
+        r = app.run(host=self.host,
+                    port=self.port,
+                    debug=self.debug,
+                    server=self.server)
+
+
+
+    def start(self, name=None, spec=None, foreground=False):
+        if foreground:
+            self._run_app()
+        else:
+            self._run_deamon()
+        name = Server.get_name(name, spec)
+        pid = Server.ps(name=name)
+        print()
+        print ("   Starting:", name)
+        print ("   PID:     ", pid)
+        print()
+        return pid
+
+
+    """
+    def stop(self, name=None):
+        ps = Shell.ps().splitlines()
+        ps = Shell.find_lines_with(ps, "openapi3 server gstart")
+        for p in ps:
+            pid, rest = p.split(" ", 1)
+            info = p.split("start")[1].split("--")[0].strip()
+            print(f"{pid}: {info}")
+    """
+
+    @staticmethod
+    def ps(name=None):
+        pids = []
+        ps = Shell.ps().splitlines()
+        ps = Shell.find_lines_with(ps, "openapi3 server gstart")
+        for p in ps:
+            print ("OOO", p)
+            pid, rest = p.split(" ", 1)
+            info = p.split("start")[1].split("--")[0].strip()
+            if name is not None and f"{name}.yaml" in info:
+                pids.append({"pid": pid, "spec": info})
+            else:
+                pids.append({"pid": pid, "spec": info})
+        return pids
+
+
+    def _run_os(self):
         Console.ok("starting server")
 
         # If windows convert backslashes to forward slashes to be python compatible
@@ -122,20 +163,20 @@ class Server(object):
         VERBOSE("spec path: ", self.spec)
 
         flask_script = textwrap.dedent(f'''
-            import connexion
-            
-            # Create the application instance
-            app = connexion.App(__name__, specification_dir='{self.directory}')
-            
-            # Read the yaml file to configure the endpoints
-            app.add_api('{self.spec}')
-            
-            if __name__ == '__main__':
-                app.run(host='{self.host}',
-                        port={self.port},
-                        debug={self.debug},
-                        server={self.server})
-        ''')
+                import connexion
+    
+                # Create the application instance
+                app = connexion.App(__name__, specification_dir='{self.directory}')
+    
+                # Read the yaml file to configure the endpoints
+                app.add_api('{self.spec}')
+    
+                if __name__ == '__main__':
+                    app.run(host='{self.host}',
+                            port={self.port},
+                            debug={self.debug},
+                            server={self.server})
+            ''')
 
         VERBOSE("server script: ", f"{self.directory}/{self.name}_server.py")
 
@@ -156,10 +197,10 @@ class Server(object):
 
             f = open(logname, "w")
             process = subprocess.Popen([sys.executable,
-                                       f"{self.directory}/{self.name}_server.py"],
-                                      stdout=f,
-                                      stderr=f,
-                                      shell=False);
+                                        f"{self.directory}/{self.name}_server.py"],
+                                       stdout=f,
+                                       stderr=f,
+                                       shell=False);
 
             # Write PID file
             pidfile = open(f"{self.directory}/{self.name}_server.pid", 'w')
@@ -168,23 +209,13 @@ class Server(object):
             Console.error("Unable to start server")
             print(e)
 
-    def shutdown(self, name):
 
+    def shutdown_os(self, name):
         Console.ok(f"shutting down server {name}")
 
-        # TODO: reading pid from file in current dir for now.  The pid should be stored in registry longterm.
-        with open(f"./{name}_server.pid", 'r') as file:
-            pid = file.read().replace('\n', '')
+        # TODO: reading pid from file in current dir for now.
+        #  The pid should be stored in registry longterm.
 
-        if sys.platform == 'win32':
-            try:
-                result = Shell.run(f"taskkill /IM {pid} /F")
-            except Exception as e:
-                result = str(e)
-        else:
-            try:
-                script = f'kill -2 {pid}'
-                result = Script.run(script)
-                result = 'server should be down...'
-            except subprocess.CalledProcessError:
-                result = 'server is already down...'
+        pid = readfile(f"./{name}_server.pid").strip()
+
+        Shell.kill_pid(pid)

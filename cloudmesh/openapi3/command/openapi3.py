@@ -6,8 +6,7 @@ from cloudmesh.common.util import path_expand
 from cloudmesh.openapi3.function import generator
 import sys, pathlib
 from importlib import import_module
-from cloudmesh.openapi3.function.server import Server
-from cloudmesh.openapi3.function.server_ok import Server as GServer
+from cloudmesh.openapi3.function.server_ok import Server
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
 from cloudmesh.openapi3.registry.Registry import Registry
@@ -28,20 +27,15 @@ class Openapi3Command(PluginCommand):
                                          --filename=FILENAME
                                          --yamldirectory=DIRECTORY
                                          [--verbose]
-              openapi3 server start YAML NAME
+              openapi3 server start YAML [NAME]
                               [--directory=DIRECTORY]
                               [--port=PORT]
                               [--server=SERVER]
                               [--verbose]
                               [--debug]
-              openapi3 server stop NAME
-              openapi3 server gstart YAML [NAME]
-                              [--directory=DIRECTORY]
-                              [--port=PORT]
-                              [--server=SERVER]
-                              [--verbose]
                               [--fg]
-              openapi3 server gstop NAME
+                              [--os]
+              openapi3 server stop NAME
               openapi3 server list [NAME] [--output=OUTPUT]
               openapi3 server ps [NAME] [--output=OUTPUT]
               openapi3 register add NAME ENDPOINT
@@ -123,10 +117,10 @@ class Openapi3Command(PluginCommand):
                 print(e)
 
 
-        elif arguments.server and arguments.start:
+        elif arguments.server and arguments.ostart:
 
             try:
-                s = Server(
+                s = ServerOld(
                     spec=arguments.YAML,
                     directory=path_expand(arguments.directory),
                     port=arguments.port,
@@ -152,7 +146,7 @@ class Openapi3Command(PluginCommand):
         elif arguments.server and arguments.list:
 
             try:
-                GServer.list(self, name=arguments.NAME)
+                Server.list(self, name=arguments.NAME)
             except ConnectionError:
                 Console.Error("Server not running")
 
@@ -162,7 +156,7 @@ class Openapi3Command(PluginCommand):
                 print()
                 Console.info("Running Cloudmesh OpenAPI Servers")
                 print ()
-                result = GServer.ps(name=arguments.NAME)
+                result = Server.ps(name=arguments.NAME)
 
                 print (result)
 
@@ -172,12 +166,10 @@ class Openapi3Command(PluginCommand):
             except ConnectionError:
                 Console.Error("Server not running")
 
-
-
-        elif arguments.server and arguments.stop:
+        elif arguments.server and arguments.ostop:
 
             try:
-                Server.shutdown(self, name=arguments.NAME)
+                ServerOld.shutdown(self, name=arguments.NAME)
             except ConnectionError:
                 Console.Error("Server not running")
 
@@ -214,7 +206,7 @@ class Openapi3Command(PluginCommand):
             # VERBOSE(arguments)
 
             try:
-                s = GServer(
+                s = Server(
                     name=arguments.NAME,
                     spec=arguments.YAML,
                     directory=arguments.directory,
@@ -237,7 +229,7 @@ class Openapi3Command(PluginCommand):
             except Exception as e:
                 print(e)
 
-        elif arguments.server and arguments.gstop:
+        elif arguments.server and arguments.ostop:
 
             print("implement me")
 
