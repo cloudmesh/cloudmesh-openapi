@@ -24,7 +24,6 @@ def dynamic_import(abs_module_path, class_name):
     target_class = getattr(module_object, class_name)
     return target_class
 
-
 class Server(object):
 
     def __init__(self,
