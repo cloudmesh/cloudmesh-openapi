@@ -10,10 +10,10 @@ servers:
   - url: http://localhost:8080/cloudmesh
 
 paths:
-  /cpu:
+  /list:
     get:
       summary: Returns running vms on chameleon
-      operationId: cms.list
+      operationId: cms.vms
       responses:
         '200':
           description: cpu info
