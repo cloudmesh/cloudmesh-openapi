@@ -91,4 +91,5 @@ class Server(object):
                     port=self.port,
                     debug=self.debug,
                     server=self.server)
-        print ("R", r)
+
+    def list(self):
