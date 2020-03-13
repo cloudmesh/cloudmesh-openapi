@@ -7,6 +7,7 @@ from cloudmesh.openapi3.function import generator
 import sys, pathlib
 from importlib import import_module
 from cloudmesh.openapi3.function.server import Server
+from cloudmesh.openapi3.function.server_ok import Server as GServer
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
 from cloudmesh.openapi3.registry.Registry import Registry
@@ -32,6 +33,13 @@ class Openapi3Command(PluginCommand):
                               [--server=SERVER]
                               [--verbose]
               openapi3 server stop NAME
+              openapi3 server gstart YAML
+                              NAME
+                              [--directory=DIRECTORY]
+                              [--port=PORT]
+                              [--server=SERVER]
+                              [--verbose]
+              openapi3 server gstop NAME
               openapi3 server list [NAME] [--output=OUTPUT]
               openapi3 register add NAME ENDPOINT
               openapi3 register filename NAME
@@ -171,6 +179,28 @@ class Openapi3Command(PluginCommand):
 
             registry.Print(data=result, output=arguments.output)
 
+        elif arguments.server and arguments.gstart:
+
+            try:
+                s = GServer(
+                    spec=arguments.YAML,
+                    directory=arguments.directory,
+                    port=arguments.port,
+                    server=arguments.wsgi,
+                    debug=arguments.debug)
+
+                s._run()
+
+            except FileNotFoundError:
+
+                Console.error("specification file not found")
+
+            except Exception as e:
+                print(e)
+
+        elif arguments.server and arguments.gstop:
+
+            print("implement me")
 
 
 

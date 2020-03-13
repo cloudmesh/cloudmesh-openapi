@@ -131,7 +131,10 @@ class Server(object):
             app.add_api('{self.spec}')
             
             if __name__ == '__main__':
-                app.run(host='{self.host}',port={self.port},debug={self.debug},server={self.server})
+                app.run(host='{self.host}',
+                        port={self.port},
+                        debug={self.debug},
+                        server={self.server})
         ''')
 
         VERBOSE("server script: ", f"{self.directory}/{self.name}_server.py")
