@@ -41,7 +41,8 @@ class Openapi3Command(PluginCommand):
               openapi3 server stop NAME
               openapi3 server list [NAME] [--output=OUTPUT]
               openapi3 register add NAME ENDPOINT
-              openapi3 register remove NAME
+              openapi3 register filename NAME
+              openapi3 register delete NAME
               openapi3 register list [NAME] [--output=OUTPUT]
               openapi3 tbd
               openapi3 tbd merge [SERVICES...] [--dir=DIR] [--verbose]
@@ -181,16 +182,29 @@ class Openapi3Command(PluginCommand):
 
             raise NotImplementedError
 
-        elif arguments.register and arguments.remove:
+        elif arguments.register and arguments.delete:
 
-            raise NotImplementedError
+            registry = Registry()
+            result = registry.delete(name=arguments.NAME)
+            if result == 0:
+                Console.error("Entry could not be found")
+            else:
+                Console.ok("Ok. Entry deleted")
 
         elif arguments.register and arguments.list:
 
             registry = Registry()
-            result = registry.list()
+            result = registry.list(name=arguments.NAME)
 
             registry.Print(data=result, output=arguments.output)
+
+        elif arguments.register and arguments.filename:
+
+            registry = Registry()
+            result = [registry.add_form_file(arguments.filename)]
+
+            registry.Print(data=result, output=arguments.output)
+
 
 
 

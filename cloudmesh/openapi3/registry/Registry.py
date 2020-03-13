@@ -7,6 +7,8 @@ import yaml
 class Registry:
     kind = "register"
 
+    collection = "local-registry"
+
     output = {
         "register": {
             "sort_keys": ["cm.name"],
@@ -67,7 +69,7 @@ class Registry:
         :param filename:
         :return:
         """
-        with open("tests/sampleFunction.yaml", "r") as stream:
+        with open(filename, "r") as stream:
             try:
                 spec = yaml.safe_load(stream)
             except yaml.YAMLError as e:
@@ -87,11 +89,15 @@ class Registry:
         :param name:
         :return:
         """
-        entry = list(name)
         cm = CmDatabase()
-        r = cm.delete(entry)
-        return r
 
+        collection = cm.collection(self.collection)
+        if name is None:
+            query = {}
+        else:
+            query = {'name': name}
+        entries = cm.delete(collection=self.collection, **query)
+        return entries
 
 
     def list(self, name=None):
@@ -104,9 +110,8 @@ class Registry:
         cm = CmDatabase()
         if name == None:
             entries = cm.find(cloud="local", kind="registry")
-
         else:
-            entries = cm.find_name(name=name)
+            entries = cm.find_name(name=name, kind="registry")
 
         return entries
 
