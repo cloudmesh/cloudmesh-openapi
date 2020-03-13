@@ -143,6 +143,13 @@ class Openapi3Command(PluginCommand):
 
                 print(e)
 
+        elif arguments.server and arguments.list:
+
+            try:
+                GServer.list(self, name=arguments.NAME)
+            except ConnectionError:
+                Console.Error("Server not running")
+
 
         elif arguments.server and arguments.stop:
 

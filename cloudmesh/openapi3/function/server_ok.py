@@ -5,7 +5,9 @@ import sys
 import connexion
 from importlib import import_module
 import os
-
+from platform import platform
+from cloudmesh.common.Shell import Shell
+import subprocess
 
 import os, time
 
@@ -91,5 +93,22 @@ class Server(object):
                     port=self.port,
                     debug=self.debug,
                     server=self.server)
+    """
+    def stop(self, name=None):
+        ps = Shell.ps().splitlines()
+        ps = Shell.find_lines_with(ps, "openapi3 server gstart")
+        for p in ps:
+            pid, rest = p.split(" ", 1)
+            info = p.split("start")[1].split("--")[0].strip()
+            print(f"{pid}: {info}")
+    """
 
-    def list(self):
+    def list(self, name=None):
+        ps = Shell.ps().splitlines()
+        ps = Shell.find_lines_with(ps, "openapi3 server gstart")
+        for p in ps:
+            pid, rest = p.split(" ", 1)
+            info = p.split("start")[1].split("--")[0].strip()
+            print (f"{pid}: {info}")
+
+
