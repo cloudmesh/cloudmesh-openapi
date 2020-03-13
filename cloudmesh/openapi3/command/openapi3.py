@@ -33,6 +33,7 @@ class Openapi3Command(PluginCommand):
                               [--server=SERVER]
                               [--verbose]
                               [--debug]
+                              [--debug]
                               [--fg]
                               [--os]
               openapi3 server stop NAME
@@ -158,9 +159,7 @@ class Openapi3Command(PluginCommand):
                 print ()
                 result = Server.ps(name=arguments.NAME)
 
-                print (result)
-
-                print(Printer.attribute(result))
+                print(Printer.list(result, order=["name", "pid", "spec"]))
 
                 print()
             except ConnectionError:
@@ -169,7 +168,7 @@ class Openapi3Command(PluginCommand):
         elif arguments.server and arguments.ostop:
 
             try:
-                ServerOld.shutdown(self, name=arguments.NAME)
+                Server.shutdown(self, name=arguments.NAME)
             except ConnectionError:
                 Console.Error("Server not running")
 
@@ -201,7 +200,7 @@ class Openapi3Command(PluginCommand):
 
             registry.Print(data=result, output=arguments.output)
 
-        elif arguments.server and arguments.gstart:
+        elif arguments.server and arguments.start:
 
             # VERBOSE(arguments)
 

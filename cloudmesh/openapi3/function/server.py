@@ -10,7 +10,7 @@ from cloudmesh.common.Shell import Shell
 import subprocess
 from cloudmesh.openapi3.registry.Registry import Registry
 import textwrap
-
+from datetime import date
 import os, time
 
 def daemon(func):
@@ -138,18 +138,26 @@ class Server(object):
     @staticmethod
     def ps(name=None):
         pids = []
-        ps = Shell.ps().splitlines()
-        ps = Shell.find_lines_with(ps, "openapi3 server gstart")
-        for p in ps:
-            print ("OOO", p)
+        result = Shell.ps().splitlines()
+        result = Shell.find_lines_with(result, "openapi3 server start")
+
+        for p in result:
             pid, rest = p.split(" ", 1)
             info = p.split("start")[1].split("--")[0].strip()
+            if name is None:
+                name = os.path.basename(rest.split("openapi3 server start")[1]).split(".")[0]
             if name is not None and f"{name}.yaml" in info:
-                pids.append({"pid": pid, "spec": info})
+                pids.append({"name":name, "pid": pid, "spec": info})
             else:
-                pids.append({"pid": pid, "spec": info})
+                pids.append({"name":name, "pid": pid, "spec": info})
         return pids
 
+
+    def shutdown(self, name=None):
+        Console.ok(f"shutting down server {name}")
+
+        pid = self.ps(name=None)
+        print (pid)
 
     def _run_os(self):
         Console.ok("starting server")
@@ -210,12 +218,4 @@ class Server(object):
             print(e)
 
 
-    def shutdown_os(self, name):
-        Console.ok(f"shutting down server {name}")
 
-        # TODO: reading pid from file in current dir for now.
-        #  The pid should be stored in registry longterm.
-
-        pid = readfile(f"./{name}_server.pid").strip()
-
-        Shell.kill_pid(pid)
