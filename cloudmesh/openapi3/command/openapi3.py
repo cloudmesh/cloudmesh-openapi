@@ -178,6 +178,8 @@ class Openapi3Command(PluginCommand):
             registry = Registry()
             result = registry.add(name=arguments.NAME, url=arguments.BASEURL, pid=arguments.PID)
 
+            registry.Print(data=result, output=arguments.output)
+
         elif arguments.register and arguments.delete:
 
             registry = Registry()
@@ -233,7 +235,7 @@ class Openapi3Command(PluginCommand):
 
             try:
                 print()
-                Console.info("Sopping Cloudmesh OpenAPI Server")
+                Console.info("Stopping Cloudmesh OpenAPI Server")
                 print ()
 
                 Server.shutdown(name=arguments.NAME)
