@@ -40,6 +40,7 @@ class Openapi3Command(PluginCommand):
                               [--verbose]
               openapi3 server gstop NAME
               openapi3 server list [NAME] [--output=OUTPUT]
+              openapi3 server ps [NAME] [--output=OUTPUT]
               openapi3 register add NAME ENDPOINT
               openapi3 register filename NAME
               openapi3 register delete NAME
@@ -149,6 +150,18 @@ class Openapi3Command(PluginCommand):
                 GServer.list(self, name=arguments.NAME)
             except ConnectionError:
                 Console.Error("Server not running")
+
+        elif arguments.server and arguments.ps:
+
+            try:
+                print()
+                Console.info("Running CLoudmesh OpenAPI Servers")
+                print ()
+                GServer.ps(self, name=arguments.NAME)
+                print()
+            except ConnectionError:
+                Console.Error("Server not running")
+
 
 
         elif arguments.server and arguments.stop:

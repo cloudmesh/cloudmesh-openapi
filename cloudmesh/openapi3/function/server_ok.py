@@ -103,7 +103,7 @@ class Server(object):
             print(f"{pid}: {info}")
     """
 
-    def list(self, name=None):
+    def ps(self, name=None):
         ps = Shell.ps().splitlines()
         ps = Shell.find_lines_with(ps, "openapi3 server gstart")
         for p in ps:
