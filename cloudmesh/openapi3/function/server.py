@@ -148,7 +148,10 @@ class Server(object):
         # Run python flask script in background
         try:
             # TODO: need to write log somewhere else or use a logger to write to common log
-            f = open(f"{self.directory}/{self.name}_server.log.{today_dt}", "w")
+
+            logname = f"{self.directory}/{self.name}_server.{today_dt}.log"
+
+            f = open(logname, "w")
             process = subprocess.Popen([sys.executable,
                                        f"{self.directory}/{self.name}_server.py"],
                                       stdout=f,
