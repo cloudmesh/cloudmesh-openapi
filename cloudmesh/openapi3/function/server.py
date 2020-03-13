@@ -1,18 +1,17 @@
-from cloudmesh.common.console import Console
-from cloudmesh.common.util import path_expand
-from cloudmesh.common.debug import VERBOSE
-from cloudmesh.common.Printer import Printer
-import sys
-import connexion
-from importlib import import_module
 import os
-from platform import platform
-from cloudmesh.common.Shell import Shell
 import subprocess
-from cloudmesh.openapi3.registry.Registry import Registry
+import sys
 import textwrap
 from datetime import date
-import os, time
+from importlib import import_module
+
+import connexion
+from cloudmesh.common.Shell import Shell
+from cloudmesh.common.console import Console
+from cloudmesh.common.debug import VERBOSE
+from cloudmesh.common.util import path_expand
+from cloudmesh.openapi3.registry.Registry import Registry
+
 
 def daemon(func):
     def wrapper(*args, **kwargs):
@@ -126,6 +125,10 @@ class Server(object):
         print("   Spec:    ", _spec)
 
         print()
+
+        registry = Registry()
+        registry.add_form_file(_spec)
+
         return pid
 
 
