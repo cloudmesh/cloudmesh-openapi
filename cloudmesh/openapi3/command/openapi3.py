@@ -175,7 +175,8 @@ class Openapi3Command(PluginCommand):
 
         elif arguments.register and arguments.add:
 
-            raise NotImplementedError
+            registry = Registry()
+            result = registry.add(name=arguments.NAME, url=arguments.BASEURL, pid=arguments.PID)
 
         elif arguments.register and arguments.delete:
 
