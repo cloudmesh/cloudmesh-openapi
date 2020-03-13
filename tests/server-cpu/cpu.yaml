@@ -13,7 +13,7 @@ paths:
   /cpu:
     get:
       summary: Returns cpu information of the hosting server
-      operationId: cpu.get_processor_name
+      operationId: cloudmesh.cpu.get_processor_name
       responses:
         '200':
           description: cpu info

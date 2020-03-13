@@ -11,7 +11,7 @@ paths:
     get:
       summary: Multiply int and float sample.
       description: Optional extended description in CommonMark or HTML.
-      operationId: sample_function_gen.sample
+      operationId: cloudmesh.sample.get
       parameters:
         - in: query
           name: x
