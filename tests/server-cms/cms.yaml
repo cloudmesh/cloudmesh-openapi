@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: cpuinfo
-  description: A simple service to get cpuinfo as an example of using OpenAPI 3.0
+  title: Cloudmesh
+  description: A simple service to interface with cloudmesh in OpenAPI 3.0
   license:
     name: Apache 2.0
   version: 0.0.1
@@ -12,19 +12,19 @@ servers:
 paths:
   /list:
     get:
-      summary: Returns running vms on chameleon
+      summary: Returns list of vms on chameleon
       operationId: cms.vms
       responses:
         '200':
-          description: cpu info
+          description: VM list
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/cpu"
+                $ref: "#/components/schemas/vms"
 
 components:
   schemas:
-    cpu:
+    vms:
       type: "object"
       required:
         - "model"
