@@ -131,17 +131,6 @@ class Server(object):
 
         return pid
 
-
-    """
-    def stop(self, name=None):
-        ps = Shell.ps().splitlines()
-        ps = Shell.find_lines_with(ps, "openapi3 server gstart")
-        for p in ps:
-            pid, rest = p.split(" ", 1)
-            info = p.split("start")[1].split("--")[0].strip()
-            print(f"{pid}: {info}")
-    """
-
     @staticmethod
     def ps(name=None):
         pids = []
@@ -160,7 +149,7 @@ class Server(object):
         return pids
 
     @staticmethod
-    def shutdown(name=None):
+    def stop(name=None):
         Console.ok(f"shutting down server {name}")
 
         result = Server.ps(name=None)

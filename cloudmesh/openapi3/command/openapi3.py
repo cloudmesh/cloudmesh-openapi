@@ -168,7 +168,7 @@ class Openapi3Command(PluginCommand):
         elif arguments.server and arguments.ostop:
 
             try:
-                Server.shutdown(self, name=arguments.NAME)
+                Server.stop(self, name=arguments.NAME)
             except ConnectionError:
                 Console.Error("Server not running")
 
@@ -238,7 +238,7 @@ class Openapi3Command(PluginCommand):
                 Console.info("Stopping Cloudmesh OpenAPI Server")
                 print ()
 
-                Server.shutdown(name=arguments.NAME)
+                Server.stop(name=arguments.NAME)
 
                 print()
             except ConnectionError:
