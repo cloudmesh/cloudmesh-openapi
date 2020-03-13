@@ -229,10 +229,18 @@ class Openapi3Command(PluginCommand):
             except Exception as e:
                 print(e)
 
-        elif arguments.server and arguments.ostop:
+        elif arguments.server and arguments.stop:
 
-            print("implement me")
+            try:
+                print()
+                Console.info("Sopping Cloudmesh OpenAPI Server")
+                print ()
 
+                Server.shutdown(name=arguments.NAME)
+
+                print()
+            except ConnectionError:
+                Console.Error("Server not running")
 
 
         '''
@@ -274,10 +282,6 @@ class Openapi3Command(PluginCommand):
         elif arguments.codegen:
             m.codegen(arguments.SERVICES, arguments.dir)
 
-        
-        elif arguments.server and arguments.stop:
-
-            print("implement me")
 
         return ""
         '''
