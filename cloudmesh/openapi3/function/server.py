@@ -1,6 +1,7 @@
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.debug import VERBOSE
+from cloudmesh.common.Printer import Printer
 import sys
 import connexion
 from importlib import import_module
@@ -142,7 +143,7 @@ class Server(object):
         result = Shell.find_lines_with(result, "openapi3 server start")
 
         for p in result:
-            pid, rest = p.split(" ", 1)
+            pid, rest = p.strip().split(" ", 1)
             info = p.split("start")[1].split("--")[0].strip()
             if name is None:
                 name = os.path.basename(rest.split("openapi3 server start")[1]).split(".")[0]
@@ -152,12 +153,23 @@ class Server(object):
                 pids.append({"name":name, "pid": pid, "spec": info})
         return pids
 
-
-    def shutdown(self, name=None):
+    @staticmethod
+    def shutdown(name=None):
         Console.ok(f"shutting down server {name}")
 
-        pid = self.ps(name=None)
-        print (pid)
+        result = Server.ps(name=None)
+        try:
+            pid = result[0]["pid"]
+            if len(pid) > 0:
+                print ("Killing:", pid)
+                Shell.kill_pid(pid)
+            else:
+                print()
+                Console.error(f"No Cloudmesh OpenAPI Server found with the name {name}")
+        except:
+            print()
+            Console.error(
+                f"No Cloudmesh OpenAPI Server found with the name {name}")
 
     def _run_os(self):
         Console.ok("starting server")
