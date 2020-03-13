@@ -11,6 +11,8 @@ from cloudmesh.openapi3.function.server_ok import Server as GServer
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
 from cloudmesh.openapi3.registry.Registry import Registry
+from cloudmesh.common.Printer import Printer
+
 
 class Openapi3Command(PluginCommand):
 
@@ -38,6 +40,7 @@ class Openapi3Command(PluginCommand):
                               [--port=PORT]
                               [--server=SERVER]
                               [--verbose]
+                              [--fg]
               openapi3 server gstop NAME
               openapi3 server list [NAME] [--output=OUTPUT]
               openapi3 server ps [NAME] [--output=OUTPUT]
@@ -74,6 +77,7 @@ class Openapi3Command(PluginCommand):
         """
 
         map_parameters(arguments,
+                       'fg',
                        'output',
                        'verbose',
                        'port',
@@ -130,7 +134,8 @@ class Openapi3Command(PluginCommand):
                     debug=arguments.debug,
                     name=arguments.NAME)
 
-                s._run()
+                pid = s._run()
+
 
                 VERBOSE(arguments, label="Server parameters")
 
@@ -155,9 +160,14 @@ class Openapi3Command(PluginCommand):
 
             try:
                 print()
-                Console.info("Running CLoudmesh OpenAPI Servers")
+                Console.info("Running Cloudmesh OpenAPI Servers")
                 print ()
-                GServer.ps(self, name=arguments.NAME)
+                result = GServer.ps(name=arguments.NAME)
+
+                print (result)
+
+                print(Printer.attribute(result))
+
                 print()
             except ConnectionError:
                 Console.Error("Server not running")
@@ -212,7 +222,13 @@ class Openapi3Command(PluginCommand):
                     server=arguments.wsgi,
                     debug=arguments.debug)
 
-                s._run()
+                #pid = s._run()
+                pid = s.start(name=arguments.NAME,
+                              spec=arguments.YAML,
+                              foreground=arguments.fg)
+
+
+                print (f"Run PID: {pid}")
 
             except FileNotFoundError:
 

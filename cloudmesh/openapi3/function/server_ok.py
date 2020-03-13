@@ -8,17 +8,22 @@ import os
 from platform import platform
 from cloudmesh.common.Shell import Shell
 import subprocess
+from cloudmesh.openapi3.registry.Registry import Registry
 
 import os, time
 
 def daemon(func):
     def wrapper(*args, **kwargs):
         pid = os.fork()
+
         if pid != 0:
             print ("PID", pid)
+
         if pid: return
         r = func(*args, **kwargs)
+
         os._exit(os.EX_OK)
+        return pid
     return wrapper
 
 def dynamic_import(abs_module_path, class_name):
@@ -27,6 +32,13 @@ def dynamic_import(abs_module_path, class_name):
     return target_class
 
 class Server(object):
+
+    @staticmethod
+    def get_name(name, spec):
+        if name is None:
+            return os.path.basename(spec).replace(".yaml", "")
+        else:
+            return name
 
     def __init__(self,
                  name=None,
@@ -48,9 +60,7 @@ class Server(object):
         else:
             self.directory = directory
 
-        print (name)
-        if name is None:
-            self.name = os.path.basename(self.spec).replace(".yaml", "")
+        self.name = Server.get_name(name, self.spec)
 
         self.host = host
         self.port = port
@@ -80,7 +90,10 @@ class Server(object):
         Console.ok(self.directory)
 
     @daemon
-    def _run(self):
+    def _run_deamon(self):
+        self._run_app()
+
+    def _run_app(self):
         Console.ok("starting server")
 
         sys.path.append(self.directory)
@@ -93,6 +106,23 @@ class Server(object):
                     port=self.port,
                     debug=self.debug,
                     server=self.server)
+
+
+
+    def start(self, name=None, spec=None, foreground=False):
+        if foreground:
+            self._run_app()
+        else:
+            self._run_deamon()
+        name = Server.get_name(name, spec)
+        pid = Server.ps(name=name)
+        print()
+        print ("   Starting:", name)
+        print ("   PID:     ", pid)
+        print()
+        return pid
+
+
     """
     def stop(self, name=None):
         ps = Shell.ps().splitlines()
@@ -103,12 +133,19 @@ class Server(object):
             print(f"{pid}: {info}")
     """
 
-    def ps(self, name=None):
+    @staticmethod
+    def ps(name=None):
+        pids = []
         ps = Shell.ps().splitlines()
         ps = Shell.find_lines_with(ps, "openapi3 server gstart")
         for p in ps:
+            print ("OOO", p)
             pid, rest = p.split(" ", 1)
             info = p.split("start")[1].split("--")[0].strip()
-            print (f"{pid}: {info}")
+            if name is not None and f"{name}.yaml" in info:
+                pids.append({"pid": pid, "spec": info})
+            else:
+                pids.append({"pid": pid, "spec": info})
+        return pids
 
 
