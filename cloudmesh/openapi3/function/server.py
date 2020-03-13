@@ -127,7 +127,11 @@ class Server(object):
         print()
 
         registry = Registry()
-        registry.add_form_file(_spec)
+        registry.add_form_file(_spec,
+                               pid=pid,
+                               spec=_spec,
+                               directory=self.directory,
+                               port=self.port)
 
         return pid
 

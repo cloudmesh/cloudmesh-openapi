@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: cpuinfo
+  title: cpu
   description: A simple service to get cpuinfo as an example of using OpenAPI 3.0
   license:
     name: Apache 2.0

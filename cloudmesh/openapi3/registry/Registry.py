@@ -47,7 +47,7 @@ class Registry:
         pass
 
     @DatabaseUpdate()
-    def add(self, name=None, url=None, pid=None):
+    def add(self, name=None, **kwargs):
         entry = {
             "cm": {
                 "cloud": "local",
@@ -55,15 +55,16 @@ class Registry:
                 "name": name,
                 "dirver": None
             },
-            "url": url,
             "name": name,
             "status": "defined"
         }
-        if pid:
-            entry["pid"] = pid
+
+        for key in kwargs:
+            entry[key] = kwargs[key]
+
         return entry
 
-    def add_form_file(self, filename, pid=None):
+    def add_form_file(self, filename, **kwargs):
         """
 
         :param filename:
@@ -80,7 +81,7 @@ class Registry:
         url = spec["servers"][0]["url"]
 
         registry = Registry()
-        entry = registry.add(name=title, url=url, pid=pid)
+        entry = registry.add(name=title, **kwargs)
         return entry
 
     def delete(self, name=None):
