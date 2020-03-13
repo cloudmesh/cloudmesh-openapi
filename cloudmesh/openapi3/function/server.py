@@ -19,13 +19,12 @@ def daemon(func):
         pid = os.fork()
 
         if pid != 0:
-            print ("PID", pid)
+            print ("Deamon PID", pid)
 
         if pid: return
         r = func(*args, **kwargs)
 
         os._exit(os.EX_OK)
-        return pid
     return wrapper
 
 def dynamic_import(abs_module_path, class_name):
@@ -118,10 +117,14 @@ class Server(object):
         else:
             self._run_deamon()
         name = Server.get_name(name, spec)
-        pid = Server.ps(name=name)
+        pid = Server.ps(name=name)[1]["pid"]
+        _spec = Server.ps(name=name)[1]["spec"]
+
         print()
-        print ("   Starting:", name)
-        print ("   PID:     ", pid)
+        print("   Starting:", name)
+        print("   PID:     ", pid)
+        print("   Spec:    ", _spec)
+
         print()
         return pid
 
