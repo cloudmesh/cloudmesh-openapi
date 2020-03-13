@@ -21,7 +21,7 @@ from cloudmesh.openapi3.registry.Registry import Registry
 #
 # get the spec for the tests
 #
-with open("tests/sampleFunction.yaml", "r") as stream:
+with open("tests/server-sampleFunction/sampleFunction.yaml", "r") as stream:
     try:
         spec = yaml.safe_load(stream)
     except yaml.YAMLError as e:
@@ -89,8 +89,7 @@ class TestGenerator:
 
     def test_registry_delete(self):
         HEADING()
-        # list before and use len()
-        #before = 1
+
 
         Benchmark.Start()
 
@@ -98,19 +97,21 @@ class TestGenerator:
 
         registry = Registry()
         entry = registry.list(name=title)
+
+        # list before and use len()
+        #before = 1
         before = len(entry)
-        print(before)
+
         print(f"delete {title}")
 
         entry = registry.delete(name=title)
+        print(f"{entry} entry deleted")
 
-        pprint (len(entry))
         # list after and use len
 
-        after = 1 # use len()
+        after = len(registry.list(name=title)) # use len()
 
         assert before == after + 1
-
 
         Benchmark.Stop()
 
