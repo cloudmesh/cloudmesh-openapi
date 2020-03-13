@@ -16,8 +16,9 @@ def dynamic_import(abs_module_path, class_name):
 class Server(object):
 
     def __init__(self,
+                 name=None,
                  spec=None,
-                 directory="./",
+                 directory=None,
                  host="127.0.0.1",
                  server="flask",
                  port=8080,
@@ -26,18 +27,26 @@ class Server(object):
             Console.error("No service specification file defined")
             raise FileNotFoundError
 
-        self.path = path_expand(spec)
-        self.spec = self.path
-        self.directory = os.path.dirname(self.path)
+
+        self.spec = path_expand(spec)
+
+        if directory is None:
+            self.directory = os.path.dirname(self.spec)
+        else:
+            self.directory = directory
+
+        print (name)
+        if name is None:
+            self.name = os.path.basename(self.spec).replace(".yaml", "")
+
         self.host = host
         self.port = port
         self.debug = debug
-        self.code = os.path.dirname(self.path) + "/cpu.py"
-        self.server = server
+        self.server = server or "flask"
         self.server_command = ""
 
         data = dict(self.__dict__)
-        data['name'] = __name__
+        #data['import'] = __name__
 
         VERBOSE(data, label="Server parameters")
 
@@ -55,9 +64,9 @@ class Server(object):
                 sys.exit(1)
                 return ""
 
-        Console.ok(self.path)
+        Console.ok(self.directory)
 
-    def run(self):
+    def _run(self):
         Console.ok("starting server")
 
         sys.path.append(self.directory)
@@ -65,7 +74,7 @@ class Server(object):
                             specification_dir=self.directory)
 
         # ### app.add_cls(self.directory)
-        app.add_api(self.path)
+        app.add_api(self.spec)
         app.run(host=self.host,
                 port=self.port,
                 debug=self.debug,

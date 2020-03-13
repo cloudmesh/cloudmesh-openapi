@@ -26,15 +26,14 @@ class Openapi3Command(PluginCommand):
                                          --filename=FILENAME
                                          --yamldirectory=DIRECTORY
                                          [--verbose]
-              openapi3 server start YAML
-                              NAME
+              openapi3 server start YAML NAME
                               [--directory=DIRECTORY]
                               [--port=PORT]
                               [--server=SERVER]
                               [--verbose]
+                              [--debug]
               openapi3 server stop NAME
-              openapi3 server gstart YAML
-                              NAME
+              openapi3 server gstart YAML [NAME]
                               [--directory=DIRECTORY]
                               [--port=PORT]
                               [--server=SERVER]
@@ -58,9 +57,10 @@ class Openapi3Command(PluginCommand):
               FILE  The specification
 
           Options:
+              --debug                use the server in debug mode
               --verbose              specifies to run in debug mode [default: False]
               --port=PORT            the port for the server [default: 8080]
-              --directory=DIRECTORY  the directory in which the server is run [default: ./]
+              --directory=DIRECTORY  the directory in which the server is run
               --server=SERVER        the server [default: flask]
               --output=OUTPUT        the outputformat, table, csv, yaml, json [default: table]
               --srcdir=SRCDIR   The directory of the specifications
@@ -181,8 +181,11 @@ class Openapi3Command(PluginCommand):
 
         elif arguments.server and arguments.gstart:
 
+            VERBOSE(arguments)
+
             try:
                 s = GServer(
+                    name=arguments.NAME,
                     spec=arguments.YAML,
                     directory=arguments.directory,
                     port=arguments.port,
