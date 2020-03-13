@@ -156,17 +156,21 @@ class Server(object):
     def stop(name=None):
         Console.ok(f"shutting down server {name}")
 
+        registry = Registry()
+
         result = Server.ps(name=None)
+
         try:
             pid = result[0]["pid"]
             if len(pid) > 0:
                 print ("Killing:", pid)
-                Shell.kill_pid(pid)
+                Shell.kill(pid)
+                registry.delete(name=name)
             else:
                 print()
                 Console.error(f"No Cloudmesh OpenAPI Server found with the name {name}")
         except:
-            print()
+            print("got to exception")
             Console.error(
                 f"No Cloudmesh OpenAPI Server found with the name {name}")
 
