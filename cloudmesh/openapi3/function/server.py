@@ -113,137 +113,72 @@ class Server(object):
     def _run(self):
         Console.ok("starting server")
 
-        if self.server is not None:
-            self.server_command = "--server={server}".format(**self.__dict__)
-
-        # command = ("connexion run {spec} {server_command} --debug".format(
-        #   **self.__dict__))
-        # Console.ok(command)
-        # VERBOSE(command, label="OpenAPI Server", verbose=1)
-        # r = Shell.live(command)
-
-        # sys.path.append(self.directory)
-
-        # Jonathan added - start
-
+        # If windows convert backslashes to forward slashes to be python compatible
         if sys.platform == 'win32':
-            spec_path = "/".join(self.spec.replace('C:', '').split('\\'))
-            dir_path = "/".join(self.directory.replace('C:', '').split('\\'))
+            self.spec = "/".join(self.spec.replace('C:', '').split('\\'))
+            self.directory = "/".join(self.directory.replace('C:', '').split('\\'))
 
         today_dt = date.today().strftime("%m%d%Y")
-        print("spec path: ", spec_path)
+        VERBOSE("spec path: ", self.spec)
 
         flask_script = textwrap.dedent(f'''
             import connexion
             
             # Create the application instance
-            app = connexion.App(__name__, specification_dir='./')
+            app = connexion.App(__name__, specification_dir='{self.directory}')
             
             # Read the yaml file to configure the endpoints
-            app.add_api('{spec_path}')
+            app.add_api('{self.spec}')
             
             if __name__ == '__main__':
                 app.run(host='{self.host}',port={self.port},debug={self.debug},server={self.server})
         ''')
 
-        print("server script: ", f"{dir_path}/{self.name}_server.py")
+        VERBOSE("server script: ", f"{self.directory}/{self.name}_server.py")
+
+        # Write out flask python script to file so that it can be run in background
         try:
-            version = open(f"{dir_path}/{self.name}_server.py", 'w').write(
+            version = open(f"{self.directory}/{self.name}_server.py", 'w').write(
                 flask_script)
         except IOError:
             Console.error("Unable to write server file")
         except Exception as e:
             print(e)
 
+        # Run python flask script in background
         try:
-            f = open(f"./{self.name}_server.log.{today_dt}", "w")
-            result = subprocess.Popen([sys.executable,
-                                       f"./{self.name}_server.py"],
+            # TODO: need to write log somewhere else or use a logger to write to common log
+            f = open(f"{self.directory}/{self.name}_server.log.{today_dt}", "w")
+            process = subprocess.Popen([sys.executable,
+                                       f"{self.directory}/{self.name}_server.py"],
                                       stdout=f,
                                       stderr=f,
                                       shell=False);
+
+            # Write PID file
+            pidfile = open(f"{self.directory}/{self.name}_server.pid", 'w')
+            pidfile.write(str(process.pid))
         except Exception as e:
             Console.error("Unable to start server")
             print(e)
-
-        # Jonathan added - end
-
-        # TODO: this was the original code whcis seems super nice, can that
-        #  be run in the background and wer return
-        # can we get process id
-        # Can we list servere processes
-        '''
-
-        app = connexion.App(__name__,
-                            specification_dir=self.directory)
-
-        # app.app["config"]["DEBUG"] = True
-        # VERBOSE(app, label="Server parameters")
-        # ### app.add_cls(self.directory)
-        app.add_api(self.spec)
-        app.run(host=self.host,
-                port=self.port,
-                debug=self.debug,
-                server=self.server)
-
-        '''
 
     def shutdown(self, name):
 
         Console.ok(f"shutting down server {name}")
 
+        # TODO: reading pid from file in current dir for now.  The pid should be stored in registry longterm.
+        with open(f"./{name}_server.pid", 'r') as file:
+            pid = file.read().replace('\n', '')
 
-        lines = Shell.ps().splitlines()
-        """
-        for names in lines:
-            if name in names and "server stop" not in names:
-                print(names)
-                process = names.split(' ')
-                api_pid = process[0]
-                print(api_pid)
-                os.kill(int(api_pid), signal.SIGSTOP)
-                Console.ok(f'Server {name} is shut down')
-            else:
-                print("Server not found")
-                break
-        """
         if sys.platform == 'win32':
             try:
-
-                # BUG: this does not kill the server, but kills all python programs, which is obviously a bug
-
-                result = Shell.run("taskkill /IM python.exe /F")
+                result = Shell.run(f"taskkill /IM {pid} /F")
             except Exception as e:
                 result = str(e)
-        elif sys.platform == 'darwin':
-            try:
-                pid = Script.run(f'pgrep -f {name}')
-                script = f'kill -9 {pid}'
-                result = Script.run(script)
-                result = 'server should be down...'
-            except subprocess.CalledProcessError:
-                result = 'server is already down...'
         else:
             try:
-                pid = Script.run(f'pgrep {name}')
                 script = f'kill -2 {pid}'
                 result = Script.run(script)
                 result = 'server should be down...'
             except subprocess.CalledProcessError:
                 result = 'server is already down...'
-
-        # check if pid still in list
-
-        # repalce grep findstr in windows add if statement
-        # maybe implement a pause functionality with signal.pause?
-
-        # maybe look into a way to kill parallel processes because signal
-        # kills proceses being executed on the main python thread
-
-        # Kill entire server option?
-        # shutdown = request.environ.get('werkzeug.server.shutdown')
-        # if shutdown == None:
-        #     return 'No server is running'
-        # else:
-        #     shutdown()
-        #     return 'Server successfully shutdown'
