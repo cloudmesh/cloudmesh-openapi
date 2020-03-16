@@ -2,6 +2,17 @@
 
 ## Activity Log
 
+## Week of Mar 9 - Mar 16
+
+* Andrew Goldfarb
+
+    * Worked with Ishan and Jonathan to finalize the start stop functionality. 
+    * Added functionality to delete the process entry from the registry upon stop command.
+    * Debugged weird start error for my personal machine where the start functionality was
+    running two bash terminals causing the start function to fail.
+    * Met with Professor to discuss proper implementation of the start/stop and how to tie 
+    into registry functionality.  
+
 ## Week prior to Mar 9th
 
 * bkgerreis 
@@ -9,7 +20,7 @@
 * Prateek
 
 * Andrew Goldfarb
-1. Edited the sotp function to take process PID and use os.kill to stop the process based on the name of the python file. However, according to Ishan this is still not working. 
+1. Edited the stop function to take process PID and use os.kill to stop the process based on the name of the python file. However, according to Ishan this is still not working. 
 2. Resolved conflicts between master and our working branch 
 3. Began work on assigning a default name if the user does not provide one for server start. Potetially, a function to assign an alias name to the whole process to amke it easier to reference. 
 

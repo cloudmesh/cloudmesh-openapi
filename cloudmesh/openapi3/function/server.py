@@ -2,6 +2,7 @@ import os
 import subprocess
 import sys
 import textwrap
+import yaml
 from datetime import date
 from importlib import import_module
 
@@ -119,19 +120,32 @@ class Server(object):
         pid = Server.ps(name=name)[1]["pid"]
         _spec = Server.ps(name=name)[1]["spec"]
 
+        with open(_spec, "r") as stream:
+            try:
+                details = yaml.safe_load(stream)
+            except yaml.YAMLError as e:
+                print(e)
+                assert False, "Yaml file has syntax error"
+
+        url = details["servers"][0]["url"]
+
         print()
         print("   Starting:", name)
         print("   PID:     ", pid)
         print("   Spec:    ", _spec)
+        print("   URL:     ", url)
 
         print()
 
         registry = Registry()
-        registry.add_form_file(_spec,
+        registry.add_form_file(details,
                                pid=pid,
                                spec=_spec,
                                directory=self.directory,
-                               port=self.port)
+                               port=self.port,
+                               host=self.host,
+                               url=url
+                               )
 
         return pid
 
