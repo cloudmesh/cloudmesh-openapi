@@ -2,6 +2,7 @@ import textwrap
 from cloudmesh.common.console import Console
 from dataclasses import dataclass, is_dataclass
 import textwrap
+import sys, pathlib
 
 
 # TODO: docstrings comments missing
@@ -188,7 +189,7 @@ class Generator:
 
         # TODO: figure out where to define dataclasses and how
         #  best to pass them to generate_schema()
-        filename = f.__code__.co_filename.strip().split("\\")[-1].split(".")[0]
+        filename = pathlib.Path(f.__code__.co_filename).stem
         spec = self.openAPITemplate.format(
             title=title,
             name=f.__name__,
@@ -201,9 +202,6 @@ class Generator:
             schemas=''
         )
 
-        # return code
-        rc = 0
-
         if write:
             try:
                 if yaml != "" and yaml is not None:
@@ -212,9 +210,7 @@ class Generator:
                     version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
             except IOError:
                 Console.error("Unable to write yaml file")
-                rc = 1
             except Exception as e:
                 print(e)
-                rc = 1
 
-        return rc
+        return

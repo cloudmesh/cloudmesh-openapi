@@ -108,15 +108,16 @@ class Openapi3Command(PluginCommand):
 
                 # BUG: theis is windows specific and must be done differently
 
-                rc = openAPI.generate_openapi(func_obj,
-                                              baseurl.split("\\")[-1],
+                if sys.platform == 'win32':
+                    baseurl_short = baseurl.split("\\")[-1]
+                else:
+                    baseurl_short = baseurl.split("/")[-1]
+                openAPI.generate_openapi(func_obj,
+                                              baseurl_short,
                                               yamldirectory, yamlfile)
-                if rc != 0:
-                    Console.error("Failed to generate openapi yaml")
-                    raise Exception
             except Exception as e:
+                Console.error("Failed to generate openapi yaml")
                 print(e)
-
 
         elif arguments.server and arguments.ostart:
 
