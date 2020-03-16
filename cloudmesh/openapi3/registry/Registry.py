@@ -53,7 +53,7 @@ class Registry:
                 "cloud": "local",
                 "kind": "registry",
                 "name": name,
-                "dirver": None
+                "driver": None
             },
             "name": name,
             "status": "defined"
@@ -70,18 +70,14 @@ class Registry:
         :param filename:
         :return:
         """
-        with open(filename, "r") as stream:
-            try:
-                spec = yaml.safe_load(stream)
-            except yaml.YAMLError as e:
-                print(e)
-                assert False, "Yaml file has syntax error"
+
+        spec = filename
 
         title = spec["info"]["title"]
-        url = spec["servers"][0]["url"]
 
         registry = Registry()
         entry = registry.add(name=title, **kwargs)
+
         return entry
 
     def delete(self, name=None):

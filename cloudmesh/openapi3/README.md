@@ -10,6 +10,8 @@
     * Added functionality to delete the process entry from the registry upon stop command.
     * Debugged weird start error for my personal machine where the start functionality was
     running two bash terminals causing the start function to fail.
+    * Met with Professor to discuss proper implementation of the start/stop and how to tie 
+    into registry functionality.  
 
 ## Week prior to Mar 9th
 
