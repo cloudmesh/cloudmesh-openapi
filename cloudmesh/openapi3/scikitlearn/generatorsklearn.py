@@ -1,5 +1,5 @@
 import textwrap
-#from cloudmesh.common.console import Console
+# from cloudmesh.common.console import Console
 from dataclasses import dataclass, is_dataclass
 import textwrap
 import re
@@ -157,7 +157,7 @@ class Generator:
             properties:
               {properties}""")
 
-    def populate_parameters(self, function_name,dict_obj):
+    def populate_parameters(self, function_name, dict_obj):
         """
         Function to loop all the parameters of given function and generate
         specification
@@ -167,7 +167,7 @@ class Generator:
         """
         spec = str()
         for parameter, _type in function_name.__annotations__.items():
-        #for parameter, _type in dict_obj.items():
+            # for parameter, _type in dict_obj.items():
             if parameter == 'return':
                 continue  # dicts are unordered, so use continue
                 # intead of break to be safe
@@ -178,6 +178,7 @@ class Generator:
                     _type,
                     value)
         return spec
+
     """
     def populate_parameters(self, function_name):
         
@@ -216,19 +217,19 @@ class Generator:
         i = 0
         dict_obj = my_dictionary()
         for i in range(entries.count('')):
-           entries.remove('')
+            entries.remove('')
         print(entries)
         for parameter in f.__annotations__.items():
             entries1 = re.split(":+", entries[i])
             key1 = parameter[0]
-            print(key1,entries1[2])
+            print(key1, entries1[2])
             dict_obj.add(key1, entries1[2])
             i = i + 1
         # print(dict_obj)
         description = f.__doc__.strip().split("\n")[0]
         version = "1.0"  # TODO:  hard coded for now
         title = f.__name__
-        parameters = self.populate_parameters(f,dict_obj)
+        parameters = self.populate_parameters(f, dict_obj)
         parameters = textwrap.indent(parameters, ' ' * 8)
         responses = self.generate_response('200',
                                            f.__annotations__['return'],
@@ -260,7 +261,7 @@ class Generator:
                 else:
                     version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
             except IOError:
-                #Console.error("Unable to write yaml file")
+                # Console.error("Unable to write yaml file")
                 rc = 1
             except Exception as e:
                 print(e)
@@ -269,22 +270,26 @@ class Generator:
         return rc
 
 
-def LinearRegression(fit_intercept: bool,normalize: bool,copy_X:bool,n_jobs:int) -> int:
-
+def LinearRegression(fit_intercept: bool, normalize: bool, copy_X: bool,
+                     n_jobs: int) -> int:
     """
     Ordinary least squares Linear Regression.
 
-    :param fit_intercept:Whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations
+    :param fit_intercept:Whether to calculate the intercept for this model.
+           If set to False, no intercept will be used in calculations
     :param normalize:This parameter is ignored when fit_intercept is set to False.
     :param copy_X:If True, X will be copied; else, it may be overwritten.
-    :param n_jobs:The number of jobs to use for the computation. -1 means using all processors.
+    :param n_jobs:The number of jobs to use for the computation. -1 means
+           using all processors.
     :param return:self.
 
     """
     pass
 
+
 f = LinearRegression
 openAPI = Generator()
-spec = openAPI.generate_openapi(f,"http://localhost:8000/cloudmesh",
-                                "/Users/jagadeeshk/cm/cloudmesh-openapi/cloudmesh/tests/generator",
-                                "test")
+spec = openAPI.generate_openapi(
+    f, "http://localhost:8000/cloudmesh",
+    "/Users/jagadeeshk/cm/cloudmesh-openapi/cloudmesh/tests/generator",
+    "test")
