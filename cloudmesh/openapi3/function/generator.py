@@ -165,7 +165,7 @@ class Generator:
                     "not yet available, you can read it from docstring")
         return spec
 
-    def generate_openapi(self, f, baseurl, outdir, yaml, write=True):
+    def generate_openapi(self, f, baseurl, outdir, yaml, dataclass_list, write=True):
         """
         function to generate open API of python function.
 
@@ -185,6 +185,11 @@ class Generator:
                                            f.__annotations__['return'],
                                            'OK')
         responses = textwrap.indent(responses, ' ' * 8)
+        
+        schemas = ''
+        # shouldn't do anything if the list is empty
+        for dc in dataclass_list:
+            schemas = schemas + generate_schema(dc)
 
         # TODO: figure out where to define dataclasses and how
         #  best to pass them to generate_schema()
@@ -198,7 +203,7 @@ class Generator:
             responses=responses.strip(),
             baseurl=baseurl,
             filename=filename,
-            schemas=''
+            schemas=schemas
         )
 
         # return code
