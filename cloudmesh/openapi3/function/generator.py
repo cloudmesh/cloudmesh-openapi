@@ -30,10 +30,7 @@ class Generator:
                 {parameters}
               responses:
                 {responses}
-        
-        components:
-          schemas:
-            {schemas}
+        {components}
         """)
 
     def parse_type(self, _type):
@@ -186,10 +183,14 @@ class Generator:
                                            'OK')
         responses = textwrap.indent(responses, ' ' * 8)
         
-        schemas = ''
-        # shouldn't do anything if the list is empty
-        for dc in dataclass_list:
-            schemas = schemas + self.generate_schema(dc)
+        components = ''
+        if len(dataclass_list) > 0:
+            components = textwrap.dedent("""
+              components:
+                schemas:
+                  """)
+            for dc in dataclass_list:
+                schemas = schemas + textwrap.indent(self.generate_schema(dc), ' ' * 6)
 
         # TODO: figure out where to define dataclasses and how
         #  best to pass them to generate_schema()
@@ -203,7 +204,7 @@ class Generator:
             responses=responses.strip(),
             baseurl=baseurl,
             filename=filename,
-            schemas=schemas
+            components=components
         )
 
         # return code
