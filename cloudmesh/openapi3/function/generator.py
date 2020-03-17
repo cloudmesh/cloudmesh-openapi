@@ -189,7 +189,7 @@ class Generator:
         schemas = ''
         # shouldn't do anything if the list is empty
         for dc in dataclass_list:
-            schemas = schemas + generate_schema(dc)
+            schemas = schemas + self.generate_schema(dc)
 
         # TODO: figure out where to define dataclasses and how
         #  best to pass them to generate_schema()
