@@ -31,3 +31,7 @@ paths:
             text/plain:
               schema:
                 type: number
+
+components:
+  schemas:
+    

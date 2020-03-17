@@ -1,0 +1,47 @@
+
+openapi: 3.0.0
+info:
+  title: LinearRegression
+  description: Ordinary least squares Linear Regression.
+  version: "1.0"
+servers:
+  - url: http://localhost/cloudmesh
+    description: TODO THIS MUST BE CHANGEABLE
+paths:
+  /http://localhost:8000/cloudmesh:
+     get:
+      summary: Ordinary least squares Linear Regression.
+      description: Optional extended description in CommonMark or HTML.
+      operationId: /Users/jagadeeshk/cm/cloudmesh-openapi/cloudmesh/openapi3/scikitlearn/generatorsklearnnew.LinearRegression
+      parameters:
+        - in: query
+          name: fit_intercept
+          description: Whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations
+          schema:
+            type: boolean
+        - in: query
+          name: normalize
+          description: This parameter is ignored when fit_intercept is set to False.
+          schema:
+            type: boolean
+        - in: query
+          name: copy_X
+          description: If True, X will be copied; else, it may be overwritten.
+          schema:
+            type: boolean
+        - in: query
+          name: n_jobs
+          description: The number of jobs to use for the computation. -1 means using all processors.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: integer
+
+components:
+  schemas:
+    

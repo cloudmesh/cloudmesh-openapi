@@ -1,8 +1,8 @@
 import textwrap
-from cloudmesh.common.console import Console
+# from cloudmesh.common.console import Console
 from dataclasses import dataclass, is_dataclass
 import textwrap
-import sys, pathlib
+import re
 
 
 # TODO: docstrings comments missing
@@ -10,6 +10,17 @@ import sys, pathlib
 # TODO: why are we not using the latest version of openapi?
 # TODO: why are we not using Inspect code from pyCharm?
 # TODO: why are we not using Code Format from pyCharm?
+class my_dictionary(dict):
+
+    # __init__ function
+    def __init__(self):
+        self = dict()
+
+        # Function to add key:value
+
+    def add(self, key, value):
+        self[key] = value
+
 
 class Generator:
     openAPITemplate = textwrap.dedent("""
@@ -31,7 +42,10 @@ class Generator:
                 {parameters}
               responses:
                 {responses}
-        {components}
+        
+        components:
+          schemas:
+            {schemas}
         """)
 
     def parse_type(self, _type):
@@ -143,7 +157,7 @@ class Generator:
             properties:
               {properties}""")
 
-    def populate_parameters(self, function_name):
+    def populate_parameters(self, function_name, dict_obj):
         """
         Function to loop all the parameters of given function and generate
         specification
@@ -151,6 +165,29 @@ class Generator:
         :param function_name:
         :return:
         """
+        spec = str()
+        for parameter, _type in function_name.__annotations__.items():
+            # for parameter, _type in dict_obj.items():
+            if parameter == 'return':
+                continue  # dicts are unordered, so use continue
+                # intead of break to be safe
+            else:
+                value = dict_obj[parameter]
+                spec = spec + self.generate_parameter(
+                    parameter,
+                    _type,
+                    value)
+        return spec
+
+    """
+    def populate_parameters(self, function_name):
+        
+        Function to loop all the parameters of given function and generate
+        specification
+
+        :param function_name:
+        :return:
+        
         spec = str()
         for parameter, _type in function_name.__annotations__.items():
             if parameter == 'return':
@@ -162,8 +199,9 @@ class Generator:
                     _type,
                     "not yet available, you can read it from docstring")
         return spec
+    """
 
-    def generate_openapi(self, f, baseurl, outdir, yaml, dataclass_list, write=True):
+    def generate_openapi(self, f, baseurl, outdir, yaml, write=True):
         """
         function to generate open API of python function.
 
@@ -174,28 +212,33 @@ class Generator:
         :param write:
         :return:
         """
+        entries = f.__doc__.strip().split("\n")[1:]
+        print((entries))
+        i = 0
+        dict_obj = my_dictionary()
+        for i in range(entries.count('')):
+            entries.remove('')
+        print(entries)
+        for parameter in f.__annotations__.items():
+            entries1 = re.split(":+", entries[i])
+            key1 = parameter[0]
+            print(key1, entries1[2])
+            dict_obj.add(key1, entries1[2])
+            i = i + 1
+        # print(dict_obj)
         description = f.__doc__.strip().split("\n")[0]
         version = "1.0"  # TODO:  hard coded for now
         title = f.__name__
-        parameters = self.populate_parameters(f)
+        parameters = self.populate_parameters(f, dict_obj)
         parameters = textwrap.indent(parameters, ' ' * 8)
         responses = self.generate_response('200',
                                            f.__annotations__['return'],
                                            'OK')
         responses = textwrap.indent(responses, ' ' * 8)
-        
-        components = ''
-        if len(dataclass_list) > 0:
-            components = textwrap.dedent("""
-              components:
-                schemas:
-                  """)
-            for dc in dataclass_list:
-                schemas = schemas + textwrap.indent(self.generate_schema(dc), ' ' * 6)
 
         # TODO: figure out where to define dataclasses and how
         #  best to pass them to generate_schema()
-        filename = pathlib.Path(f.__code__.co_filename).stem
+        filename = f.__code__.co_filename.strip().split("\\")[-1].split(".")[0]
         spec = self.openAPITemplate.format(
             title=title,
             name=f.__name__,
@@ -205,9 +248,12 @@ class Generator:
             responses=responses.strip(),
             baseurl=baseurl,
             filename=filename,
-            components=components
+            schemas=''
         )
 
+        # return code
+        rc = 0
+        open(f"test.yaml", 'w').write(spec)
         if write:
             try:
                 if yaml != "" and yaml is not None:
@@ -215,8 +261,35 @@ class Generator:
                 else:
                     version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
             except IOError:
-                Console.error("Unable to write yaml file")
+                # Console.error("Unable to write yaml file")
+                rc = 1
             except Exception as e:
                 print(e)
+                rc = 1
 
-        return
+        return rc
+
+
+def LinearRegression(fit_intercept: bool, normalize: bool, copy_X: bool,
+                     n_jobs: int) -> int:
+    """
+    Ordinary least squares Linear Regression.
+
+    :param fit_intercept:Whether to calculate the intercept for this model.
+           If set to False, no intercept will be used in calculations
+    :param normalize:This parameter is ignored when fit_intercept is set to False.
+    :param copy_X:If True, X will be copied; else, it may be overwritten.
+    :param n_jobs:The number of jobs to use for the computation. -1 means
+           using all processors.
+    :param return:self.
+
+    """
+    pass
+
+
+f = LinearRegression
+openAPI = Generator()
+spec = openAPI.generate_openapi(
+    f, "http://localhost:8000/cloudmesh",
+    "/Users/jagadeeshk/cm/cloudmesh-openapi/cloudmesh/tests/generator",
+    "test")
