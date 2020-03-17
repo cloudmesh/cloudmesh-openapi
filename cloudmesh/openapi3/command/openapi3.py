@@ -11,10 +11,12 @@ from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
 from cloudmesh.openapi3.registry.Registry import Registry
 from cloudmesh.common.Printer import Printer
+from dataclasses import is_dataclass
 
 # start-stop: osx Andrew
 # start_stop: windows Jonathan
 # start-stop: linux Prateek
+
 
 class Openapi3Command(PluginCommand):
 
@@ -106,6 +108,13 @@ class Openapi3Command(PluginCommand):
                 func_obj = getattr(imported_module, function)
 
                 setattr(sys.modules[module_name], function, func_obj)
+                
+                # get dataclasses defined in module
+                dataclass_list=[]
+                for attr_name in dir(imported_module):
+                    attr = getattr(module, attr_name)
+                    if is_dataclass(attr):
+                        dataclass_list.append(attr)                        
 
                 openAPI = generator.Generator()
 
@@ -117,7 +126,7 @@ class Openapi3Command(PluginCommand):
                     baseurl_short = baseurl.split("/")[-1]
                 openAPI.generate_openapi(func_obj,
                                               baseurl_short,
-                                              yamldirectory, yamlfile)
+                                              yamldirectory, yamlfile, dataclass_list)
             except Exception as e:
                 Console.error("Failed to generate openapi yaml")
                 print(e)

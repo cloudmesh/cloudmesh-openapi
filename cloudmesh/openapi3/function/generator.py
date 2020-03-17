@@ -31,10 +31,7 @@ class Generator:
                 {parameters}
               responses:
                 {responses}
-        
-        components:
-          schemas:
-            {schemas}
+        {components}
         """)
 
     def parse_type(self, _type):
@@ -166,7 +163,7 @@ class Generator:
                     "not yet available, you can read it from docstring")
         return spec
 
-    def generate_openapi(self, f, baseurl, outdir, yaml, write=True):
+    def generate_openapi(self, f, baseurl, outdir, yaml, dataclass_list, write=True):
         """
         function to generate open API of python function.
 
@@ -186,6 +183,15 @@ class Generator:
                                            f.__annotations__['return'],
                                            'OK')
         responses = textwrap.indent(responses, ' ' * 8)
+        
+        components = ''
+        if len(dataclass_list) > 0:
+            components = textwrap.dedent("""
+              components:
+                schemas:
+                  """)
+            for dc in dataclass_list:
+                schemas = schemas + textwrap.indent(self.generate_schema(dc), ' ' * 6)
 
         # TODO: figure out where to define dataclasses and how
         #  best to pass them to generate_schema()
@@ -199,7 +205,7 @@ class Generator:
             responses=responses.strip(),
             baseurl=baseurl,
             filename=filename,
-            schemas=''
+            components=components
         )
 
         if write:
