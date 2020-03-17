@@ -12,6 +12,9 @@ from cloudmesh.shell.command import command, map_parameters
 from cloudmesh.openapi3.registry.Registry import Registry
 from cloudmesh.common.Printer import Printer
 
+# start-stop: osx Andrew
+# start_stop: windows Jonathan
+# start-stop: linux Prateek
 
 class Openapi3Command(PluginCommand):
 
@@ -122,13 +125,14 @@ class Openapi3Command(PluginCommand):
         elif arguments.server and arguments.ostart:
 
             try:
-                s = ServerOld(
+                s = Server(
                     spec=arguments.YAML,
                     directory=path_expand(arguments.directory),
                     port=arguments.port,
                     server=arguments.wsgi,
                     debug=arguments.debug,
-                    name=arguments.NAME)
+                    name=arguments.NAME,
+                    oscall=True)
 
                 pid = s._run()
 
