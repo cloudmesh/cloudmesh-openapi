@@ -1,7 +1,7 @@
 ###############################################################
-# pytest -v --capture=no tests/test_generator_cms.py
-# pytest -v  tests/test_generator_cms.py
-# pytest -v --capture=no  tests/test_generator_cms..py::Test_generator_cms::<METHODNAME>
+# pytest -v --capture=no tests/test_generator_cms_cpu.py
+# pytest -v  tests/test_generator_cms_cpu.py
+# pytest -v --capture=no  tests/test_generator_cms_cpu..py::Test_generator_cms_cpu::<METHODNAME>
 ###############################################################
 import pytest
 from cloudmesh.common.Shell import Shell
@@ -15,7 +15,7 @@ cloud = "local"
 
 
 @pytest.mark.incremental
-class TestGeneratorCms:
+class TestGeneratorCmsCpu:
 
     def test_start(self):
         HEADING()
