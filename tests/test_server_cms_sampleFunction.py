@@ -1,7 +1,7 @@
 ###############################################################
-# pytest -v --capture=no tests/test_server_cms_sampleFunction.py
-# pytest -v  tests/test_server_cms_sampleFunction.py
-# pytest -v --capture=no  tests/test_server_cms_sampleFunction..py::Test_server_cms_sampleFunction::<METHODNAME>
+# pytest -v --capture=no tests/test_server_cms_cpu.py
+# pytest -v  tests/test_server_cms_cpu.py
+# pytest -v --capture=no  tests/test_server_cms_cpu..py::Test_server_sampleFunction::<METHODNAME>
 ###############################################################
 import pytest
 from cloudmesh.common.Shell import Shell
@@ -13,15 +13,16 @@ Benchmark.debug()
 
 cloud = "local"
 
+name = "sampleFunction"
 
 @pytest.mark.incremental
-class TestServerCmsSampleFunction:
+class TestServerSampleFunction:
 
     def test_start(self):
         HEADING()
 
         Benchmark.Start()
-        result = Shell.execute("cms openapi3 server start ./tests/sampleFunction.yaml", shell=True)
+        result = Shell.execute(f"cms openapi3 server start ./tests/{name}.yaml", shell=True)
         Benchmark.Stop()
         VERBOSE(result)
 
@@ -31,7 +32,7 @@ class TestServerCmsSampleFunction:
         HEADING()
 
         Benchmark.Start()
-        result = Shell.execute("cms openapi3 server stop sampleFunction", shell=True)
+        result = Shell.execute(f"cms openapi3 server stop {name}", shell=True)
         Benchmark.Stop()
         VERBOSE(result)
 
