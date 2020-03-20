@@ -159,11 +159,9 @@ class Openapi3Command(PluginCommand):
 
                 print(f"Run PID: {pid}")
 
-
             except FileNotFoundError:
 
                 Console.error("specification file not found")
-
 
             except Exception as e:
 
@@ -196,7 +194,6 @@ class Openapi3Command(PluginCommand):
                 Server.stop(self, name=arguments.NAME)
             except ConnectionError:
                 Console.Error("Server not running")
-
 
         elif arguments.register and arguments.add:
 
