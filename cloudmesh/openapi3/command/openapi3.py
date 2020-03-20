@@ -119,6 +119,9 @@ class Openapi3Command(PluginCommand):
 
                 openAPI = generator.Generator()
 
+                # BUG: this is windows specific and must be done differently
+                # check if os.path.dirname, os.path.basename does this
+
                 if sys.platform == 'win32':
                     baseurl_short = baseurl.split("\\")[-1]
                 else:
