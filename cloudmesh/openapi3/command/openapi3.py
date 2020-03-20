@@ -170,7 +170,12 @@ class Openapi3Command(PluginCommand):
         elif arguments.server and arguments.list:
 
             try:
-                Server.list(self, name=arguments.NAME)
+                result = Server.list(self, name=arguments.NAME)
+
+                # BUG: order= nt yet defined
+
+                print(Printer.list(result))
+
             except ConnectionError:
                 Console.error("Server not running")
 
