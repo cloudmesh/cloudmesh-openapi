@@ -169,6 +169,19 @@ class Server(object):
         return pids
 
     @staticmethod
+    def list(name=None):
+        """
+        Lists the servises registered
+
+        :param name:
+        :return:
+        """
+        registry = Registry()
+        result = registry.list(name)
+
+        return result
+
+    @staticmethod
     def stop(name=None):
         Console.ok(f"shutting down server {name}")
 
