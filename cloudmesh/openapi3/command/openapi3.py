@@ -172,7 +172,7 @@ class Openapi3Command(PluginCommand):
             try:
                 Server.list(self, name=arguments.NAME)
             except ConnectionError:
-                Console.Error("Server not running")
+                Console.error("Server not running")
 
         elif arguments.server and arguments.ps:
 
@@ -186,14 +186,14 @@ class Openapi3Command(PluginCommand):
 
                 print()
             except ConnectionError:
-                Console.Error("Server not running")
+                Console.error("Server not running")
 
         elif arguments.server and arguments.stop and arguments.os:
 
             try:
                 Server.stop(self, name=arguments.NAME)
             except ConnectionError:
-                Console.Error("Server not running")
+                Console.error("Server not running")
 
         elif arguments.register and arguments.add:
 
@@ -264,7 +264,7 @@ class Openapi3Command(PluginCommand):
 
                 print()
             except ConnectionError:
-                Console.Error("Server not running")
+                Console.error("Server not running")
 
         '''
 
