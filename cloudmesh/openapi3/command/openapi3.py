@@ -112,16 +112,16 @@ class Openapi3Command(PluginCommand):
                 func_obj = getattr(imported_module, function)
 
                 setattr(sys.modules[module_name], function, func_obj)
-                
+
                 # get dataclasses defined in module
-                dataclass_list=[]
+                dataclass_list = []
                 for attr_name in dir(imported_module):
                     #
                     # BUG: module is highloghted in pycharm
                     #
                     attr = getattr(module, attr_name)
                     if is_dataclass(attr):
-                        dataclass_list.append(attr)                        
+                        dataclass_list.append(attr)
 
                 openAPI = generator.Generator()
 
@@ -133,8 +133,9 @@ class Openapi3Command(PluginCommand):
                 else:
                     baseurl_short = baseurl.split("/")[-1]
                 openAPI.generate_openapi(func_obj,
-                                              baseurl_short,
-                                              yamldirectory, yamlfile, dataclass_list)
+                                         baseurl_short,
+                                         yamldirectory, yamlfile,
+                                         dataclass_list)
             except Exception as e:
                 Console.error("Failed to generate openapi yaml")
                 print(e)
@@ -144,7 +145,8 @@ class Openapi3Command(PluginCommand):
             try:
                 s = Server(
                     spec=path_expand(arguments.YAML),
-                    directory=path_expand(arguments.directory) if arguments.directory else arguments.directory,
+                    directory=path_expand(
+                        arguments.directory) if arguments.directory else arguments.directory,
                     port=arguments.port,
                     server=arguments.wsgi,
                     debug=arguments.debug,
@@ -179,7 +181,7 @@ class Openapi3Command(PluginCommand):
             try:
                 print()
                 Console.info("Running Cloudmesh OpenAPI Servers")
-                print ()
+                print()
                 result = Server.ps(name=arguments.NAME)
 
                 print(Printer.list(result, order=["name", "pid", "spec"]))
@@ -199,7 +201,8 @@ class Openapi3Command(PluginCommand):
         elif arguments.register and arguments.add:
 
             registry = Registry()
-            result = registry.add(name=arguments.NAME, url=arguments.BASEURL, pid=arguments.PID)
+            result = registry.add(name=arguments.NAME, url=arguments.BASEURL,
+                                  pid=arguments.PID)
 
             registry.Print(data=result, output=arguments.output)
 
@@ -244,8 +247,7 @@ class Openapi3Command(PluginCommand):
                               spec=path_expand(arguments.YAML),
                               foreground=arguments.fg)
 
-
-                print (f"Run PID: {pid}")
+                print(f"Run PID: {pid}")
 
             except FileNotFoundError:
 
@@ -259,14 +261,13 @@ class Openapi3Command(PluginCommand):
             try:
                 print()
                 Console.info("Stopping Cloudmesh OpenAPI Server")
-                print ()
+                print()
 
                 Server.stop(name=arguments.NAME)
 
                 print()
             except ConnectionError:
                 Console.Error("Server not running")
-
 
         '''
 
