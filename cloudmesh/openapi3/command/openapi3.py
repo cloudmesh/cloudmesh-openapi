@@ -78,6 +78,7 @@ class Openapi3Command(PluginCommand):
 
         map_parameters(arguments,
                        'fg',
+                       'os',
                        'output',
                        'verbose',
                        'port',
@@ -118,8 +119,6 @@ class Openapi3Command(PluginCommand):
 
                 openAPI = generator.Generator()
 
-                # BUG: theis is windows specific and must be done differently
-
                 if sys.platform == 'win32':
                     baseurl_short = baseurl.split("\\")[-1]
                 else:
@@ -131,22 +130,23 @@ class Openapi3Command(PluginCommand):
                 Console.error("Failed to generate openapi yaml")
                 print(e)
 
-        elif arguments.server and arguments.ostart:
+        elif arguments.server and arguments.start and arguments.os:
 
             try:
                 s = Server(
-                    spec=arguments.YAML,
-                    directory=path_expand(arguments.directory),
+                    spec=path_expand(arguments.YAML),
+                    directory=path_expand(arguments.directory) if arguments.directory else arguments.directory,
                     port=arguments.port,
                     server=arguments.wsgi,
                     debug=arguments.debug,
-                    name=arguments.NAME,
-                    oscall=True)
+                    name=arguments.NAME
+                )
 
-                pid = s._run()
-
+                pid = s.run_os()
 
                 VERBOSE(arguments, label="Server parameters")
+
+                print(f"Run PID: {pid}")
 
 
             except FileNotFoundError:
@@ -179,7 +179,7 @@ class Openapi3Command(PluginCommand):
             except ConnectionError:
                 Console.Error("Server not running")
 
-        elif arguments.server and arguments.ostop:
+        elif arguments.server and arguments.stop and arguments.os:
 
             try:
                 Server.stop(self, name=arguments.NAME)
@@ -230,9 +230,9 @@ class Openapi3Command(PluginCommand):
                     server=arguments.wsgi,
                     debug=arguments.debug)
 
-                #pid = s._run()
+                print("spec: ", path_expand(arguments.YAML))
                 pid = s.start(name=arguments.NAME,
-                              spec=arguments.YAML,
+                              spec=path_expand(arguments.YAML),
                               foreground=arguments.fg)
 
 
