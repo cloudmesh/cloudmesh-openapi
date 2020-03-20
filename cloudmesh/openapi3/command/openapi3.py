@@ -113,6 +113,9 @@ class Openapi3Command(PluginCommand):
                 # get dataclasses defined in module
                 dataclass_list=[]
                 for attr_name in dir(imported_module):
+                    #
+                    # BUG: module is highloghted in pycharm
+                    #
                     attr = getattr(module, attr_name)
                     if is_dataclass(attr):
                         dataclass_list.append(attr)                        
