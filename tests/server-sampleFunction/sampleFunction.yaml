@@ -4,7 +4,7 @@ info:
   description: Multiply int and float sample.
   version: "1.0"
 servers:
-  - url: http://localhost/cloudmesh
+  - url: http://localhost:8080/cloudmesh
     description: Optional server description, e.g. Main (production) server
 paths:
   /tests/generator/:

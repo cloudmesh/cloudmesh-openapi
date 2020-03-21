@@ -22,6 +22,9 @@ from cloudmesh.openapi3.registry.Registry import Registry
 # sys.path.append("cloudmesh/openapi3/function")
 #
 
+py_path = "./server-sampleFunction/samplefunction_server.py"
+yaml_path = "./server-sampleFunction/sampleFunction.yaml"
+
 #
 # get the spec for the tests
 #
