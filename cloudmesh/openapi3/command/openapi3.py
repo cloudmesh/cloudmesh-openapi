@@ -119,7 +119,7 @@ class Openapi3Command(PluginCommand):
                     #
                     # BUG: module is highloghted in pycharm
                     #
-                    attr = getattr(module, attr_name)
+                    attr = getattr(imported_module, attr_name)
                     if is_dataclass(attr):
                         dataclass_list.append(attr)
 
