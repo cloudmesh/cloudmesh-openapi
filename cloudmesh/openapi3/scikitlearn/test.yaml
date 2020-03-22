@@ -12,16 +12,16 @@ paths:
      get:
       summary: Ordinary least squares Linear Regression.
       description: Optional extended description in CommonMark or HTML.
-      operationId: /Users/jagadeeshk/cm/cloudmesh-openapi/cloudmesh/openapi3/scikitlearn/generatorsklearnnew.LinearRegression
+      operationId: <module 'sklearn.linear_model' from '/Users/jagadeeshk/ENV3/lib/python3.8/site-packages/sklearn/linear_model/__init__.py'>.LinearRegression
       parameters:
         - in: query
           name: fit_intercept
-          description: Whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations
+          description: Whether to calculate the intercept for this model. If setto False, no intercept will be used in calculations(i.e. data is expected to be centered).
           schema:
             type: boolean
         - in: query
           name: normalize
-          description: This parameter is ignored when fit_intercept is set to False.
+          description: This parameter is ignored when ``fit_intercept`` is set to False.If True, the regressors X will be normalized before regression bysubtracting the mean and dividing by the l2-norm.If you wish to standardize, please use:class:`sklearn.preprocessing.StandardScaler` before calling ``fit`` onan estimator with ``normalize=False``.
           schema:
             type: boolean
         - in: query
@@ -31,7 +31,7 @@ paths:
             type: boolean
         - in: query
           name: n_jobs
-          description: The number of jobs to use for the computation. -1 means using all processors.
+          description: The number of jobs to use for the computation. This will only providespeedup for n_targets > 1 and sufficient large problems.``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.``-1`` means using all processors. See :term:`Glossary <n_jobs>`for more details.
           schema:
             type: integer
       responses:
@@ -40,7 +40,7 @@ paths:
           content:
             text/plain:
               schema:
-                type: integer
+                type: self
 
 components:
   schemas:
