@@ -279,7 +279,7 @@ class Generator:
 
         return paras_desc
 
-    def generate_openapi(self, f, baseurl, outdir, yaml, write=True):
+    def generate_openapi(self, module, function, baseurl, outdir, yaml, write=True):
         """
         function to generate open API of python function.
 
@@ -303,16 +303,17 @@ class Generator:
             'dictionary': 'dictionary',
             'self': 'self'
         }
-        module = sklearn.linear_model
-        class_name = 'LinearRegression'
+        module = module
+        class_name = function
         class_obj = getattr(module, class_name)
+        print(class_obj)
         doc = inspect.getdoc(class_obj)
         paras_dict,returnparam = self.get_parameters(doc, type_table)
         paras_desc = self.get_docstrings(doc)
-        description = f.__doc__.strip().split("\n")[0]
+        description = class_obj.__doc__.strip().split("\n")[0]
         version = "1.0"  # TODO:  hard coded for now
-        title = f.__name__
-        parameters = self.populate_parameters(f, paras_dict, paras_desc)
+        title = class_obj.__name__
+        parameters = self.populate_parameters(function, paras_dict, paras_desc)
         parameters = textwrap.indent(parameters, ' ' * 8)
         responses = self.generate_response('200',
                                            returnparam['self'],
@@ -324,7 +325,7 @@ class Generator:
         filename = module
         spec = self.openAPITemplate.format(
             title=title,
-            name=f.__name__,
+            name=class_obj.__name__,
             description=description,
             version=version,
             parameters=parameters.strip(),
@@ -352,9 +353,9 @@ class Generator:
 
         return rc
 
-
-f = LinearRegression.fit
+module = sklearn.linear_model.LinearRegression
+function = 'fit'
 openAPI = Generator()
-spec = openAPI.generate_openapi(f, "http://localhost:8000/cloudmesh",
+spec = openAPI.generate_openapi(module,function,"http://localhost:8000/cloudmesh",
                                 "/Users/jagadeeshk/cm/cloudmesh-openapi/cloudmesh/tests/generator",
                                 "test")
