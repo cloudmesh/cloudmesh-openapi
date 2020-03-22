@@ -32,6 +32,3 @@ paths:
               schema:
                 type: number
 
-components:
-  schemas:
-    

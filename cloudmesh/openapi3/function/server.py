@@ -14,6 +14,9 @@ from cloudmesh.common.util import path_expand
 from cloudmesh.openapi3.registry.Registry import Registry
 
 
+import multiprocessing as mp
+
+
 def daemon(func):
     def wrapper(*args, **kwargs):
         pid = os.fork()
@@ -26,6 +29,7 @@ def daemon(func):
 
         os._exit(os.EX_OK)
     return wrapper
+
 
 def dynamic_import(abs_module_path, class_name):
     module_object = import_module(abs_module_path)
@@ -109,8 +113,6 @@ class Server(object):
                     debug=self.debug,
                     server=self.server)
 
-
-
     def start(self, name=None, spec=None, foreground=False):
         if foreground:
             self._run_app()
@@ -167,18 +169,39 @@ class Server(object):
         return pids
 
     @staticmethod
+    def list(name=None):
+        """
+        Lists the servises registered
+
+        :param name:
+        :return:
+        """
+        registry = Registry()
+        result = registry.list(name)
+
+        return result
+
+    @staticmethod
     def stop(name=None):
         Console.ok(f"shutting down server {name}")
 
         registry = Registry()
+        pid = None
 
-        result = Server.ps(name=None)
+        if sys.platform == 'win32':
+            entries = registry.list(name=name)
+            if len(entries) > 1:
+                Console.error(f"Aborting, returned more than one entry from the Registry with the name {name}")
+                raise Exception
+            pid = str(entries[0]['pid'])
+        else:
+            result = Server.ps(name=None)
+            pid = result[0]["pid"]
 
         try:
-            pid = result[0]["pid"]
             if len(pid) > 0:
-                print ("Killing:", pid)
-                Shell.kill(pid)
+                print("Killing:", pid)
+                Shell.kill_pid(pid)
                 registry.delete(name=name)
             else:
                 print()
@@ -188,10 +211,10 @@ class Server(object):
             Console.error(
                 f"No Cloudmesh OpenAPI Server found with the name {name}")
 
-    def _run_os(self):
+    def run_os(self):
         Console.ok("starting server")
 
-        # If windows convert backslashes to forward slashes to be python compatible
+        # For windows convert backslashes to forward slashes to be python compatible
         if sys.platform == 'win32':
             self.spec = "/".join(self.spec.replace('C:', '').split('\\'))
             self.directory = "/".join(self.directory.replace('C:', '').split('\\'))
@@ -212,7 +235,7 @@ class Server(object):
                     app.run(host='{self.host}',
                             port={self.port},
                             debug={self.debug},
-                            server={self.server})
+                            server='{self.server}')
             ''')
 
         VERBOSE("server script: ", f"{self.directory}/{self.name}_server.py")
@@ -228,23 +251,47 @@ class Server(object):
 
         # Run python flask script in background
         try:
-            # TODO: need to write log somewhere else or use a logger to write to common log
-
+            # TODO: need to write log somewhere else or use a logger to write to common log.  Tried devnull and that does not work.
             logname = f"{self.directory}/{self.name}_server.{today_dt}.log"
 
             f = open(logname, "w")
+            #f = open(os.devnull, "w")
             process = subprocess.Popen([sys.executable,
                                         f"{self.directory}/{self.name}_server.py"],
                                        stdout=f,
-                                       stderr=f,
-                                       shell=False);
+                                       stderr=subprocess.STDOUT,
+                                       shell=False)
 
-            # Write PID file
-            pidfile = open(f"{self.directory}/{self.name}_server.pid", 'w')
-            pidfile.write(str(process.pid))
+            pid = process.pid
+
         except Exception as e:
             Console.error("Unable to start server")
             print(e)
 
+        with open(self.spec, "r") as stream:
+            try:
+                details = yaml.safe_load(stream)
+            except yaml.YAMLError as e:
+                print(e)
+                assert False, "Yaml file has syntax error"
 
+        url = details["servers"][0]["url"]
 
+        print()
+        print("   Starting:", self.name)
+        print("   PID:     ", pid)
+        print("   Spec:    ", self.spec)
+        print("   URL:     ", url)
+        print()
+
+        registry = Registry()
+        registry.add_form_file(details,
+                               pid=pid,
+                               spec=self.spec,
+                               directory=self.directory,
+                               port=self.port,
+                               host=self.host,
+                               url=url
+                               )
+
+        return pid

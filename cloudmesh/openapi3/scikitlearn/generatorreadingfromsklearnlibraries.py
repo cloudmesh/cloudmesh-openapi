@@ -3,69 +3,24 @@ import textwrap
 from dataclasses import dataclass, is_dataclass
 import textwrap
 import re
-import array as arr
-from inspect import signature
-import inspect
-from sklearn.linear_model import Ridge
-from sklearn.linear_model import LinearRegression
-import sklearn.linear_model
-from numpydoc import docscrape
 
 
+# TODO: docstrings comments missing
+# TODO: description missing
+# TODO: why are we not using the latest version of openapi?
+# TODO: why are we not using Inspect code from pyCharm?
+# TODO: why are we not using Code Format from pyCharm?
+class my_dictionary(dict):
 
-class TypeScraper:
-    """Scrape types from a string.
-        Using  the regular expression to match the keywords that imply the
-        types.
+    # __init__ function
+    def __init__(self):
+        self = dict()
 
-        A type table for matching the types from the string is required
+        # Function to add key:value
 
-        Examples:
-            'boolean, optional, default True' = bool
-            'int or None, optional (default=None)' = int
-            'array-like or sparse matrix, shape (n_samples, n_features)' = list
-            'numpy array of shape [n_samples]' 'boolean, optional' = list
- """
+    def add(self, key, value):
+        self[key] = value
 
-    def __init__(self, type_table):
-        """The Constructor function
-
-            Parameters:
-                type_table: A dictionary indicates the matching rules
-        """
-        self.type_table = type_table
-
-    def scrap(self, literal_type):
-        """Match types from the string
-
-            Parameters:
-                literal_type: A string that defines a type
-        """
-
-        res = set()
-
-        # Traverse all known mappings to check which key of the table
-        # matches the string
-        for table_key in self.type_table.keys():
-            #print('literal_type:',literal_type)
-            if re.search(table_key, literal_type, re.IGNORECASE):
-                res.add(self.type_table[table_key])
-        #if re.search('default', literal_type, re.IGNORECASE):
-
-        if literal_type[0] == '{':
-            table_key = 'string'
-            res.add(self.type_table[table_key])
-        if literal_type[:4] == 'dict':
-            table_key = 'dictionary'
-            res.add(self.type_table[table_key])
-
-        # For testing purpose, if more than one is machted, it should report
-        # error
-        if len(res) == 1:
-            return res.pop()
-        else:
-            reslist = list(res)
-            return reslist[0]
 
 class Generator:
     openAPITemplate = textwrap.dedent("""
@@ -101,13 +56,12 @@ class Generator:
         :return:
         """
         parser = {
-            'integer': 'type: integer',
-            'boolean': 'type: boolean',
-            'number': 'type: number',
-            'array': 'type: array',
-            'string': 'type: string',
-            'dictionary': 'type: dictionary',
-            'self': 'type: self'
+            int: 'type: integer',
+            bool: 'type: boolean',
+            float: 'type: number',
+            str: 'type: string',
+            list: 'type: array\nitems: {}',
+            dict: 'type: object\nadditionalProperties: true'
         }
         if is_dataclass(_type):
             return f'$ref: "#/components/schemas/{_type.__name__}'
@@ -203,7 +157,7 @@ class Generator:
             properties:
               {properties}""")
 
-    def populate_parameters(self,f,paras_dict,paras_desc):
+    def populate_parameters(self, function_name,dict_obj):
         """
         Function to loop all the parameters of given function and generate
         specification
@@ -212,72 +166,39 @@ class Generator:
         :return:
         """
         spec = str()
-        for parameter_dict, _type in paras_dict.items():
-             for parameter_desc, desc in paras_desc.items():
-                if parameter_dict == 'return':
-                    continue  # dicts are unordered, so use continue
-                    # intead of break to be safe
-                else:
-                    if parameter_dict == parameter_desc:
-                        spec = spec + self.generate_parameter(
-                            parameter_dict,
-                            _type,
-                            desc)
+        for parameter, _type in function_name.__annotations__.items():
+        #for parameter, _type in dict_obj.items():
+            if parameter == 'return':
+                continue  # dicts are unordered, so use continue
+                # intead of break to be safe
+            else:
+                value = dict_obj[parameter]
+                spec = spec + self.generate_parameter(
+                    parameter,
+                    _type,
+                    value)
         return spec
+    """
+    def populate_parameters(self, function_name):
+        
+        Function to loop all the parameters of given function and generate
+        specification
 
-    def is_valid_para(self, para_type, type_table):
-        """Check if it is a valid parameter type contained in the type table.
-        """
-        # The values of the table contain all known destination types
-        if para_type in type_table.values():
-            return True
-        return True
-
-    def get_parameters(self, doc, type_table):
-        """Get parameters from the doc of a class, function, or property object.
-
-        Given the sklean docstring follows the numpy conventions, this function
-        use the numpy docstring parser to read the doc of sklean.
-        """
-        scraper = TypeScraper(type_table=type_table)
-        r = docscrape.NumpyDocString(doc)
-
-        paras = {}
-        returnparam = {}
-
-        for p in r['Parameters']:
-            para_str = str(p.type)
-            para_type = scraper.scrap(para_str)
-            if self.is_valid_para(para_type, type_table):
-                paras[p.name] = para_type
+        :param function_name:
+        :return:
+        
+        spec = str()
+        for parameter, _type in function_name.__annotations__.items():
+            if parameter == 'return':
+                continue  # dicts are unordered, so use continue
+                # intead of break to be safe
             else:
-                continue
-        for p in r['Returns']:
-            para_str = str(p.type)
-            para_type = scraper.scrap(para_str)
-            if self.is_valid_para(para_type, type_table):
-                returnparam[p.name] = para_type
-            else:
-                continue
-        if returnparam == {}:
-            returnparam['self'] = 'self'
-
-        return paras,returnparam
-    def get_docstrings(self, doc):
-        """Get descriptions  from the doc of a class, function, or property object.
-
-        Given the sklean docstring follows the numpy conventions, this function
-        use the numpy docstring parser to read the doc of sklean.
-        """
-        r = docscrape.NumpyDocString(doc)
-        paras_desc = {}
-        for p in r['Parameters']:
-            para_name = str(p.name)
-            para_desc = ''.join(p.desc)
-            paras_desc[para_name] = para_desc
-
-
-        return paras_desc
+                spec = spec + self.generate_parameter(
+                    parameter,
+                    _type,
+                    "not yet available, you can read it from docstring")
+        return spec
+    """
 
     def generate_openapi(self, f, baseurl, outdir, yaml, write=True):
         """
@@ -289,41 +210,34 @@ class Generator:
         :param yaml:
         :param write:
         :return:
-
         """
-        type_table = {
-            'matrix': 'array',
-            'array': 'array',
-            'array-like': 'array',
-            'numpy array': 'array',
-            'bool': 'boolean',
-            'int': 'integer',
-            'float': 'number',
-            'string': 'string',
-            'dictionary': 'dictionary',
-            'self': 'self'
-
-        }
-        module = sklearn.linear_model
-        class_name = 'LinearRegression'
-        class_obj = getattr(module, class_name)
-        doc = inspect.getdoc(class_obj)
-        paras_dict,returnparam = self.get_parameters(doc, type_table)
-        paras_desc = self.get_docstrings(doc)
+        entries = f.__doc__.strip().split("\n")[1:]
+        print((entries))
+        i = 0
+        dict_obj = my_dictionary()
+        for i in range(entries.count('')):
+           entries.remove('')
+        print(entries)
+        for parameter in f.__annotations__.items():
+            entries1 = re.split(":+", entries[i])
+            key1 = parameter[0]
+            print(key1,entries1[2])
+            dict_obj.add(key1, entries1[2])
+            i = i + 1
+        # print(dict_obj)
         description = f.__doc__.strip().split("\n")[0]
         version = "1.0"  # TODO:  hard coded for now
         title = f.__name__
-        parameters = self.populate_parameters(f,paras_dict,paras_desc)
+        parameters = self.populate_parameters(f,dict_obj)
         parameters = textwrap.indent(parameters, ' ' * 8)
         responses = self.generate_response('200',
-                                           returnparam['self'],
+                                           f.__annotations__['return'],
                                            'OK')
         responses = textwrap.indent(responses, ' ' * 8)
 
         # TODO: figure out where to define dataclasses and how
         #  best to pass them to generate_schema()
-        #filename = f.__code__.co_filename.strip().split("\\")[-1].split(".")[0]
-        filename = module
+        filename = f.__code__.co_filename.strip().split("\\")[-1].split(".")[0]
         spec = self.openAPITemplate.format(
             title=title,
             name=f.__name__,
@@ -354,10 +268,23 @@ class Generator:
 
         return rc
 
+
+def LinearRegression(fit_intercept: bool,normalize: bool,copy_X:bool,n_jobs:int) -> int:
+
+    """
+    Ordinary least squares Linear Regression.
+
+    :param fit_intercept:Whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations
+    :param normalize:This parameter is ignored when fit_intercept is set to False.
+    :param copy_X:If True, X will be copied; else, it may be overwritten.
+    :param n_jobs:The number of jobs to use for the computation. -1 means using all processors.
+    :param return:self.
+
+    """
+    pass
+
 f = LinearRegression
 openAPI = Generator()
 spec = openAPI.generate_openapi(f,"http://localhost:8000/cloudmesh",
                                 "/Users/jagadeeshk/cm/cloudmesh-openapi/cloudmesh/tests/generator",
                                 "test")
-
-

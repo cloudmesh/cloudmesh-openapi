@@ -1,16 +1,24 @@
 from __future__ import print_function
 
+import pathlib
+import sys
+from dataclasses import is_dataclass
+from importlib import import_module
+
+from cloudmesh.common.Printer import Printer
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import path_expand
 from cloudmesh.openapi3.function import generator
-import sys, pathlib
-from importlib import import_module
 from cloudmesh.openapi3.function.server import Server
+from cloudmesh.openapi3.registry.Registry import Registry
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
-from cloudmesh.openapi3.registry.Registry import Registry
-from cloudmesh.common.Printer import Printer
+
+
+# start-stop: osx Andrew
+# start_stop: windows Jonathan
+# start-stop: linux Prateek
 
 
 class Openapi3Command(PluginCommand):
@@ -73,6 +81,7 @@ class Openapi3Command(PluginCommand):
 
         map_parameters(arguments,
                        'fg',
+                       'os',
                        'output',
                        'verbose',
                        'port',
@@ -104,42 +113,55 @@ class Openapi3Command(PluginCommand):
 
                 setattr(sys.modules[module_name], function, func_obj)
 
+                # get dataclasses defined in module
+                dataclass_list = []
+                for attr_name in dir(imported_module):
+                    #
+                    # BUG: module is highloghted in pycharm
+                    #
+                    attr = getattr(imported_module, attr_name)
+                    if is_dataclass(attr):
+                        dataclass_list.append(attr)
+
                 openAPI = generator.Generator()
 
-                # BUG: theis is windows specific and must be done differently
+                # BUG: this is windows specific and must be done differently
+                # check if os.path.dirname, os.path.basename does this
 
                 if sys.platform == 'win32':
                     baseurl_short = baseurl.split("\\")[-1]
                 else:
                     baseurl_short = baseurl.split("/")[-1]
                 openAPI.generate_openapi(func_obj,
-                                              baseurl_short,
-                                              yamldirectory, yamlfile)
+                                         baseurl_short,
+                                         yamldirectory, yamlfile,
+                                         dataclass_list)
             except Exception as e:
                 Console.error("Failed to generate openapi yaml")
                 print(e)
 
-        elif arguments.server and arguments.ostart:
+        elif arguments.server and arguments.start and arguments.os:
 
             try:
-                s = ServerOld(
-                    spec=arguments.YAML,
-                    directory=path_expand(arguments.directory),
+                s = Server(
+                    spec=path_expand(arguments.YAML),
+                    directory=path_expand(
+                        arguments.directory) if arguments.directory else arguments.directory,
                     port=arguments.port,
                     server=arguments.wsgi,
                     debug=arguments.debug,
-                    name=arguments.NAME)
+                    name=arguments.NAME
+                )
 
-                pid = s._run()
-
+                pid = s.run_os()
 
                 VERBOSE(arguments, label="Server parameters")
 
+                print(f"Run PID: {pid}")
 
             except FileNotFoundError:
 
                 Console.error("specification file not found")
-
 
             except Exception as e:
 
@@ -148,36 +170,41 @@ class Openapi3Command(PluginCommand):
         elif arguments.server and arguments.list:
 
             try:
-                Server.list(self, name=arguments.NAME)
+                result = Server.list(self, name=arguments.NAME)
+
+                # BUG: order= nt yet defined
+
+                print(Printer.list(result))
+
             except ConnectionError:
-                Console.Error("Server not running")
+                Console.error("Server not running")
 
         elif arguments.server and arguments.ps:
 
             try:
                 print()
                 Console.info("Running Cloudmesh OpenAPI Servers")
-                print ()
+                print()
                 result = Server.ps(name=arguments.NAME)
 
                 print(Printer.list(result, order=["name", "pid", "spec"]))
 
                 print()
             except ConnectionError:
-                Console.Error("Server not running")
+                Console.error("Server not running")
 
-        elif arguments.server and arguments.ostop:
+        elif arguments.server and arguments.stop and arguments.os:
 
             try:
                 Server.stop(self, name=arguments.NAME)
             except ConnectionError:
-                Console.Error("Server not running")
-
+                Console.error("Server not running")
 
         elif arguments.register and arguments.add:
 
             registry = Registry()
-            result = registry.add(name=arguments.NAME, url=arguments.BASEURL, pid=arguments.PID)
+            result = registry.add(name=arguments.NAME, url=arguments.BASEURL,
+                                  pid=arguments.PID)
 
             registry.Print(data=result, output=arguments.output)
 
@@ -217,13 +244,12 @@ class Openapi3Command(PluginCommand):
                     server=arguments.wsgi,
                     debug=arguments.debug)
 
-                #pid = s._run()
+                print("spec: ", path_expand(arguments.YAML))
                 pid = s.start(name=arguments.NAME,
-                              spec=arguments.YAML,
+                              spec=path_expand(arguments.YAML),
                               foreground=arguments.fg)
 
-
-                print (f"Run PID: {pid}")
+                print(f"Run PID: {pid}")
 
             except FileNotFoundError:
 
@@ -237,14 +263,13 @@ class Openapi3Command(PluginCommand):
             try:
                 print()
                 Console.info("Stopping Cloudmesh OpenAPI Server")
-                print ()
+                print()
 
                 Server.stop(name=arguments.NAME)
 
                 print()
             except ConnectionError:
-                Console.Error("Server not running")
-
+                Console.error("Server not running")
 
         '''
 
