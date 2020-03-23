@@ -1,13 +1,11 @@
 
-# from cloudmesh.common.console import Console
+from cloudmesh.common.console import Console
 from dataclasses import dataclass, is_dataclass
 import textwrap
 import re
 import array as arr
 from inspect import signature
 import inspect
-from sklearn.linear_model import Ridge
-from sklearn.linear_model import LinearRegression
 import sklearn.linear_model
 from numpydoc import docscrape
 
@@ -306,7 +304,6 @@ class Generator:
         module = module
         class_name = function
         class_obj = getattr(module, class_name)
-        print(class_obj)
         doc = inspect.getdoc(class_obj)
         paras_dict,returnparam = self.get_parameters(doc, type_table)
         paras_desc = self.get_docstrings(doc)
@@ -353,8 +350,8 @@ class Generator:
 
         return rc
 
-module = sklearn.linear_model.LinearRegression
-function = 'fit'
+module = sklearn.linear_model
+function = 'LogisticRegression'
 openAPI = Generator()
 spec = openAPI.generate_openapi(module,function,"http://localhost:8000/cloudmesh",
                                 "/Users/jagadeeshk/cm/cloudmesh-openapi/cloudmesh/tests/generator",
