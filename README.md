@@ -15,6 +15,58 @@
 $ pip install cloudmesh.openapi
 ```
 
+## Overview
+
+
+
+## Install
+
+TBD
+
+## Usage
+
+TBD
+
+
+## Pytests
+
+How to run them 
+
+TBD
+
+## Examples
+
+TBO
+
+
+### Google
+
+* Andrew
+
+### AWS
+
+* Jonathan
+
+### Azure
+
+* Andrew
+
+### Openstack
+
+* Jagadesh (cloudmesh)
+
+### Oracle
+
+* Prateek
+
+
+## OLD DOCUMENTATION DO NOT MDDIFY
+
+
+
+
+
+
 ## Usage
 
 The manual page for the `cms openapi` command  is
@@ -61,6 +113,11 @@ $ curl $SPEC/timestamp.yaml > timestamp.yaml
 $ curl $SPEC/.header.yaml > .header.yaml
 
 ```
+
+# Cloudmehs 
+
+
+# OLD DOCUMENTATION
 
 Now let us look at the descriptions with 
 
