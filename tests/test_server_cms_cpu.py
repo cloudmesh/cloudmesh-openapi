@@ -50,9 +50,9 @@ class TestServerCms:
                       spec=path_expand(yaml_file),
                       foreground=False)
 
-        #result = Shell.execute(f"cms openapi3 server start ./tests/{name}.yaml", shell=True)
+        #result = Shell.run(f"cms openapi3 server start ./tests/{name}.yaml --os")
         Benchmark.Stop()
-        VERBOSE(result)
+        #VERBOSE(result)
 
         #assert False # find test
 
