@@ -15,6 +15,151 @@
 $ pip install cloudmesh.openapi
 ```
 
+## Overview
+
+
+
+## Install
+
+TBD
+
+## Usage
+
+TBD
+
+
+## Pytests
+
+How to run them 
+
+TBD
+
+## Examples
+
+TBD
+
+??????
+
+### One function in function.py
+
+cms openapi3 generate function.py -> function.yaml
+
+
+Bugs: docstring is not yet in the yaml from the function
+
+function.py
+
+```
+def a(x:int, y:int):
+return 1
+```
+
+### Multiple functions in function.py
+
+ 
+cms openapi3 generate function.py [--names=a,c] -> function.yaml
+ #dont include b
+
+cms openapi3 generate function.py -> function.yaml
+
+function.py
+
+functions = list all functions in file
+
+```
+def a(x:int, y:int):
+	r = b(x,y)
+	return 3
+
+def b(x:int, y:int):
+	return 1
+
+def c(x:int, y:int):
+	return 1
+```
+
+### Uploading data
+
+Always the same
+so we can preimplement
+
+abc.txt -> /data/xyz/klmn.txt
+
+### Downloading data
+
+Always the same
+
+abc.txt <- /data/xyz/klmn.txt
+
+### Merge openapi's
+
+merge [APIS...] - > single.yaml
+
+
+### Google
+
+* Andrew
+
+### AWS
+
+* Jonathan
+
+### Azure
+
+* Andrew
+
+### Openstack
+
+* Jagadesh (cloudmesh)
+
+
+
+### Oracle
+
+* Prateek
+
+
+
+
+## sckit learn
+
+
+--output=yaml
+--output=function
+
+generatie a function by hand, where is the documentation, where are
+the links ???
+
+This motivates doing it automatically.
+
+def param(name, type, description):
+	t1 = f":param {name}: {description}"
+    t2 = f":type {type}"
+	return t
+
+
+
+spec -> function.py with typing -> generator -> yaml
+
+spec -> yaml
+
+cms generate --sckitlearn --name=abc --function="LinearRegression().fit" -> LinearRegression_fit.yaml
+
+cms generate --sckitlearn --name=abc --function="LinearRegression().predict,LinearRegression().fit"  -> LinearRegression_abc.yaml
+
+cms generate --sckitlearn --class="LinearRegression"  -> LinearRegression.yaml
+
+	* integrate all methods in the class
+
+
+
+## OLD DOCUMENTATION DO NOT MDDIFY
+
+
+
+
+
+
 ## Usage
 
 The manual page for the `cms openapi` command  is
@@ -61,6 +206,11 @@ $ curl $SPEC/timestamp.yaml > timestamp.yaml
 $ curl $SPEC/.header.yaml > .header.yaml
 
 ```
+
+# Cloudmehs 
+
+
+# OLD DOCUMENTATION
 
 Now let us look at the descriptions with 
 

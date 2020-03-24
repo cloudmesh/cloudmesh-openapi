@@ -167,6 +167,7 @@ class Server(object):
     @staticmethod
     def ps(name=None):
         pids = []
+
         result = Shell.os_ps().splitlines()
         if sys.platform == 'win32':
             result = Shell.find_lines_with(result, f"{name}_server.py")
@@ -186,6 +187,21 @@ class Server(object):
                     pids.append({"name":name, "pid": pid, "spec": info})
                 else:
                     pids.append({"name":name, "pid": pid, "spec": info})
+
+        '''
+        result = Shell.ps()
+        for pinfo in result:
+            if pinfo["cmdline"] is not None:
+                line = ' '.join(pinfo["cmdline"])
+                if "openapi3 server start" in line:
+                    info = line.split("start")[1].split("--")[0].strip()
+                    if name is None:
+                        name = os.path.basename(line.split("openapi3 server start")[1]).split(".")[0]
+                    if name is not None and f"{name}.yaml" in info:
+                        pids.append({"name":name, "pid": pinfo['pid'], "spec": info})
+                    else:
+                        pids.append({"name":name, "pid": pinfo["pid"], "spec": info})
+        '''
 
         return pids
 

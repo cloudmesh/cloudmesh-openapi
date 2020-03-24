@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import pathlib
 import sys
 from dataclasses import is_dataclass
@@ -115,6 +113,7 @@ class Openapi3Command(PluginCommand):
                 # get dataclasses defined in module
                 dataclass_list = []
                 for attr_name in dir(imported_module):
+
                     attr = getattr(imported_module, attr_name)
                     if is_dataclass(attr):
                         dataclass_list.append(attr)
