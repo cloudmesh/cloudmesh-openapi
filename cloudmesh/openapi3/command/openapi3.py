@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import pathlib
 import sys
 from dataclasses import is_dataclass
