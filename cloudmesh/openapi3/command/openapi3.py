@@ -41,7 +41,6 @@ class Openapi3Command(PluginCommand):
                               [--server=SERVER]
                               [--verbose]
                               [--debug]
-                              [--debug]
                               [--fg]
                               [--os]
               openapi3 server stop NAME
@@ -116,22 +115,14 @@ class Openapi3Command(PluginCommand):
                 # get dataclasses defined in module
                 dataclass_list = []
                 for attr_name in dir(imported_module):
-                    #
-                    # BUG: module is highloghted in pycharm
-                    #
-                    attr = getattr(module, attr_name)
+                    attr = getattr(imported_module, attr_name)
                     if is_dataclass(attr):
                         dataclass_list.append(attr)
 
                 openAPI = generator.Generator()
 
-                # BUG: this is windows specific and must be done differently
-                # check if os.path.dirname, os.path.basename does this
+                baseurl_short = pathlib.Path(f"{baseurl}").stem
 
-                if sys.platform == 'win32':
-                    baseurl_short = baseurl.split("\\")[-1]
-                else:
-                    baseurl_short = baseurl.split("/")[-1]
                 openAPI.generate_openapi(func_obj,
                                          baseurl_short,
                                          yamldirectory, yamlfile,
@@ -144,13 +135,13 @@ class Openapi3Command(PluginCommand):
 
             try:
                 s = Server(
+                    name=arguments.NAME,
                     spec=path_expand(arguments.YAML),
                     directory=path_expand(
                         arguments.directory) if arguments.directory else arguments.directory,
                     port=arguments.port,
                     server=arguments.wsgi,
-                    debug=arguments.debug,
-                    name=arguments.NAME
+                    debug=arguments.debug
                 )
 
                 pid = s.run_os()
@@ -193,13 +184,6 @@ class Openapi3Command(PluginCommand):
             except ConnectionError:
                 Console.error("Server not running")
 
-        elif arguments.server and arguments.stop and arguments.os:
-
-            try:
-                Server.stop(self, name=arguments.NAME)
-            except ConnectionError:
-                Console.error("Server not running")
-
         elif arguments.register and arguments.add:
 
             registry = Registry()
@@ -238,13 +222,13 @@ class Openapi3Command(PluginCommand):
             try:
                 s = Server(
                     name=arguments.NAME,
-                    spec=arguments.YAML,
-                    directory=arguments.directory,
+                    spec=path_expand(arguments.YAML),
+                    directory=path_expand(
+                        arguments.directory) if arguments.directory else arguments.directory,
                     port=arguments.port,
                     server=arguments.wsgi,
                     debug=arguments.debug)
 
-                print("spec: ", path_expand(arguments.YAML))
                 pid = s.start(name=arguments.NAME,
                               spec=path_expand(arguments.YAML),
                               foreground=arguments.fg)
