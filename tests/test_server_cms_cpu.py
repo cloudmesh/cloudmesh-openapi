@@ -9,12 +9,29 @@ from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import HEADING
 from cloudmesh.common.Benchmark import Benchmark
 
+import pathlib
+import sys
+from dataclasses import is_dataclass
+from importlib import import_module
+
+from cloudmesh.common.Printer import Printer
+from cloudmesh.common.console import Console
+from cloudmesh.common.debug import VERBOSE
+from cloudmesh.common.util import path_expand
+from cloudmesh.openapi3.function import generator
+from cloudmesh.openapi3.function.server import Server
+from cloudmesh.openapi3.registry.Registry import Registry
+from cloudmesh.shell.command import PluginCommand
+from cloudmesh.shell.command import command, map_parameters
+
+
+
 Benchmark.debug()
 
 cloud = "local"
 
 name = "cpu"
-
+yaml_file = "./tests/{name}.yaml"
 @pytest.mark.incremental
 class TestServerCms:
 
@@ -22,7 +39,18 @@ class TestServerCms:
         HEADING()
 
         Benchmark.Start()
-        result = Shell.execute(f"cms openapi3 server start ./tests/{name}.yaml", shell=True)
+
+        s = Server(
+            name=name,
+            spec=yaml_file,
+            debug=False)
+
+        print("spec: ", path_expand(yaml_file))
+        pid = s.start(name=name,
+                      spec=path_expand(yaml_file),
+                      foreground=False)
+
+        #result = Shell.execute(f"cms openapi3 server start ./tests/{name}.yaml", shell=True)
         Benchmark.Stop()
         VERBOSE(result)
 
