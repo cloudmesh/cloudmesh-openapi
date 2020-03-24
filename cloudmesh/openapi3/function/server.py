@@ -168,27 +168,6 @@ class Server(object):
     def ps(name=None):
         pids = []
 
-        result = Shell.os_ps().splitlines()
-        if sys.platform == 'win32':
-            result = Shell.find_lines_with(result, f"{name}_server.py")
-            for p in result:
-                pid, rest = p.strip().split("<sep>", 1)
-                pids.append({"name": name, "pid": pid})
-        else:
-            #result = Shell.ps().splitlines()
-            result = Shell.find_lines_with(result, "openapi3 server start")
-
-            for p in result:
-                pid, rest = p.strip().split(" ", 1)
-                info = p.split("start")[1].split("--")[0].strip()
-                if name is None:
-                    name = os.path.basename(rest.split("openapi3 server start")[1]).split(".")[0]
-                if name is not None and f"{name}.yaml" in info:
-                    pids.append({"name":name, "pid": pid, "spec": info})
-                else:
-                    pids.append({"name":name, "pid": pid, "spec": info})
-
-        '''
         result = Shell.ps()
         for pinfo in result:
             if pinfo["cmdline"] is not None:
@@ -201,8 +180,8 @@ class Server(object):
                         pids.append({"name":name, "pid": pinfo['pid'], "spec": info})
                     else:
                         pids.append({"name":name, "pid": pinfo["pid"], "spec": info})
-        '''
-
+                elif f"{name}_server.py" in line and sys.platform == 'win32':
+                    pids.append({"name": name, "pid": pinfo['pid']})
         return pids
 
     @staticmethod
@@ -230,7 +209,6 @@ class Server(object):
         Console.ok(f"shutting down server {name}")
 
         registry = Registry()
-        pid = None
 
         entries = registry.list(name=name)
         if len(entries) > 1:
@@ -240,7 +218,7 @@ class Server(object):
             pid = str(entries[0]['pid'])
         else:
             result = Server.ps(name=name)
-            pid = result[0]["pid"]
+            pid = str(result[0]["pid"])
 
         try:
             if len(pid) > 0:
