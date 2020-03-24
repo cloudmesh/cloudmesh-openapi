@@ -1,3 +1,5 @@
+import numpy
+
 # noinspection PyPep8Naming
 def sample(x: int, y: float) -> float:
     """
