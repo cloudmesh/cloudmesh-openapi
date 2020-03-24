@@ -45,6 +45,8 @@ TBD
 cms openapi3 generate function.py -> function.yaml
 
 
+Bugs: docstring is not yet in the yaml from the function
+
 function.py
 
 ```
@@ -120,6 +122,22 @@ merge [APIS...] - > single.yaml
 
 
 ## sckit learn
+
+
+--output=yaml
+--output=function
+
+generatie a function by hand, where is the documentation, where are
+the links ???
+
+This motivates doing it automatically.
+
+def param(name, type, description):
+	t1 = f":param {name}: {description}"
+    t2 = f":type {type}"
+	return t
+
+
 
 spec -> function.py with typing -> generator -> yaml
 
