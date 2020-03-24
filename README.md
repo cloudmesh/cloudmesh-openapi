@@ -36,7 +36,62 @@ TBD
 
 ## Examples
 
-TBO
+TBD
+
+??????
+
+### One function in function.py
+
+cms openapi3 generate function.py -> function.yaml
+
+
+function.py
+
+```
+def a(x:int, y:int):
+return 1
+```
+
+### Multiple functions in function.py
+
+ 
+cms openapi3 generate function.py [--names=a,c] -> function.yaml
+ #dont include b
+
+cms openapi3 generate function.py -> function.yaml
+
+function.py
+
+functions = list all functions in file
+
+```
+def a(x:int, y:int):
+	r = b(x,y)
+	return 3
+
+def b(x:int, y:int):
+	return 1
+
+def c(x:int, y:int):
+	return 1
+```
+
+### Uploading data
+
+Always the same
+so we can preimplement
+
+abc.txt -> /data/xyz/klmn.txt
+
+### Downloading data
+
+Always the same
+
+abc.txt <- /data/xyz/klmn.txt
+
+### Merge openapi's
+
+merge [APIS...] - > single.yaml
 
 
 ### Google
@@ -55,9 +110,29 @@ TBO
 
 * Jagadesh (cloudmesh)
 
+
+
 ### Oracle
 
 * Prateek
+
+
+
+
+## sckit learn
+
+spec -> function.py with typing -> generator -> yaml
+
+spec -> yaml
+
+cms generate --sckitlearn --name=abc --function="LinearRegression().fit" -> LinearRegression_fit.yaml
+
+cms generate --sckitlearn --name=abc --function="LinearRegression().predict,LinearRegression().fit"  -> LinearRegression_abc.yaml
+
+cms generate --sckitlearn --class="LinearRegression"  -> LinearRegression.yaml
+
+	* integrate all methods in the class
+
 
 
 ## OLD DOCUMENTATION DO NOT MDDIFY
