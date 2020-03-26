@@ -9,6 +9,8 @@ from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import HEADING
 from cloudmesh.common.Benchmark import Benchmark
 import os
+import requests
+import time
 
 import pathlib
 import sys
@@ -40,36 +42,17 @@ class TestServerCms:
         HEADING()
 
         Benchmark.Start()
-        """
-        s = Server(
-            name=name,
-            spec=yaml_file,
-            debug=False)
 
-        print("spec: ", path_expand(yaml_file))
-        pid = s.start(name=name,
-                      spec=path_expand(yaml_file),
-                      foreground=False)
-
-        #result = Shell.run(f"cms openapi3 server start ./tests/{name}.yaml --os")
+        # os.system(f"cms openapi3 server start ./tests/server-cpu/cpu.yaml >> log12.txt 2>&1 & ")
+        os.system(f"cms openapi3 server start ./tests/server-cpu/cpu.yaml &")
+        time.sleep(4)
+        result = requests.get('http://127.0.0.1:8080/cloudmesh/ui')
         Benchmark.Stop()
-        #VERBOSE(result)
-        """
-        os.system(f"cms openapi3 server start ./tests/server-cpu/{name}.yaml > {name}.log &")
-        Benchmark.Stop()
-        # VERBOSE(result)
 
-        assert False # find test
 
-    # def test_stop(self):
-    #     HEADING()
-    #
-    #     Benchmark.Start()
-    #     result = Shell.execute(f"cms openapi3 server stop {name}", shell=True)
-    #     Benchmark.Stop()
-    #     VERBOSE(result)
+        assert result.status_code == 200 # find test
 
-        #assert False # find test
+
 
     # def test_ui(self):
     #     HEADING()
@@ -114,3 +97,14 @@ class TestServerCms:
     # def test_benchmark(self):
     #     HEADING()
     #     Benchmark.print(csv=True, tag=cloud)
+
+    # def test_stop(self):
+    #     HEADING()
+    #
+    #     Benchmark.Start()
+    #     # result = Shell.execute(f"cms openapi3 server stop {name}", shell=True)
+    #     os.system(f"cms openapi3 server stop {name} &")
+    #     Benchmark.Stop()
+    #     # VERBOSE(result)
+
+        # assert False # find test
