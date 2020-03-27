@@ -26,7 +26,7 @@ from cloudmesh.openapi3.function.server import Server
 from cloudmesh.openapi3.registry.Registry import Registry
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
-
+import json
 
 
 Benchmark.debug()
@@ -49,62 +49,28 @@ class TestServerCms:
         result = requests.get('http://127.0.0.1:8080/cloudmesh/ui')
         Benchmark.Stop()
 
-
         assert result.status_code == 200 # find test
 
 
+    def test_cpu(self):
+        HEADING()
+        url = "http://127.0.0.1:8080/cloudmesh/cpu"
+        Benchmark.Start()
+        result = requests.get(url)
+        assert result.status_code == 200
+        assert result.reason == 'OK'
+        assert result.headers['content-type'] =='application/json'
+        assert result.json().get('model') is not None
+        Benchmark.Stop()
+        VERBOSE(result)
 
-    # def test_ui(self):
-    #     HEADING()
-    #     url="http://127.0.0.1:8080/cloudmesh/ui/"
-    #     Benchmark.Start()
-    #     # result = Shell.execute(f"cms openapi3 server stop {name}", shell=True)
-    #     result = requests.get('https://api.github.com/user')
-    #     assert result.status_code == 200
-    #     # >> > r.headers['content-type']
-    #     # 'application/json; charset=utf8'
-    #     # >> > r.encoding
-    #     # 'utf-8'
-    #     # >> > r.text
-    #     # u'{"type":"User"...'
-    #     # >> > r.json()
-    #     # {u'private_gists': 419, u'total_private_repos': 77, ...}
-    #     Benchmark.Stop()
-    #     VERBOSE(result)
-    #
-    #     # assert False # find test
-    #
-    # def test_cpu(self):
-    #     HEADING()
-    #     url = "http://127.0.0.1:8080/cloudmesh/cpu"
-    #     Benchmark.Start()
-    #     # result = Shell.execute(f"cms openapi3 server stop {name}", shell=True)
-    #     result = requests.get('https://api.github.com/user')
-    #     assert result.status_code == 200
-    #     # >> > r.headers['content-type']
-    #     # 'application/json; charset=utf8'
-    #     # >> > r.encoding
-    #     # 'utf-8'
-    #     # >> > r.text
-    #     # u'{"type":"User"...'
-    #     # >> > r.json()
-    #     # {u'private_gists': 419, u'total_private_repos': 77, ...}
-    #     Benchmark.Stop()
-    #     VERBOSE(result)
-    #
-    #     # assert False # find test
-    #
-    # def test_benchmark(self):
-    #     HEADING()
-    #     Benchmark.print(csv=True, tag=cloud)
+    def test_stop(self):
+        HEADING()
 
-    # def test_stop(self):
-    #     HEADING()
-    #
-    #     Benchmark.Start()
-    #     # result = Shell.execute(f"cms openapi3 server stop {name}", shell=True)
-    #     os.system(f"cms openapi3 server stop {name} &")
-    #     Benchmark.Stop()
-    #     # VERBOSE(result)
+        Benchmark.Start()
+        # result = Shell.execute(f"cms openapi3 server stop {name}", shell=True)
+        os.system(f"cms openapi3 server stop {name} &")
+        Benchmark.Stop()
+        # VERBOSE(result)
 
-        # assert False # find test
+        assert False # find test
