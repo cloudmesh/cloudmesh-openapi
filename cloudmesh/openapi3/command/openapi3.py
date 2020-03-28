@@ -176,7 +176,6 @@ class Openapi3Command(PluginCommand):
                 Console.info("Running Cloudmesh OpenAPI Servers")
                 print()
                 result = Server.ps(name=arguments.NAME)
-
                 print(Printer.list(result, order=["name", "pid", "spec"]))
 
                 print()

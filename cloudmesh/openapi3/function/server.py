@@ -5,6 +5,7 @@ import textwrap
 import yaml
 from datetime import date
 from importlib import import_module
+from pathlib import Path
 
 import connexion
 from cloudmesh.common.Shell import Shell
@@ -180,8 +181,11 @@ class Server(object):
                         pids.append({"name":name, "pid": pinfo['pid'], "spec": info})
                     else:
                         pids.append({"name":name, "pid": pinfo["pid"], "spec": info})
-                elif f"{name}_server.py" in line and sys.platform == 'win32':
-                    pids.append({"name": name, "pid": pinfo['pid']})
+                elif "cmsoaserver.py" in line and sys.platform == 'win32':
+                    info = line.split("python.exe")[1].strip()
+                    if name is None:
+                        name = Path(info).stem.split("_")[0].strip()
+                    pids.append({"name": name, "pid": pinfo['pid'], "spec": info})
         return pids
 
     @staticmethod
@@ -211,6 +215,7 @@ class Server(object):
         registry = Registry()
 
         entries = registry.list(name=name)
+        pid = ""
         if len(entries) > 1:
             Console.error(f"Aborting, returned more than one entry from the Registry with the name {name}")
             raise Exception
@@ -218,13 +223,23 @@ class Server(object):
             pid = str(entries[0]['pid'])
         else:
             result = Server.ps(name=name)
-            pid = str(result[0]["pid"])
+            #pid = str(result[0]["pid"])
 
         try:
-            if len(pid) > 0:
+            if len(pid) > 0:  # check if pid found in registry and if found kill
                 print("Killing:", pid)
                 Shell.kill_pid(pid)
                 registry.delete(name=name)
+            elif result:  # no server found in registry so kill based on ps output
+                for process in result:
+                    pid = str(process["pid"])
+                    if len(pid) > 0:
+                        print("Killing:", pid)
+                        Shell.kill_pid(pid)
+                        registry.delete(name=name)
+                    else:
+                        print()
+                        Console.error(f"PS output generated invalid PID for server name {name}")
             else:
                 print()
                 Console.error(f"No Cloudmesh OpenAPI Server found with the name {name}")
@@ -266,11 +281,11 @@ class Server(object):
                             server='{self.server}')
             ''')
 
-        VERBOSE("server script: ", f"{self.directory}/{self.name}_server.py")
+        VERBOSE("server script: ", f"{self.directory}/{self.name}_cmsoaserver.py")
 
         # Write out flask python script to file so that it can be run in background
         try:
-            version = open(f"{self.directory}/{self.name}_server.py", 'w').write(
+            version = open(f"{self.directory}/{self.name}_cmsoaserver.py", 'w').write(
                 flask_script)
         except IOError:
             Console.error("Unable to write server file")
@@ -286,7 +301,7 @@ class Server(object):
             f = open(logname, "w")
             #f = open(os.devnull, "w")
             process = subprocess.Popen([sys.executable,
-                                        f"{self.directory}/{self.name}_server.py"],
+                                        f"{self.directory}/{self.name}_cmsoaserver.py"],
                                        stdout=f,
                                        stderr=subprocess.STDOUT,
                                        shell=False)
