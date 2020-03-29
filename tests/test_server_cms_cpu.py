@@ -69,8 +69,11 @@ class TestServerCms:
 
         Benchmark.Start()
         # result = Shell.execute(f"cms openapi3 server stop {name}", shell=True)
-        os.system(f"cms openapi3 server stop {name} &")
+        os.system(f"cms openapi3 server stop {name}")
         Benchmark.Stop()
-        # VERBOSE(result)
-
-        assert False # find test
+        gotException=False;
+        try:
+            result = requests.get('http://127.0.0.1:8080/cloudmesh/ui')
+        except Exception as ex:
+            gotException=True
+        assert gotException
