@@ -3,8 +3,10 @@ import inspect
 import re
 import textwrap
 from dataclasses import is_dataclass
+from types import FunctionType
 
 import sklearn.linear_model
+from sklearn.linear_model import LogisticRegression
 from numpydoc import docscrape
 
 
@@ -64,6 +66,18 @@ class TypeScraper:
 
 class Generator:
 
+    functiontemplate = textwrap.dedent("""
+        def {functioname}({parameters}) -> {returnparam1}:
+        
+            {text1}
+            {description}
+            
+            
+            {docstring}
+            {text1}
+              
+            return {returnparam1}
+        """)
 
     openAPITemplate = textwrap.dedent("""
         openapi: 3.0.0
@@ -133,6 +147,21 @@ class Generator:
               description: {description}
               schema:
                 {_type}""")
+        return spec
+
+    def generate_parameter_function(self, name, _type):
+        """
+        function to generate parameters YAMAL contents
+
+        :param name:
+        :param _type:
+        :param description:
+        :return:
+        """
+
+        spec = textwrap.dedent(f"""{name}: {_type},""")
+
+
         return spec
 
     def generate_response(self, code, _type, description):
@@ -222,6 +251,36 @@ class Generator:
                             desc)
         return spec
 
+    def populate_parameters_function(self, f, paras_dict, paras_desc):
+        """
+        Function to loop all the parameters of given function and generate
+        specification
+
+        :param function_name:
+        :return:
+        """
+        spec = str()
+        docstring = str()
+        for i, item in enumerate(paras_dict):
+            if i == (len(paras_dict) - 1):
+                last_key = item
+        for parameter_dict, _type in paras_dict.items():
+            for parameter_desc, desc in paras_desc.items():
+                if parameter_dict == 'return':
+                    docstring = docstring + \
+                                (f""":param {parameter_dict}: {desc}""") + "\n" + \
+                                "    " + (f""":type {parameter_dict}: {_type}""") + "\n" + "    "
+                else:
+                    if parameter_dict == parameter_desc:
+                        docstring = docstring  + \
+                        (f""":param {parameter_dict}: {desc}""") +  "\n" + \
+                        "    "+ (f""":type {parameter_dict}: {_type}""") + "\n" + "    "
+                        if parameter_dict == last_key:
+                            spec = spec + (f"""{parameter_dict}: {_type}""")
+                        else:
+                            spec = spec + f"""{parameter_dict}: {_type},""" + " "
+        return spec,docstring
+
     def is_valid_para(self, para_type, type_table):
         """Check if it is a valid parameter type contained in the type table.
         """
@@ -252,7 +311,7 @@ class Generator:
             para_str = str(p.type)
             para_type = scraper.scrap(para_str)
             if self.is_valid_para(para_type, type_table):
-                returnparam[p.name] = para_type
+                returnparam['self'] = para_type
             else:
                 continue
 
@@ -300,18 +359,37 @@ class Generator:
             'dictionary': 'dictionary',
             'self': 'self'
         }
+        type_table1 = {
+            'matrix': 'array',
+            'array': 'array',
+            'array-like': 'array',
+            'numpy array': 'array',
+            'bool': 'bool',
+            'int': 'int',
+            'float': 'float',
+            'string': 'str',
+            'dictionary': 'dict',
+            'self': 'self'
+        }
         module = module
         class_name = function
+        cls = LogisticRegression()
         class_obj = getattr(module, class_name)
-        doc = inspect.getdoc(class_obj)
+        doc = class_obj.__doc__
+        method_list = [func for func,value in inspect.getmembers(class_obj) if func[0] != '_']
+        print(method_list)
         paras_dict, returnparam = self.get_parameters(doc, type_table)
+        paras_dict_func, returnparam_func = self.get_parameters(doc, type_table1)
         paras_desc = self.get_docstrings(doc)
         description = class_obj.__doc__.strip().split("\n")[0]
         version = "1.0"  # TODO:  hard coded for now
         title = class_obj.__name__
         parameters = self.populate_parameters(function, paras_dict, paras_desc)
+        parametersfunc,docstring = self.populate_parameters_function(function, paras_dict_func, paras_desc)
+        text1 = '"""'
         parameters = textwrap.indent(parameters, ' ' * 8)
-
+        returnparam1 = returnparam['self']
+        functionname = class_obj.__name__
         responses = self.generate_response('200',
                                            returnparam['self'],
                                            'OK')
@@ -332,11 +410,19 @@ class Generator:
             schemas=''
         )
 
-
+        spec1 = self.functiontemplate.format(
+            functioname=functionname,
+            description=description,
+            text1 = text1,
+            parameters=parametersfunc,
+            docstring=docstring,
+            returnparam1=returnparam1
+        )
 
         # return code
         rc = 0
         open(f"test.yaml", 'w').write(spec)
+        open(f"logisticregression.py", 'a').write(spec1)
         if write:
             try:
                 if yaml != "" and yaml is not None:
@@ -352,10 +438,23 @@ class Generator:
 
         return rc
 
-
-module = sklearn.linear_model
-function = 'LogisticRegression'
+module1 = sklearn.linear_model
+class_name1 = 'LogisticRegression'
+class_obj1 = getattr(module1, class_name1)
+function = class_name1
+method_list = [func for func,value in inspect.getmembers(class_obj1) if func[0] != '_']
 openAPI = Generator()
-spec = openAPI.generate_openapi(module, function, "http://localhost:8000/cloudmesh",
+spec = openAPI.generate_openapi(module1, function, "http://localhost:8000/cloudmesh",
                                 "/Users/jagadeeshk/cm/cloudmesh-openapi/cloudmesh/tests/generator",
                                 "test")
+print(method_list)
+for i in range(len(method_list)):
+    module = LogisticRegression
+    function =  method_list[i]
+    print(function)
+    openAPI = Generator()
+    spec = openAPI.generate_openapi(module, function, "http://localhost:8000/cloudmesh",
+                                    "/Users/jagadeeshk/cm/cloudmesh-openapi/cloudmesh/tests/generator",
+                                   "test")
+
+

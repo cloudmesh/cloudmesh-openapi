@@ -1,8 +1,8 @@
 
 openapi: 3.0.0
 info:
-  title: LinearRegression
-  description: Ordinary least squares Linear Regression.
+  title: score
+  description: Return the mean accuracy on the given test data and labels.
   version: "1.0"
 servers:
   - url: http://localhost/cloudmesh
@@ -10,37 +10,32 @@ servers:
 paths:
   /http://localhost:8000/cloudmesh:
      get:
-      summary: Ordinary least squares Linear Regression.
+      summary: Return the mean accuracy on the given test data and labels.
       description: Optional extended description in CommonMark or HTML.
-      operationId: <module 'sklearn.linear_model' from '/Users/jagadeeshk/ENV3/lib/python3.8/site-packages/sklearn/linear_model/__init__.py'>.LinearRegression
+      operationId: <class 'sklearn.linear_model._logistic.LogisticRegression'>.score
       parameters:
         - in: query
-          name: fit_intercept
-          description: Whether to calculate the intercept for this model. If setto False, no intercept will be used in calculations(i.e. data is expected to be centered).
+          name: X
+          description: Test samples.
           schema:
-            type: boolean
+            type: array
         - in: query
-          name: normalize
-          description: This parameter is ignored when ``fit_intercept`` is set to False.If True, the regressors X will be normalized before regression bysubtracting the mean and dividing by the l2-norm.If you wish to standardize, please use:class:`sklearn.preprocessing.StandardScaler` before calling ``fit`` onan estimator with ``normalize=False``.
+          name: y
+          description: True labels for X.
           schema:
-            type: boolean
+            type: array
         - in: query
-          name: copy_X
-          description: If True, X will be copied; else, it may be overwritten.
+          name: sample_weight
+          description: Sample weights.
           schema:
-            type: boolean
-        - in: query
-          name: n_jobs
-          description: The number of jobs to use for the computation. This will only providespeedup for n_targets > 1 and sufficient large problems.``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.``-1`` means using all processors. See :term:`Glossary <n_jobs>`for more details.
-          schema:
-            type: integer
+            type: array
       responses:
         '200':
           description: OK
           content:
             text/plain:
               schema:
-                type: self
+                type: number
 
 components:
   schemas:
