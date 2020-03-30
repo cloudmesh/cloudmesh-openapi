@@ -7,6 +7,7 @@ import pytest
 import yaml as yaml
 import time
 import sys
+import os
 
 
 from cloudmesh.common.StopWatch import StopWatch
@@ -94,13 +95,13 @@ class TestGenerator:
         HEADING()
         Benchmark.Start()
 
-        Shell.run("cd ~/cm/cloudmesh-openapi/tests/")
+        os.system("cd ~/cm/cloudmesh-openapi/tests/")
         test_loc = Shell.run("pwd")
         test_loc = test_loc.strip() + "/"
 
         assert test_loc == "/Users/andrewgoldfarb/e516-spring/cm/cloudmesh-openapi/tests/"
 
-        server_output = Shell.cms("openapi3 server start ./server-cpu/cpu.yaml")
+        server_output = os.system("cms openapi3 server start ./server-cpu/cpu.yaml")
         assert server_output.__contains__("starting server")
 
         time.sleep(2)
@@ -108,7 +109,7 @@ class TestGenerator:
         response = Shell.run("curl " + baseurl + "/cpu")
         assert response.__contains__("200")
 
-        Shell.cms("openapi3 server stop cpu")
+        os.system("openapi3 server stop cpu")
         response = Shell.run("curl " + baseurl + "/cpu")
         fail_message="Failed to connect to 127.0.0.1 port 80: Connection refuse"
         assert response.__contains__(fail_message)
