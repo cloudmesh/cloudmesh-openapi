@@ -3,6 +3,7 @@ from cloudmesh.common.console import Console
 from dataclasses import dataclass, is_dataclass
 import textwrap
 import sys, pathlib
+from cloudmesh.common.debug import VERBOSE
 
 
 # TODO: docstrings comments missing
@@ -174,16 +175,22 @@ class Generator:
         :param write:
         :return:
         """
+
         description = f.__doc__.strip().split("\n")[0]
         version = "1.0"  # TODO:  hard coded for now
         title = f.__name__
         parameters = self.populate_parameters(f)
         parameters = textwrap.indent(parameters, ' ' * 8)
+
+        VERBOSE(parameters, label="openapi function parameters")
+
         responses = self.generate_response('200',
                                            f.__annotations__['return'],
                                            'OK')
         responses = textwrap.indent(responses, ' ' * 8)
-        
+        VERBOSE(responses, label="openapi function responses")
+
+        print("got to before components")
         components = ''
         if len(dataclass_list) > 0:
             components = textwrap.dedent("""
@@ -192,6 +199,9 @@ class Generator:
                   """)
             for dc in dataclass_list:
                 schemas = schemas + textwrap.indent(self.generate_schema(dc), ' ' * 6)
+
+        print("got to after components")
+        VERBOSE(components, label="openapi function components")
 
         # TODO: figure out where to define dataclasses and how
         #  best to pass them to generate_schema()

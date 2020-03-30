@@ -5,6 +5,7 @@ import textwrap
 import yaml
 from datetime import date
 from importlib import import_module
+from pathlib import Path
 
 import connexion
 from cloudmesh.common.Shell import Shell
@@ -114,58 +115,77 @@ class Server(object):
                     server=self.server)
 
     def start(self, name=None, spec=None, foreground=False):
+        """
+        Start up an openapi server
+
+        :param name:
+        :param spec:
+        :param foreground:
+        :return:
+        """
+        name = Server.get_name(name, spec)
+        pid = ""
+
         if foreground:
             self._run_app()
         else:
-            self._run_deamon()
-        name = Server.get_name(name, spec)
-        pid = Server.ps(name=name)[1]["pid"]
-        _spec = Server.ps(name=name)[1]["spec"]
+            if sys.platform == 'win32':
+                pid = self.run_os()
+            else:
+                self._run_deamon()
+                pid = Server.ps(name=name)[1]["pid"]
+                _spec = Server.ps(name=name)[1]["spec"]
 
-        with open(_spec, "r") as stream:
-            try:
-                details = yaml.safe_load(stream)
-            except yaml.YAMLError as e:
-                print(e)
-                assert False, "Yaml file has syntax error"
+                with open(_spec, "r") as stream:
+                    try:
+                        details = yaml.safe_load(stream)
+                    except yaml.YAMLError as e:
+                        print(e)
+                        assert False, "Yaml file has syntax error"
 
-        url = details["servers"][0]["url"]
+                url = details["servers"][0]["url"]
 
-        print()
-        print("   Starting:", name)
-        print("   PID:     ", pid)
-        print("   Spec:    ", _spec)
-        print("   URL:     ", url)
+                print()
+                print("   Starting:", name)
+                print("   PID:     ", pid)
+                print("   Spec:    ", _spec)
+                print("   URL:     ", url)
 
-        print()
+                print()
 
-        registry = Registry()
-        registry.add_form_file(details,
-                               pid=pid,
-                               spec=_spec,
-                               directory=self.directory,
-                               port=self.port,
-                               host=self.host,
-                               url=url
-                               )
+                registry = Registry()
+                registry.add_form_file(details,
+                                       pid=pid,
+                                       spec=_spec,
+                                       directory=self.directory,
+                                       port=self.port,
+                                       host=self.host,
+                                       url=url
+                                       )
 
         return pid
 
     @staticmethod
     def ps(name=None):
         pids = []
-        result = Shell.ps().splitlines()
-        result = Shell.find_lines_with(result, "openapi3 server start")
 
-        for p in result:
-            pid, rest = p.strip().split(" ", 1)
-            info = p.split("start")[1].split("--")[0].strip()
-            if name is None:
-                name = os.path.basename(rest.split("openapi3 server start")[1]).split(".")[0]
-            if name is not None and f"{name}.yaml" in info:
-                pids.append({"name":name, "pid": pid, "spec": info})
-            else:
-                pids.append({"name":name, "pid": pid, "spec": info})
+        result = Shell.ps()
+        for pinfo in result:
+            if pinfo["cmdline"] is not None:
+                line = ' '.join(pinfo["cmdline"])
+                if "openapi3 server start" in line:
+                    info = line.split("start")[1].split("--")[0].strip()
+                    if name is None:
+                        name = os.path.basename(line.split("openapi3 server start")[1]).split(".")[0]
+                    if name is not None and f"{name}.yaml" in info:
+                        pids.append({"name":name, "pid": pinfo['pid'], "spec": info})
+                    else:
+                        pids.append({"name":name, "pid": pinfo["pid"], "spec": info})
+                elif "cmsoaserver.py" in line and sys.platform == 'win32':
+                    info = line.split("python.exe")[1].strip()
+                    if name is None:
+                        name = Path(info).stem.split("_")[0].strip()
+                    pids.append({"name": name, "pid": pinfo['pid'], "spec": info})
         return pids
 
     @staticmethod
@@ -183,26 +203,43 @@ class Server(object):
 
     @staticmethod
     def stop(name=None):
+        """
+        Stop a running server
+
+        :param name:
+        :return:
+        """
+
         Console.ok(f"shutting down server {name}")
 
         registry = Registry()
-        pid = None
 
-        if sys.platform == 'win32':
-            entries = registry.list(name=name)
-            if len(entries) > 1:
-                Console.error(f"Aborting, returned more than one entry from the Registry with the name {name}")
-                raise Exception
+        entries = registry.list(name=name)
+        pid = ""
+        if len(entries) > 1:
+            Console.error(f"Aborting, returned more than one entry from the Registry with the name {name}")
+            raise Exception
+        elif len(entries) == 1:
             pid = str(entries[0]['pid'])
         else:
-            result = Server.ps(name=None)
-            pid = result[0]["pid"]
+            result = Server.ps(name=name)
+            #pid = str(result[0]["pid"])
 
         try:
-            if len(pid) > 0:
+            if len(pid) > 0:  # check if pid found in registry and if found kill
                 print("Killing:", pid)
                 Shell.kill_pid(pid)
                 registry.delete(name=name)
+            elif result:  # no server found in registry so kill based on ps output
+                for process in result:
+                    pid = str(process["pid"])
+                    if len(pid) > 0:
+                        print("Killing:", pid)
+                        Shell.kill_pid(pid)
+                        registry.delete(name=name)
+                    else:
+                        print()
+                        Console.error(f"PS output generated invalid PID for server name {name}")
             else:
                 print()
                 Console.error(f"No Cloudmesh OpenAPI Server found with the name {name}")
@@ -212,6 +249,12 @@ class Server(object):
                 f"No Cloudmesh OpenAPI Server found with the name {name}")
 
     def run_os(self):
+        """
+        Start an openapi server by creating a physical flask script
+
+        :return:
+        """
+
         Console.ok("starting server")
 
         # For windows convert backslashes to forward slashes to be python compatible
@@ -238,11 +281,11 @@ class Server(object):
                             server='{self.server}')
             ''')
 
-        VERBOSE("server script: ", f"{self.directory}/{self.name}_server.py")
+        VERBOSE("server script: ", f"{self.directory}/{self.name}_cmsoaserver.py")
 
         # Write out flask python script to file so that it can be run in background
         try:
-            version = open(f"{self.directory}/{self.name}_server.py", 'w').write(
+            version = open(f"{self.directory}/{self.name}_cmsoaserver.py", 'w').write(
                 flask_script)
         except IOError:
             Console.error("Unable to write server file")
@@ -250,6 +293,7 @@ class Server(object):
             print(e)
 
         # Run python flask script in background
+        pid = ""
         try:
             # TODO: need to write log somewhere else or use a logger to write to common log.  Tried devnull and that does not work.
             logname = f"{self.directory}/{self.name}_server.{today_dt}.log"
@@ -257,7 +301,7 @@ class Server(object):
             f = open(logname, "w")
             #f = open(os.devnull, "w")
             process = subprocess.Popen([sys.executable,
-                                        f"{self.directory}/{self.name}_server.py"],
+                                        f"{self.directory}/{self.name}_cmsoaserver.py"],
                                        stdout=f,
                                        stderr=subprocess.STDOUT,
                                        shell=False)
