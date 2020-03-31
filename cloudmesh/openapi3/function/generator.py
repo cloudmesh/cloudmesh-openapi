@@ -2,6 +2,7 @@ import textwrap
 from cloudmesh.common.console import Console
 from dataclasses import dataclass, is_dataclass
 import textwrap
+import requests
 import sys, pathlib
 from cloudmesh.common.debug import VERBOSE
 
@@ -230,3 +231,25 @@ class Generator:
                 print(e)
 
         return
+
+    #we have to test below functions
+    def file_put(root_url, service, filename, verbose=False):
+
+        url = f'http://{root_url}/cloudmesh/{service}/file/put'
+        print("URL", url)
+        files = {'file': open(filename, 'rb')}
+        r = requests.post(url, files=files)
+        return r.text
+
+    def file_list(root_url):
+        r = requests.get(f'http://{root_url}/file/list')
+        return r.text
+
+    def file_get(root_url, service, filename):
+
+        url = f'http://{root_url}/cloudmesh/{service}/file/get/{filename}'
+
+        print("URL", url)
+
+        r = requests.get(url)
+        return r.text
