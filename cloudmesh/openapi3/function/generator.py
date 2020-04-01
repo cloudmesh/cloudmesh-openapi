@@ -47,8 +47,7 @@ class Generator:
           - url: http://localhost/cloudmesh
             description: TODO THIS MUST BE CHANGEABLE
         paths:
-          /{baseurl}/{filename}:
-             {methods}
+          {paths}
         {components}
         """)
 
@@ -57,6 +56,7 @@ class Generator:
         function to parse supported openapi3 data types
 
         :param _type:
+        :param ptype:
         :return:
         """
         parser = {
@@ -73,8 +73,8 @@ class Generator:
             'bool': 'type: boolean',
             'float': 'type: number',
             'str': 'type: string',
-            'list': 'type: array items: {}',
-            'dict': 'type: object\n       additionalProperties: true'
+            'list': 'type: array\n          items: {}',
+            'dict': 'type: object\n         additionalProperties: true'
         }
 
         if is_dataclass(_type):
@@ -112,12 +112,13 @@ class Generator:
         else:
             _type = self.parse_type(_type, 1)
 
-        spec = textwrap.dedent(f"""
+        spec = textwrap.dedent("""
             - in: query
               name: {name}
               description: {description}
               schema:
-                {_type}""")
+                {_type}""").format(name=name.strip(), description=description.strip(), _type=_type.strip())
+
         return spec
 
     def generate_response(self, code, _type, description):
@@ -140,22 +141,22 @@ class Generator:
         str(_type)
         if not _type.startswith('object'):
             # int, bool, float, str, list
-            spec = textwrap.dedent(f"""
+            spec = textwrap.dedent("""
               '{code}':
                 description: {description}
                 content:
                   text/plain:
                     schema:
-                      {_type}""")
+                      {_type}""").format(code=code.strip(), description=description.strip(), _type=_type.strip())
         else:
             # dict (generic json) or dataclass ($ref)
-            spec = textwrap.dedent(f"""
+            spec = textwrap.dedent("""
               '{code}':
                 description: {description}
                 content:
                   application/json:
                     schema:
-                      {_type}""")
+                      {_type}""").format(code=code.strip(), description=description.strip(), _type=_type.strip())
         return spec
 
     def generate_properties(self, attr, _type):
@@ -166,7 +167,12 @@ class Generator:
         :param _type:
         :return:
         """
-        _type = self.parse_type(_type)
+
+        if type(_type) == str:
+            _type = self.parse_type(_type, 2)
+        else:
+            _type = self.parse_type(_type, 1)
+
         spec = textwrap.dedent(f"""
           {attr}:
             {_type}""")
@@ -193,7 +199,7 @@ class Generator:
             type: object
             properties:
               {properties}""")
-
+        return spec
 
     def populate_parameters(self, func_obj):
         """
@@ -217,7 +223,7 @@ class Generator:
                         _type,
                         "not yet available, you can read it from docstring")
                     VERBOSE(spec)
-        else:  # use docstring_parser.parse to retrieve parameters
+        else:  # TODO: this docstring parser needs further work and testing.  Use docstring_parser.parse to retrieve parameters
             docstring = parse(func_obj.__doc__)
             print(docstring.params)
             for param in docstring.params:
@@ -239,31 +245,25 @@ class Generator:
         :return:
         """
 
-        '''
-        spec = textwrap.dedent(f"""
-           get:
-            summary: {description}
-            description: Optional extended description in CommonMark or HTML.
-            operationId: {classname}.{funcname}
-            parameters:
-              {parameters}
-            responses:
-              {responses}
-        """).strip()
+        spec = textwrap.dedent("""
+            /{classname}/{funcname}:
+               get:
+                summary: {description}
+                description: Optional extended description in CommonMark or HTML.
+                operationId: {funcname}
+                parameters:
+                  {parameters}
+                responses:
+                  {responses}
+        """).format(
+            description=description,
+            classname=classname,
+            funcname=funcname,
+            parameters=parameters.strip(),
+            responses=responses.strip()
+        )
 
-
-        '''
-        spec = f"""
-                get:
-                 summary: {description}
-                 description: Optional extended description in CommonMark or HTML.
-                 operationId: {classname}.{funcname}
-                 parameters:
-                   {parameters}
-                 responses:
-                   {responses}""".strip()
-
-        return textwrap.dedent(spec)
+        return spec
 
     def generate_openapiClass(self, classname, func_objects, baseurl, outdir, yaml, dataclass_list, write=True):
         """
@@ -280,7 +280,7 @@ class Generator:
 
         print("Got to openapiClass")
 
-        methods = ""
+        paths = ""
         description = "TBD"
         version = "1.0"  # TODO:  hard coded for now
 
@@ -295,7 +295,7 @@ class Generator:
             VERBOSE(v.__annotations__)
             parameters = self.populate_parameters(v)
             if parameters != "":
-                parameters = textwrap.indent(parameters, ' ' * 3)
+                parameters = textwrap.indent(parameters, ' ' * 6)
                 VERBOSE(parameters, label="openapi function parameters")
             else:
                 Console.info(f"Function {func_name} has no parameters defined in docstring")
@@ -311,15 +311,15 @@ class Generator:
             responses = self.generate_response('200',
                                                return_type,
                                                'OK')
-            responses = textwrap.indent(responses, ' ' * 3)
+            responses = textwrap.indent(responses, ' ' * 6)
             VERBOSE(responses, label="openapi function responses")
 
-            methods = methods + self.generate_path(classname, func_description, func_name, parameters, responses)
-            methods.strip()
-            VERBOSE(methods, label="openapi function method")
+            paths = paths + self.generate_path(classname, func_description, func_name, parameters, responses)
 
-        methods = textwrap.indent(methods, ' ' * 5)
-        VERBOSE(methods, label="openapi function methods")
+            VERBOSE(paths, label="openapi function path")
+
+        paths = textwrap.indent(paths, ' ' * 2)
+        VERBOSE(paths, label="openapi function paths")
 
         components = ""
         schemas = ""
@@ -336,13 +336,11 @@ class Generator:
             title=classname,
             description=description,
             version=version,
-            methods=methods.strip(),
+            paths=paths.strip(),
             baseurl=baseurl,
             filename=filename,
             components=components.strip()
         )
-
-        print(spec)
 
         if write:
             try:
