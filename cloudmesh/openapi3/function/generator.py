@@ -51,24 +51,15 @@ class Generator:
         {components}
         """)
 
-    def parse_type(self, _type, ptype):
+    def parse_type(self, _type):
         """
         function to parse supported openapi3 data types
 
         :param _type:
-        :param ptype:
         :return:
         """
-        parser = {
-            int: 'type: integer',
-            bool: 'type: boolean',
-            float: 'type: number',
-            str: 'type: string',
-            list: 'type: array\nitems: {}',
-            dict: 'type: object\nadditionalProperties: true'
-        }
 
-        parser2 = {
+        parser = {
             'int': 'type: integer',
             'bool': 'type: boolean',
             'float': 'type: number',
@@ -78,23 +69,14 @@ class Generator:
         }
 
         if is_dataclass(_type):
-            return f'$ref: "#/components/schemas/{_type.__name__}'
+            return f'$ref: "#/components/schemas/{_type}'
         # exits with KeyError if unsupported type is given
 
-        print(ptype)
-        if ptype == 1:
-            try:
-                t = parser[_type]
-            except KeyError:
-                print(f'unsupported data type supplied for {_type.__name__}:')
-                raise Exception
-        else:
-            try:
-                print("got here 2")
-                t = parser2[_type]
-            except KeyError:
-                print(f'unsupported data type supplied for {_type}:')
-                raise Exception
+        try:
+            t = parser[_type]
+        except KeyError:
+            print(f'unsupported data type supplied for {_type}')
+            raise Exception
         return t
 
     def generate_parameter(self, name, _type, description):
@@ -108,9 +90,9 @@ class Generator:
         """
 
         if type(_type) == str:
-            _type = self.parse_type(_type, 2)
+            _type = self.parse_type(_type)
         else:
-            _type = self.parse_type(_type, 1)
+            _type = self.parse_type(_type.__name__)
 
         spec = textwrap.dedent("""
             - in: query
