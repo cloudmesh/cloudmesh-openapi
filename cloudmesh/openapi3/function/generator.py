@@ -116,9 +116,9 @@ class Generator:
         # TODO need to figure out how to set up docstring return type correctly so that it's parsable
 
         if type(_type) == str:
-            _type = self.parse_type(_type, 2)
+            _type = self.parse_type(_type)
         else:
-            _type = self.parse_type(_type, 1)
+            _type = self.parse_type(_type.__name__)
 
         str(_type)
         if not _type.startswith('object'):
@@ -151,9 +151,9 @@ class Generator:
         """
 
         if type(_type) == str:
-            _type = self.parse_type(_type, 2)
+            _type = self.parse_type(_type)
         else:
-            _type = self.parse_type(_type, 1)
+            _type = self.parse_type(_type.__name__)
 
         spec = textwrap.dedent(f"""
           {attr}:
