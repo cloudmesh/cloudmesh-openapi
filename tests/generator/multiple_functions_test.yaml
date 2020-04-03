@@ -1,0 +1,58 @@
+
+openapi: 3.0.0
+info:
+  title: sample_function
+  description: TBD
+  version: "1.0"
+servers:
+  - url: http://localhost/cloudmesh
+    description: TODO THIS MUST BE CHANGEABLE
+paths:
+  /sample_function/sampleFunction:
+     get:
+      summary: Multiply int and float sample.
+      description: Optional extended description in CommonMark or HTML.
+      operationId: sampleFunction
+      parameters:
+        - in: query
+          name: x
+          description: not yet available, you can read it from docstring
+          schema:
+            type: integer
+        - in: query
+          name: y
+          description: not yet available, you can read it from docstring
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: number
+
+  /sample_function/sampleFunction2:
+     get:
+      summary: Multiply int and float sample.
+      description: Optional extended description in CommonMark or HTML.
+      operationId: sampleFunction2
+      parameters:
+        - in: query
+          name: x2
+          description: not yet available, you can read it from docstring
+          schema:
+            type: integer
+        - in: query
+          name: y2
+          description: not yet available, you can read it from docstring
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: number
+
