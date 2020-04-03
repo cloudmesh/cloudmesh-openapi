@@ -34,6 +34,7 @@ class Openapi3Command(PluginCommand):
                                          --filename=FILENAME
                                          --yamldirectory=DIRECTORY
                                          [--fclass]
+                                         [--all_functions]
                                          [--verbose]
               openapi3 server start YAML [NAME]
                               [--directory=DIRECTORY]
@@ -90,12 +91,13 @@ class Openapi3Command(PluginCommand):
                        'baseurl',
                        'filename',
                        'name',
-                       'fclass')
+                       'fclass',
+                       'all_functions')
         arguments.debug = arguments.verbose
 
         # VERBOSE(arguments)
 
-        if arguments.generate and not arguments.fclass:
+        if arguments.generate and not arguments.fclass and not arguments.all_functions:
 
             try:
 
@@ -163,7 +165,7 @@ class Openapi3Command(PluginCommand):
                 Console.error("Failed to generate openapi yaml")
                 print(e)
 
-        elif arguments.generate and arguments.fclass:
+        elif arguments.generate and arguments.fclass and not arguments.all_functions:
             try:
 
                 function = arguments.FUNCTION
@@ -189,6 +191,69 @@ class Openapi3Command(PluginCommand):
                 for attr_name in dir(class_obj):
                     if isinstance(getattr(class_obj, attr_name), types.MethodType):
                         attr_obj = getattr(class_obj, attr_name)
+                        VERBOSE(attr_name)
+                        VERBOSE(attr_obj)
+                        setattr(sys.modules[module_name], attr_name, attr_obj)
+
+                        for sub_attr_name in dir(attr_name):
+                            sub_attr_obj = getattr(attr_name, sub_attr_name)
+                            if is_dataclass(sub_attr_obj):
+                                dataclass_list.append(sub_attr_obj)
+                        VERBOSE(dataclass_list)
+
+                        func_objects[f"{attr_name}"] = attr_obj
+
+                openAPI = generator.Generator()
+
+                '''
+                TODO: look at using __init__ constructor in Class so that parameters can be defined at instantiation and reused for each function
+
+                openAPI = generator.Generato(
+                    function=arguments.FUNCTION,
+                    yamlfile=arguments.YAML,
+                    baseurl=path_expand(arguments.baseurl),
+                    filename=arguments.filename.strip().split(".")[0],
+                    yamldirectory=path_expand(arguments.yamldirectory)
+                )
+                '''
+
+                baseurl_short = pathlib.Path(f"{baseurl}").stem
+
+                openAPI.generate_openapiClass(function,
+                                         func_objects,
+                                         baseurl_short,
+                                         yamldirectory,
+                                         yamlfile,
+                                         dataclass_list)
+
+            except Exception as e:
+                Console.error("Failed to generate openapi yaml")
+                print(e)
+                
+        elif arguments.generate and arguments.all_functions and not arguments.fclass:
+            try:
+                # function should probably be the same as the filename. Could just automate this
+                function = arguments.FUNCTION
+                yamlfile = arguments.YAML
+                baseurl = path_expand(arguments.baseurl)
+                VERBOSE(baseurl)
+                filename = arguments.filename.strip().split(".")[0]
+                VERBOSE(filename)
+                yamldirectory = path_expand(arguments.yamldirectory)
+                VERBOSE(yamldirectory)
+
+                sys.path.append(baseurl)
+
+                module_name = pathlib.Path(f"{filename}").stem
+                VERBOSE(module_name)
+                imported_module = import_module(module_name)
+                VERBOSE(imported_module)
+
+                func_objects = {}
+                dataclass_list = []
+                for attr_name in dir(imported_module):
+                    if isinstance(getattr(imported_module, attr_name), types.MethodType):
+                        attr_obj = getattr(imported_module, attr_name)
                         VERBOSE(attr_name)
                         VERBOSE(attr_obj)
                         setattr(sys.modules[module_name], attr_name, attr_obj)
