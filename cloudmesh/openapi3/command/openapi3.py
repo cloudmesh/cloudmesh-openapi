@@ -252,7 +252,7 @@ class Openapi3Command(PluginCommand):
                 func_objects = {}
                 dataclass_list = []
                 for attr_name in dir(imported_module):
-                    if isinstance(getattr(imported_module, attr_name), types.MethodType):
+                    if type(getattr(imported_module, attr_name)).__name__ == 'function':
                         attr_obj = getattr(imported_module, attr_name)
                         VERBOSE(attr_name)
                         VERBOSE(attr_obj)
