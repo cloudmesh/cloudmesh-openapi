@@ -23,7 +23,7 @@ class Generator:
           version: "{version}"
         servers:
           - url: http://localhost/cloudmesh
-            description: TODO THIS MUST BE CHANGEABLE
+            description: {description}
         paths:
           /{baseurl}:
              get:
@@ -45,7 +45,7 @@ class Generator:
           version: "{version}"
         servers:
           - url: http://localhost/cloudmesh
-            description: TODO THIS MUST BE CHANGEABLE
+            description: {description}
         paths:
           {paths}
         {components}
@@ -81,7 +81,7 @@ class Generator:
 
     def generate_parameter(self, name, _type, description):
         """
-        function to generate parameters YAMAL contents
+        function to generate parameters YAML contents
 
         :param name:
         :param _type:
@@ -120,7 +120,6 @@ class Generator:
         else:
             _type = self.parse_type(_type.__name__)
 
-        str(_type)
         if not _type.startswith('object'):
             # int, bool, float, str, list
             spec = textwrap.dedent("""
@@ -188,50 +187,50 @@ class Generator:
         Function to loop all the parameters of given function and generate
         specification
 
-        :param function_name:
+        :param func_obj:
         :return:
         """
         spec = str()
-        print(func_obj.__annotations__)
-
-        if func_obj.__annotations__ and len(func_obj.__annotations__) > 1:
-            for parameter, _type in func_obj.__annotations__.items():
-                if parameter == 'return':
-                    continue  # dicts are unordered, so use continue
-                    # intead of break to be safe
-                else:
-                    spec = spec + self.generate_parameter(
-                        parameter,
-                        _type,
-                        "not yet available, you can read it from docstring")
-                    VERBOSE(spec)
-        else:  # TODO: this docstring parser needs further work and testing.  Use docstring_parser.parse to retrieve parameters
-            docstring = parse(func_obj.__doc__)
-            print(docstring.params)
-            for param in docstring.params:
-                print(param.arg_name, "::", param.type_name)
+        description = None
+        for parameter, _type in func_obj.__annotations__.items():
+            if parameter == 'return':
+                continue  # dicts are unordered, so use continue
+                # intead of break to be safe
+            else:
+                # TODO: used dosctring_parser package for now.  But this requires pip install.  Consider alternatives.
+                docstring = parse(func_obj.__doc__)
+                print(docstring.params)
+                for param in docstring.params:
+                    if param.arg_name == parameter:
+                        description = param.description.strip()
                 spec = spec + self.generate_parameter(
-                    param.arg_name,
-                    param.type_name,
-                    "not yet available, you can read it from docstring")
+                    parameter,
+                    _type,
+                    description if description else "no description provided in docstring")
                 VERBOSE(spec)
+
         return spec
 
-    def generate_path(self, classname, description, funcname, parameters, responses):
+    def generate_path(self, class_name, description, long_description, funcname, parameters, responses):
         """
         function to generate path yaml contents
 
-        :param code:
-        :param _type:
+        :param class_name:
         :param description:
+        :param long_description:
+        :param funcname:
+        :param parameters:
+        :param responses:
         :return:
         """
 
+        l_description = long_description if long_description != None else 'None (Optional extended description in CommonMark or HTML)'
+
         spec = textwrap.dedent("""
-            /{classname}/{funcname}:
+            /{class_name}/{funcname}:
                get:
                 summary: {description}
-                description: Optional extended description in CommonMark or HTML.
+                description: {l_description}
                 operationId: {funcname}
                 parameters:
                   {parameters}
@@ -239,7 +238,8 @@ class Generator:
                   {responses}
         """).format(
             description=description,
-            classname=classname,
+            l_description=l_description,
+            class_name=class_name,
             funcname=funcname,
             parameters=parameters.strip(),
             responses=responses.strip()
@@ -247,62 +247,72 @@ class Generator:
 
         return spec
 
-    def generate_openapiClass(self, classname, func_objects, baseurl, outdir, yaml, dataclass_list, write=True):
+    def generate_openapi_class(self, class_name, class_description, func_objects, baseurl, outdir, yaml, dataclass_list, write=True):
         """
-                function to generate open API of python function.
+        function to generate open API of python function.
 
-                :param classname:
-                :param func_objects:
-                :param baseurl:
-                :param outdir:
-                :param yaml:
-                :param write:
-                :return:
-                """
+        :param class_name:
+        :param class_description:
+        :param func_objects:
+        :param baseurl:
+        :param outdir:
+        :param yaml:
+        :param dataclass_list:
+        :param write:
+        :return:
+        """
 
-        print("Got to openapiClass")
-
+        # Initializing and setting global variables
         paths = ""
-        description = "TBD"
+        description = class_description if class_description else "No description found"
         version = "1.0"  # TODO:  hard coded for now
-
         filename = pathlib.Path(next(iter(func_objects.items()))[1].__code__.co_filename).stem
 
-        print("filename: ", filename)
+        # Loop through all functions
         for k, v in func_objects.items():   # k = function_name, v = function object
             VERBOSE(v)
             func_name = v.__name__
-            func_description = v.__doc__.strip().split("\n")[0]
+
+            docstring = parse(v.__doc__)
+            func_description = docstring.short_description
+            func_ldescription = docstring.long_description
+
+            # func_description = v.__doc__.strip().split("\n")[0]
             VERBOSE(func_description)
-            VERBOSE(v.__annotations__)
+            VERBOSE(func_ldescription)
+
+            # TODO: handling functions with no input parameters and no return value needs additional testing
+            if v.__annotations__:
+                Console.info("Annotations found for function...processing")
+            else:
+                Console.error(f"No annotations found for function '{func_name}'")
+                raise Exception
+
+            # Define parameters section(s) for openapi yaml
             parameters = self.populate_parameters(v)
             if parameters != "":
                 parameters = textwrap.indent(parameters, ' ' * 6)
                 VERBOSE(parameters, label="openapi function parameters")
             else:
                 Console.info(f"Function {func_name} has no parameters defined in docstring")
-                # TODO: handling functions with no input parameters needs additional testing
 
-            # TODO the below response parsing logic only works with annotations but not docstring
-            if v.__annotations__:
-                return_type = v.__annotations__['return']
-            else:
-                return_type = parse(v.__doc__).returns
-
-            VERBOSE(return_type)
+            # Define responses section(s) for openapi yaml
             responses = self.generate_response('200',
-                                               return_type,
+                                               v.__annotations__['return'],
                                                'OK')
             responses = textwrap.indent(responses, ' ' * 6)
             VERBOSE(responses, label="openapi function responses")
 
-            paths = paths + self.generate_path(classname, func_description, func_name, parameters, responses)
+            # Define paths section(s) for openapi yaml
+            paths = paths + self.generate_path(class_name, func_description, func_ldescription, func_name, parameters, responses)
 
             VERBOSE(paths, label="openapi function path")
 
+        # Indent full paths section for openapi yaml
         paths = textwrap.indent(paths, ' ' * 2)
         VERBOSE(paths, label="openapi function paths")
 
+        # Define components section(s) for openapi yaml
         components = ""
         schemas = ""
         if len(dataclass_list) > 0:
@@ -310,12 +320,13 @@ class Generator:
                       components:
                         schemas:
                           """)
-            for dc in func['dataclass_list']:
+            for dc in dataclass_list:
                 schemas = schemas + textwrap.indent(self.generate_schema(dc), ' ' * 6)
         VERBOSE(components, label="openapi function components")
 
+        # Update openapi template to create final version of openapi yaml
         spec = self.openAPITemplate2.format(
-            title=classname,
+            title=class_name,
             description=description,
             version=version,
             paths=paths.strip(),
@@ -324,12 +335,13 @@ class Generator:
             components=components.strip()
         )
 
+        # Write openapi yaml to file
         if write:
             try:
                 if yaml != "" and yaml is not None:
                     version = open(f"{outdir}/{yaml}.yaml", 'w').write(spec)
                 else:
-                    version = open(f"{outdir}/{classname}.yaml", 'w').write(spec)
+                    version = open(f"{outdir}/{class_name}.yaml", 'w').write(spec)
             except IOError:
                 Console.error("Unable to write yaml file")
             except Exception as e:
@@ -345,6 +357,7 @@ class Generator:
         :param baseurl:
         :param outdir:
         :param yaml:
+        :param dataclass_list:
         :param write:
         :return:
         """
@@ -367,6 +380,7 @@ class Generator:
         VERBOSE(responses, label="openapi function responses")
 
         components = ''
+        schemas = ''
         if len(dataclass_list) > 0:
             components = textwrap.dedent("""
               components:
