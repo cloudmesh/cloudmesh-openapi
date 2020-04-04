@@ -12,6 +12,7 @@ from cloudmesh.openapi3.function.server import Server
 from cloudmesh.openapi3.registry.Registry import Registry
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
+import types
 
 
 # start-stop: osx Andrew
@@ -28,10 +29,12 @@ class Openapi3Command(PluginCommand):
         ::
 
           Usage:
-              openapi3 generate FUNCTION [YAML]
-                                         --baseurl=BASEURL
-                                         --filename=FILENAME
-                                         --yamldirectory=DIRECTORY
+              openapi3 generate FUNCTION --filename=FILENAME
+                                         [--baseurl=BASEURL]
+                                         [--yamlfile=YAML]
+                                         [--yamldirectory=DIRECTORY]
+                                         [--fclass]
+                                         [--all_functions]
                                          [--verbose]
               openapi3 server start YAML [NAME]
                               [--directory=DIRECTORY]
@@ -59,6 +62,7 @@ class Openapi3Command(PluginCommand):
           Arguments:
               DIR   The directory of the specifications
               FILE  The specification
+              FUNCTION  The name for the function or class
 
           Options:
               --debug                use the server in debug mode
@@ -83,30 +87,43 @@ class Openapi3Command(PluginCommand):
                        'verbose',
                        'port',
                        'directory',
+                       'yamlfile',
                        'yamldirectory',
                        'baseurl',
                        'filename',
-                       'name')
+                       'name',
+                       'fclass',
+                       'all_functions')
         arguments.debug = arguments.verbose
 
         # VERBOSE(arguments)
 
-        if arguments.generate:
+        if arguments.generate and not arguments.fclass and not arguments.all_functions:
 
             try:
                 function = arguments.FUNCTION
                 yamlfile = arguments.YAML
                 baseurl = path_expand(arguments.baseurl)
+                VERBOSE(baseurl)
                 filename = arguments.filename.strip().split(".")[0]
+                VERBOSE(filename)
                 yamldirectory = path_expand(arguments.yamldirectory)
+                VERBOSE(yamldirectory)
 
                 sys.path.append(baseurl)
 
                 module_name = pathlib.Path(f"{filename}").stem
-
+                VERBOSE(module_name)
                 imported_module = import_module(module_name)
-
+                VERBOSE(imported_module)
                 func_obj = getattr(imported_module, function)
+                VERBOSE(func_obj)
+
+                for attr_name in dir(func_obj):
+                    attr = getattr(func_obj, attr_name)
+                    if isinstance(getattr(func_obj, attr_name), types.MethodType):
+                        VERBOSE(attr)
+                        print(attr_name)
 
                 setattr(sys.modules[module_name], function, func_obj)
 
@@ -117,8 +134,20 @@ class Openapi3Command(PluginCommand):
                     attr = getattr(imported_module, attr_name)
                     if is_dataclass(attr):
                         dataclass_list.append(attr)
-
+                VERBOSE(dataclass_list)
                 openAPI = generator.Generator()
+
+                '''
+                TODO: look at using __init__ constructor in Class so that parameters can be defined at instantiation and reused for each function
+                
+                openAPI = generator.Generato(
+                    function=arguments.FUNCTION,
+                    yamlfile=arguments.YAML,
+                    baseurl=path_expand(arguments.baseurl),
+                    filename=arguments.filename.strip().split(".")[0],
+                    yamldirectory=path_expand(arguments.yamldirectory)
+                )
+                '''
 
                 baseurl_short = pathlib.Path(f"{baseurl}").stem
 
@@ -126,6 +155,158 @@ class Openapi3Command(PluginCommand):
                                          baseurl_short,
                                          yamldirectory, yamlfile,
                                          dataclass_list)
+            except Exception as e:
+                Console.error("Failed to generate openapi yaml")
+                print(e)
+
+        elif arguments.generate and arguments.fclass and not arguments.all_functions:
+            try:
+                function = arguments.FUNCTION  # Class Name
+                VERBOSE(function)
+
+                filename = pathlib.Path(path_expand(arguments.filename)).stem
+                VERBOSE(filename)
+
+                yamlfile = arguments.yamlfile if arguments.yamlfile else function
+                VERBOSE(yamlfile)
+
+                baseurl = path_expand(arguments.baseurl) if arguments.baseurl else \
+                    str(pathlib.Path(path_expand(arguments.filename)).parent)
+                VERBOSE(baseurl)
+
+                baseurl_short = pathlib.Path(f"{baseurl}").stem
+                VERBOSE(baseurl_short)
+
+                yamldirectory = path_expand(arguments.yamldirectory) if arguments.yamldirectory else \
+                    str(pathlib.Path(path_expand(arguments.filename)).parent)
+                VERBOSE(yamldirectory)
+
+                sys.path.append(baseurl)
+
+                module_name = filename
+
+                imported_module = import_module(module_name)
+                VERBOSE(imported_module)
+
+                class_obj = getattr(imported_module, function)
+                VERBOSE(class_obj)
+
+                class_description = class_obj.__doc__.strip().split("\n")[0]
+
+                func_objects = {}
+                dataclass_list = []
+                for attr_name in dir(class_obj):
+                    if isinstance(getattr(class_obj, attr_name), types.MethodType):
+                        attr_obj = getattr(class_obj, attr_name)
+                        VERBOSE(attr_name)
+                        VERBOSE(attr_obj)
+                        setattr(sys.modules[module_name], attr_name, attr_obj)
+
+                        for sub_attr_name in dir(attr_name):
+                            sub_attr_obj = getattr(attr_name, sub_attr_name)
+                            if is_dataclass(sub_attr_obj):
+                                dataclass_list.append(sub_attr_obj)
+                        VERBOSE(dataclass_list)
+
+                        func_objects[f"{attr_name}"] = attr_obj
+
+                openAPI = generator.Generator()
+
+                '''
+                TODO: look at using __init__ constructor in Class so that parameters can be defined at instantiation and reused for each function
+                
+                
+                openAPI = generator.Generator(
+                    function=arguments.FUNCTION,
+                    yamlfile=arguments.YAML,
+                    baseurl=path_expand(arguments.baseurl),
+                    filename=arguments.filename.strip().split(".")[0],
+                    yamldirectory=path_expand(arguments.yamldirectory)
+                )
+                '''
+
+                openAPI.generate_openapi_class(function,
+                                         class_description,
+                                         func_objects,
+                                         baseurl_short,
+                                         yamldirectory,
+                                         yamlfile,
+                                         dataclass_list)
+
+            except Exception as e:
+                Console.error("Failed to generate openapi yaml")
+                print(e)
+
+        # TODO: this should just be collapsed into the previous condition
+        elif arguments.generate and arguments.all_functions and not arguments.fclass:
+            try:
+                function = arguments.FUNCTION  # Class Name
+                VERBOSE(function)
+
+                filename = pathlib.Path(path_expand(arguments.filename)).stem
+                VERBOSE(filename)
+
+                yamlfile = arguments.yamlfile if arguments.yamlfile else function
+                VERBOSE(yamlfile)
+
+                baseurl = path_expand(arguments.baseurl) if arguments.baseurl else \
+                    str(pathlib.Path(path_expand(arguments.filename)).parent)
+                VERBOSE(baseurl)
+
+                baseurl_short = pathlib.Path(f"{baseurl}").stem
+                VERBOSE(baseurl_short)
+
+                yamldirectory = path_expand(arguments.yamldirectory) if arguments.yamldirectory else \
+                    str(pathlib.Path(path_expand(arguments.filename)).parent)
+                VERBOSE(yamldirectory)
+
+                sys.path.append(baseurl)
+
+                module_name = filename
+                VERBOSE(module_name)
+
+                imported_module = import_module(module_name)
+                VERBOSE(imported_module)
+
+                func_objects = {}
+                dataclass_list = []
+                for attr_name in dir(imported_module):
+                    if type(getattr(imported_module, attr_name)).__name__ == 'function':
+                        attr_obj = getattr(imported_module, attr_name)
+                        VERBOSE(attr_name)
+                        VERBOSE(attr_obj)
+                        setattr(sys.modules[module_name], attr_name, attr_obj)
+
+                        for sub_attr_name in dir(attr_name):
+                            sub_attr_obj = getattr(attr_name, sub_attr_name)
+                            if is_dataclass(sub_attr_obj):
+                                dataclass_list.append(sub_attr_obj)
+                        VERBOSE(dataclass_list)
+
+                        func_objects[f"{attr_name}"] = attr_obj
+
+                openAPI = generator.Generator()
+
+                '''
+                TODO: look at using __init__ constructor in Class so that parameters can be defined at instantiation and reused for each function
+
+                openAPI = generator.Generator(
+                    function=arguments.FUNCTION,
+                    yamlfile=arguments.YAML,
+                    baseurl=path_expand(arguments.baseurl),
+                    filename=arguments.filename.strip().split(".")[0],
+                    yamldirectory=path_expand(arguments.yamldirectory)
+                )
+                '''
+
+                openAPI.generate_openapi_class(function,
+                                         "No description provided",
+                                         func_objects,
+                                         baseurl_short,
+                                         yamldirectory,
+                                         yamlfile,
+                                         dataclass_list)
+
             except Exception as e:
                 Console.error("Failed to generate openapi yaml")
                 print(e)

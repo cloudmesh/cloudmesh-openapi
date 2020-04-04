@@ -1,0 +1,65 @@
+
+openapi: 3.0.0
+info:
+  title: Printer
+  description: TBD
+  version: "1.0"
+servers:
+  - url: http://localhost/cloudmesh
+    description: TODO THIS MUST BE CHANGEABLE
+paths:
+  /Printer/print_list:
+     get:
+      summary: prints a list
+      description: Optional extended description in CommonMark or HTML.
+      operationId: print_list
+      parameters:
+        - in: query
+          name: l
+          description: not yet available, you can read it from docstring
+          schema:
+            type: array
+                  items: {}
+        - in: query
+          name: output
+          description: not yet available, you can read it from docstring
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /Printer/row_table:
+     get:
+      summary: prints a pretty table from data in the dict.
+      description: Optional extended description in CommonMark or HTML.
+      operationId: row_table
+      parameters:
+        - in: query
+          name: d
+          description: not yet available, you can read it from docstring
+          schema:
+            type: object
+                 additionalProperties: true
+        - in: query
+          name: order
+          description: not yet available, you can read it from docstring
+          schema:
+            type: string
+        - in: query
+          name: labels
+          description: not yet available, you can read it from docstring
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+
