@@ -1,0 +1,1 @@
+cms openapi3 generate sample_function multiple_functions_test --baseurl=. --filename=sample_function.py --yamldirectory=. --all_functions --verbose
