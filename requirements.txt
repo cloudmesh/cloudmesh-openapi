@@ -3,3 +3,5 @@ connexion[swagger-ui]
 cloudmesh-common
 cloudmesh-cmd5
 cloudmesh-sys
+google-api-python-client
+oauth2client
