@@ -25,8 +25,7 @@ Make sure that cloudmesh is properly installed on your machine and you have mong
 
 You can install the openapi function individually from the full cloudmesh suite by running:
 
-`cloudmesh-installer git pull openapi`
-`cloudmesh-installer install openapi` 
+`cloudmesh-installer get openapi`
 
 ## Usage
 
