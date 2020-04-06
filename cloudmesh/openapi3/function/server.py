@@ -50,7 +50,7 @@ class Server(object):
                  name=None,
                  spec=None,
                  directory=None,
-                 host="0.0.0.0",
+                 host="127.0.0.1",
                  server="flask",
                  port=8080,
                  debug=True):
