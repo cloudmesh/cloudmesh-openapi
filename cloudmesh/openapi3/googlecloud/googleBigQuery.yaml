@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: pushFileBigQuery
+  description: push a csv file to the Google Big Query service
+  version: "1.0"
+servers:
+  - url: http://localhost/cloudmesh
+paths:
+  /bqupload:
+     post:
+      description: Optional extended description in CommonMark or HTML.
+      operationId: big-query-ex.pushFileBQ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - filepath
+              properties:
+                filepath:
+                  type: string
+                dataset:
+                  type: string
+                table:
+                  type: string
+      responses:
+        '200':
+          description: Successful uploaded
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Upload failed
+          content:
+            text/plain:
+              schema:
+                type: string
