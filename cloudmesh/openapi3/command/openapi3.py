@@ -40,6 +40,7 @@ class Openapi3Command(PluginCommand):
                               [--directory=DIRECTORY]
                               [--port=PORT]
                               [--server=SERVER]
+                              [--host=HOST]
                               [--verbose]
                               [--debug]
                               [--fg]
@@ -93,7 +94,8 @@ class Openapi3Command(PluginCommand):
                        'filename',
                        'name',
                        'fclass',
-                       'all_functions')
+                       'all_functions',
+                       'host')
         arguments.debug = arguments.verbose
 
         # VERBOSE(arguments)
@@ -406,6 +408,7 @@ class Openapi3Command(PluginCommand):
                     directory=path_expand(
                         arguments.directory) if arguments.directory else arguments.directory,
                     port=arguments.port,
+                    host=arguments.host,
                     server=arguments.wsgi,
                     debug=arguments.debug)
 

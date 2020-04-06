@@ -12,9 +12,9 @@ def add(x: float, y: float) -> float:
     return x + y
 
 
-def subtract(x: float, y: float) -> float:
+def subtraction(x: float, y: float) -> float:
     """
-    subtract int and float sample.
+    subtraction int and float sample.
 
     :param x: x value
     :type x: int
