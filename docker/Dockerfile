@@ -38,13 +38,9 @@ RUN update-alternatives --config pip
 RUN yes '' | update-alternatives --force --all && python --version
 RUN pip install -U pip && pip --version
 RUN pip install connexion[swagger-ui] \
- cloudmesh-cloud \
- cloudmesh-installer \
- docstring_parser
+ cloudmesh-installer
 WORKDIR /usr/local/code
-RUN git clone https://github.com/cloudmesh/cloudmesh-openapi.git
-WORKDIR /usr/local/code/cloudmesh-openapi
-RUN cloudmesh-installer get openapi
+RUN cloudmesh-installer get cloud openapi
 WORKDIR /root
 COPY . /root
 EXPOSE 8080
