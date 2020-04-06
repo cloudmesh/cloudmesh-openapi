@@ -305,7 +305,8 @@ class Openapi3Command(PluginCommand):
                                          baseurl_short,
                                          yamldirectory,
                                          yamlfile,
-                                         dataclass_list)
+                                         dataclass_list,
+                                               True)
 
             except Exception as e:
                 Console.error("Failed to generate openapi yaml")

@@ -248,7 +248,44 @@ class Generator:
 
         return spec
 
-    def generate_openapi_class(self, class_name, class_description, func_objects, baseurl, outdir, yaml, dataclass_list, write=True):
+    def generate_path_all_functions(self, class_name, description, long_description, funcname, parameters, responses,filename):
+        """
+        function to generate path yaml contents
+
+        :param class_name:
+        :param description:
+        :param long_description:
+        :param funcname:
+        :param parameters:
+        :param responses:
+        :return:
+        """
+
+        l_description = long_description if long_description != None else 'None (Optional extended description in CommonMark or HTML)'
+
+        spec = textwrap.dedent("""
+              /{class_name}/{funcname}:
+                 get:
+                  summary: {description}
+                  description: {l_description}
+                  operationId: {filename}.{funcname}
+                  parameters:
+                    {parameters}
+                  responses:
+                    {responses}
+          """).format(
+            description=description,
+            l_description=l_description,
+            class_name=class_name,
+            funcname=funcname,
+            parameters=parameters.strip(),
+            filename =filename,
+            responses=responses.strip()
+        )
+
+        return spec
+
+    def generate_openapi_class(self, class_name, class_description, func_objects, baseurl, outdir, yaml, dataclass_list,all_function=False, write=True):
         """
         function to generate open API of python function.
 
@@ -259,6 +296,7 @@ class Generator:
         :param outdir:
         :param yaml:
         :param dataclass_list:
+        :param all_function:
         :param write:
         :return:
         """
@@ -305,7 +343,10 @@ class Generator:
             VERBOSE(responses, label="openapi function responses")
 
             # Define paths section(s) for openapi yaml
-            paths = paths + self.generate_path(class_name, func_description, func_ldescription, func_name, parameters, responses)
+            if all_function is True:
+             paths = paths + self.generate_path_all_functions(class_name, func_description, func_ldescription, func_name, parameters, responses,filename)
+            else:
+                paths = paths + self.generate_path(class_name, func_description, func_ldescription, func_name,parameters, responses)
 
             VERBOSE(paths, label="openapi function path")
 
