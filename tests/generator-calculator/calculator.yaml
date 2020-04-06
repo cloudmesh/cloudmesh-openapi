@@ -1,18 +1,18 @@
 
 openapi: 3.0.0
 info:
-  title: calculater
+  title: calculator
   description: No description provided
   version: "1.0"
 servers:
   - url: http://localhost/cloudmesh
     description: No description provided
 paths:
-  /calculater/add:
+  /calculator/add:
      get:
       summary: adding float and float.
       description: None (Optional extended description in CommonMark or HTML)
-      operationId: calculater.add
+      operationId: calculator.add
       parameters:
         - in: query
           name: x
@@ -32,11 +32,11 @@ paths:
               schema:
                 type: number
 
-  /calculater/division:
+  /calculator/division:
      get:
       summary: division float and float sample.
       description: None (Optional extended description in CommonMark or HTML)
-      operationId: calculater.division
+      operationId: calculator.division
       parameters:
         - in: query
           name: x
@@ -56,11 +56,11 @@ paths:
               schema:
                 type: number
 
-  /calculater/multiply:
+  /calculator/multiply:
      get:
       summary: Multiply float and float sample.
       description: None (Optional extended description in CommonMark or HTML)
-      operationId: calculater.multiply
+      operationId: calculator.multiply
       parameters:
         - in: query
           name: x
@@ -80,11 +80,11 @@ paths:
               schema:
                 type: number
 
-  /calculater/subtract:
+  /calculator/subtraction:
      get:
-      summary: subtract int and float sample.
+      summary: subtraction int and float sample.
       description: None (Optional extended description in CommonMark or HTML)
-      operationId: calculater.subtract
+      operationId: calculator.subtraction
       parameters:
         - in: query
           name: x
