@@ -3,6 +3,7 @@
 # pytest -v  tests/test_generator.py
 # pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
 ###############################################################
+import os
 import time
 from pprint import pprint
 
@@ -87,22 +88,25 @@ class TestGenerator:
         HEADING()
         Benchmark.Start()
 
-        Shell.run("cd ~/cm/cloudmesh-openapi/tests/")
-        test_loc = Shell.run("pwd")
+        os.chdir("tests")
+        test_loc = Shell.pwd()
         test_loc = test_loc.strip() + "/"
 
-        assert test_loc == "/Users/andrewgoldfarb/e516-spring/cm/cloudmesh-openapi/tests/"
+        assert test_loc == "tests/"
 
         server_output = Shell.cms("openapi server start ./server-cpu/cpu.yaml")
         assert server_output.__contains__("starting server")
 
         time.sleep(2)
         baseurl = "http://127.0.0.1:8080/cloudmesh"
-        response = Shell.run("curl " + baseurl + "/cpu")
+
+        curl = f"curl {baseurl}/cpu"
+
+        response = Shell.run(curl)
         assert response.__contains__("200")
 
         Shell.cms("openapi server stop cpu")
-        response = Shell.run("curl " + baseurl + "/cpu")
+        response = Shell.run(curl)
         fail_message="Failed to connect to 127.0.0.1 port 80: Connection refuse"
         assert response.__contains__(fail_message)
 
