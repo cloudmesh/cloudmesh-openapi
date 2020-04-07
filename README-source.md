@@ -1,7 +1,8 @@
 # Cloudmesh OpenAPI Merge
 
 > **Note:** This page is outomatically generated, do not edit it, to  
-> Modify use
+> Modify use `make readme` and modify the content in
+>
 
 ## Prerequisits
 
