@@ -1,18 +1,18 @@
 # Cloudmesh OpenAPI Merge
 
+
+[![image](https://img.shields.io/travis/TankerHQ/cloudmesh-openapi.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesh-openapi)
+[![image](https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi)
+[![image](https://img.shields.io/pypi/v/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi/)
+[![image](https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg)](https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE)
+
+
 > **Note:** The README.md page is outomatically generated, do not edit it.
 > To modify  change the content in
 > <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md>
 > and use `bin/readme.py`. This note will be moved to the end of this document
 > at a later stage in the project, till everyone knows about it.
->  THe source uses { } for using text in single brackets
-
-
-[![image](https://img.shields.io/travis/TankerHQ/cloudmesh-openapi.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesn-openapi)
-[![image](https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi)
-[![image](https://img.shields.io/pypi/v/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi/)
-[![image](https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg)](https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE)
-
+>  The source uses { } for using text in single brackets
 
 ## Prerequisits
 
@@ -34,7 +34,7 @@ $ pip install cloudmesh-openapi
 
 Make sure you use a python venv before installing
 
-### Developere INstalation
+### Developere Instalation
 
 Developers install also the source code
 
@@ -272,9 +272,14 @@ Description:
 
 ## Pytests
 
-How to run them
+TODO: How to run them
 
-TBD
+ * [test_registry](tests/test_registry.py)
+ * [test_generator](tests/test_generator.py)
+ * [test_server_cms_cpu_Windows](tests/test_server_cms_cpu_Windows.py)
+ * [test_server_cms_sampleFunction](tests/test_server_cms_sampleFunction.py)
+ * [test_server_cms_cpu](tests/test_server_cms_cpu.py)
+ * [test_generator_broken](tests/test_generator_broken.py)
 
 ## Examples
 

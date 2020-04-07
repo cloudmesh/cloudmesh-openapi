@@ -1,13 +1,13 @@
 # Cloudmesh OpenAPI Merge
 
+{icons}
+
 > **Note:** The README.md page is outomatically generated, do not edit it.
 > To modify  change the content in
 > <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md>
 > and use `bin/readme.py`. This note will be moved to the end of this document
 > at a later stage in the project, till everyone knows about it.
->  THe source uses {{ }} for using text in single brackets
-
-{icons}
+>  The source uses {{ }} for using text in single brackets
 
 ## Prerequisits
 
@@ -29,7 +29,7 @@ $ pip install cloudmesh-openapi
 
 Make sure you use a python venv before installing
 
-### Developere INstalation
+### Developere Instalation
 
 Developers install also the source code
 
@@ -154,9 +154,9 @@ is:
 
 ## Pytests
 
-How to run them
+TODO: How to run them
 
-TBD
+{tests}
 
 ## Examples
 
