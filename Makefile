@@ -9,6 +9,9 @@ define banner
 	@echo "############################################################"
 endef
 
+readme:
+	python bin/readme.py
+
 source:
 	cd ../cloudmesh-common; make source
 	$(call banner, "Install cloudmesh-cmd5")

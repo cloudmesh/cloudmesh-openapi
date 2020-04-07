@@ -1,7 +1,21 @@
 # Cloudmesh OpenAPI Merge
 
-> **Note:** This page is outomatically generated, do not edit it, to  
-> Modify use
+> **Note:** The README.md page is outomatically generated, do not edit it.
+> To modify  change the content in
+> <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md>
+> and use `bin/readme.py`. This note will be moved to the end of this document
+> at a later stage in the project, till everyone knows about it.
+>  THe source uses { } for using text in single brackets
+
+
+[![image](https://img.shields.io/travis/TankerHQ/cloudmesh-openapi.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesn-openapi)
+
+[![image](https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi)
+
+[![image](https://img.shields.io/pypi/v/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi/)
+
+[![image](https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg)](https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE)
+
 
 ## Prerequisits
 
@@ -36,9 +50,122 @@ cloudmesh-installer get openapi
 ## Overview
 
 
-## Usage
+## Manual
 
-TBD
+```bash
+Usage:
+    openapi generate FUNCTION --filename=FILENAME
+                               [--baseurl=BASEURL]
+                               [--yamlfile=YAML]
+                               [--yamldirectory=DIRECTORY]
+                               [--fclass]
+                               [--all_functions]
+                               [--verbose]
+    openapi server start YAML [NAME]
+                    [--directory=DIRECTORY]
+                    [--port=PORT]
+                    [--server=SERVER]
+                    [--host=HOST]
+                    [--verbose]
+                    [--debug]
+                    [--fg]
+                    [--os]
+    openapi server stop NAME
+    openapi server list [NAME] [--output=OUTPUT]
+    openapi server ps [NAME] [--output=OUTPUT]
+    openapi register add NAME ENDPOINT
+    openapi register filename NAME
+    openapi register delete NAME
+    openapi register list [NAME] [--output=OUTPUT]
+    openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
+    openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
+    openapi TODO doc [SERVICES...] [--dir=DIR]
+    openapi sklearn generate FUNCTION
+
+Arguments:
+    DIR       The directory of the specifications
+    FILE      The specification
+    FUNCTION  The name for the function or class
+
+Options:
+    --debug                Use the server in debug mode
+    --verbose              Specifies to run in debug mode
+                           [default: False]
+    --port=PORT            The port for the server [default: 8080]
+    --directory=DIRECTORY  The directory in which the server is run
+    --server=SERVER        The server [default: flask]
+    --output=OUTPUT        The outputformat, table, csv, yaml, json
+                           [default: table]
+    --srcdir=SRCDIR        The directory of the specifications
+    --destdir=DESTDIR      The directory where the generated code
+                           is placed
+
+Description:
+  This command does some useful things.
+
+  openapi TODO doc FILE --format=(txt|md|rst) [--indent=INDENT]
+      Sometimes it is useful to generate teh openaopi documentation
+      in another format. We provide fucntionality to generate the
+      documentation from the yaml file in a different formt.
+
+  openapi TODO doc --format=(txt|md|rst) [SERVICES...]
+      Creates a short documentation from services registered in the
+      registry.
+
+  openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
+      Merges tow service specifications into a single servoce
+      TODO: do we have a prototype of this?
+
+
+  openapi sklearn generate sklearn.linear_model.LogisticRegression
+      Generates the
+
+  openapi generate FUNCTION --filename=FILENAME
+                               [--baseurl=BASEURL]
+                               [--yamlfile=YAML]
+                               [--yamldirectory=DIRECTORY]
+                               [--fclass]
+                               [--all_functions]
+                               [--verbose]
+      TODO: add description
+
+  openapi server start YAML [NAME]
+                    [--directory=DIRECTORY]
+                    [--port=PORT]
+                    [--server=SERVER]
+                    [--host=HOST]
+                    [--verbose]
+                    [--debug]
+                    [--fg]
+                    [--os]
+      TODO: add description
+
+  openapi server stop NAME
+      stops the openapi service with the given name
+      TODO: where does this command has to be started from
+
+  openapi server list [NAME] [--output=OUTPUT]
+      Provides a list of all OpenAPI services.
+      TODO: Is thhis command is the same a register list?
+
+  openapi server ps [NAME] [--output=OUTPUT]
+      list the running openapi service
+
+  openapi register add NAME ENDPOINT
+      Openapi comes with a service registry in which we can register
+      openapi services.
+
+  openapi register filename NAME
+      In case you have a yaml file the openapi service can also be
+      registerd from a yaml file
+
+  openapi register delete NAME
+      Deletes the names service from the registry
+
+  openapi register list [NAME] [--output=OUTPUT]
+      Provides a list of all registerd OpenAPI services
+```
+
 
 
 ## Pytests

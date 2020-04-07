@@ -35,6 +35,7 @@ cloudmesh-common
 cloudmesh-cmd5
 cloudmesh-sys
 docstring_parser
+numpydoc
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']

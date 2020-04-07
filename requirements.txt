@@ -3,3 +3,4 @@ cloudmesh-common
 cloudmesh-cmd5
 cloudmesh-sys
 docstring_parser
+numpydoc
