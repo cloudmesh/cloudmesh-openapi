@@ -54,13 +54,9 @@ class OpenapiCommand(PluginCommand):
               openapi register filename NAME
               openapi register delete NAME
               openapi register list [NAME] [--output=OUTPUT]
-              openapi tbd
-              openapi tbd merge [SERVICES...] [--dir=DIR] [--verbose]
-              openapi tdb list [--dir=DIR]
-              openapi tbd description [SERVICES...] [--dir=DIR]
-              openapi tbd md FILE [--indent=INDENT]
-              openapi tbd codegen [SERVICES...] [--srcdir=SRCDIR]
-                              [--destdir=DESTDIR]
+              openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
+              openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
+              openapi TODO doc [SERVICES...] [--dir=DIR]
               openapi sklearn generate FUNCTION
 
           Arguments:
@@ -81,8 +77,67 @@ class OpenapiCommand(PluginCommand):
           Description:
             This command does some useful things.
 
+            openapi TODO doc FILE --format=(txt|md|rst) [--indent=INDENT]
+                Sometimes it is useful to generate teh openaopi documentation
+                in another format. We provide fucntionality to generate the
+                documentation from the yaml file in a different formt.
+
+            openapi TODO doc --format=(txt|md|rst) [SERVICES...]
+                Creates a short documentation from services registered in the
+                registry.
+
+            openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
+                Merges tow service specifications into a single servoce
+                TODO: do we have a prototype of this?
+
+
             openapi sklearn generate sklearn.linear_model.LogisticRegression
                 Generates the
+
+            openapi generate FUNCTION --filename=FILENAME
+                                         [--baseurl=BASEURL]
+                                         [--yamlfile=YAML]
+                                         [--yamldirectory=DIRECTORY]
+                                         [--fclass]
+                                         [--all_functions]
+                                         [--verbose]
+                TODO: add description
+
+            openapi server start YAML [NAME]
+                              [--directory=DIRECTORY]
+                              [--port=PORT]
+                              [--server=SERVER]
+                              [--host=HOST]
+                              [--verbose]
+                              [--debug]
+                              [--fg]
+                              [--os]
+                TODO: add description
+
+            openapi server stop NAME
+                stops the openapi service with the given name
+                TODO: where does this command has to be started from
+
+            openapi server list [NAME] [--output=OUTPUT]
+                Provides a list of all OpenAPI services.
+                TODO: Is thhis command is the same a register list?
+
+            openapi server ps [NAME] [--output=OUTPUT]
+                list the running openapi service
+
+            openapi register add NAME ENDPOINT
+                Openapi comes with a service registry in which we can register
+                openapi services.
+
+            openapi register filename NAME
+                In case you have a yaml file the openapi service can also be
+                registerd from a yaml file
+
+            openapi register delete NAME
+                Deletes the names service from the registry
+
+            openapi register list [NAME] [--output=OUTPUT]
+                Provides a list of all registerd OpenAPI services
 
 
         """
