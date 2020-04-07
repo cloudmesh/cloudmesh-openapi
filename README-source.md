@@ -259,8 +259,8 @@ the links ???
 This motivates doing it automatically.
 
 def param(name, type, description):
-	t1 = f":param {name}: {description}"
-    t2 = f":type {type}"
+	t1 = f":param {{name}}: {{description}}"
+    t2 = f":type {{type}}"
 	return t
 
 
