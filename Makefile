@@ -10,7 +10,9 @@ define banner
 endef
 
 readme:
-	python bin/readme.py
+	python ../cloudmesh-common/bin/readme.py cloudmesh-$(package) cms
+	-git commit -m "Upadte Readme" README.md README-source.md
+	-git push
 
 source:
 	cd ../cloudmesh-common; make source
@@ -52,7 +54,7 @@ dist:
 	python setup.py sdist bdist_wheel
 	twine check dist/*
 
-patch: clean
+patch: clean readme
 	$(call banner, "patch")
 	bump2version --allow-dirty patch
 	python setup.py sdist bdist_wheel
