@@ -15,8 +15,9 @@
 # limitations under the License.                                          #
 # ------------------------------------------------------------------------#
 
-from setuptools import find_packages, setup
 import io
+
+from setuptools import find_packages, setup
 
 
 def readfile(filename):
@@ -34,6 +35,7 @@ connexion[swagger-ui]
 cloudmesh-common
 cloudmesh-cmd5
 cloudmesh-sys
+docstring_parser
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
