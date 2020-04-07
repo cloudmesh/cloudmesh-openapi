@@ -1,5 +1,6 @@
 import pathlib
 import sys
+import textwrap
 import types
 from dataclasses import is_dataclass
 from importlib import import_module
@@ -60,19 +61,22 @@ class OpenapiCommand(PluginCommand):
               openapi sklearn generate FUNCTION
 
           Arguments:
-              DIR   The directory of the specifications
-              FILE  The specification
+              DIR       The directory of the specifications
+              FILE      The specification
               FUNCTION  The name for the function or class
 
           Options:
-              --debug                use the server in debug mode
-              --verbose              specifies to run in debug mode [default: False]
-              --port=PORT            the port for the server [default: 8080]
-              --directory=DIRECTORY  the directory in which the server is run
-              --server=SERVER        the server [default: flask]
-              --output=OUTPUT        the outputformat, table, csv, yaml, json [default: table]
-              --srcdir=SRCDIR   The directory of the specifications
-              --destdir=DESTDIR  The directory where the generated code should be put
+              --debug                Use the server in debug mode
+              --verbose              Specifies to run in debug mode
+                                     [default: False]
+              --port=PORT            The port for the server [default: 8080]
+              --directory=DIRECTORY  The directory in which the server is run
+              --server=SERVER        The server [default: flask]
+              --output=OUTPUT        The outputformat, table, csv, yaml, json
+                                     [default: table]
+              --srcdir=SRCDIR        The directory of the specifications
+              --destdir=DESTDIR      The directory where the generated code
+                                     is placed
 
           Description:
             This command does some useful things.
@@ -167,16 +171,22 @@ class OpenapiCommand(PluginCommand):
                 function = arguments.FUNCTION
                 yamlfile = arguments.YAML
                 baseurl = path_expand(arguments.baseurl)
-                VERBOSE(baseurl)
                 filename = arguments.filename.strip().split(".")[0]
-                VERBOSE(filename)
                 yamldirectory = path_expand(arguments.yamldirectory)
-                VERBOSE(yamldirectory)
-
-                sys.path.append(baseurl)
-
                 module_name = pathlib.Path(f"{filename}").stem
-                VERBOSE(module_name)
+
+                Console.info(textwrap.dedent(f"""
+                     Cloudmesh OpenAPI Generator:
+
+                         Function:  {function}
+                         Filename:  {filename}
+                         YAML:      {yamlfile}
+                         Baseurl:   {baseurl}
+                         Directory: {yamldirectory}
+                         Module:    {module_name}
+
+                 """))
+
                 imported_module = import_module(module_name)
                 VERBOSE(imported_module)
                 func_obj = getattr(imported_module, function)
@@ -201,7 +211,9 @@ class OpenapiCommand(PluginCommand):
                 openAPI = generator.Generator()
 
                 '''
-                TODO: look at using __init__ constructor in Class so that parameters can be defined at instantiation and reused for each function
+                TODO: look at using __init__ constructor in Class so that
+                parameters can be defined at instantiation and reused for each
+                function
                 
                 openAPI = generator.Generato(
                     function=arguments.FUNCTION,
@@ -225,24 +237,29 @@ class OpenapiCommand(PluginCommand):
         elif arguments.generate and arguments.fclass and not arguments.all_functions:
             try:
                 function = arguments.FUNCTION  # Class Name
-                VERBOSE(function)
 
                 filename = pathlib.Path(path_expand(arguments.filename)).stem
-                VERBOSE(filename)
 
-                yamlfile = arguments.yamlfile if arguments.yamlfile else filename
-                VERBOSE(yamlfile)
+                yamlfile = arguments.yamlfile or filename
 
-                baseurl = path_expand(arguments.baseurl) if arguments.baseurl else \
-                    str(pathlib.Path(path_expand(arguments.filename)).parent)
-                VERBOSE(baseurl)
+                baseurl = path_expand(arguments.baseurl) or \
+                          str(pathlib.Path(path_expand(arguments.filename)).parent)
 
                 baseurl_short = pathlib.Path(f"{baseurl}").stem
-                VERBOSE(baseurl_short)
 
-                yamldirectory = path_expand(arguments.yamldirectory) if arguments.yamldirectory else \
-                    str(pathlib.Path(path_expand(arguments.filename)).parent)
-                VERBOSE(yamldirectory)
+                yamldirectory = path_expand(arguments.yamldirectory) or \
+                                str(pathlib.Path(path_expand(arguments.filename)).parent)
+
+                Console.info(textwrap.dedent(f"""
+                    Cloudmesh OpenAPI Generator:
+
+                        Function:  {function}
+                        Filename:  {filename}
+                        YAML:      {yamlfile}
+                        Baseurl:   {baseurl}
+                        Directory: {yamldirectory}
+
+                """))
 
                 sys.path.append(baseurl)
 
@@ -276,7 +293,9 @@ class OpenapiCommand(PluginCommand):
                 openAPI = generator.Generator()
 
                 '''
-                TODO: look at using __init__ constructor in Class so that parameters can be defined at instantiation and reused for each function
+                TODO: look at using __init__ constructor in Class so that
+                parameters can be defined at instantiation and reused for each
+                function
                 
                 
                 openAPI = generator.Generator(
@@ -305,24 +324,29 @@ class OpenapiCommand(PluginCommand):
         elif arguments.generate and arguments.all_functions and not arguments.fclass:
             try:
                 function = arguments.FUNCTION  # Class Name
-                VERBOSE(function)
 
                 filename = pathlib.Path(path_expand(arguments.filename)).stem
-                VERBOSE(filename)
 
-                yamlfile = arguments.yamlfile if arguments.yamlfile else filename
-                VERBOSE(yamlfile)
+                yamlfile = arguments.yamlfile or filename
 
-                baseurl = path_expand(arguments.baseurl) if arguments.baseurl else \
-                    str(pathlib.Path(path_expand(arguments.filename)).parent)
-                VERBOSE(baseurl)
+                baseurl = path_expand(arguments.baseurl) or \
+                          str(pathlib.Path(path_expand(arguments.filename)).parent)
 
                 baseurl_short = pathlib.Path(f"{baseurl}").stem
-                VERBOSE(baseurl_short)
 
-                yamldirectory = path_expand(arguments.yamldirectory) if arguments.yamldirectory else \
-                    str(pathlib.Path(path_expand(arguments.filename)).parent)
-                VERBOSE(yamldirectory)
+                yamldirectory = path_expand(arguments.yamldirectory) or \
+                                str(pathlib.Path(path_expand(arguments.filename)).parent)
+
+                Console.info(textwrap.dedent(f"""
+                    Cloudmesh OpenAPI Generator:
+
+                        Function:  {function}
+                        Filename:  {filename}
+                        YAML:      {yamlfile}
+                        Baseurl:   {baseurl}
+                        Directory: {yamldirectory}
+
+                """))
 
                 sys.path.append(baseurl)
 
@@ -352,7 +376,9 @@ class OpenapiCommand(PluginCommand):
                 openAPI = generator.Generator()
 
                 '''
-                TODO: look at using __init__ constructor in Class so that parameters can be defined at instantiation and reused for each function
+                TODO: look at using __init__ constructor in Class so that
+                parameters can be defined at instantiation and reused for each
+                function
 
                 openAPI = generator.Generator(
                     function=arguments.FUNCTION,
@@ -384,7 +410,7 @@ class OpenapiCommand(PluginCommand):
                     name=arguments.NAME,
                     spec=path_expand(arguments.YAML),
                     directory=path_expand(
-                        arguments.directory) if arguments.directory else arguments.directory,
+                        arguments.directory) or arguments.directory,
                     port=arguments.port,
                     server=arguments.wsgi,
                     debug=arguments.debug
@@ -469,7 +495,7 @@ class OpenapiCommand(PluginCommand):
                     name=arguments.NAME,
                     spec=path_expand(arguments.YAML),
                     directory=path_expand(
-                        arguments.directory) if arguments.directory else arguments.directory,
+                        arguments.directory) or arguments.directory,
                     port=arguments.port,
                     host=arguments.host,
                     server=arguments.wsgi,
