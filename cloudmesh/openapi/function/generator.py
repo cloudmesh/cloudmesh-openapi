@@ -1,9 +1,10 @@
-import textwrap
 from cloudmesh.common.console import Console
-from dataclasses import dataclass, is_dataclass
+import pathlib
 import textwrap
+from dataclasses import is_dataclass
+
 import requests
-import sys, pathlib
+from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
 from docstring_parser import parse
 
@@ -54,7 +55,7 @@ class Generator:
 
     def parse_type(self, _type):
         """
-        function to parse supported openapi3 data types
+        function to parse supported openapi data types
 
         :param _type:
         :return:

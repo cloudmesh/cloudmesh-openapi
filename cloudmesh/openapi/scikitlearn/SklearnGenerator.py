@@ -2,8 +2,9 @@
 import inspect
 import re
 import textwrap
-from numpydoc import docscrape
 from pydoc import locate
+
+from numpydoc import docscrape
 
 
 class TypeScraper:

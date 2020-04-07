@@ -1,8 +1,8 @@
-from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
+from cloudmesh.common.Printer import Printer
 from cloudmesh.common.Shell import Shell
 from cloudmesh.mongo.CmDatabase import CmDatabase
-from cloudmesh.common.Printer import Printer
-import yaml
+from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
+
 
 class Registry:
     kind = "register"

@@ -3,15 +3,14 @@
 # pytest -v  tests/test_generator.py
 # pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
 ###############################################################
-import pytest
-import yaml as yaml
 import sys
 
-sys.path.append("cloudmesh/openapi3/function")
+import pytest
+import yaml as yaml
+
+sys.path.append("cloudmesh/openapi/function")
 import tests.sample_function_gen as testfun
-from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.util import HEADING
-from cloudmesh.common.util import path_expand
 from cloudmesh.common.Benchmark import Benchmark
 
 @pytest.mark.incremental
@@ -23,7 +22,7 @@ class TestGenerator:
         """
         HEADING()
         Benchmark.Start()
-        with open("cloudmesh/openapi3/function/sampleFunction.yaml",
+        with open("cloudmesh/openapi/function/sampleFunction.yaml",
                   "r") as stream:
             try:
                 yaml.safe_load(stream)
@@ -40,7 +39,7 @@ class TestGenerator:
 
         Benchmark.Start()
 
-        with open("cloudmesh/openapi3/function/sampleFunction.yaml",
+        with open("cloudmesh/openapi/function/sampleFunction.yaml",
                   "r") as stream:
             try:
                 keys = yaml.safe_load(stream).keys()
@@ -59,7 +58,7 @@ class TestGenerator:
         HEADING()
 
         Benchmark.Start()
-        with open("cloudmesh/openapi3/function/sampleFunction.yaml",
+        with open("cloudmesh/openapi/function/sampleFunction.yaml",
                   "r") as stream:
             try:
                 paths = yaml.safe_load(stream).get("paths")

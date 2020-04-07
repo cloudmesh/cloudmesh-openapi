@@ -3,11 +3,10 @@ import inspect
 import re
 import textwrap
 from dataclasses import is_dataclass
-from types import FunctionType
 
 import sklearn.linear_model
-from sklearn.linear_model import LogisticRegression
 from numpydoc import docscrape
+from sklearn.linear_model import LogisticRegression
 
 
 class TypeScraper:

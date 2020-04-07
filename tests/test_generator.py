@@ -3,23 +3,16 @@
 # pytest -v  tests/test_generator.py
 # pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
 ###############################################################
+import time
+from pprint import pprint
+
 import pytest
 import yaml as yaml
-import time
-import sys
-
-
-from cloudmesh.common.StopWatch import StopWatch
-from cloudmesh.common.util import HEADING
-from cloudmesh.common.util import path_expand
 from cloudmesh.common.Benchmark import Benchmark
-from pprint import pprint
 from cloudmesh.common.Shell import Shell
-from cloudmesh.mongo.CmDatabase import CmDatabase
+from cloudmesh.common.util import HEADING
 
-from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
-from cloudmesh.openapi3.registry.Registry import Registry
-# sys.path.append("cloudmesh/openapi3/function")
+# sys.path.append("cloudmesh/openapi/function")
 #
 
 py_path = "./server-sampleFunction/samplefunction_server.py"
@@ -100,7 +93,7 @@ class TestGenerator:
 
         assert test_loc == "/Users/andrewgoldfarb/e516-spring/cm/cloudmesh-openapi/tests/"
 
-        server_output = Shell.cms("openapi3 server start ./server-cpu/cpu.yaml")
+        server_output = Shell.cms("openapi server start ./server-cpu/cpu.yaml")
         assert server_output.__contains__("starting server")
 
         time.sleep(2)
@@ -108,7 +101,7 @@ class TestGenerator:
         response = Shell.run("curl " + baseurl + "/cpu")
         assert response.__contains__("200")
 
-        Shell.cms("openapi3 server stop cpu")
+        Shell.cms("openapi server stop cpu")
         response = Shell.run("curl " + baseurl + "/cpu")
         fail_message="Failed to connect to 127.0.0.1 port 80: Connection refuse"
         assert response.__contains__(fail_message)

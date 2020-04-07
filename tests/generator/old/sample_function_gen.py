@@ -1,5 +1,4 @@
-import sys
-from cloudmesh.openapi3.function.generator import Generator
+from cloudmesh.openapi.function.generator import Generator
 
 
 # noinspection PyPep8Naming

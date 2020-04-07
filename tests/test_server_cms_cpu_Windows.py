@@ -4,10 +4,10 @@
 # pytest -v --capture=no  tests/test_server_cms_cpu..py::Test_server_sampleFunction::<METHODNAME>
 ###############################################################
 import pytest
+from cloudmesh.common.Benchmark import Benchmark
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import HEADING
-from cloudmesh.common.Benchmark import Benchmark
 
 Benchmark.debug()
 
@@ -22,7 +22,9 @@ class TestServerSampleFunction:
         HEADING()
 
         Benchmark.Start()
-        result = Shell.execute(f"cms openapi3 server start .///tests///server-cpu///{name}.yaml --os", shell=False)
+        result = Shell.execute(
+            f"cms openapi server start .///tests///server-cpu///{name}.yaml --os",
+            shell=False)
         Benchmark.Stop()
         VERBOSE(result)
 
@@ -33,7 +35,7 @@ class TestServerSampleFunction:
         HEADING()
 
         Benchmark.Start()
-        result = Shell.execute(f"cms openapi3 server stop {name}", shell=True)
+        result = Shell.execute(f"cms openapi server stop {name}", shell=True)
         Benchmark.Stop()
         VERBOSE(result)
 

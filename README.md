@@ -1,14 +1,6 @@
 # Cloudmesh OpenAPI Merge
 
 
-[![image](https://img.shields.io/travis/TankerHQ/cloudmesh-openapi.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesn-openapi)
-
-[![image](https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi)
-
-[![image](https://img.shields.io/pypi/v/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi/)
-
-[![image](https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg)](https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE)
-
 ## Prerequisits
 
 ```bash
@@ -56,8 +48,10 @@ return 1
 
 ### Multiple functions in function.py
 
- 
+```
 cms openapi3 generate function.py [--names=a,c] -> function.yaml
+```
+```
  #dont include b
 
 cms openapi3 generate function.py -> function.yaml
@@ -65,6 +59,7 @@ cms openapi3 generate function.py -> function.yaml
 function.py
 
 functions = list all functions in file
+```
 
 ```
 def a(x:int, y:int):
@@ -83,18 +78,23 @@ def c(x:int, y:int):
 Always the same
 so we can preimplement
 
+```
 abc.txt -> /data/xyz/klmn.txt
+```
 
 ### Downloading data
 
 Always the same
 
+```
 abc.txt <- /data/xyz/klmn.txt
+```
 
 ### Merge openapi's
 
+```
 merge [APIS...] - > single.yaml
-
+```
 
 ### Google
 
@@ -123,7 +123,7 @@ merge [APIS...] - > single.yaml
 
 ## sckit learn
 
-
+```
 --output=yaml
 --output=function
 
@@ -150,7 +150,7 @@ cms generate --sckitlearn --name=abc --function="LinearRegression().predict,Line
 cms generate --sckitlearn --class="LinearRegression"  -> LinearRegression.yaml
 
 	* integrate all methods in the class
-
+```
 
 
 ## OLD DOCUMENTATION DO NOT MDDIFY

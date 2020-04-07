@@ -30,7 +30,6 @@ def readfile(filename):
 # add minimum requirements here
 #
 requiers = """
-ruamel.yaml
 connexion[swagger-ui]
 cloudmesh-common
 cloudmesh-cmd5

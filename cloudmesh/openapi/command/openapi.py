@@ -1,5 +1,6 @@
 import pathlib
 import sys
+import types
 from dataclasses import is_dataclass
 from importlib import import_module
 
@@ -7,14 +8,13 @@ from cloudmesh.common.Printer import Printer
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import path_expand
-from cloudmesh.openapi3.function import generator
-from cloudmesh.openapi3.function.server import Server
-from cloudmesh.openapi3.registry.Registry import Registry
+from cloudmesh.openapi.function import generator
+from cloudmesh.openapi.function.server import Server
+from cloudmesh.openapi.registry.Registry import Registry
+from cloudmesh.openapi.scikitlearn.SklearnGenerator import \
+    generator as SklearnGenerator
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
-from cloudmesh.openapi3.scikitlearn.SklearnGenerator import generator as SklearnGenerator
-
-import types
 
 
 # start-stop: osx Andrew
@@ -22,23 +22,23 @@ import types
 # start-stop: linux Prateek
 
 
-class Openapi3Command(PluginCommand):
+class OpenapiCommand(PluginCommand):
 
     # noinspection PyUnusedLocal,PyPep8Naming
     @command
-    def do_openapi3(self, args, arguments):
+    def do_openapi(self, args, arguments):
         """
         ::
 
           Usage:
-              openapi3 generate FUNCTION --filename=FILENAME
+              openapi generate FUNCTION --filename=FILENAME
                                          [--baseurl=BASEURL]
                                          [--yamlfile=YAML]
                                          [--yamldirectory=DIRECTORY]
                                          [--fclass]
                                          [--all_functions]
                                          [--verbose]
-              openapi3 server start YAML [NAME]
+              openapi server start YAML [NAME]
                               [--directory=DIRECTORY]
                               [--port=PORT]
                               [--server=SERVER]
@@ -47,21 +47,21 @@ class Openapi3Command(PluginCommand):
                               [--debug]
                               [--fg]
                               [--os]
-              openapi3 server stop NAME
-              openapi3 server list [NAME] [--output=OUTPUT]
-              openapi3 server ps [NAME] [--output=OUTPUT]
-              openapi3 register add NAME ENDPOINT
-              openapi3 register filename NAME
-              openapi3 register delete NAME
-              openapi3 register list [NAME] [--output=OUTPUT]
-              openapi3 tbd
-              openapi3 tbd merge [SERVICES...] [--dir=DIR] [--verbose]
-              openapi3 tdb list [--dir=DIR]
-              openapi3 tbd description [SERVICES...] [--dir=DIR]
-              openapi3 tbd md FILE [--indent=INDENT]
-              openapi3 tbd codegen [SERVICES...] [--srcdir=SRCDIR]
+              openapi server stop NAME
+              openapi server list [NAME] [--output=OUTPUT]
+              openapi server ps [NAME] [--output=OUTPUT]
+              openapi register add NAME ENDPOINT
+              openapi register filename NAME
+              openapi register delete NAME
+              openapi register list [NAME] [--output=OUTPUT]
+              openapi tbd
+              openapi tbd merge [SERVICES...] [--dir=DIR] [--verbose]
+              openapi tdb list [--dir=DIR]
+              openapi tbd description [SERVICES...] [--dir=DIR]
+              openapi tbd md FILE [--indent=INDENT]
+              openapi tbd codegen [SERVICES...] [--srcdir=SRCDIR]
                               [--destdir=DESTDIR]
-              openapi3 sklearn generate FUNCTION
+              openapi sklearn generate FUNCTION
 
           Arguments:
               DIR   The directory of the specifications
@@ -81,7 +81,7 @@ class Openapi3Command(PluginCommand):
           Description:
             This command does some useful things.
 
-            openapi3 sklearn generate sklearn.linear_model.LogisticRegression
+            openapi sklearn generate sklearn.linear_model.LogisticRegression
                 Generates the
 
 

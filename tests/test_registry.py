@@ -3,18 +3,15 @@
 # pytest -v  tests/test_generator.py
 # pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
 ###############################################################
+from pprint import pprint
+
 import pytest
 import yaml as yaml
-import sys
-
-from cloudmesh.common.StopWatch import StopWatch
-from cloudmesh.common.util import HEADING
-from cloudmesh.common.util import path_expand
 from cloudmesh.common.Benchmark import Benchmark
-from pprint import pprint
-from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
-from cloudmesh.openapi3.registry.Registry import Registry
-# sys.path.append("cloudmesh/openapi3/function")
+from cloudmesh.common.util import HEADING
+from cloudmesh.openapi.registry.Registry import Registry
+
+# sys.path.append("cloudmesh/openapi/function")
 #
 
 

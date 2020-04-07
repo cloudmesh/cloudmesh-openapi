@@ -1,8 +1,7 @@
-import textwrap
 #from cloudmesh.common.console import Console
-from dataclasses import dataclass, is_dataclass
-import textwrap
 import re
+import textwrap
+from dataclasses import is_dataclass
 
 
 # TODO: docstrings comments missing

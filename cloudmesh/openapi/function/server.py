@@ -2,20 +2,17 @@ import os
 import subprocess
 import sys
 import textwrap
-import yaml
 from datetime import date
 from importlib import import_module
 from pathlib import Path
 
 import connexion
+import yaml
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import path_expand
-from cloudmesh.openapi3.registry.Registry import Registry
-
-
-import multiprocessing as mp
+from cloudmesh.openapi.registry.Registry import Registry
 
 
 def daemon(func):
@@ -173,10 +170,11 @@ class Server(object):
         for pinfo in result:
             if pinfo["cmdline"] is not None:
                 line = ' '.join(pinfo["cmdline"])
-                if "openapi3 server start" in line:
+                if "openapi server start" in line:
                     info = line.split("start")[1].split("--")[0].strip()
                     if name is None:
-                        name = os.path.basename(line.split("openapi3 server start")[1]).split(".")[0]
+                        name = os.path.basename(
+                            line.split("openapi server start")[1]).split(".")[0]
                     if name is not None and f"{name}.yaml" in info:
                         pids.append({"name":name, "pid": pinfo['pid'], "spec": info})
                     else:
