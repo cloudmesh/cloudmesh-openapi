@@ -90,7 +90,7 @@ class Generator:
                 last_key = item
         for parameter_dict, _type in paras_dict.items():
             for parameter_desc, desc in paras_desc.items():
-                if parameter_dict == 'return':
+                if parameter_dict == 'return1':
                     docstring = docstring + \
                                 (f""":param {parameter_dict}: {desc}""") + "\n" + \
                                 "    " + (f""":type {parameter_dict}: {_type}""") + "\n" + "    "
@@ -103,6 +103,7 @@ class Generator:
                             spec = spec + (f"""{parameter_dict}: {_type}""")
                         else:
                             spec = spec + f"""{parameter_dict}: {_type},""" + " "
+
         return spec,docstring
 
     def is_valid_para(self, para_type, type_table):
@@ -136,14 +137,12 @@ class Generator:
             para_str = str(p.type)
             para_type = scraper.scrap(para_str)
             if self.is_valid_para(para_type, type_table):
-                returnparam['self'] = para_type
+                #returnparam['return'] = para_type
+                paras['return'] = para_type
             else:
                 continue
-
-        if returnparam == {}:
-            returnparam['self'] = 'self'
-
-        return paras, returnparam
+        print(paras)
+        return paras
 
     def get_docstrings(self, doc):
         """Get descriptions  from the doc of a class, function, or property object.
@@ -158,6 +157,12 @@ class Generator:
             para_desc = '\n                    '.join(p.desc)
             paras_desc[para_name] = para_desc
 
+        for p in r['Returns']:
+            #print(p.name,p.desc)
+            para_name = str(p.name)
+            para_desc = '\n                    '.join(p.desc)
+            paras_desc['return'] = para_desc
+        print(paras_desc)
         return paras_desc
 
     def generate_function(self, module, function):
@@ -191,13 +196,18 @@ class Generator:
         class_name = function
         class_obj = getattr(module, class_name)
         doc = class_obj.__doc__
-        paras_dict_func, returnparam_func = self.get_parameters(doc, type_table)
+        paras_dict_func = self.get_parameters(doc, type_table)
         paras_desc = self.get_docstrings(doc)
         description = class_obj.__doc__.strip().split("\n")[0]
         title = class_obj.__name__
         parametersfunc,docstring = self.populate_parameters_function(function, paras_dict_func, paras_desc)
         text1 = '"""'
-        returnparam1 = returnparam_func['self']
+        key = 'return'
+        if  key in paras_dict_func.keys():
+            returnparam = paras_dict_func['return']
+        else:
+            returnparam = 'self'
+
         functionname = class_obj.__name__
         spec = self.functiontemplate.format(
             functioname=functionname,
@@ -205,12 +215,12 @@ class Generator:
             text1 = text1,
             parameters=parametersfunc,
             docstring=docstring,
-            returnparam1=returnparam1
+            returnparam1=returnparam
         )
 
         return spec
 
-def main(input):
+def generator(input):
     my_class = locate(input)
     method_list = [func for func,value in inspect.getmembers(my_class) if func[0] != '_']
     input_params = input.split('.')
@@ -219,16 +229,17 @@ def main(input):
     class_name = input_params[-1]
     openAPI = Generator()
     spec = openAPI.generate_function(module, class_name)
-    open(f"{input_params[-1]}", 'a').write(spec)
+
+    open(f"{input_params[-1]}.py", 'a').write(spec)
     for i in range(len(method_list)):
         module = my_class
         function =  method_list[i]
         openAPI = Generator()
         spec = openAPI.generate_function(module, function)
-        open(f"{input_params[-1]}", 'a').write(spec)
+        open(f"{input_params[-1]}.py", 'a').write(spec)
 
 if __name__ == "__main__":
     input = 'sklearn.linear_model.LogisticRegression'
-    main(input)
+    generator(input)
 
 
