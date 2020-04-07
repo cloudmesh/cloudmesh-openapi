@@ -6,7 +6,7 @@ class Calculator:
     """
 
     @classmethod
-    def multiplyint(x: int, y: int) -> int:
+    def multiplyint(cls, x: int, y: int) -> int:
         """
         Multiply int by int.
 
@@ -20,7 +20,7 @@ class Calculator:
         return x * y
 
     @classmethod
-    def dividefloat(x: int, y: float) -> float:
+    def dividefloat(cls, x: int, y: float) -> float:
         """
         Divide int by float.
 
@@ -32,3 +32,11 @@ class Calculator:
         :return type: float
         """
         return x / y
+
+
+if __name__ == '__main__':
+    calc = Calculator()
+    manswer = calc.multiplyint(1, 2)
+    danswer = calc.dividefloat(6, 2.3)
+    print(f"multiply answer: {manswer}")
+    print(f"divide answer: {danswer}")

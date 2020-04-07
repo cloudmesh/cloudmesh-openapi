@@ -12,7 +12,7 @@ paths:
      get:
       summary: Multiply int and float sample.
       description: None (Optional extended description in CommonMark or HTML)
-      operationId: sampleFunction
+      operationId: sample_function.sampleFunction
       parameters:
         - in: query
           name: x
@@ -36,7 +36,7 @@ paths:
      get:
       summary: Multiply int and float sample.
       description: None (Optional extended description in CommonMark or HTML)
-      operationId: sampleFunction2
+      operationId: sample_function.sampleFunction2
       parameters:
         - in: query
           name: x2

@@ -12,7 +12,7 @@ paths:
      get:
       summary: Divide int by float.
       description: None (Optional extended description in CommonMark or HTML)
-      operationId: dividefloat
+      operationId: calculator.Calculator.dividefloat
       parameters:
         - in: query
           name: x
@@ -36,7 +36,7 @@ paths:
      get:
       summary: Multiply int by int.
       description: None (Optional extended description in CommonMark or HTML)
-      operationId: multiplyint
+      operationId: calculator.Calculator.multiplyint
       parameters:
         - in: query
           name: x

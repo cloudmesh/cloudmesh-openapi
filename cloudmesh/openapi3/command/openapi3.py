@@ -169,7 +169,7 @@ class Openapi3Command(PluginCommand):
                 filename = pathlib.Path(path_expand(arguments.filename)).stem
                 VERBOSE(filename)
 
-                yamlfile = arguments.yamlfile if arguments.yamlfile else function
+                yamlfile = arguments.yamlfile if arguments.yamlfile else filename
                 VERBOSE(yamlfile)
 
                 baseurl = path_expand(arguments.baseurl) if arguments.baseurl else \
@@ -229,6 +229,7 @@ class Openapi3Command(PluginCommand):
 
                 openAPI.generate_openapi_class(function,
                                          class_description,
+                                         filename,
                                          func_objects,
                                          baseurl_short,
                                          yamldirectory,
@@ -248,7 +249,7 @@ class Openapi3Command(PluginCommand):
                 filename = pathlib.Path(path_expand(arguments.filename)).stem
                 VERBOSE(filename)
 
-                yamlfile = arguments.yamlfile if arguments.yamlfile else function
+                yamlfile = arguments.yamlfile if arguments.yamlfile else filename
                 VERBOSE(yamlfile)
 
                 baseurl = path_expand(arguments.baseurl) if arguments.baseurl else \
@@ -303,6 +304,7 @@ class Openapi3Command(PluginCommand):
 
                 openAPI.generate_openapi_class(function,
                                          "No description provided",
+                                         filename,
                                          func_objects,
                                          baseurl_short,
                                          yamldirectory,

@@ -212,7 +212,7 @@ class Generator:
 
         return spec
 
-    def generate_path(self, class_name, description, long_description, funcname, parameters, responses):
+    def generate_path(self, class_name, description, long_description, funcname, parameters, responses, filename, all_function):
         """
         function to generate path yaml contents
 
@@ -222,17 +222,24 @@ class Generator:
         :param funcname:
         :param parameters:
         :param responses:
+        :param filename:
+        :param all_function:
         :return:
         """
 
         l_description = long_description if long_description != None else 'None (Optional extended description in CommonMark or HTML)'
+
+        if all_function:
+            operationId = f"{filename}.{funcname}"
+        else:
+            operationId = f"{filename}.{class_name}.{funcname}"
 
         spec = textwrap.dedent("""
             /{class_name}/{funcname}:
                get:
                 summary: {description}
                 description: {l_description}
-                operationId: {funcname}
+                operationId: {operationId}
                 parameters:
                   {parameters}
                 responses:
@@ -243,54 +250,19 @@ class Generator:
             class_name=class_name,
             funcname=funcname,
             parameters=parameters.strip(),
-            responses=responses.strip()
+            responses=responses.strip(),
+            operationId=operationId
         )
 
         return spec
 
-    def generate_path_all_functions(self, class_name, description, long_description, funcname, parameters, responses,filename):
-        """
-        function to generate path yaml contents
-
-        :param class_name:
-        :param description:
-        :param long_description:
-        :param funcname:
-        :param parameters:
-        :param responses:
-        :return:
-        """
-
-        l_description = long_description if long_description != None else 'None (Optional extended description in CommonMark or HTML)'
-
-        spec = textwrap.dedent("""
-              /{class_name}/{funcname}:
-                 get:
-                  summary: {description}
-                  description: {l_description}
-                  operationId: {filename}.{funcname}
-                  parameters:
-                    {parameters}
-                  responses:
-                    {responses}
-          """).format(
-            description=description,
-            l_description=l_description,
-            class_name=class_name,
-            funcname=funcname,
-            parameters=parameters.strip(),
-            filename =filename,
-            responses=responses.strip()
-        )
-
-        return spec
-
-    def generate_openapi_class(self, class_name, class_description, func_objects, baseurl, outdir, yaml, dataclass_list,all_function=False, write=True):
+    def generate_openapi_class(self, class_name, class_description, filename, func_objects, baseurl, outdir, yaml, dataclass_list, all_function=False, write=True):
         """
         function to generate open API of python function.
 
         :param class_name:
         :param class_description:
+        :param filename:
         :param func_objects:
         :param baseurl:
         :param outdir:
@@ -305,7 +277,7 @@ class Generator:
         paths = ""
         description = class_description if class_description else "No description found"
         version = "1.0"  # TODO:  hard coded for now
-        filename = pathlib.Path(next(iter(func_objects.items()))[1].__code__.co_filename).stem
+        #filename = pathlib.Path(next(iter(func_objects.items()))[1].__code__.co_filename).stem
 
         # Loop through all functions
         for k, v in func_objects.items():   # k = function_name, v = function object
@@ -343,10 +315,7 @@ class Generator:
             VERBOSE(responses, label="openapi function responses")
 
             # Define paths section(s) for openapi yaml
-            if all_function is True:
-             paths = paths + self.generate_path_all_functions(class_name, func_description, func_ldescription, func_name, parameters, responses,filename)
-            else:
-                paths = paths + self.generate_path(class_name, func_description, func_ldescription, func_name,parameters, responses)
+            paths = paths + self.generate_path(class_name, func_description, func_ldescription, func_name, parameters, responses, filename, all_function)
 
             VERBOSE(paths, label="openapi function path")
 
