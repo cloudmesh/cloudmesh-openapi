@@ -12,6 +12,8 @@ from cloudmesh.openapi3.function.server import Server
 from cloudmesh.openapi3.registry.Registry import Registry
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
+from cloudmesh.openapi3.scikitlearn.SklearnGenerator import generator as SklearnGenerator
+
 import types
 
 
@@ -59,6 +61,7 @@ class Openapi3Command(PluginCommand):
               openapi3 tbd md FILE [--indent=INDENT]
               openapi3 tbd codegen [SERVICES...] [--srcdir=SRCDIR]
                               [--destdir=DESTDIR]
+              openapi3 sklearn generate FUNCTION
 
           Arguments:
               DIR   The directory of the specifications
@@ -77,6 +80,9 @@ class Openapi3Command(PluginCommand):
 
           Description:
             This command does some useful things.
+
+            openapi3 sklearn generate sklearn.linear_model.LogisticRegression
+                Generates the
 
 
         """
@@ -439,6 +445,15 @@ class Openapi3Command(PluginCommand):
                 print()
             except ConnectionError:
                 Console.error("Server not running")
+
+        elif arguments.sklearn:
+
+            try:
+                SklearnGenerator(arguments.FUNCTION)
+
+            except Exception as e:
+                print(e)
+
 
         '''
 
