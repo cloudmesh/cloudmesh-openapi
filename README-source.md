@@ -11,23 +11,31 @@
 
 ## Prerequisits
 
-* Python 3.7.4 or newer, we use 3.8.2
-* updated version of pip greater than 20.x
+* We use recommend Python 3.8.2 Python or newer.
+* We recommend pip version 20.0.2 or newer
+* We recommend that you use a venv (see developer install)
+* MongoDB installed as regular program not as service
+
+We have not checked if it works on older versions.
 
 ## Instalation
 
 Make sure that cloudmesh is properly installed on your machine and you
 have mongodb setup to work with cloudmesh.
 
+More details to setting up mongo can be found in the
+
+* [Cloudmesh Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html)
+
 ###  User Instalation
 
-Users can install the code with
+Make sure you use a python venv before installing. Users can install the
+code with
 
 ```bash
 $ pip install cloudmesh-openapi
 ```
 
-Make sure you use a python venv before installing
 
 ### Developere Instalation
 
