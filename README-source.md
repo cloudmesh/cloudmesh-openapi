@@ -2,12 +2,7 @@
 
 {icons}
 
-> **Note:** The README.md page is outomatically generated, do not edit it.
-> To modify  change the content in
-> <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md>
-> and use `bin/readme.py`. This note will be moved to the end of this document
-> at a later stage in the project, till everyone knows about it.
->  The source uses {{ }} for using text in single brackets
+{warning}
 
 ## Prerequisits
 
