@@ -68,7 +68,7 @@ figured this would make things really easy to just paste any new
 sample function for testing purposes. I also included the parameters
 as was requested. I also ran my output yaml through the swagger
 validator (https://editor.swagger.io/) to make sure it was compliant
-and it was.  
+and it was.
 [Link](https://github.com/cloudmesh-community/sp20-516-237/tree/master/projectAI/generateOpenAPI)
 
 #### sp20-516-231 - Brian Kegerreis
