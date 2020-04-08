@@ -12,3 +12,5 @@ def detect(service, kind, image):
 
 service in aws, google
 kind in handwriting, text
+
+~ /.cloudmesh / cloudmesh.yaml
