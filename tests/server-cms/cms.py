@@ -5,6 +5,11 @@ flat = True
 service = "chameleon"
 
 
+#
+# note when we get NOne back the service shoudl return
+# ('', 204) # e.g. result not found this is handlesd in openapi
+#
+
 def test(service: str) -> dict:
     return {"test": "hello"}
 
