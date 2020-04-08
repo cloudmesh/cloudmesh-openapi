@@ -24,7 +24,9 @@ def vm(service: str) -> list:
     provider = Provider(name=service)
     result = provider.list()
     if flat and result:
-        result = provider.Print(result, kind="vm", output="flat")
+        result = provider.Prints(result,
+                                 kind="vm",
+                                 output="flat")
     return result
 
 
@@ -38,7 +40,7 @@ def flavor(service: str) -> list:
     provider = Provider(name=service)
     result = provider.flavors()
     if flat and result:
-        result = provider.Print(result, kind="vm", output="flat")
+        result = provider.Prints(result, kind="vm", output="flat")
     return result
 
 
@@ -52,7 +54,7 @@ def image(service: str) -> list:
     provider = Provider(name=service)
     result = provider.images()
     if flat and result:
-        result = provider.Print(result, kind="vm", output="flat")
+        result = provider.Prints(result, kind="vm", output="flat")
     return result
 
 
@@ -67,7 +69,7 @@ def boot(service: str) -> list:
     provider = Provider(name=service)
     result = provider.create()
     if flat and result:
-        result = provider.Print(result, kind="vm", output="flat")
+        result = provider.Prints(result, kind="vm", output="flat")
     return result
 
 
