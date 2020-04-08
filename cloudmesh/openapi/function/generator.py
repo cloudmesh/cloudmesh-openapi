@@ -1,4 +1,3 @@
-from cloudmesh.common.console import Console
 import pathlib
 import textwrap
 from dataclasses import is_dataclass
@@ -101,7 +100,9 @@ class Generator:
               name: {name}
               description: {description}
               schema:
-                {_type}""").format(name=name.strip(), description=description.strip(), _type=_type.strip())
+                {_type}""").format(name=name.strip(),
+                                   description=description.strip(),
+                                   _type=_type.strip())
 
         return spec
 
@@ -115,7 +116,8 @@ class Generator:
         :return:
         """
 
-        # TODO need to figure out how to set up docstring return type correctly so that it's parsable
+        # TODO need to figure out how to set up docstring return type correctly
+        #   so that it's parsable
 
         if type(_type) == str:
             _type = self.parse_type(_type)
@@ -130,7 +132,9 @@ class Generator:
                 content:
                   text/plain:
                     schema:
-                      {_type}""").format(code=code.strip(), description=description.strip(), _type=_type.strip())
+                      {_type}""").format(code=code.strip(),
+                                         description=description.strip(),
+                                         _type=_type.strip())
         else:
             # dict (generic json) or dataclass ($ref)
             spec = textwrap.dedent("""
@@ -139,7 +143,9 @@ class Generator:
                 content:
                   application/json:
                     schema:
-                      {_type}""").format(code=code.strip(), description=description.strip(), _type=_type.strip())
+                      {_type}""").format(code=code.strip(),
+                                         description=description.strip(),
+                                         _type=_type.strip())
         return spec
 
     def generate_properties(self, attr, _type):
@@ -199,7 +205,10 @@ class Generator:
                 continue  # dicts are unordered, so use continue
                 # intead of break to be safe
             else:
-                # TODO: used dosctring_parser package for now.  But this requires pip install.  Consider alternatives.
+
+                # TODO: used dosctring_parser package for now.  But this
+                #   requires pip install.  Consider alternatives.
+
                 docstring = parse(func_obj.__doc__)
                 print(docstring.params)
                 for param in docstring.params:
@@ -213,7 +222,15 @@ class Generator:
 
         return spec
 
-    def generate_path(self, class_name, description, long_description, funcname, parameters, responses, filename, all_function):
+    def generate_path(self,
+                      class_name=None,
+                      description=None,
+                      long_description=None,
+                      funcname=None,
+                      parameters=None,
+                      responses=None,
+                      filename=None,
+                      all_function=None):
         """
         function to generate path yaml contents
 
@@ -228,7 +245,9 @@ class Generator:
         :return:
         """
 
-        l_description = long_description if long_description != None else 'None (Optional extended description in CommonMark or HTML)'
+        l_description = long_description \
+            if long_description != None \
+            else 'None (Optional extended description in CommonMark or HTML)'
 
         if all_function:
             operationId = f"{filename}.{funcname}"
@@ -257,7 +276,17 @@ class Generator:
 
         return spec
 
-    def generate_openapi_class(self, class_name, class_description, filename, func_objects, baseurl, outdir, yaml, dataclass_list, all_function=False, write=True):
+    def generate_openapi_class(self,
+                               class_name=None,
+                               class_description=None,
+                               filename=None,
+                               func_objects=None,
+                               baseurl=None,
+                               outdir=None,
+                               yaml=None,
+                               dataclass_list=None,
+                               all_function=False,
+                               write=True):
         """
         function to generate open API of python function.
 
@@ -276,7 +305,9 @@ class Generator:
 
         # Initializing and setting global variables
         paths = ""
-        description = class_description if class_description else "No description found"
+        description = class_description \
+            if class_description \
+            else "No description found"
         version = "1.0"  # TODO:  hard coded for now
 
         # Loop through all functions
@@ -292,7 +323,9 @@ class Generator:
             VERBOSE(func_description)
             VERBOSE(func_ldescription)
 
-            # TODO: handling functions with no input parameters and no return value needs additional testing
+            # TODO: handling functions with no input parameters and no return
+            # value needs additional testing
+
             if v.__annotations__:
                 Console.info("Annotations found for function...processing")
             else:
@@ -305,7 +338,8 @@ class Generator:
                 parameters = textwrap.indent(parameters, ' ' * 6)
                 VERBOSE(parameters, label="openapi function parameters")
             else:
-                Console.info(f"Function {func_name} has no parameters defined in docstring")
+                Console.info(f"Function {func_name} has no parameters "
+                             "defined in docstring")
 
             # Define responses section(s) for openapi yaml
             responses = self.generate_response('200',
@@ -315,7 +349,14 @@ class Generator:
             VERBOSE(responses, label="openapi function responses")
 
             # Define paths section(s) for openapi yaml
-            paths = paths + self.generate_path(class_name, func_description, func_ldescription, func_name, parameters, responses, filename, all_function)
+            paths = paths + self.generate_path(class_name,
+                                               func_description,
+                                               func_ldescription,
+                                               func_name,
+                                               parameters,
+                                               responses,
+                                               filename,
+                                               all_function)
 
             VERBOSE(paths, label="openapi function path")
 
@@ -360,7 +401,13 @@ class Generator:
 
         return
 
-    def generate_openapi(self, f, baseurl, outdir, yaml, dataclass_list, write=True):
+    def generate_openapi(self,
+                         f=None,
+                         baseurl=None,
+                         outdir=None,
+                         yaml=None,
+                         dataclass_list=None,
+                         write=True):
         """
         function to generate open API of python function.
 
