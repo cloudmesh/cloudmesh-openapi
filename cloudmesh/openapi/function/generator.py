@@ -278,18 +278,17 @@ class Generator:
         paths = ""
         description = class_description if class_description else "No description found"
         version = "1.0"  # TODO:  hard coded for now
-        #filename = pathlib.Path(next(iter(func_objects.items()))[1].__code__.co_filename).stem
 
         # Loop through all functions
         for k, v in func_objects.items():   # k = function_name, v = function object
             VERBOSE(v)
             func_name = v.__name__
 
+            # func_description = v.__doc__.strip().split("\n")[0]
             docstring = parse(v.__doc__)
             func_description = docstring.short_description
             func_ldescription = docstring.long_description
 
-            # func_description = v.__doc__.strip().split("\n")[0]
             VERBOSE(func_description)
             VERBOSE(func_ldescription)
 
@@ -351,9 +350,9 @@ class Generator:
         if write:
             try:
                 if yaml != "" and yaml is not None:
-                    version = open(f"{outdir}/{yaml}.yaml", 'w').write(spec)
+                    version = open(f"{outdir}/{yaml}.yaml", 'w').write(spec.strip())
                 else:
-                    version = open(f"{outdir}/{class_name}.yaml", 'w').write(spec)
+                    version = open(f"{outdir}/{class_name}.yaml", 'w').write(spec.strip())
             except IOError:
                 Console.error("Unable to write yaml file")
             except Exception as e:
