@@ -1,6 +1,5 @@
-import typing
 from pprint import pprint
-from copy import deepcopy, copy
+
 from sklearn.linear_model import LinearRegression
 
 func = LinearRegression

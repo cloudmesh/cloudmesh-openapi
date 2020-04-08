@@ -1,6 +1,6 @@
 ###############################################################
-# pytest -v --capture=no tests/test_generator.py
-# pytest -v  tests/test_generator.py
+# pytest -v --capture=no tests/test_02_generator.py
+# pytest -v  tests/test_02_generator.py
 # pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
 ###############################################################
 from pprint import pprint

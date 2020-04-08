@@ -21,6 +21,10 @@ class TestServerSampleFunction:
     def test_start(self):
         HEADING()
 
+        raise ValueError("THIS IS NOT PROPERLY USED. SEE THE MANUAL")
+
+        # there should not be a seperate test needed all test must work on all osses
+        #
         Benchmark.Start()
         result = Shell.execute(
             f"cms openapi server start .///tests///server-cpu///{name}.yaml --os",

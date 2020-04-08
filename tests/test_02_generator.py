@@ -1,6 +1,6 @@
 ###############################################################
-# pytest -v --capture=no tests/test_generator.py
-# pytest -v  tests/test_generator.py
+# pytest -v --capture=no tests/test_02_generator.py
+# pytest -v  tests/test_02_generator.py
 # pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
 ###############################################################
 import os
@@ -16,13 +16,14 @@ from cloudmesh.common.util import HEADING
 # sys.path.append("cloudmesh/openapi/function")
 #
 
-py_path = "./server-sampleFunction/samplefunction_server.py"
-yaml_path = "./server-sampleFunction/sampleFunction.yaml"
+# py_path = "./server-sampleFunction/samplefunction_server.py"
+# yaml_path = "./server-sampleFunction/sampleFunction.yaml"
 
+yaml_file = "./generator/sampleFunction.yaml"
 #
 # get the spec for the tests
 #
-with open("./generator/sampleFunction.yaml", "r") as stream:
+with open(yaml_file, "r") as stream:
     try:
         spec = yaml.safe_load(stream)
     except yaml.YAMLError as e:
