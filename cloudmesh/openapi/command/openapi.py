@@ -1,9 +1,11 @@
-import pathlib
+import sys
+import os
 import sys
 import textwrap
 import types
 from dataclasses import is_dataclass
 from importlib import import_module
+from pathlib import Path
 
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.console import Console
@@ -32,7 +34,7 @@ class OpenapiCommand(PluginCommand):
         ::
 
           Usage:
-              openapi generate FUNCTION --filename=FILENAME
+              openapi generate [FUNCTION] --filename=FILENAME
                                          [--baseurl=BASEURL]
                                          [--yamlfile=YAML]
                                          [--yamldirectory=DIRECTORY]
@@ -98,7 +100,7 @@ class OpenapiCommand(PluginCommand):
             openapi sklearn generate sklearn.linear_model.LogisticRegression
                 Generates the
 
-            openapi generate FUNCTION --filename=FILENAME
+            openapi generate [FUNCTION] --filename=FILENAME
                                          [--baseurl=BASEURL]
                                          [--yamlfile=YAML]
                                          [--yamldirectory=DIRECTORY]
@@ -165,15 +167,21 @@ class OpenapiCommand(PluginCommand):
 
         # VERBOSE(arguments)
 
+        def get_function():
+
+            f = arguments.FUNCTION or \
+                os.path.basename(arguments.filename).strip().split(".")[0]
+            return f
+
         if arguments.generate and not arguments.fclass and not arguments.all_functions:
 
             try:
-                function = arguments.FUNCTION
+                function = get_function()
                 yamlfile = arguments.YAML
                 baseurl = path_expand(arguments.baseurl)
                 filename = arguments.filename.strip().split(".")[0]
                 yamldirectory = path_expand(arguments.yamldirectory)
-                module_name = pathlib.Path(f"{filename}").stem
+                module_name = Path(f"{filename}").stem
 
                 Console.info(textwrap.dedent(f"""
                      Cloudmesh OpenAPI Generator:
@@ -224,7 +232,7 @@ class OpenapiCommand(PluginCommand):
                 )
                 '''
 
-                baseurl_short = pathlib.Path(f"{baseurl}").stem
+                baseurl_short = Path(f"{baseurl}").stem
 
                 openAPI.generate_openapi(func_obj,
                                          baseurl_short,
@@ -237,19 +245,39 @@ class OpenapiCommand(PluginCommand):
         elif arguments.generate and arguments.fclass and not arguments.all_functions:
             try:
 
+                function = get_function()
+                yamlfile = arguments.YAML
+                baseurl = path_expand(arguments.baseurl)
+                filename = arguments.filename.strip().split(".")[0]
+                yamldirectory = path_expand(arguments.yamldirectory)
+                module_name = Path(f"{filename}").stem
+
+                Console.info(textwrap.dedent(f"""
+                     Cloudmesh OpenAPI Generator:
+
+                         Function:  {function}
+                         Filename:  {filename}
+                         YAML:      {yamlfile}
+                         Baseurl:   {baseurl}
+                         Directory: {yamldirectory}
+                         Module:    {module_name}
+
+                 """))
+
+
                 function = arguments.FUNCTION  # Class Name
 
-                filename = pathlib.Path(path_expand(arguments.filename)).stem
+                filename = Path(path_expand(arguments.filename)).stem
 
                 yamlfile = arguments.yamlfile or filename
 
-                baseurl = path_expand(arguments.baseurl) if arguments.baseurl else  \
-                    str(pathlib.Path(path_expand(arguments.filename)).parent)
+                baseurl = path_expand(arguments.baseurl) if arguments.baseurl else \
+                    str(Path(path_expand(arguments.filename)).parent)
 
-                baseurl_short = pathlib.Path(f"{baseurl}").stem
+                baseurl_short = Path(f"{baseurl}").stem
 
                 yamldirectory = path_expand(arguments.yamldirectory) if arguments.yamldirectory else \
-                    str(pathlib.Path(path_expand(arguments.filename)).parent)
+                    str(Path(path_expand(arguments.filename)).parent)
 
                 Console.info(textwrap.dedent(f"""
                     Cloudmesh OpenAPI Generator:
@@ -326,17 +354,17 @@ class OpenapiCommand(PluginCommand):
             try:
                 function = arguments.FUNCTION  # Class Name
 
-                filename = pathlib.Path(path_expand(arguments.filename)).stem
+                filename = Path(path_expand(arguments.filename)).stem
 
                 yamlfile = arguments.yamlfile or filename
 
                 baseurl = path_expand(arguments.baseurl) if arguments.baseurl else \
-                    str(pathlib.Path(path_expand(arguments.filename)).parent)
+                    str(Path(path_expand(arguments.filename)).parent)
 
-                baseurl_short = pathlib.Path(f"{baseurl}").stem
+                baseurl_short = Path(f"{baseurl}").stem
 
                 yamldirectory = path_expand(arguments.yamldirectory) if arguments.yamldirectory else \
-                    str(pathlib.Path(path_expand(arguments.filename)).parent)
+                    str(Path(path_expand(arguments.filename)).parent)
 
                 Console.info(textwrap.dedent(f"""
                     Cloudmesh OpenAPI Generator:
