@@ -18,6 +18,9 @@ filename = "cpu.py"
 location = f"{directory}/{filename}"
 
 
+"cms openapi generate calculator --baseurl="./tests/generator-calculator" --filename=calculator.py --yamldirectory="./tests/generator-calculator" --all_functions"
+
+
 @pytest.mark.incremental
 class TestGenerator:
 

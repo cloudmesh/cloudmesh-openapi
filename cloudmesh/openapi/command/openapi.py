@@ -18,7 +18,7 @@ from cloudmesh.openapi.scikitlearn.SklearnGenerator import \
     generator as SklearnGenerator
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
-
+import pydoc
 
 # start-stop: osx Andrew
 # start_stop: windows Jonathan
@@ -167,21 +167,33 @@ class OpenapiCommand(PluginCommand):
 
         # VERBOSE(arguments)
 
-        def get_function():
-
-            f = arguments.FUNCTION or \
-                os.path.basename(arguments.filename).strip().split(".")[0]
-            return f
-
         if arguments.generate and not arguments.fclass and not arguments.all_functions:
 
+            print ("A")
             try:
-                function = get_function()
-                yamlfile = arguments.YAML
-                baseurl = path_expand(arguments.baseurl)
-                filename = arguments.filename.strip().split(".")[0]
-                yamldirectory = path_expand(arguments.yamldirectory)
-                module_name = Path(f"{filename}").stem
+
+                filename = path_expand(arguments.filename)
+
+                baseurl = path_expand(arguments.baseurl) or \
+                    os.path.dirname(filename)
+
+                yamldirectory = path_expand(arguments.yamldirectory or \
+                    baseurl)
+
+                print(filename)
+                print (baseurl)
+                print (yamldirectory)
+
+                function = arguments.FUNCTION or \
+                           path_expand(os.path.basename()).rsplit(".", 1)[0]
+
+                yamlfile = arguments.YAML or \
+                           yamldirectory + ".yaml"
+
+                module_name = function
+                location = filename.rsplit(".", 1)[0]
+
+                module_name = location
 
                 Console.info(textwrap.dedent(f"""
                      Cloudmesh OpenAPI Generator:
@@ -192,8 +204,14 @@ class OpenapiCommand(PluginCommand):
                          Baseurl:   {baseurl}
                          Directory: {yamldirectory}
                          Module:    {module_name}
+                         Location:  {location}
 
                  """))
+
+
+                # func_obj = pydoc.locate(baseurl)
+
+                # print(func_obj)
 
                 imported_module = import_module(module_name)
                 VERBOSE(imported_module)
@@ -243,6 +261,8 @@ class OpenapiCommand(PluginCommand):
                 print(e)
 
         elif arguments.generate and arguments.fclass and not arguments.all_functions:
+            print ("B")
+
             try:
 
                 function = get_function()
@@ -351,6 +371,8 @@ class OpenapiCommand(PluginCommand):
 
         # TODO: this should just be collapsed into the previous condition
         elif arguments.generate and arguments.all_functions and not arguments.fclass:
+            print ("C")
+
             try:
                 function = arguments.FUNCTION  # Class Name
 
