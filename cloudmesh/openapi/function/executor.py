@@ -13,6 +13,13 @@ class Parameter:
         p = Parameter(arguments)
         p.Print()
 
+    Invocation from program
+
+        cd cloudmesh-openapi
+        cms openapi generate calculator  \
+            --filename=./tests/generator-calculator/calculator.py \
+            --all_functions
+
     Returns
 
         Cloudmesh OpenAPI Generator:
