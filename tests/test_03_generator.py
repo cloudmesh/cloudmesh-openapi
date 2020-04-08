@@ -1,6 +1,6 @@
 ###############################################################
-# pytest -v --capture=no tests/test_02_generator.py
-# pytest -v  tests/test_02_generator.py
+# pytest -v --capture=no tests/test_03_generator.py
+# pytest -v  tests/test_03_generator.py
 # pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
 ###############################################################
 import os
@@ -8,64 +8,41 @@ import time
 from pprint import pprint
 
 import pytest
-import yaml as yaml
+import tests.util as util
 from cloudmesh.common.Benchmark import Benchmark
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
 
-# sys.path.append("cloudmesh/openapi/function")
-#
-
-# py_path = "./server-sampleFunction/samplefunction_server.py"
-# yaml_path = "./server-sampleFunction/sampleFunction.yaml"
-
-yaml_file = "./generator/sampleFunction.yaml"
-#
-# get the spec for the tests
-#
-with open(yaml_file, "r") as stream:
-    try:
-        spec = yaml.safe_load(stream)
-    except yaml.YAMLError as e:
-        print(e)
-        assert False, "Yaml file has syntax error"
-
+filename = "./tests/server-cpu/cpu.yaml"
 
 @pytest.mark.incremental
 class TestGenerator:
 
-    def test_spec(self):
+    def test_read_spec(self):
         """
         function to check if YAML synatx is correct or not
         """
+        global spec
+
         HEADING()
         Benchmark.Start()
-        pprint (spec)
-        Benchmark.Stop()
-
-    def test_openapi_info_servers_paths(self):
-        """
-        function to check if YAML contains opeaapi, info ,servers, and paths
-        information
-        """
-        HEADING()
-
-        Benchmark.Start()
-
+        spec = util.readyaml(filename)
         keys = spec.keys()
-        pprint(keys)
-        assert keys.__contains__("openapi"), "openapi is not found"
-        assert keys.__contains__("info"), "info is not found"
-        assert keys.__contains__("servers"), "servers is not found"
-        assert keys.__contains__("paths"), "paths is not found"
 
-        Benchmark.Stop()
+        pprint (spec)
+        pprint(keys)
+        assert "openapi" in keys
+        assert "info" in keys
+        assert "servers" in keys
+        assert "paths" in keys
+        assert "A simple service" in str(spec)
 
     def test_paths(self):
         """
         function to validate paths information
         """
         HEADING()
+        global spec
 
         import tests.sample_function_gen as testfun
 
@@ -81,7 +58,7 @@ class TestGenerator:
 
         Benchmark.Stop()
 
-    def test_real(self):
+    def test_service(self):
         """
         function to test if the server is started and available to return
         a successful http code
@@ -90,12 +67,11 @@ class TestGenerator:
         Benchmark.Start()
 
         os.chdir("tests")
-        test_loc = Shell.pwd()
-        test_loc = test_loc.strip() + "/"
+        test_loc = Shell.pwd().strip() + "/"
 
         assert test_loc == "tests/"
 
-        server_output = Shell.cms("openapi server start ./server-cpu/cpu.yaml")
+        server_output = Shell.cms("openapi server start {filename}")
         assert server_output.__contains__("starting server")
 
         time.sleep(2)
