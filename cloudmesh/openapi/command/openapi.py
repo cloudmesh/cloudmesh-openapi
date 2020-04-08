@@ -236,19 +236,20 @@ class OpenapiCommand(PluginCommand):
 
         elif arguments.generate and arguments.fclass and not arguments.all_functions:
             try:
+
                 function = arguments.FUNCTION  # Class Name
 
                 filename = pathlib.Path(path_expand(arguments.filename)).stem
 
                 yamlfile = arguments.yamlfile or filename
 
-                baseurl = path_expand(arguments.baseurl) or \
-                          str(pathlib.Path(path_expand(arguments.filename)).parent)
+                baseurl = path_expand(arguments.baseurl) if arguments.baseurl else  \
+                    str(pathlib.Path(path_expand(arguments.filename)).parent)
 
                 baseurl_short = pathlib.Path(f"{baseurl}").stem
 
-                yamldirectory = path_expand(arguments.yamldirectory) or \
-                                str(pathlib.Path(path_expand(arguments.filename)).parent)
+                yamldirectory = path_expand(arguments.yamldirectory) if arguments.yamldirectory else \
+                    str(pathlib.Path(path_expand(arguments.filename)).parent)
 
                 Console.info(textwrap.dedent(f"""
                     Cloudmesh OpenAPI Generator:
@@ -329,13 +330,13 @@ class OpenapiCommand(PluginCommand):
 
                 yamlfile = arguments.yamlfile or filename
 
-                baseurl = path_expand(arguments.baseurl) or \
-                          str(pathlib.Path(path_expand(arguments.filename)).parent)
+                baseurl = path_expand(arguments.baseurl) if arguments.baseurl else \
+                    str(pathlib.Path(path_expand(arguments.filename)).parent)
 
                 baseurl_short = pathlib.Path(f"{baseurl}").stem
 
-                yamldirectory = path_expand(arguments.yamldirectory) or \
-                                str(pathlib.Path(path_expand(arguments.filename)).parent)
+                yamldirectory = path_expand(arguments.yamldirectory) if arguments.yamldirectory else \
+                    str(pathlib.Path(path_expand(arguments.filename)).parent)
 
                 Console.info(textwrap.dedent(f"""
                     Cloudmesh OpenAPI Generator:
