@@ -82,7 +82,6 @@ class Parameter:
                File Locations:
                  - Currdir:    .
                  - Filename:   {self.filename.replace(self.cwd, ".")}
-                 - YAML Directory:  {self.yamldirectory.replace(self.cwd, ".")}
                  - YAML:       {self.yamlfile.replace(self.cwd, ".")}
 
                Yaml File Related:
