@@ -1,10 +1,12 @@
+import csv
+import boto3
 from google.cloud import vision
 
 def detect_handwriting(service, image):
     pass
 
 
-def detect_text(service: str, path: str):
+def detect_text(service: str, path: str) ->str:
     if service in ('aws', 'google'):
         if service == 'google':
             credentials = 'figure out how to implement'
@@ -28,6 +30,9 @@ def detect_text(service: str, path: str):
                         response.error.message))
 
         elif service == 'aws':
+            access_key_id = 'figure out how to implement'
+            secret_access_key = 'figure out how to implement'
+
             client = boto3.client('rekognition',
                                   aws_access_key_id=access_key_id,
                                   aws_secret_access_key=secret_access_key)
