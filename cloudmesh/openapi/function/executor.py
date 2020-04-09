@@ -1,4 +1,6 @@
+import importlib
 import os
+import sys
 import textwrap
 
 from cloudmesh.common.console import Console
@@ -67,6 +69,14 @@ class Parameter:
         self.function = arguments.FUNCTION or os.path.basename(
             self.filename).stem
         self.serverurl = arguments.serverurl or "http://sample.org/cloudmesh/"
+
+        print(sys.path)
+        sys.path.append(self.directory)
+        print(sys.path)
+
+        imported_module = importlib(self.function)
+
+        # func_obj = getattr(imported_module, function)
 
     def Print(self):
 
