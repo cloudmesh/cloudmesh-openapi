@@ -42,11 +42,12 @@ class Parameter:
     def __init__(self, arguments):
         self.arguments = arguments
         self.filename = None
+        self.module_directory = None
+        self.module_name = None
         self.yamlfile = None
-        self.directory = None
+        self.yamldirectory = None
         self.function = None
         self.serverurl = None
-        self.module_name = None
         self.get(arguments)
         pass
 
@@ -61,21 +62,18 @@ class Parameter:
         self.filename = path_expand(filename)
         if not os.path.isfile(filename):
             Console.error(f"--filename={self.filename} does not exist")
+        
+        self.module_directory = os.path.dirname(self.filename)
+        self.module_name = os.path.basename(self.filename).stem
+        sys.path.append(self.module_directory)
 
         self.yamlfile = arguments.yamlfile or self.filename.rsplit(".py")[0] + ".yaml"
-        self.directory = arguments.yamldirectory or os.path.dirname(self.filename)
+        self.yamldirectory = os.path.dirname(self.yamlfile)
 
         self.function = arguments.FUNCTION or os.path.basename(self.filename).stem
         self.serverurl = arguments.serverurl or "http://localhost:8080/cloudmesh/"
 
-        print(sys.path)
-        sys.path.append(self.directory)
-        print(sys.path)
-
-        # imported_module = importlib(self.function)
-
-        # func_obj = getattr(imported_module, function)
-
+        
     def Print(self):
 
         Console.info(textwrap.dedent(f"""
@@ -83,8 +81,8 @@ class Parameter:
 
                File Locations:
                  - Currdir:    .
-                 - Directory:  {self.directory.replace(self.cwd, ".")}
                  - Filename:   {self.filename.replace(self.cwd, ".")}
+                 - YAML Directory:  {self.yamldirectory.replace(self.cwd, ".")}
                  - YAML:       {self.yamlfile.replace(self.cwd, ".")}
 
                Yaml File Related:
