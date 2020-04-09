@@ -9,7 +9,7 @@ from cloudmesh.common.util import path_expand
 
 class Parameter:
     """
-    To generat a useful output for the variables. Example:
+    To generate a useful output for the variables. Example:
 
         from cloudmesh.openapi.function.executor import Parameter
         p = Parameter(arguments)
@@ -34,7 +34,7 @@ class Parameter:
 
           Yaml File Related:
             - Function:   calculator
-            - Servereurl: http://sample.org/cloudmesh/
+            - Server url: http://localhost:8080/cloudmesh/
             - Module:     None
 
     """
@@ -62,19 +62,17 @@ class Parameter:
         if not os.path.isfile(filename):
             Console.error(f"--filename={self.filename} does not exist")
 
-        self.yamlfile = self.yamlfile or self.filename.rsplit(".py")[
-            0] + ".yaml"
-        self.directory = arguments.dir or os.path.dirname(self.filename)
+        self.yamlfile = arguments.yamlfile or self.filename.rsplit(".py")[0] + ".yaml"
+        self.directory = arguments.yamldirectory or os.path.dirname(self.filename)
 
-        self.function = arguments.FUNCTION or os.path.basename(
-            self.filename).stem
-        self.serverurl = arguments.serverurl or "http://sample.org/cloudmesh/"
+        self.function = arguments.FUNCTION or os.path.basename(self.filename).stem
+        self.serverurl = arguments.serverurl or "http://localhost:8080/cloudmesh/"
 
         print(sys.path)
         sys.path.append(self.directory)
         print(sys.path)
 
-        imported_module = importlib(self.function)
+        # imported_module = importlib(self.function)
 
         # func_obj = getattr(imported_module, function)
 
@@ -91,7 +89,7 @@ class Parameter:
 
                Yaml File Related:
                  - Function:   {self.function}
-                 - Servereurl: {self.serverurl}
+                 - Server url: {self.serverurl}
                  - Module:     {self.module_name}
 
          """))
