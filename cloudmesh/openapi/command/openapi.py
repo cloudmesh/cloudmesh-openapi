@@ -168,13 +168,14 @@ class OpenapiCommand(PluginCommand):
             try:
                 p = Parameter(arguments)
                 p.Print()
-                filename = p.filename
-                yamlfile = p.yamlfile
-                directory = p.yamldirectory
-                function = p.function
-                serverurl = p.serverurl
-                module_name = p.module_name
+                filename = p.filename # ./dir/myfile.py
+                yamlfile = p.yamlfile # ./dir/myfile.yaml
+                directory = p.yamldirectory # ./dir
+                function = p.function # myfunction
+                serverurl = p.serverurl # http://localhost:8080/cloudmesh/
+                module_name = p.module_name # myfile
                 
+                # Parameter() takes care of putting the filename in the path
                 imported_module = import_module(module_name)
                 dataclass_list = []
                     for attr_name in dir(imported_module):
