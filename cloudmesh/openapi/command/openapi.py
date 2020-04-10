@@ -201,14 +201,15 @@ class OpenapiCommand(PluginCommand):
                         elif is_dataclass(attr):
                             dataclass_list.append(attr)
                     openAPI = generator.Generator()
-                    # TODO: fix
-                    openAPI.generate_openapi_class(function, ..., dataclass_list)
+                    # TODO: fix all function support at some point, maybe
+                    openAPI.generate_openapi_class(class_obj, class_description, filename, func_objects, 
+                                                   serverurl, directory, yamlfile, dataclass_list, 
+                                                   all_function=False, True)
                 else:
                     func_obj = getattr(imported_module, function)
                     setattr(sys.modules[module_name], function, func_obj)
                     openAPI = generator.Generator()
-                    # TODO: fix
-                    openAPI.generate_openapi(func_obj, ..., dataclass_list)
+                    openAPI.generate_openapi(func_obj, serverurl, directory, yamlfile, dataclass_list, True)
                 
             except Exception as e:
                 Console.error("Failed to generate openapi yaml")
