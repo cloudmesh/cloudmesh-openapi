@@ -209,7 +209,7 @@ class OpenapiCommand(PluginCommand):
                     func_obj = getattr(imported_module, function)
                     setattr(sys.modules[module_name], function, func_obj)
                     openAPI = generator.Generator()
-                    openAPI.generate_openapi(func_obj, serverurl, directory, yamlfile, dataclass_list, True)
+                    openAPI.generate_openapi(func_obj, filename, serverurl, directory, yamlfile, dataclass_list, True)
                 
             except Exception as e:
                 Console.error("Failed to generate openapi yaml")
