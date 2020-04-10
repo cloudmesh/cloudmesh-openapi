@@ -404,7 +404,7 @@ class Generator:
     def generate_openapi(self,
                          f=None,
                          serverurl=None,
-                         outdir=None
+                         outdir=None,
                          yamlfile=None,
                          dataclass_list=None,
                          write=True):
