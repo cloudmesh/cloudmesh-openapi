@@ -1,4 +1,3 @@
-import importlib
 import os
 import sys
 import textwrap
@@ -34,7 +33,7 @@ class Parameter:
 
           Yaml File Related:
             - Function:   calculator
-            - Servereurl: http://sample.org/cloudmesh/
+            - Servereurl: http://localhost:8080/cloudmesh
             - Module:     None
 
     """
@@ -68,13 +67,13 @@ class Parameter:
 
         self.function = arguments.FUNCTION or os.path.basename(
             self.filename).stem
-        self.serverurl = arguments.serverurl or "http://sample.org/cloudmesh/"
+        self.serverurl = arguments.serverurl or "http://localhost:8080/cloudmesh"
 
         print(sys.path)
         sys.path.append(self.directory)
         print(sys.path)
 
-        imported_module = importlib(self.function)
+        # imported_module = importlib(self.function)
 
         # func_obj = getattr(imported_module, function)
 

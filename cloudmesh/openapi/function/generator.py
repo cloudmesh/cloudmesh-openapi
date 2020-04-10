@@ -23,7 +23,7 @@ class Generator:
           description: {description}
           version: "{version}"
         servers:
-          - url: http://localhost/cloudmesh
+          - url: {serverurl}
             description: {description}
         paths:
           /{baseurl}:

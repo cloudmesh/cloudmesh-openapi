@@ -1,4 +1,4 @@
-import sys
+import os
 import os
 import sys
 import textwrap
@@ -18,7 +18,7 @@ from cloudmesh.openapi.scikitlearn.SklearnGenerator import \
     generator as SklearnGenerator
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
-import pydoc
+
 
 # start-stop: osx Andrew
 # start_stop: windows Jonathan
@@ -34,6 +34,12 @@ class OpenapiCommand(PluginCommand):
         ::
 
           Usage:
+              openapi generate [FUNCTION] --filename=FILENAME
+                                         [--serverurl=SERVERURL]
+                                         [--yamlfile=YAML]
+                                         [--yamldirectory=DIRECTORY]
+                                         [--class]
+                                         [--verbose]
               openapi generate [FUNCTION] --filename=FILENAME
                                          [--baseurl=BASEURL]
                                          [--yamlfile=YAML]
@@ -166,6 +172,14 @@ class OpenapiCommand(PluginCommand):
         arguments.debug = arguments.verbose
 
         # VERBOSE(arguments)
+
+        from cloudmesh.openapi.function.executor import Parameter
+        p = Parameter(arguments)
+
+        p.Print()
+
+        return ""
+
 
         if arguments.generate and not arguments.fclass and not arguments.all_functions:
 
