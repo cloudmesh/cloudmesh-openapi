@@ -196,8 +196,8 @@ class OpenapiCommand(PluginCommand):
                             # are we sure this is right?
                             # would probably create a valid openapi yaml, but not technically accurate
                             # module.function may work but it should be module.Class.function
-                            setattr(sys.modules[module_name], attr_name, attr_obj)
-                            func_objects[attr_name] = attr_obj
+                            setattr(sys.modules[module_name], attr_name, attr)
+                            func_objects[attr_name] = attr
                         elif is_dataclass(attr):
                             dataclass_list.append(attr)
                     openAPI = generator.Generator()
