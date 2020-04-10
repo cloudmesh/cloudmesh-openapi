@@ -64,13 +64,13 @@ class Parameter:
             Console.error(f"--filename={self.filename} does not exist")
         
         self.module_directory = os.path.dirname(self.filename)
-        self.module_name = os.path.basename(self.filename).stem
+        self.module_name = os.path.basename(self.filename).split('.')[0]
         sys.path.append(self.module_directory)
 
         self.yamlfile = arguments.yamlfile or self.filename.rsplit(".py")[0] + ".yaml"
         self.yamldirectory = os.path.dirname(self.yamlfile)
 
-        self.function = arguments.FUNCTION or os.path.basename(self.filename).stem
+        self.function = arguments.FUNCTION or os.path.basename(self.filename).split('.')[0]
         self.serverurl = arguments.serverurl or "http://localhost:8080/cloudmesh/"
 
         
