@@ -38,7 +38,7 @@ class OpenapiCommand(PluginCommand):
               openapi generate [FUNCTION] --filename=FILENAME
                                          [--serverurl=SERVERURL]
                                          [--yamlfile=YAML]
-                                         [--class]
+                                         [--import_class]
                                          [--verbose]
               openapi server start YAML [NAME]
                               [--directory=DIRECTORY]
@@ -158,7 +158,7 @@ class OpenapiCommand(PluginCommand):
                        'serverurl',
                        'filename',
                        'name',
-                       'class',
+                       'import_class',
                        'host')
         arguments.debug = arguments.verbose
 
@@ -184,7 +184,7 @@ class OpenapiCommand(PluginCommand):
                         dataclass_list.append(attr)
                 # not currently supporting multiple functions or all functions
                 # could do comma-separated function/class names
-                if arguments.class:
+                if arguments.import_class:
                     class_obj = getattr(imported_module, function)
                     # do we maybe need to do this here?
                     # setattr(sys.modules[module_name], function, class_obj)
