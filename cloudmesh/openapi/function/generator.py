@@ -23,10 +23,10 @@ class Generator:
           description: {description}
           version: "{version}"
         servers:
-          - url: http://localhost/cloudmesh
+          - url: {serverurl}
             description: {description}
         paths:
-          /{baseurl}:
+          /{name}:
              get:
               summary: {description}
               description: Optional extended description in CommonMark or HTML.
@@ -45,7 +45,7 @@ class Generator:
           description: {description}
           version: "{version}"
         servers:
-          - url: http://localhost/cloudmesh
+          - url: {serverurl}
             description: {description}
         paths:
           {paths}
@@ -281,7 +281,7 @@ class Generator:
                                class_description=None,
                                filename=None,
                                func_objects=None,
-                               baseurl=None,
+                               serverurl=None,
                                outdir=None,
                                yaml=None,
                                dataclass_list=None,
@@ -294,7 +294,7 @@ class Generator:
         :param class_description:
         :param filename:
         :param func_objects:
-        :param baseurl:
+        :param serverurl:
         :param outdir:
         :param yaml:
         :param dataclass_list:
@@ -382,7 +382,7 @@ class Generator:
             description=description,
             version=version,
             paths=paths.strip(),
-            baseurl=baseurl,
+            serverurl=serverurl,
             filename=filename,
             components=components.strip()
         )
@@ -403,18 +403,18 @@ class Generator:
 
     def generate_openapi(self,
                          f=None,
-                         baseurl=None,
-                         outdir=None,
-                         yaml=None,
+                         serverurl=None,
+                         outdir=None
+                         yamlfile=None,
                          dataclass_list=None,
                          write=True):
         """
         function to generate open API of python function.
 
         :param f:
-        :param baseurl:
+        :param serverurl:
         :param outdir:
-        :param yaml:
+        :param yamlfile:
         :param dataclass_list:
         :param write:
         :return:
@@ -459,16 +459,16 @@ class Generator:
             version=version,
             parameters=parameters.strip(),
             responses=responses.strip(),
-            baseurl=baseurl,
+            serverurl=serverurl,
             filename=filename,
             components=components
         )
 
         if write:
             try:
-                if yaml != "" and yaml is not None:
-                    version = open(f"{outdir}/{yaml}.yaml", 'w').write(spec)
-                else:
+                if yamlfile != "" and yamlfile is not None:
+                    version = open(yamlfile, 'w').write(spec)
+                else: # should really never get here
                     version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
             except IOError:
                 Console.error("Unable to write yaml file")
