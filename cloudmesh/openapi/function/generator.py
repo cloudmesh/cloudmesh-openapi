@@ -309,6 +309,7 @@ class Generator:
             if class_description \
             else "No description found"
         version = "1.0"  # TODO:  hard coded for now
+        filename = pathlib.Path(filename).stem
 
         # Loop through all functions
         for k, v in func_objects.items():   # k = function_name, v = function object
@@ -377,7 +378,6 @@ class Generator:
         VERBOSE(components, label="openapi function components")
 
         # Update openapi template to create final version of openapi yaml
-        filename = pathlib.Path(filename).stem
         spec = self.openAPITemplate2.format(
             title=class_name,
             description=description,
