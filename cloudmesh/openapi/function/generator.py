@@ -283,7 +283,7 @@ class Generator:
                                func_objects=None,
                                serverurl=None,
                                outdir=None,
-                               yaml=None,
+                               yamlfile=None,
                                dataclass_list=None,
                                all_function=False,
                                write=True):
@@ -296,7 +296,7 @@ class Generator:
         :param func_objects:
         :param serverurl:
         :param outdir:
-        :param yaml:
+        :param yamlfile:
         :param dataclass_list:
         :param all_function:
         :param write:
@@ -390,9 +390,9 @@ class Generator:
         # Write openapi yaml to file
         if write:
             try:
-                if yaml != "" and yaml is not None:
-                    version = open(f"{outdir}/{yaml}.yaml", 'w').write(spec.strip())
-                else:
+                if yamlfile != "" and yamlfile is not None:
+                    version = open(yamlfile, 'w').write(spec.strip())
+                else: # should really never get here
                     version = open(f"{outdir}/{class_name}.yaml", 'w').write(spec.strip())
             except IOError:
                 Console.error("Unable to write yaml file")
