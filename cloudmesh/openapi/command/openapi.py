@@ -178,10 +178,10 @@ class OpenapiCommand(PluginCommand):
                 # Parameter() takes care of putting the filename in the path
                 imported_module = import_module(module_name)
                 dataclass_list = []
-                    for attr_name in dir(imported_module):
-                        attr = getattr(imported_module, attr_name)
-                        if is_dataclass(attr):
-                            dataclass_list.append(attr)
+                for attr_name in dir(imported_module):
+                    attr = getattr(imported_module, attr_name)
+                    if is_dataclass(attr):
+                        dataclass_list.append(attr)
                 # not currently supporting multiple functions or all functions
                 # could do comma-separated function/class names
                 if arguments.class:
