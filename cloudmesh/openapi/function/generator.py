@@ -377,6 +377,7 @@ class Generator:
         VERBOSE(components, label="openapi function components")
 
         # Update openapi template to create final version of openapi yaml
+        filename = pathlib.Path(filename).stem
         spec = self.openAPITemplate2.format(
             title=class_name,
             description=description,
@@ -403,6 +404,7 @@ class Generator:
 
     def generate_openapi(self,
                          f=None,
+                         filename=None,
                          serverurl=None,
                          outdir=None,
                          yamlfile=None,
@@ -412,6 +414,7 @@ class Generator:
         function to generate open API of python function.
 
         :param f:
+        :param filename:
         :param serverurl:
         :param outdir:
         :param yamlfile:
@@ -451,7 +454,7 @@ class Generator:
 
         # TODO: figure out where to define dataclasses and how
         #  best to pass them to generate_schema()
-        filename = pathlib.Path(f.__code__.co_filename).stem
+        filename = pathlib.Path(filename).stem
         spec = self.openAPITemplate.format(
             title=title,
             name=f.__name__,
