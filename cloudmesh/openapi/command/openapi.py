@@ -202,7 +202,7 @@ class OpenapiCommand(PluginCommand):
                             dataclass_list.append(attr)
                     openAPI = generator.Generator()
                     # TODO: fix all function support at some point, maybe
-                    openAPI.generate_openapi_class(class_obj, class_description, filename, func_objects, 
+                    openAPI.generate_openapi_class(class_obj.__name__, class_description, filename, func_objects, 
                                                    serverurl, directory, yamlfile, dataclass_list, 
                                                    all_function=False, write=True)
                 else:
