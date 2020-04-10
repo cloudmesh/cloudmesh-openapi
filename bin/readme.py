@@ -49,4 +49,4 @@ manual = "```bash\n" + manual + "\n```\n"
 #
 source = readfile("README-source.md")
 readme = source.format(**locals())
-writefile("README-old.md", readme)
+writefile("README.md", readme)
