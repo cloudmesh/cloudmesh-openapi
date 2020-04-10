@@ -204,7 +204,7 @@ class OpenapiCommand(PluginCommand):
                     # TODO: fix all function support at some point, maybe
                     openAPI.generate_openapi_class(class_obj, class_description, filename, func_objects, 
                                                    serverurl, directory, yamlfile, dataclass_list, 
-                                                   all_function=False, True)
+                                                   all_function=False, write=True)
                 else:
                     func_obj = getattr(imported_module, function)
                     setattr(sys.modules[module_name], function, func_obj)
