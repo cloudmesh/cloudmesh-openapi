@@ -39,6 +39,7 @@ class OpenapiCommand(PluginCommand):
                                          [--serverurl=SERVERURL]
                                          [--yamlfile=YAML]
                                          [--import_class]
+                                         [--all_functions]
                                          [--verbose]
               openapi server start YAML [NAME]
                               [--directory=DIRECTORY]
@@ -159,12 +160,15 @@ class OpenapiCommand(PluginCommand):
                        'filename',
                        'name',
                        'import_class',
+                       'all_functions',
                        'host')
         arguments.debug = arguments.verbose
 
         # VERBOSE(arguments)
         
         if arguments.generate:
+            if arguments.import_class and arguments.all_functions:
+                Console.error('Cannot generate openapi with both --import_class and --all_functions')
             try:
                 p = Parameter(arguments)
                 p.Print()
@@ -202,14 +206,49 @@ class OpenapiCommand(PluginCommand):
                             dataclass_list.append(attr)
                     openAPI = generator.Generator()
                     # TODO: fix all function support at some point, maybe
-                    openAPI.generate_openapi_class(class_obj.__name__, class_description, filename, func_objects, 
-                                                   serverurl, directory, yamlfile, dataclass_list, 
-                                                   all_function=False, write=True)
+                    Console.info('Generating openapi for class: ' + class_obj.__name__)
+                    openAPI.generate_openapi_class(class_name = class_obj.__name__,
+                                                   class_description = class_description,
+                                                   filename = filename,
+                                                   func_objects = func_objects, 
+                                                   serverurl = serverurl,
+                                                   outdir = directory,
+                                                   yamlfile = yamlfile,
+                                                   dataclass_list = dataclass_list, 
+                                                   all_function = False,
+                                                   write=True)
+                elif arguments.all_functions:
+                    func_objects = {}
+                    for attr_name in dir(imported_module):
+                        if type(getattr(imported_module, attr_name)).__name__ == 'function':
+                            func_obj = getattr(imported_module, attr_name)
+                            setattr(sys.modules[module_name], attr_name, func_obj)
+                            func_objects[attr_name] = func_obj
+                    openAPI = generator.Generator()
+                    Console.info('Generating openapi for all functions in file: ' + filename)
+                    openAPI.generate_openapi_class(class_name = module_name,
+                                                   class_description = "No description provided",
+                                                   filename = filename,
+                                                   func_objects = func_objects,
+                                                   serverurl = serverurl,
+                                                   outdir = directory,
+                                                   yamlfile = yamlfile,
+                                                   dataclass_list = dataclass_list,
+                                                   all_function = True,
+                                                   write = True)
+                                                   
                 else:
                     func_obj = getattr(imported_module, function)
                     setattr(sys.modules[module_name], function, func_obj)
                     openAPI = generator.Generator()
-                    openAPI.generate_openapi(func_obj, filename, serverurl, directory, yamlfile, dataclass_list, True)
+                    Console.info('Generating openapi for function: ' + func_obj.__name__)
+                    openAPI.generate_openapi(f = func_obj,
+                                             filename = filename,
+                                             serverurl = serverurl,
+                                             outdir = directory,
+                                             yamlfile = yamlfile,
+                                             dataclass_list = dataclass_list,
+                                             write = True)
                 
             except Exception as e:
                 Console.error("Failed to generate openapi yaml")
