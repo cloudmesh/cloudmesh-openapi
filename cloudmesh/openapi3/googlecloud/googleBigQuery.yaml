@@ -9,7 +9,7 @@ paths:
   /bqupload:
      post:
       description: Optional extended description in CommonMark or HTML.
-      operationId: big-query-ex.pushFileBQ
+      operationId: big-query-ex.Google.pushFileBQ
       requestBody:
         required: true
         content:
