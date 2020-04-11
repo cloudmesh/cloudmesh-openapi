@@ -26,10 +26,10 @@ key = ""
 endpoint = ""
 
 
-def analyze(movie_review_filename, cloud):
+def analyze(filename, cloud):
     """Run a sentiment analysis request on text within a passed filename."""
 
-    with open(movie_review_filename, 'r') as review_file:
+    with open(filename, 'r') as review_file:
         # Instantiates a plain text document.
         content = review_file.read()
 
@@ -92,8 +92,8 @@ if __name__ == '__main__':
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
-        'movie_review_filename',
-        help='The filename of the movie review you\'d like to analyze.')
+        'filename',
+        help='The path to the file you would like to analyze')
     parser.add_argument('cloud', help="The cloud service you would like to use.")
     args = parser.parse_args()
 
