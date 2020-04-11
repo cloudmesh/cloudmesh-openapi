@@ -14,7 +14,7 @@ class Google:
         filename = '/Users/andrewgoldfarb/Desktop/test-data/data/flavors.csv'
         dataset_id = dataset
         table_id = "my_table"
-        
+
         dataset_ref = client.dataset(dataset_id)
         table_ref = dataset_ref.table(table_id)
         job_config = bigquery.LoadJobConfig()
