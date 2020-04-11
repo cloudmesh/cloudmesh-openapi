@@ -5,7 +5,7 @@ info:
   description: subtraction int and float sample.
   version: "1.0"
 servers:
-  - url: http://localhost:8080/cloudmesh/
+  - url: http://localhost:8080/cloudmesh
     description: subtraction int and float sample.
 paths:
   /subtraction:
