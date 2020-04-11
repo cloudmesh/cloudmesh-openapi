@@ -4,7 +4,7 @@ info:
   description: No description provided
   version: "1.0"
 servers:
-  - url: http://localhost:8080/cloudmesh/
+  - url: http://localhost:8080/cloudmesh
     description: No description provided
 paths:
   /calculator/add:
