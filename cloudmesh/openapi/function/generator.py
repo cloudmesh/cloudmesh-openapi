@@ -26,7 +26,7 @@ class Generator:
           - url: {serverurl}
             description: {description}
         paths:
-          /{baseurl}:
+          /{name}:
              get:
               summary: {description}
               description: Optional extended description in CommonMark or HTML.
@@ -45,7 +45,7 @@ class Generator:
           description: {description}
           version: "{version}"
         servers:
-          - url: http://localhost/cloudmesh
+          - url: {serverurl}
             description: {description}
         paths:
           {paths}
@@ -281,9 +281,9 @@ class Generator:
                                class_description=None,
                                filename=None,
                                func_objects=None,
-                               baseurl=None,
+                               serverurl=None,
                                outdir=None,
-                               yaml=None,
+                               yamlfile=None,
                                dataclass_list=None,
                                all_function=False,
                                write=True):
@@ -294,9 +294,9 @@ class Generator:
         :param class_description:
         :param filename:
         :param func_objects:
-        :param baseurl:
+        :param serverurl:
         :param outdir:
-        :param yaml:
+        :param yamlfile:
         :param dataclass_list:
         :param all_function:
         :param write:
@@ -309,6 +309,7 @@ class Generator:
             if class_description \
             else "No description found"
         version = "1.0"  # TODO:  hard coded for now
+        filename = pathlib.Path(filename).stem
 
         # Loop through all functions
         for k, v in func_objects.items():   # k = function_name, v = function object
@@ -382,7 +383,7 @@ class Generator:
             description=description,
             version=version,
             paths=paths.strip(),
-            baseurl=baseurl,
+            serverurl=serverurl,
             filename=filename,
             components=components.strip()
         )
@@ -390,9 +391,9 @@ class Generator:
         # Write openapi yaml to file
         if write:
             try:
-                if yaml != "" and yaml is not None:
-                    version = open(f"{outdir}/{yaml}.yaml", 'w').write(spec.strip())
-                else:
+                if yamlfile != "" and yamlfile is not None:
+                    version = open(yamlfile, 'w').write(spec.strip())
+                else: # should really never get here
                     version = open(f"{outdir}/{class_name}.yaml", 'w').write(spec.strip())
             except IOError:
                 Console.error("Unable to write yaml file")
@@ -403,18 +404,20 @@ class Generator:
 
     def generate_openapi(self,
                          f=None,
-                         baseurl=None,
+                         filename=None,
+                         serverurl=None,
                          outdir=None,
-                         yaml=None,
+                         yamlfile=None,
                          dataclass_list=None,
                          write=True):
         """
         function to generate open API of python function.
 
         :param f:
-        :param baseurl:
+        :param filename:
+        :param serverurl:
         :param outdir:
-        :param yaml:
+        :param yamlfile:
         :param dataclass_list:
         :param write:
         :return:
@@ -451,7 +454,7 @@ class Generator:
 
         # TODO: figure out where to define dataclasses and how
         #  best to pass them to generate_schema()
-        filename = pathlib.Path(f.__code__.co_filename).stem
+        filename = pathlib.Path(filename).stem
         spec = self.openAPITemplate.format(
             title=title,
             name=f.__name__,
@@ -459,16 +462,16 @@ class Generator:
             version=version,
             parameters=parameters.strip(),
             responses=responses.strip(),
-            baseurl=baseurl,
+            serverurl=serverurl,
             filename=filename,
             components=components
         )
 
         if write:
             try:
-                if yaml != "" and yaml is not None:
-                    version = open(f"{outdir}/{yaml}.yaml", 'w').write(spec)
-                else:
+                if yamlfile != "" and yamlfile is not None:
+                    version = open(yamlfile, 'w').write(spec)
+                else: # should really never get here
                     version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
             except IOError:
                 Console.error("Unable to write yaml file")
