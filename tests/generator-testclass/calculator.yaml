@@ -4,7 +4,7 @@ info:
   description: A simple calculator that allows you to do basic math operations
   version: "1.0"
 servers:
-  - url: http://localhost:8080/cloudmesh/
+  - url: http://localhost:8080/cloudmesh
     description: A simple calculator that allows you to do basic math operations
 paths:
   /Calculator/dividefloat:
