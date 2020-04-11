@@ -1,4 +1,3 @@
-import importlib
 import os
 import sys
 import textwrap
@@ -34,8 +33,8 @@ class Parameter:
 
           Yaml File Related:
             - Function:   calculator
-            - Server url: http://localhost:8080/cloudmesh/
-            - Module:     None
+            - Server url: http://localhost:8080/cloudmesh
+            - Module:     calculator
 
     """
 
@@ -71,7 +70,7 @@ class Parameter:
         self.yamldirectory = os.path.dirname(self.yamlfile)
 
         self.function = arguments.FUNCTION or os.path.basename(self.filename).split('.')[0]
-        self.serverurl = arguments.serverurl or "http://localhost:8080/cloudmesh/"
+        self.serverurl = arguments.serverurl or "http://localhost:8080/cloudmesh"
 
         
     def Print(self):

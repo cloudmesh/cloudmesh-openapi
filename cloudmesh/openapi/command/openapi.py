@@ -1,4 +1,4 @@
-import sys
+import os
 import os
 import sys
 import textwrap
@@ -19,7 +19,7 @@ from cloudmesh.openapi.scikitlearn.SklearnGenerator import \
     generator as SklearnGenerator
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
-import pydoc
+
 
 # start-stop: osx Andrew
 # start_stop: windows Jonathan
@@ -165,6 +165,7 @@ class OpenapiCommand(PluginCommand):
         arguments.debug = arguments.verbose
 
         # VERBOSE(arguments)
+
         
         if arguments.generate:
             if arguments.import_class and arguments.all_functions:
@@ -188,6 +189,7 @@ class OpenapiCommand(PluginCommand):
                         dataclass_list.append(attr)
                 # not currently supporting multiple functions or all functions
                 # could do comma-separated function/class names
+                
                 if arguments.import_class:
                     class_obj = getattr(imported_module, function)
                     # do we maybe need to do this here?
