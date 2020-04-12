@@ -1,11 +1,10 @@
-
 openapi: 3.0.0
 info:
   title: Calculator
   description: A simple calculator that allows you to do basic math operations
   version: "1.0"
 servers:
-  - url: http://localhost/cloudmesh
+  - url: http://localhost:8080/cloudmesh
     description: A simple calculator that allows you to do basic math operations
 paths:
   /Calculator/dividefloat:
@@ -55,4 +54,3 @@ paths:
             text/plain:
               schema:
                 type: integer
-

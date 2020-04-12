@@ -1,4 +1,3 @@
-import importlib
 import os
 import sys
 import textwrap
@@ -9,7 +8,7 @@ from cloudmesh.common.util import path_expand
 
 class Parameter:
     """
-    To generat a useful output for the variables. Example:
+    To generate a useful output for the variables. Example:
 
         from cloudmesh.openapi.function.executor import Parameter
         p = Parameter(arguments)
@@ -34,24 +33,26 @@ class Parameter:
 
           Yaml File Related:
             - Function:   calculator
-            - Servereurl: http://sample.org/cloudmesh/
-            - Module:     None
+            - Server url: http://localhost:8080/cloudmesh
+            - Module:     calculator
 
     """
 
     def __init__(self, arguments):
         self.arguments = arguments
         self.filename = None
+        self.module_directory = None
+        self.module_name = None
         self.yamlfile = None
-        self.directory = None
+        self.yamldirectory = None
         self.function = None
         self.serverurl = None
-        self.module_name = None
+        self.import_class = None
+        self.all_functions = None
         self.get(arguments)
         pass
 
     def get(self, arguments):
-
         self.cwd = path_expand(os.path.curdir)
 
         filename = arguments.filename
@@ -61,23 +62,20 @@ class Parameter:
         self.filename = path_expand(filename)
         if not os.path.isfile(filename):
             Console.error(f"--filename={self.filename} does not exist")
+        
+        self.module_directory = os.path.dirname(self.filename)
+        self.module_name = os.path.basename(self.filename).split('.')[0]
+        sys.path.append(self.module_directory)
 
-        self.yamlfile = self.yamlfile or self.filename.rsplit(".py")[
-            0] + ".yaml"
-        self.directory = arguments.dir or os.path.dirname(self.filename)
+        self.yamlfile = arguments.yamlfile or self.filename.rsplit(".py")[0] + ".yaml"
+        self.yamldirectory = os.path.dirname(self.yamlfile)
 
-        self.function = arguments.FUNCTION or os.path.basename(
-            self.filename).stem
-        self.serverurl = arguments.serverurl or "http://sample.org/cloudmesh/"
+        self.function = arguments.FUNCTION or os.path.basename(self.filename).split('.')[0]
+        self.serverurl = arguments.serverurl or "http://localhost:8080/cloudmesh"
+        self.import_class = arguments.import_class or False
+        self.all_functions =arguments.all_functions or False
 
-        print(sys.path)
-        sys.path.append(self.directory)
-        print(sys.path)
-
-        imported_module = importlib(self.function)
-
-        # func_obj = getattr(imported_module, function)
-
+        
     def Print(self):
 
         Console.info(textwrap.dedent(f"""
@@ -85,13 +83,12 @@ class Parameter:
 
                File Locations:
                  - Currdir:    .
-                 - Directory:  {self.directory.replace(self.cwd, ".")}
                  - Filename:   {self.filename.replace(self.cwd, ".")}
                  - YAML:       {self.yamlfile.replace(self.cwd, ".")}
 
                Yaml File Related:
                  - Function:   {self.function}
-                 - Servereurl: {self.serverurl}
+                 - Server url: {self.serverurl}
                  - Module:     {self.module_name}
 
          """))
