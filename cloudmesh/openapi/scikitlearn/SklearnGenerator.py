@@ -62,10 +62,13 @@ class TypeScraper:
 
 class Generator:
 
-    functiontemplate = textwrap.dedent("""
-        #from sklearn.linearmodel import {functioname}
+    importfuction = textwrap.dedent("""
+        from {library}.{module} import {class_nm}
         import array
-        
+                """)
+
+    functiontemplate = textwrap.dedent("""
+    
         def {functioname}({parameters}) -> {returnparam1}:
         
             {text1}
@@ -75,16 +78,14 @@ class Generator:
             {docstring}
             {text1}
             
-            {functioname} = {functioname}({param_wo_type})
+            {returnparam1} = {functioname}({param_wo_type})
             
               
-            return {functioname}
+            return {returnparam1}
         """)
 
     functiontemplatereturningself = textwrap.dedent("""
-            #from sklearn.linearmodel import {functioname}
-            import array
-
+    
             def {functioname}({parameters}):
 
                 {text1}
@@ -228,6 +229,7 @@ class Generator:
         }
         module = module
         class_name = function
+        #input_params = input_params
         class_obj = getattr(module, class_name)
         doc = class_obj.__doc__
         paras_dict_func = self.get_parameters(doc, type_table)
@@ -245,10 +247,7 @@ class Generator:
                 returnparam = paras_dict_func['return']
             else:
                 returnparam
-        print(paras_dict_func)
-        print(parametersfunc)
         returnparamindex = parametersfunc.find('return')
-        print(returnparamindex)
         if (returnparamindex == -1):
             pass
         elif (returnparamindex == 0):
@@ -264,10 +263,13 @@ class Generator:
         else:
             params = params[:returnparamindex1 - 2]
 
-        #else:
-        #    returnparam
-
-
+        # if input_params[-1] == class_name:
+        #     spec = self.importfuction.format(
+        #         library=input_params[0],
+        #         module=input_params[1],
+        #         class_nm=input_params[-1]
+        #     )
+        #     return spec
         if returnparam != '':
             functionname = class_obj.__name__
             spec = self.functiontemplate.format(
@@ -295,6 +297,20 @@ class Generator:
 
             return spec
 
+    def generate_import_params(self,input_params):
+        """
+        :param input_params: takes the input passed from the function
+        :return:
+        """
+
+        input_params = input_params
+        spec = self.importfuction.format(
+                library=input_params[0],
+                module=input_params[1],
+                class_nm=input_params[-1]
+        )
+        return spec
+
 
 def generator(input):
     my_class = locate(input)
@@ -304,8 +320,9 @@ def generator(input):
     module = locate(input_module)
     class_name = input_params[-1]
     openAPI = Generator()
+    spec = openAPI.generate_import_params(input_params)
+    open(f"{input_params[-1]}.py", 'a').write(spec)
     spec = openAPI.generate_function(module, class_name)
-
     open(f"{input_params[-1]}.py", 'a').write(spec)
     for i in range(len(method_list)):
         module = my_class
