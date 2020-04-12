@@ -101,7 +101,7 @@ class Generator:
                 return {functioname}
             """)
 
-    functiontemplatefit = textwrap.dedent("""
+    functiontemplatebaseestimator = textwrap.dedent("""
 
                 def {functioname}({parameters}):
 
@@ -272,7 +272,6 @@ class Generator:
         else:
             parametersfunc = parametersfunc[:returnparamindex-2]
         returnparamindex1 = params.find('return')
-        print(returnparamindex1)
         if (returnparamindex1 == -1):
             pass
         elif (returnparamindex1 == 0):
@@ -280,16 +279,9 @@ class Generator:
         else:
             params = params[:returnparamindex1 - 2]
 
-        # if input_params[-1] == class_name:
-        #     spec = self.importfuction.format(
-        #         library=input_params[0],
-        #         module=input_params[1],
-        #         class_nm=input_params[-1]
-        #     )
-        #     return spec
         functionname = class_obj.__name__
         if returnparam != '':
-            #functionname = class_obj.__name__
+
             spec = self.functiontemplate.format(
                 functioname=functionname,
                 description=description,
@@ -302,9 +294,8 @@ class Generator:
 
             return spec
         else:
-            if functionname == 'fit':
-                print(module)
-                spec = self.functiontemplatefit.format(
+            if functionname in('fit','set_params') :
+                spec = self.functiontemplatebaseestimator.format(
                     functioname=functionname,
                     description=description,
                     base_estimator=base_estimator,
@@ -316,7 +307,6 @@ class Generator:
                 )
                 return spec
             else:
-            #functionname = class_obj.__name__
                 spec = self.functiontemplatereturningself.format(
                     functioname=functionname,
                     description=description,
