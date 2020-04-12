@@ -1,5 +1,8 @@
 
-def LogisticRegression(penalty: str, dual: bool, tol: float, C: float, fit_intercept: bool, intercept_scaling: float, class_weight: dict, random_state: int, solver: str, max_iter: int, multi_class: str, verbose: int, warm_start: bool, n_jobs: int, l1_ratio: float) -> self:
+from sklearn.linearmodel import LogisticRegression
+import array
+
+def LogisticRegression(penalty: str, dual: bool, tol: float, C: float, fit_intercept: bool, intercept_scaling: float, class_weight: dict, random_state: int, solver: str, max_iter: int, multi_class: str, verbose: int, warm_start: bool, n_jobs: int, l1_ratio: float):
 
     """
     Logistic Regression (aka logit, MaxEnt) classifier.
@@ -118,10 +121,18 @@ def LogisticRegression(penalty: str, dual: bool, tol: float, C: float, fit_inter
                     to using ``penalty='l1'``. For ``0 < l1_ratio <1``, the penalty is a
                     combination of L1 and L2.
     :type l1_ratio: float
+    :param return: self
+    :type return: self
     
     """
 
-    return self
+    LogisticRegression = LogisticRegression(penalty, dual, tol, C, fit_intercept, intercept_scaling, class_weight, random_state, solver, max_iter, multi_class, verbose, warm_start, n_jobs, l1_ratio)
+
+
+    return LogisticRegression
+
+#from sklearn.linearmodel import decision_function
+import array
 
 def decision_function(X: array) -> array:
 
@@ -131,23 +142,41 @@ def decision_function(X: array) -> array:
 
     :param X: Samples.
     :type X: array
+    :param return: Confidence scores per (sample, class) combination. In the binary
+                    case, confidence score for self.classes_[1] where >0 means this
+                    class would be predicted.
+    :type return: array
     
     """
 
-    return array
+    decision_function = decision_function(X)
 
-def densify() -> self:
+
+    return decision_function
+
+#from sklearn.linearmodel import densify
+import array
+
+def densify():
 
     """
     Convert coefficient matrix to dense array format.
 
 
+    :param return: Fitted estimator.
+    :type return: self
     
     """
 
-    return self
+    densify = densify()
 
-def fit(X: str, y: array, sample_weight: array) -> self:
+
+    return densify
+
+#from sklearn.linearmodel import fit
+import array
+
+def fit(X: str, y: array, sample_weight: array):
 
     """
     Fit the model according to the given training data.
@@ -164,10 +193,18 @@ def fit(X: str, y: array, sample_weight: array) -> self:
                     .. versionadded:: 0.17
                        *sample_weight* support to LogisticRegression.
     :type sample_weight: array
+    :param return: Fitted estimator.
+    :type return: self
     
     """
 
-    return self
+    fit = fit(X, y, sample_weight)
+
+
+    return fit
+
+#from sklearn.linearmodel import get_params
+import array
 
 def get_params(deep: bool) -> str:
 
@@ -178,10 +215,18 @@ def get_params(deep: bool) -> str:
     :param deep: If True, will return the parameters for this estimator and
                     contained subobjects that are estimators.
     :type deep: bool
+    :param return: Parameter names mapped to their values.
+    :type return: str
     
     """
 
-    return str
+    get_params = get_params(deep)
+
+
+    return get_params
+
+#from sklearn.linearmodel import predict
+import array
 
 def predict(X: array) -> array:
 
@@ -191,10 +236,18 @@ def predict(X: array) -> array:
 
     :param X: Samples.
     :type X: array
+    :param return: Predicted class label per sample.
+    :type return: array
     
     """
 
-    return array
+    predict = predict(X)
+
+
+    return predict
+
+#from sklearn.linearmodel import predict_log_proba
+import array
 
 def predict_log_proba(X: array) -> array:
 
@@ -205,10 +258,19 @@ def predict_log_proba(X: array) -> array:
     :param X: Vector to be scored, where `n_samples` is the number of samples and
                     `n_features` is the number of features.
     :type X: array
+    :param return: Returns the log-probability of the sample for each class in the
+                    model, where classes are ordered as they are in ``self.classes_``.
+    :type return: array
     
     """
 
-    return array
+    predict_log_proba = predict_log_proba(X)
+
+
+    return predict_log_proba
+
+#from sklearn.linearmodel import predict_proba
+import array
 
 def predict_proba(X: array) -> array:
 
@@ -219,10 +281,19 @@ def predict_proba(X: array) -> array:
     :param X: Vector to be scored, where `n_samples` is the number of samples and
                     `n_features` is the number of features.
     :type X: array
+    :param return: Returns the probability of the sample for each class in the model,
+                    where classes are ordered as they are in ``self.classes_``.
+    :type return: array
     
     """
 
-    return array
+    predict_proba = predict_proba(X)
+
+
+    return predict_proba
+
+#from sklearn.linearmodel import score
+import array
 
 def score(X: array, y: array, sample_weight: array) -> float:
 
@@ -236,12 +307,20 @@ def score(X: array, y: array, sample_weight: array) -> float:
     :type y: array
     :param sample_weight: Sample weights.
     :type sample_weight: array
+    :param return: Mean accuracy of self.predict(X) wrt. y.
+    :type return: float
     
     """
 
-    return float
+    score = score(X, y, sample_weight)
 
-def set_params(**params: dict) -> self:
+
+    return score
+
+#from sklearn.linearmodel import set_params
+import array
+
+def set_params(**params: dict):
 
     """
     Set the parameters of this estimator.
@@ -249,18 +328,31 @@ def set_params(**params: dict) -> self:
 
     :param **params: Estimator parameters.
     :type **params: dict
+    :param return: Estimator instance.
+    :type return: self
     
     """
 
-    return self
+    set_params = set_params(**params)
 
-def sparsify() -> self:
+
+    return set_params
+
+#from sklearn.linearmodel import sparsify
+import array
+
+def sparsify():
 
     """
     Convert coefficient matrix to sparse format.
 
 
+    :param return: Fitted estimator.
+    :type return: self
     
     """
 
-    return self
+    sparsify = sparsify()
+
+
+    return sparsify
