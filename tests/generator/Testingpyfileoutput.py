@@ -1,9 +1,13 @@
-from tests.generator import LogisticRegression
+from tests.generator import LinearRegression
+import numpy as np
 
+X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
+y = np.dot(X, np.array([1, 2])) + 3
 
-function_names = [func for func in dir(LogisticRegression) if not func.startswith('__')]
+test = LinearRegression.fit(X,y,None)
+score = test.score(X,y)
 
-print(function_names)
+print(score,test.intercept_)
 
 
 

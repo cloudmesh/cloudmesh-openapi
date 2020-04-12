@@ -101,6 +101,22 @@ class Generator:
                 return {functioname}
             """)
 
+    functiontemplatefit = textwrap.dedent("""
+
+                def {functioname}({parameters}):
+
+                    {text1}
+                    {description}
+
+
+                    {docstring}
+                    {text1}
+
+                    {functioname} = {base_estimator}().{functioname}({param_wo_type})
+
+
+                    return {functioname}
+                """)
     def populate_parameters_function(self, f, paras_dict, paras_desc):
         """
         Function to loop all the parameters of given function and generate
@@ -200,7 +216,7 @@ class Generator:
             paras_desc['return'] = 'self'
         return paras_desc
 
-    def generate_function(self, module, function):
+    def generate_function(self, module, function,base_estimator):
         """
         function to generate open API of python function.
 
@@ -229,6 +245,7 @@ class Generator:
         }
         module = module
         class_name = function
+        base_estimator = base_estimator
         #input_params = input_params
         class_obj = getattr(module, class_name)
         doc = class_obj.__doc__
@@ -270,8 +287,9 @@ class Generator:
         #         class_nm=input_params[-1]
         #     )
         #     return spec
+        functionname = class_obj.__name__
         if returnparam != '':
-            functionname = class_obj.__name__
+            #functionname = class_obj.__name__
             spec = self.functiontemplate.format(
                 functioname=functionname,
                 description=description,
@@ -284,18 +302,32 @@ class Generator:
 
             return spec
         else:
-            functionname = class_obj.__name__
-            spec = self.functiontemplatereturningself.format(
-                functioname=functionname,
-                description=description,
-                text1=text1,
-                parameters=parametersfunc,
-                param_wo_type=params,
-                docstring=docstring,
-                returnparam1=returnparam
-            )
+            if functionname == 'fit':
+                print(module)
+                spec = self.functiontemplatefit.format(
+                    functioname=functionname,
+                    description=description,
+                    base_estimator=base_estimator,
+                    text1=text1,
+                    parameters=parametersfunc,
+                    param_wo_type=params,
+                    docstring=docstring,
+                    returnparam1=returnparam
+                )
+                return spec
+            else:
+            #functionname = class_obj.__name__
+                spec = self.functiontemplatereturningself.format(
+                    functioname=functionname,
+                    description=description,
+                    text1=text1,
+                    parameters=parametersfunc,
+                    param_wo_type=params,
+                    docstring=docstring,
+                    returnparam1=returnparam
+                )
 
-            return spec
+                return spec
 
     def generate_import_params(self,input_params):
         """
@@ -317,18 +349,19 @@ def generator(input):
     method_list = [func for func,value in inspect.getmembers(my_class) if func[0] != '_']
     input_params = input.split('.')
     input_module = f'{input_params[0]}.{input_params[1]}'
+    base_estimator = input_params[-1]
     module = locate(input_module)
     class_name = input_params[-1]
     openAPI = Generator()
     spec = openAPI.generate_import_params(input_params)
     open(f"{input_params[-1]}.py", 'a').write(spec)
-    spec = openAPI.generate_function(module, class_name)
-    open(f"{input_params[-1]}.py", 'a').write(spec)
+    spec = openAPI.generate_function(module, class_name,base_estimator)
+    #open(f"{input_params[-1]}.py", 'a').write(spec)
     for i in range(len(method_list)):
         module = my_class
         function =  method_list[i]
         openAPI = Generator()
-        spec = openAPI.generate_function(module, function)
+        spec = openAPI.generate_function(module, function,base_estimator)
         open(f"{input_params[-1]}.py", 'a').write(spec)
 
 if __name__ == "__main__":
