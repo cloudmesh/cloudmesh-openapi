@@ -47,11 +47,12 @@ class Parameter:
         self.yamldirectory = None
         self.function = None
         self.serverurl = None
+        self.import_class = False
+        self.all_functions = True
         self.get(arguments)
         pass
 
     def get(self, arguments):
-
         self.cwd = path_expand(os.path.curdir)
 
         filename = arguments.filename
@@ -71,6 +72,8 @@ class Parameter:
 
         self.function = arguments.FUNCTION or os.path.basename(self.filename).split('.')[0]
         self.serverurl = arguments.serverurl or "http://localhost:8080/cloudmesh"
+        self.import_class = arguments.import_class
+        self.all_functions =arguments.all_functions
 
         
     def Print(self):
