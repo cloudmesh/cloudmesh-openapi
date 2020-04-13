@@ -1,39 +1,42 @@
-clean:
-	@echo "############################################################"
-	@echo "# Need to implements "
-	@echo "############################################################"
+NAME=openapi
+
+all:
+	echho "see the targets"
 
 build:
-	docker build -t openapi3 .
+	docker build -t cloudmesh-openapi .
 
-cleanbuild:
-	docker build --no-cache -t openapi3 .
+buildclean:
+	docker build --no-cache -t cloudmesh-openapi .
 
-
-dockerclean:
+#
+# TODO: bug there may be other images or non openapi related containers only
+#       delete the once from openapi
+#
+clean:
 	docker kill $$(docker ps -q) --force
 	docker rm $$(docker ps -a -q) --force
 	docker rmi $$(docker images -q) --force
 
 run:
-	docker run --rm -t --network="host" --name openapi3  -p 8080:8080 openapi3
+	docker run --rm -t --network="host" --name $(NAME)  -p 8080:8080 $(NAME)
 
-startservice:
-	docker exec -d openapi3 /root/startserver.sh
+start:
+	docker exec -d openapi3 /root/start-server.sh
 
-stopservice:
-	docker exec -d openapi3 /root/stopserver.sh
+stop:
+	docker exec -d openapi3 /root/stop-server.sh
 
-generatorservice:
+generate:
 	@echo "############################################################"
 	@echo "# Need to implements "
 	@echo "############################################################"
 
-testservice:
+test:
 	@echo "############################################################"
 	@echo "# Need to implements "
 	@echo "############################################################"
 
 stop:
-	docker stop openapi3
+	docker stop $(NAME)
 
