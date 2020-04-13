@@ -1,13 +1,14 @@
 NAME=openapi
+IMAGE=cloudmesh-openapi
 
 all:
 	echho "see the targets"
 
 build:
-	docker build -t cloudmesh-openapi .
+	docker build -t $(IMAGE) .
 
 buildclean:
-	docker build --no-cache -t cloudmesh-openapi .
+	docker build --no-cache -t $(IMAGE) .
 
 #
 # TODO: bug there may be other images or non openapi related containers only
