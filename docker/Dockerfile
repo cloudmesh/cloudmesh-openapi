@@ -27,7 +27,7 @@ RUN apt-get install -y \
     libc6-dev \
     libbz2-dev \
     libffi-dev \
-    zlib1g-dev \
+    zlib1g-dev
 RUN apt-get install -y \
     git-core \
     git \
@@ -65,4 +65,4 @@ RUN ["chmod", "+x", "/root/cloudmesh-init.sh"]
 RUN ["chmod", "+x", "/root/start-server.sh"]
 RUN ["chmod", "+x", "/root/stop-server.sh"]
 EXPOSE 8080
-ENTRYPOINT /root/loudmesh-init.sh
+ENTRYPOINT /root/cloudmesh-init.sh

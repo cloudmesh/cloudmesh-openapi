@@ -2,7 +2,7 @@ NAME=openapi
 IMAGE=cloudmesh-openapi
 
 all:
-	echho "see the targets"
+	echo "see the targets"
 
 build:
 	docker build -t $(IMAGE) .
@@ -10,17 +10,12 @@ build:
 buildclean:
 	docker build --no-cache -t $(IMAGE) .
 
-#
-# TODO: bug there may be other images or non openapi related containers only
-#       delete the once from openapi
-#
 clean:
-	docker kill $$(docker ps -q) --force
-	docker rm $$(docker ps -a -q) --force
-	docker rmi $$(docker images -q) --force
+	docker kill ${NAME}
+	docker rm ${NAME}
 
 run:
-	docker run --rm -t --network="host" --name $(NAME)  -p 8080:8080 $(NAME)
+	docker run --rm -t --network="host" --name $(NAME)  -p 8080:8080 $(IMAGE)
 
 start:
 	docker exec -d openapi3 /root/start-server.sh
