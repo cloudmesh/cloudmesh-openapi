@@ -63,11 +63,16 @@ class OpenapiCommand(PluginCommand):
               openapi sklearn generate FUNCTION
 
           Arguments:
+              FUNCTION  The name for the function or class
+              FILENAME  Path to python file containing the function or class
+              SERVERURL OpenAPI server URL Default: https://localhost:8080/cloudmesh
+              YAML      Path to yaml file that will contain OpenAPI spec. Default: FILENAME with .py replaced by .yaml
               DIR       The directory of the specifications
               FILE      The specification
-              FUNCTION  The name for the function or class
 
           Options:
+              --import_class         FUNCTION is a class name instead of a function name
+              --all_functions        Generate OpenAPI spec for all functions in FILENAME
               --debug                Use the server in debug mode
               --verbose              Specifies to run in debug mode
                                      [default: False]
@@ -101,13 +106,15 @@ class OpenapiCommand(PluginCommand):
                 Generates the
 
             openapi generate [FUNCTION] --filename=FILENAME
-                                         [--baseurl=BASEURL]
+                                         [--serverurl=SERVERURL]
                                          [--yamlfile=YAML]
-                                         [--yamldirectory=DIRECTORY]
-                                         [--fclass]
+                                         [--import_class]
                                          [--all_functions]
                                          [--verbose]
-                TODO: add description
+                Generates an OpenAPI specification for FUNCTION in FILENAME and
+                writes the result to YAML. Use --import_class to import a class
+                with its associated class methods, or use --all_functions to 
+                import all functions in FILENAME.
 
             openapi server start YAML [NAME]
                               [--directory=DIRECTORY]
