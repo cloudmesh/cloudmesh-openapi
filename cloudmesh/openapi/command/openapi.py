@@ -114,7 +114,8 @@ class OpenapiCommand(PluginCommand):
                 Generates an OpenAPI specification for FUNCTION in FILENAME and
                 writes the result to YAML. Use --import_class to import a class
                 with its associated class methods, or use --all_functions to 
-                import all functions in FILENAME.
+                import all functions in FILENAME. These options ignore functions
+                whose names start with '_'
 
             openapi server start YAML [NAME]
                               [--directory=DIRECTORY]
@@ -205,7 +206,7 @@ class OpenapiCommand(PluginCommand):
                     func_objects = {}
                     for attr_name in dir(class_obj):
                         attr = getattr(class_obj, attr_name)                        
-                        if isinstance(attr, types.MethodType):
+                        if isinstance(attr, types.MethodType) and attr_name[0] is not '_':
                             # are we sure this is right?
                             # would probably create a valid openapi yaml, but not technically accurate
                             # module.function may work but it should be module.Class.function
@@ -229,7 +230,7 @@ class OpenapiCommand(PluginCommand):
                 elif arguments.all_functions:
                     func_objects = {}
                     for attr_name in dir(imported_module):
-                        if type(getattr(imported_module, attr_name)).__name__ == 'function':
+                        if type(getattr(imported_module, attr_name)).__name__ == 'function' and attr_name[0] is not '_':
                             func_obj = getattr(imported_module, attr_name)
                             setattr(sys.modules[module_name], attr_name, func_obj)
                             func_objects[attr_name] = func_obj
