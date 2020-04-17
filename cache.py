@@ -8,7 +8,8 @@
 
 # ??? chose one of then
 from cloudmesh.common.util import readfile
-
+#.cloudmesh/openapi/service/cache/...uuid...[file]
+# in the file we are storing the pickled object from create under the uuid file name
 class ResultCache:
 
     def save(self, name, value, file=False, reader=readfile):
@@ -31,11 +32,19 @@ class ResultCache:
 
         return o
 
-    def create(self):
+    def create(self,ttl='3d'):
+
         #
+
+        if ttl > maxttl:
+            raise ValueError
         return uuid
 
+    def delete(self, uuid):
+        o = "o"
+        # read that from whatever thing we stored it in
 
+        return bool
 
 class LinearRegrassion(ResultCache):
 
