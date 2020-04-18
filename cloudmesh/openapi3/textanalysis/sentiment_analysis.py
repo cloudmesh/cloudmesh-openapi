@@ -97,4 +97,4 @@ if __name__ == '__main__':
     parser.add_argument('cloud', help="The cloud service you would like to use.")
     args = parser.parse_args()
 
-    analyze(args.movie_review_filename, args.cloud)
+    analyze(args.filename, args.cloud)
