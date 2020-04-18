@@ -66,6 +66,7 @@ class Generator:
             'float': 'type: number',
             'str': 'type: string',
             'list': 'type: array\n          items: {}',
+            'array': 'type: array\n          items: {}',
             'dict': 'type: object\n         additionalProperties: true'
         }
 
