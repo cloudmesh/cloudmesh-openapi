@@ -71,7 +71,7 @@ class OpenapiCommand(PluginCommand):
               FILE      The specification
 
           Options:
-              --import_class         FUNCTION is a class name instead of a function name
+              --import_class         FUNCTION is a required class name instead of an optional function name
               --all_functions        Generate OpenAPI spec for all functions in FILENAME
               --debug                Use the server in debug mode
               --verbose              Specifies to run in debug mode
@@ -178,6 +178,8 @@ class OpenapiCommand(PluginCommand):
         if arguments.generate:
             if arguments.import_class and arguments.all_functions:
                 Console.error('Cannot generate openapi with both --import_class and --all_functions')
+            if arguments.import_class and not arguments.function:
+                Console.error('FUNCTION paramter (class name) is required when using --import_class')
             try:
                 p = Parameter(arguments)
                 p.Print()
