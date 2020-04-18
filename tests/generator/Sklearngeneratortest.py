@@ -1,4 +1,4 @@
 from cloudmesh.openapi.scikitlearn import SklearnGenerator
 
-input = 'sklearn.linear_model.LogisticRegression'
-SklearnGenerator.generator(input,X,y)
+input = 'sklearn.linear_model.RidgeClassifierCV'
+SklearnGenerator.generator(input)
