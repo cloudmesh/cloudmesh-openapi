@@ -17,7 +17,7 @@ Benchmark.debug()
 cloud = "local"
 
 name = "cpu"
-yaml_file = "./tests/{name}.yaml"
+yaml_file = f"./tests/{name}.yaml"
 @pytest.mark.incremental
 class TestServerCms:
 
@@ -27,9 +27,9 @@ class TestServerCms:
         Benchmark.Start()
 
         # os.system(f"cms openapi server start ./tests/server-cpu/cpu.yaml >> log12.txt 2>&1 & ")
-        os.system(f"cms openapi server start ./tests/server-cpu/cpu.yaml &")
+        os.system(f"cms openapi server start {yaml_file} CPU --directory=./tests/server-cpu/")
         time.sleep(4)
-        result = requests.get('http://127.0.0.1:8080/cloudmesh/ui')
+        result = requests.get('http://127.0.0.1:8080/cloudmesh/ui/')
         Benchmark.Stop()
 
         assert result.status_code == 200 # find test
