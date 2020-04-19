@@ -21,7 +21,8 @@ class TestGeneratorTestClass():
 
     @pytest.fixture(scope="module")
     def generatorBaseTestFixture(self):
-        gen= GeneratorBaseTest(filename,True,False)
+        gen= GeneratorBaseTest(filename,False,False)
+        gen.function_name = "get_processor_name"
         return gen
 
     # def test_as(self,generatorBaseTestFixture):
@@ -40,14 +41,14 @@ class TestGeneratorTestClass():
         """
         generatorBaseTestFixture.generate()
 
-    def test_read_spec(self,generatorBaseTestFixture):
-        generatorBaseTestFixture.read_spec()
-
-    def test_validate_function(self, generatorBaseTestFixture):
-        generatorBaseTestFixture.validate_function()
-
-    def test_start_service(self,serverBaseTestFixture):
-        serverBaseTestFixture.start_service()
-
-    def test_stop_server(self,serverBaseTestFixture):
-        serverBaseTestFixture.stop_server()
+    # def test_read_spec(self,generatorBaseTestFixture):
+    #     generatorBaseTestFixture.read_spec()
+    #
+    # def test_validate_function(self, generatorBaseTestFixture):
+    #     generatorBaseTestFixture.validate_function()
+    #
+    # def test_start_service(self,serverBaseTestFixture):
+    #     serverBaseTestFixture.start_service()
+    #
+    # def test_stop_server(self,serverBaseTestFixture):
+    #     serverBaseTestFixture.stop_server()

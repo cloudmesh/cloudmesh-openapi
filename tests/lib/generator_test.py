@@ -25,28 +25,31 @@ from cloudmesh.common.dotdict import dotdict
 
 class GeneratorBaseTest:
 
+    function_name=""
+
     def __init__(self,filename,all_functions,import_class):
         global globalcommandstring
         global globalbuildcommandstring
         global globalcommandparameter
         global globalbuildcommandparameter
 
-        cmd = self.get_servercommand(filename, all_functions, import_class)
+        cmd = self.get_servercommand(filename, all_functions, import_class,self.function_name)
         dataforclass = self.server_dotdict(cmd)
         globalcommandparameter = Parameter(dataforclass)
         build_dotdict=self.build_dotdict()
         globalbuildcommandparameter=Parameter(build_dotdict)
         globalbuildcommandstring= self.get_build_servercommand(build_dotdict)
-        print("globalbuildcommandstring  asdgafdgfadgsfdgsf ",globalbuildcommandstring)
 
 
-    def get_servercommand(self,filename,all_functions,import_class) -> str:
-        print(all_functions)
+
+    def get_servercommand(self,filename,all_functions,import_class,function_name) -> str:
         serverCommand=""
         if import_class:
           serverCommand=f"cms openapi generate --filename={filename} --import_class"
         elif all_functions:
           serverCommand = f"cms openapi generate --filename={filename} --all_functions"
+        else:
+          serverCommand = f"cms openapi generate {function_name} --filename={filename}"
         return serverCommand
 
     def get_build_servercommand(self,build_dotdict) -> str:
@@ -55,8 +58,8 @@ class GeneratorBaseTest:
           serverCommand=f"cms openapi generate {build_dotdict.FUNCTION} --filename={build_dotdict.filename} --import_class"
         elif globalbuildcommandparameter.all_functions:
           serverCommand = f"cms openapi generate --filename={build_dotdict.filename} --all_functions"
-
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ",serverCommand)
+        else:
+          serverCommand = f"cms openapi generate {build_dotdict.FUNCTION} --filename={build_dotdict.filename}"
         return serverCommand
 
     def server_dotdict(self,serverCommand) -> dotdict:
@@ -86,7 +89,9 @@ class GeneratorBaseTest:
         elif globalcommandparameter.all_functions:
             dotdictd["all_functions"] = True
             dotdictd["import_class"] = False
-
+        else:
+            dotdictd["all_functions"] = False
+            dotdictd["import_class"] = False
 
         dotdictd["filename"] = globalcommandparameter.module_directory+"/build/"+globalcommandparameter.module_name+".py"
 
@@ -112,8 +117,8 @@ class GeneratorBaseTest:
         """
         HEADING()
         Benchmark.Start()
-        print("5%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555 ",globalbuildcommandstring)
-        Shell.run(globalbuildcommandstring) #change variable based on your needs
+        print(globalbuildcommandstring)
+        Shell.run(globalbuildcommandstring)
         Benchmark.Stop()
 
     def read_spec(self):

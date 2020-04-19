@@ -22,6 +22,7 @@ class TestGeneratorTestClass():
     @pytest.fixture(scope="module")
     def generatorBaseTestFixture(self):
         gen= GeneratorBaseTest(filename,False,True)
+
         return gen
 
     # def test_as(self,generatorBaseTestFixture):
