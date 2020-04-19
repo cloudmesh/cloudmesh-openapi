@@ -1,5 +1,6 @@
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.compute.vm.Provider import Provider
+from cloudmesh.common.console import Console
 
 flat = True
 service = "chameleon"
@@ -27,6 +28,7 @@ def vm(service: str) -> list:
         result = provider.Prints(result,
                                  kind="vm",
                                  output="flat")
+
     return result
 
 
@@ -74,12 +76,13 @@ def boot(service: str) -> list:
 
 
 if __name__ == '__main__':
-    v = vm(service)
-    VERBOSE(v)
-    f = flavor(service)
-    VERBOSE(f)
-    i = image(service)
-    VERBOSE(i)
-    # result = boot(service)
+    #v = vm(service)
+    #VERBOSE(v)
+    #f = flavor(service)
+    #VERBOSE(f)
+    #i = image(service)
+    #VERBOSE(i)
+    result = boot(service)
+    print(result)
     # v = vm("opensatck")
     # VERBOSE(v)

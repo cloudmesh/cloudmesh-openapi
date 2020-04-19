@@ -1,9 +1,7 @@
-#from cloudmesh.common.console import Console
 import inspect
 import re
 import textwrap
 from pydoc import locate
-
 from numpydoc import docscrape
 
 
@@ -63,7 +61,14 @@ class TypeScraper:
 
 class Generator:
 
+    importfuction = textwrap.dedent("""
+        from {library}.{module} import {class_nm}
+        import array
+        from cloudmesh.openapi.registry.cache import ResultCache
+                """)
+
     functiontemplate = textwrap.dedent("""
+    
         def {functioname}({parameters}) -> {returnparam1}:
         
             {text1}
@@ -72,10 +77,50 @@ class Generator:
             
             {docstring}
             {text1}
+            
+            model = ResultCache().load("{model_tag}")
+            {returnparam1} = model.{functioname}({param_wo_type})
+            
+            
               
             return {returnparam1}
         """)
 
+    functiontemplatereturningself = textwrap.dedent("""
+    
+            def {functioname}({parameters}):
+
+                {text1}
+                {description}
+
+
+                {docstring}
+                {text1}
+
+                {functioname} = {functioname}({param_wo_type})
+                
+
+
+                return {functioname}
+            """)
+
+    functiontemplatebaseestimator = textwrap.dedent("""
+
+                def {functioname}({parameters}):
+
+                    {text1}
+                    {description}
+
+
+                    {docstring}
+                    {text1}
+
+                    {functioname} = {base_estimator}().{functioname}({param_wo_type})
+                    ResultCache().save("{model_tag}","pickle",{functioname})
+
+
+                    return {base_estimator}
+                """)
     def populate_parameters_function(self, f, paras_dict, paras_desc):
         """
         Function to loop all the parameters of given function and generate
@@ -85,9 +130,10 @@ class Generator:
         :return:
         """
         spec = str()
+        spec_params = str()
         docstring = str()
         for i, item in enumerate(paras_dict):
-            if i == (len(paras_dict) - 1):
+            if i == (len(paras_dict)-1):
                 last_key = item
         for parameter_dict, _type in paras_dict.items():
             for parameter_desc, desc in paras_desc.items():
@@ -102,10 +148,12 @@ class Generator:
                         "    "+ (f""":type {parameter_dict}: {_type}""") + "\n" + "    "
                         if parameter_dict == last_key:
                             spec = spec + (f"""{parameter_dict}: {_type}""")
+                            spec_params =  spec_params + (f"""{parameter_dict}""")
                         else:
                             spec = spec + f"""{parameter_dict}: {_type},""" + " "
+                            spec_params = spec_params + f"""{parameter_dict},""" + " "
 
-        return spec,docstring
+        return spec,spec_params,docstring
 
     def is_valid_para(self, para_type, type_table):
         """Check if it is a valid parameter type contained in the type table.
@@ -115,14 +163,14 @@ class Generator:
             return True
         return True
 
-    def get_parameters(self, doc, type_table):
+    def get_parameters(self, parsing_obj, type_table):
         """Get parameters from the doc of a class, function, or property object.
 
         Given the sklean docstring follows the numpy conventions, this function
         use the numpy docstring parser to read the doc of sklean.
         """
         scraper = TypeScraper(type_table=type_table)
-        r = docscrape.NumpyDocString(doc)
+        r = parsing_obj
         paras = {}
         returnparam = {}
         for p in r['Parameters']:
@@ -142,16 +190,20 @@ class Generator:
                 paras['return'] = para_type
             else:
                 continue
-        print(paras)
+        key = 'return'
+        if key not in paras.keys():
+            paras['return'] = 'self'
+        #print(paras)
         return paras
 
-    def get_docstrings(self, doc):
+    def get_docstrings(self, parsing_obj):
         """Get descriptions  from the doc of a class, function, or property object.
 
         Given the sklean docstring follows the numpy conventions, this function
-        use the numpy docstring parser to read the doc of sklean.
+        use the numpy docstring parser o read the doc of sklean.
         """
-        r = docscrape.NumpyDocString(doc)
+        #r = docscrape.NumpyDocString(doc)
+        r = parsing_obj
         paras_desc = {}
         for p in r['Parameters']:
             para_name = str(p.name)
@@ -163,10 +215,13 @@ class Generator:
             para_name = str(p.name)
             para_desc = '\n                    '.join(p.desc)
             paras_desc['return'] = para_desc
-        print(paras_desc)
+        #print(paras_desc)
+        key = 'return'
+        if key not in paras_desc.keys():
+            paras_desc['return'] = 'self'
         return paras_desc
 
-    def generate_function(self, module, function):
+    def generate_function(self, module, function,base_estimator,model_tag):
         """
         function to generate open API of python function.
 
@@ -195,52 +250,126 @@ class Generator:
         }
         module = module
         class_name = function
+        base_estimator = base_estimator
+        model_tag = model_tag
         class_obj = getattr(module, class_name)
+        parsing_obj = docscrape.FunctionDoc(class_obj)
         doc = class_obj.__doc__
-        paras_dict_func = self.get_parameters(doc, type_table)
-        paras_desc = self.get_docstrings(doc)
+        paras_dict_func = self.get_parameters(parsing_obj, type_table)
+        paras_desc = self.get_docstrings(parsing_obj)
+
         description = class_obj.__doc__.strip().split("\n")[0]
-        title = class_obj.__name__
-        parametersfunc,docstring = self.populate_parameters_function(function, paras_dict_func, paras_desc)
+        #title = class_obj.__name__
+        parametersfunc,params,docstring = self.populate_parameters_function(function, paras_dict_func, paras_desc)
         text1 = '"""'
         key = 'return'
+        returnparam =''
+
         if  key in paras_dict_func.keys():
-            returnparam = paras_dict_func['return']
+            if paras_dict_func['return'] != 'self':
+                returnparam = paras_dict_func['return']
+            else:
+                returnparam
+
+        returnparamindex = parametersfunc.find('return')
+        if (returnparamindex == -1):
+            pass
+        elif (returnparamindex == 0):
+            parametersfunc = ''
         else:
-            returnparam = 'self'
+            parametersfunc = parametersfunc[:returnparamindex-2]
+
+
+        returnparamindex1 = params.find('return')
+        if (returnparamindex1 == -1):
+            pass
+        elif (returnparamindex1 == 0):
+            params = ''
+        else:
+            params = params[:returnparamindex1 - 2]
 
         functionname = class_obj.__name__
-        spec = self.functiontemplate.format(
-            functioname=functionname,
-            description=description,
-            text1 = text1,
-            parameters=parametersfunc,
-            docstring=docstring,
-            returnparam1=returnparam
-        )
 
+        if returnparam != '':
+
+            spec = self.functiontemplate.format(
+                functioname=functionname,
+                description=description,
+                text1 = text1,
+                model_tag=model_tag,
+                parameters=parametersfunc,
+                param_wo_type=params,
+                docstring=docstring,
+                returnparam1=returnparam
+            )
+
+            return spec
+        else:
+            if functionname in('fit','set_params') :
+                spec = self.functiontemplatebaseestimator.format(
+                    functioname=functionname,
+                    description=description,
+                    base_estimator=base_estimator,
+                    model_tag=model_tag,
+                    text1=text1,
+                    parameters=parametersfunc,
+                    param_wo_type=params,
+                    docstring=docstring,
+                    returnparam1=returnparam
+                )
+                return spec
+            else:
+                spec = self.functiontemplatereturningself.format(
+                    functioname=functionname,
+                    description=description,
+                    text1=text1,
+                    parameters=parametersfunc,
+                    param_wo_type=params,
+                    docstring=docstring,
+                    returnparam1=returnparam
+                )
+
+                return spec
+
+    def generate_import_params(self,input_params):
+        """
+        :param input_params: takes the input passed from the function
+        :return:
+        """
+
+        input_params = input_params
+        spec = self.importfuction.format(
+                library=input_params[0],
+                module=input_params[1],
+                class_nm=input_params[-1]
+        )
         return spec
 
-def generator(input):
-    my_class = locate(input)
+
+def generator(input_sklibrary,model_tag):
+    my_class = locate(input_sklibrary)
     method_list = [func for func,value in inspect.getmembers(my_class) if func[0] != '_']
-    input_params = input.split('.')
+    method_list = [value for value in method_list if value != 'classes_']
+    input_params = input_sklibrary.split('.')
     input_module = f'{input_params[0]}.{input_params[1]}'
+    base_estimator = input_params[-1]
     module = locate(input_module)
     class_name = input_params[-1]
     openAPI = Generator()
-    spec = openAPI.generate_function(module, class_name)
-
+    spec = openAPI.generate_import_params(input_params)
     open(f"{input_params[-1]}.py", 'a').write(spec)
+    #spec = openAPI.generate_function(module, class_name,base_estimator)
+    #open(f"{input_params[-1]}.py", 'a').write(spec)
     for i in range(len(method_list)):
         module = my_class
         function =  method_list[i]
         openAPI = Generator()
-        spec = openAPI.generate_function(module, function)
+        spec = openAPI.generate_function(module,function,base_estimator,model_tag)
         open(f"{input_params[-1]}.py", 'a').write(spec)
 
 if __name__ == "__main__":
-    input = 'sklearn.linear_model.LogisticRegression'
-    generator(input)
+    generator(input_sklibrary,model_tag)
+
+
 
 

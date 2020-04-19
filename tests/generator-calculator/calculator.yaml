@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  title: calculator
+  description: No description provided
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/cloudmesh
+    description: No description provided
+paths:
+  /calculator/add:
+     get:
+      summary: adding float and float.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: calculator.add
+      parameters:
+        - in: query
+          name: x
+          description: x value
+          schema:
+            type: number
+        - in: query
+          name: y
+          description: y value
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: number
+
+  /calculator/division:
+     get:
+      summary: division float and float sample.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: calculator.division
+      parameters:
+        - in: query
+          name: x
+          description: x value
+          schema:
+            type: number
+        - in: query
+          name: y
+          description: y value
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: number
+
+  /calculator/multiply:
+     get:
+      summary: Multiply float and float sample.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: calculator.multiply
+      parameters:
+        - in: query
+          name: x
+          description: x value
+          schema:
+            type: number
+        - in: query
+          name: y
+          description: y value
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: number
+
+  /calculator/subtraction:
+     get:
+      summary: subtraction int and float sample.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: calculator.subtraction
+      parameters:
+        - in: query
+          name: x
+          description: x value
+          schema:
+            type: number
+        - in: query
+          name: y
+          description: y value
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: number

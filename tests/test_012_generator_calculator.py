@@ -3,20 +3,47 @@
 # pytest -v  tests/test_03_generator.py
 # pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
 ###############################################################
+"""
+# Headline
+
+Here come document for test
+
+"""
 import time
 from pprint import pprint
-
+import sys
 import pytest
 import tests.util as util
 from cloudmesh.common.Benchmark import Benchmark
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
+from cloudmesh.common.util import path_expand
+from importlib import import_module
+from cloudmesh.openapi.function.executor import Parameter
+from cloudmesh.common.dotdict import dotdict
+import types
+from cloudmesh.shell.command import command, map_parameters
 
-directory = "./tests/server-cpu"
-filename = "cpu.py"
+# for testing file which has function more than one, use below variable and also use dataforfunction dict
+argumentsforfunction="cms openapi generate Calculator --filename=./tests/generator-calculator/calculator.py --all_functions"
 
-location = f"{directory}/{filename}"
+# for testing file which is class , use below variable and also use dataforclass dict
+argumentsforclass="cms openapi generate Calculator --filename=./tests/generator-testclass/calculator.py --import_class"
 
+dataforclass = dotdict({
+            "filename": './tests/generator-testclass/calculator.py',
+            "import_class": True,
+             "FUNCTION" : "Calculator",
+            "all_functions":False,
+        })
+
+dataforfunction = dotdict({
+            "filename": './tests/generator-testclass/calculator.py',
+            "import_class": False,
+            "all_functions":True,
+        })
+
+p = Parameter(dataforclass)
 
 @pytest.mark.incremental
 class TestGenerator:
@@ -26,10 +53,8 @@ class TestGenerator:
         function to validate paths information
         """
         HEADING()
-
         Benchmark.Start()
-        Shell.run(
-            "cms openapi generate cpu --yamldirectory={directory} --filename={location}")
+        Shell.run(argumentsforclass) #change variable based on your needs
         Benchmark.Stop()
 
     def test_read_spec(self):
@@ -37,20 +62,35 @@ class TestGenerator:
         function to check if YAML synatx is correct or not
         """
         global spec
-
         HEADING()
         Benchmark.Start()
-        spec = util.readyaml(location)
+        spec = util.readyaml(p.yamlfile)
         keys = spec.keys()
-
-        pprint(spec)
-        pprint(keys)
         assert "openapi" in keys
         assert "info" in keys
         assert "servers" in keys
         assert "paths" in keys
-        assert "A simple service" in str(spec)
 
+    def test_number_of_function(self):
+        """
+        function to check number of functions are same in py and yaml file.
+        """
+        HEADING()
+        Benchmark.Start()
+        sys.path.append(p.yamldirectory)
+        imported_module = import_module(p.module_name)
+        keys = spec.get('paths')
+        paths= keys.keys()
+        if (p.all_functions is True):
+            for attr_name in dir(imported_module):
+                if type(getattr(imported_module, attr_name)).__name__ == 'function':
+                    assert f"/{p.function}/{attr_name}" in paths
+        if (p.import_class is True):
+            class_obj = getattr(imported_module, p.function)
+            for attr_name in dir(class_obj):
+                attr = getattr(class_obj, attr_name)
+                if isinstance(attr, types.MethodType):
+                    assert f"/{p.function}/{attr_name}" in paths
 
 class rest:
 
@@ -80,6 +120,3 @@ class rest:
 
         Benchmark.Stop()
 
-    def test_benchmark(self):
-        HEADING()
-        Benchmark.print(csv=True, sysinfo=False, tag="generator")
