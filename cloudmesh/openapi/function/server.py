@@ -129,9 +129,9 @@ class Server(object):
             if sys.platform == 'win32':
                 pid = self.run_os()
             else:
-                self._run_deamon()
-                pid = Server.ps(name=name)[1]["pid"]
-                _spec = Server.ps(name=name)[1]["spec"]
+
+                pid = Server.ps(name=name)[0]["pid"]
+                _spec = Server.ps(name=name)[0]["spec"]
 
                 with open(_spec, "r") as stream:
                     try:
@@ -159,6 +159,7 @@ class Server(object):
                                        host=self.host,
                                        url=url
                                        )
+                self._run_deamon()
 
         return pid
 
@@ -167,23 +168,26 @@ class Server(object):
         pids = []
 
         result = Shell.ps()
+        result = result.split('\n')
+
         for pinfo in result:
-            if pinfo["cmdline"] is not None:
-                line = ' '.join(pinfo["cmdline"])
-                if "openapi server start" in line:
-                    info = line.split("start")[1].split("--")[0].strip()
-                    if name is None:
-                        name = os.path.basename(
-                            line.split("openapi server start")[1]).split(".")[0]
-                    if name is not None and f"{name}.yaml" in info:
-                        pids.append({"name":name, "pid": pinfo['pid'], "spec": info})
-                    else:
-                        pids.append({"name":name, "pid": pinfo["pid"], "spec": info})
-                elif "cmsoaserver.py" in line and sys.platform == 'win32':
-                    info = line.split("python.exe")[1].strip()
-                    if name is None:
-                        name = Path(info).stem.split("_")[0].strip()
-                    pids.append({"name": name, "pid": pinfo['pid'], "spec": info})
+            if "openapi server start" in pinfo:
+                pinfo = pinfo.split(" ")
+                info = pinfo[11]
+                if name is None:
+                    name = os.path.basename(
+                        pinfo[11].split("."))
+                if name is not None and name in pinfo:
+                    pids.append(
+                        {"name": pinfo[12], "pid": pinfo[0], "spec": info})
+                else:
+                    pids.append(
+                        {"name": name, "pid": pinfo[0], "spec": info})
+            elif "cmsoaserver.py" in pinfo and sys.platform == 'win32':
+                info = pinfo.split("python.exe")[1].strip()
+                if name is None:
+                    name = Path(info).stem.split("_")[0].strip()
+                pids.append({"name": name, "pid": pinfo['pid'], "spec": info})
         return pids
 
     @staticmethod

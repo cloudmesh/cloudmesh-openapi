@@ -78,7 +78,7 @@ class Generator:
             {docstring}
             {text1}
             
-            model = ResultCache().load("{base_estimator}")
+            model = ResultCache().load("{model_tag}")
             {returnparam1} = model.{functioname}({param_wo_type})
             
             
@@ -116,7 +116,7 @@ class Generator:
                     {text1}
 
                     {functioname} = {base_estimator}().{functioname}({param_wo_type})
-                    ResultCache().save("{base_estimator}","pickle",{functioname})
+                    ResultCache().save("{model_tag}","pickle",{functioname})
 
 
                     return {base_estimator}
@@ -221,7 +221,7 @@ class Generator:
             paras_desc['return'] = 'self'
         return paras_desc
 
-    def generate_function(self, module, function,base_estimator):
+    def generate_function(self, module, function,base_estimator,model_tag):
         """
         function to generate open API of python function.
 
@@ -251,6 +251,7 @@ class Generator:
         module = module
         class_name = function
         base_estimator = base_estimator
+        model_tag = model_tag
         class_obj = getattr(module, class_name)
         parsing_obj = docscrape.FunctionDoc(class_obj)
         doc = class_obj.__doc__
@@ -295,7 +296,7 @@ class Generator:
                 functioname=functionname,
                 description=description,
                 text1 = text1,
-                base_estimator=base_estimator,
+                model_tag=model_tag,
                 parameters=parametersfunc,
                 param_wo_type=params,
                 docstring=docstring,
@@ -309,7 +310,7 @@ class Generator:
                     functioname=functionname,
                     description=description,
                     base_estimator=base_estimator,
-                    data=f"newcache.save({base_estimator},pickle,{functionname})",
+                    model_tag=model_tag,
                     text1=text1,
                     parameters=parametersfunc,
                     param_wo_type=params,
@@ -345,11 +346,11 @@ class Generator:
         return spec
 
 
-def generator(input):
-    my_class = locate(input)
+def generator(input_sklibrary,model_tag):
+    my_class = locate(input_sklibrary)
     method_list = [func for func,value in inspect.getmembers(my_class) if func[0] != '_']
     method_list = [value for value in method_list if value != 'classes_']
-    input_params = input.split('.')
+    input_params = input_sklibrary.split('.')
     input_module = f'{input_params[0]}.{input_params[1]}'
     base_estimator = input_params[-1]
     module = locate(input_module)
@@ -363,11 +364,11 @@ def generator(input):
         module = my_class
         function =  method_list[i]
         openAPI = Generator()
-        spec = openAPI.generate_function(module, function,base_estimator)
+        spec = openAPI.generate_function(module,function,base_estimator,model_tag)
         open(f"{input_params[-1]}.py", 'a').write(spec)
 
 if __name__ == "__main__":
-    generator(input)
+    generator(input_sklibrary,model_tag)
 
 
 

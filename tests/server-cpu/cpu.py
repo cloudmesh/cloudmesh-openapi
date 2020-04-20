@@ -5,7 +5,7 @@ import subprocess
 from flask import jsonify
 
 
-def get_processor_name():
+def get_processor_name() -> str:
     """
     The name of the processor
 
