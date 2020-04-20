@@ -25,18 +25,17 @@ from cloudmesh.common.dotdict import dotdict
 
 class GeneratorBaseTest:
 
-    function_name=""
 
-    def __init__(self,filename,all_functions,import_class):
+
+    def __init__(self,filename,all_functions,import_class,function_name = None):
         global globalcommandstring
         global globalbuildcommandstring
         global globalcommandparameter
         global globalbuildcommandparameter
-
-        cmd = self.get_servercommand(filename, all_functions, import_class,self.function_name)
+        cmd = self.get_servercommand(filename, all_functions, import_class,function_name)
         dataforclass = self.server_dotdict(cmd)
         globalcommandparameter = Parameter(dataforclass)
-        build_dotdict=self.build_dotdict()
+        build_dotdict=self.build_dotdict(function_name)
         globalbuildcommandparameter=Parameter(build_dotdict)
         globalbuildcommandstring= self.get_build_servercommand(build_dotdict)
 
@@ -79,7 +78,7 @@ class GeneratorBaseTest:
         if serverCommand.__contains__("server"):
            pass
 
-    def build_dotdict(self) -> dotdict:
+    def build_dotdict(self,function_name = None) -> dotdict:
         dotdictd = dotdict()
 
         if  globalcommandparameter.import_class:
@@ -92,6 +91,7 @@ class GeneratorBaseTest:
         else:
             dotdictd["all_functions"] = False
             dotdictd["import_class"] = False
+            dotdictd["FUNCTION"] = function_name
 
         dotdictd["filename"] = globalcommandparameter.module_directory+"/build/"+globalcommandparameter.module_name+".py"
 
@@ -100,13 +100,11 @@ class GeneratorBaseTest:
 
 
     def copy_py_file(self):
-        print(globalbuildcommandparameter.module_directory)
         import os
         os.makedirs(globalcommandparameter.module_directory+"/build")
         from shutil import copyfile
         HEADING()
         Benchmark.Start()
-        print(globalbuildcommandparameter.module_name)
         copyfile(globalcommandparameter.filename, globalbuildcommandparameter.filename)
         Benchmark.Stop()
 
@@ -117,7 +115,6 @@ class GeneratorBaseTest:
         """
         HEADING()
         Benchmark.Start()
-        print(globalbuildcommandstring)
         Shell.run(globalbuildcommandstring)
         Benchmark.Stop()
 
@@ -155,6 +152,11 @@ class GeneratorBaseTest:
                 attr = getattr(class_obj, attr_name)
                 if isinstance(attr, types.MethodType):
                     assert f"/{globalbuildcommandparameter.function}/{attr_name}" in paths
+
+
+    def delete_file(self):
+        import shutil
+        shutil.rmtree(globalcommandparameter.module_directory+"/build")
 
 class ServerBaseTest:
 
