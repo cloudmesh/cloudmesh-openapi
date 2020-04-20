@@ -49,5 +49,10 @@ class TestGeneratorTestClass():
     def test_start_service(self,serverBaseTestFixture):
         serverBaseTestFixture.start_service()
 
-    def test_stop_server(self,serverBaseTestFixture):
+    def test_stop_server(self, serverBaseTestFixture):
         serverBaseTestFixture.stop_server()
+
+    def test_delete_build_file(self, generatorBaseTestFixture):
+        generatorBaseTestFixture.delete_file()
+
+
