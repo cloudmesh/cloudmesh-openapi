@@ -61,6 +61,7 @@ class OpenapiCommand(PluginCommand):
               openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
               openapi TODO doc [SERVICES...] [--dir=DIR]
               openapi sklearn generate FUNCTION
+              openapi sklearn upload --filename=FILENAME
 
           Arguments:
               FUNCTION  The name for the function or class
@@ -398,6 +399,14 @@ class OpenapiCommand(PluginCommand):
             except Exception as e:
                 print(e)
 
+        elif arguments.sklearn and arguments.upload:
+
+            try:
+                openAPI = generator.Generator()
+                openAPI.fileput()
+
+            except Exception as e:
+                print(e)
 
         '''
 

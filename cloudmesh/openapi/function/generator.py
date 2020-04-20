@@ -121,11 +121,21 @@ class Generator:
         #   so that it's parsable
 
         if type(_type) == str:
-            _type = self.parse_type(_type)
+            if _type == "No Response":
+                Console.info("Operation with no response")
+            else:
+                _type = self.parse_type(_type)
         else:
             _type = self.parse_type(_type.__name__)
 
-        if not _type.startswith('object'):
+        if _type == "No Response":
+            spec = textwrap.dedent("""
+              '{code}':
+                description: {description}
+            """).format(code=code.strip(),
+                        description=description.strip()
+                        )
+        elif not _type.startswith('object'):
             # int, bool, float, str, list
             spec = textwrap.dedent("""
               '{code}':
@@ -211,10 +221,9 @@ class Generator:
                 #   requires pip install.  Consider alternatives.
 
                 docstring = parse(func_obj.__doc__)
-                print(docstring.params)
                 for param in docstring.params:
                     if param.arg_name == parameter:
-                        description = param.description.strip()
+                        description = textwrap.indent(param.description, ' ' * 15)
                 spec = spec + self.generate_parameter(
                     parameter,
                     _type,
@@ -319,24 +328,29 @@ class Generator:
 
             # func_description = v.__doc__.strip().split("\n")[0]
             docstring = parse(v.__doc__)
+
             func_description = docstring.short_description
             func_ldescription = docstring.long_description
 
             VERBOSE(func_description)
+            Console.info(func_description)
             VERBOSE(func_ldescription)
+            Console.info(func_ldescription)
 
             # TODO: handling functions with no input parameters and no return
             # value needs additional testing
 
             if v.__annotations__:
-                Console.info("Annotations found for function...processing")
+                Console.info(f"Annotations found for function {func_name} processing")
             else:
                 Console.error(f"No annotations found for function '{func_name}'")
                 raise Exception
 
             # Define parameters section(s) for openapi yaml
             parameters = self.populate_parameters(v)
+            print(f"Parameters: {parameters}")
             if parameters != "":
+                #Console.info(f"Processing parameters for function {func_name}")
                 parameters = textwrap.indent(parameters, ' ' * 6)
                 VERBOSE(parameters, label="openapi function parameters")
             else:
@@ -344,9 +358,17 @@ class Generator:
                              "defined in docstring")
 
             # Define responses section(s) for openapi yaml
-            responses = self.generate_response('200',
-                                               v.__annotations__['return'],
-                                               'OK')
+            if 'return' in v.__annotations__:
+                #Console.info(f"Processing response for function {func_name}")
+                responses = self.generate_response('200',
+                                                   v.__annotations__['return'],
+                                                   'OK')
+            else:
+                #Console.info(f"Processing NO response for function {func_name}")
+                responses = self.generate_response('204',
+                                                   "No Response",
+                                                   'This operation returns no response.')
+
             responses = textwrap.indent(responses, ' ' * 6)
             VERBOSE(responses, label="openapi function responses")
 

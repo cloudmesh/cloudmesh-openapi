@@ -19,7 +19,7 @@ def decision_function(X: array) -> array:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
+    model = ResultCache().load("LogisticRegression")
     array = model.decision_function(X)
 
 
@@ -68,7 +68,7 @@ def fit(X: str, y: array, sample_weight: array):
     """
 
     fit = LogisticRegression().fit(X, y, sample_weight)
-    ResultCache().save("LogisticRegression_JB","pickle",fit)
+    ResultCache().save("LogisticRegression","pickle",fit)
 
 
     return LogisticRegression
@@ -88,7 +88,7 @@ def get_params(deep: bool) -> str:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
+    model = ResultCache().load("LogisticRegression")
     str = model.get_params(deep)
 
 
@@ -109,7 +109,7 @@ def predict(X: array) -> array:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
+    model = ResultCache().load("LogisticRegression")
     array = model.predict(X)
 
 
@@ -132,7 +132,7 @@ def predict_log_proba(X: array) -> array:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
+    model = ResultCache().load("LogisticRegression")
     array = model.predict_log_proba(X)
 
 
@@ -155,7 +155,7 @@ def predict_proba(X: array) -> array:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
+    model = ResultCache().load("LogisticRegression")
     array = model.predict_proba(X)
 
 
@@ -180,7 +180,7 @@ def score(X: array, y: array, sample_weight: array) -> float:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
+    model = ResultCache().load("LogisticRegression")
     float = model.score(X, y, sample_weight)
 
 
@@ -202,7 +202,7 @@ def set_params(**params: dict):
     """
 
     set_params = LogisticRegression().set_params(**params)
-    ResultCache().save("LogisticRegression_JB","pickle",set_params)
+    ResultCache().save("LogisticRegression","pickle",set_params)
 
 
     return LogisticRegression
