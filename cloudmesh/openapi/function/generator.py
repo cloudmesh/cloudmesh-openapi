@@ -457,9 +457,16 @@ class Generator:
             Console.info(f"Function {title} has no parameters defined in docstring")
             # TODO: handling functions with no input parameters needs additional testing
 
-        responses = self.generate_response('200',
-                                           f.__annotations__['return'],
-                                           'OK')
+        if 'return' in f.__annotations__:
+            #Console.info(f"Processing response for function {title}")
+            responses = self.generate_response('200',
+                                               f.__annotations__['return'],
+                                               'OK')
+        else:
+            #Console.info(f"Processing NO response for function {title}")
+            responses = self.generate_response('204',
+                                               "No Response",
+                                               'This operation returns no response.')
         responses = textwrap.indent(responses, ' ' * 8)
         VERBOSE(responses, label="openapi function responses")
 
