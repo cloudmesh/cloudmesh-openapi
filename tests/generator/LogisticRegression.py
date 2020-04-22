@@ -1,10 +1,11 @@
 
 from sklearn.linear_model import LogisticRegression
+import numpy as np
 import array
 from cloudmesh.openapi.registry.cache import ResultCache
 
 
-def decision_function(X: array) -> array:
+def decision_function(X: list, X_shape_x: int, X_shape_y: int) -> list:
 
     """
     Predict confidence scores for samples.
@@ -19,12 +20,13 @@ def decision_function(X: array) -> array:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
-    array = model.decision_function(X)
+    X = np.array(X).reshape(X_shape_x,X_shape_y)
+    model = ResultCache().load("JagsLogis")
+    list = model.decision_function(X)
+    list = list.tolist()
 
 
-
-    return array
+    return list
 
 
 def densify():
@@ -45,7 +47,7 @@ def densify():
     return densify
 
 
-def fit(X: str, y: array, sample_weight: array):
+def fit(X: list, y: list, sample_weight: list, X_shape_x: int, X_shape_y: int):
 
     """
     Fit the model according to the given training data.
@@ -53,7 +55,7 @@ def fit(X: str, y: array, sample_weight: array):
 
     :param X: Training vector, where n_samples is the number of samples and
                     n_features is the number of features.
-    :type X: str
+    :type X: array
     :param y: Target vector relative to X.
     :type y: array
     :param sample_weight: Array of weights that are assigned to individual samples.
@@ -67,11 +69,12 @@ def fit(X: str, y: array, sample_weight: array):
     
     """
 
+    X = np.array(X).reshape(X_shape_x,X_shape_y)
     fit = LogisticRegression().fit(X, y, sample_weight)
-    ResultCache().save("LogisticRegression_JB","pickle",fit)
+    ResultCache().save("JagsLogis","pickle",fit)
 
 
-    return LogisticRegression
+    return 
 
 
 def get_params(deep: bool) -> str:
@@ -88,15 +91,14 @@ def get_params(deep: bool) -> str:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
+    model = ResultCache().load("JagsLogis")
     str = model.get_params(deep)
-
 
 
     return str
 
 
-def predict(X: array) -> array:
+def predict(X: list, X_shape_x: int, X_shape_y: int) -> list:
 
     """
     Predict class labels for samples in X.
@@ -109,15 +111,16 @@ def predict(X: array) -> array:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
-    array = model.predict(X)
+    X = np.array(X).reshape(X_shape_x,X_shape_y)
+    model = ResultCache().load("JagsLogis")
+    list = model.predict(X)
+    list = list.tolist()
 
 
+    return list
 
-    return array
 
-
-def predict_log_proba(X: array) -> array:
+def predict_log_proba(X: list, X_shape_x: int, X_shape_y: int) -> list:
 
     """
     Predict logarithm of probability estimates.
@@ -132,15 +135,16 @@ def predict_log_proba(X: array) -> array:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
-    array = model.predict_log_proba(X)
+    X = np.array(X).reshape(X_shape_x,X_shape_y)
+    model = ResultCache().load("JagsLogis")
+    list = model.predict_log_proba(X)
+    list = list.tolist()
 
 
+    return list
 
-    return array
 
-
-def predict_proba(X: array) -> array:
+def predict_proba(X: list, X_shape_x: int, X_shape_y: int) -> list:
 
     """
     Probability estimates.
@@ -155,15 +159,16 @@ def predict_proba(X: array) -> array:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
-    array = model.predict_proba(X)
+    X = np.array(X).reshape(X_shape_x,X_shape_y)
+    model = ResultCache().load("JagsLogis")
+    list = model.predict_proba(X)
+    list = list.tolist()
 
 
+    return list
 
-    return array
 
-
-def score(X: array, y: array, sample_weight: array) -> float:
+def score(X: list, y: list, sample_weight: list, X_shape_x: int, X_shape_y: int) -> float:
 
     """
     Return the mean accuracy on the given test data and labels.
@@ -180,9 +185,9 @@ def score(X: array, y: array, sample_weight: array) -> float:
     
     """
 
-    model = ResultCache().load("LogisticRegression_JB")
+    X = np.array(X).reshape(X_shape_x,X_shape_y)
+    model = ResultCache().load("JagsLogis")
     float = model.score(X, y, sample_weight)
-
 
 
     return float
@@ -202,10 +207,10 @@ def set_params(**params: dict):
     """
 
     set_params = LogisticRegression().set_params(**params)
-    ResultCache().save("LogisticRegression_JB","pickle",set_params)
+    ResultCache().save("JagsLogis","pickle",set_params)
 
 
-    return LogisticRegression
+    return
 
 
 def sparsify():
