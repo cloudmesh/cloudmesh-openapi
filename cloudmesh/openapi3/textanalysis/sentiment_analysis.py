@@ -25,11 +25,37 @@ export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/service-account-file
 key = ""
 endpoint = ""
 
+def subtraction(x: float, y: float) -> float:
+    """
+    subtraction int and float sample.
 
-def analyze(movie_review_filename, cloud):
-    """Run a sentiment analysis request on text within a passed filename."""
+    :param x: x value
+    :type x: int
+    :param y: y value
+    :type y: float
+    :return: result
+    :return type: float
+    """
+    return x - y
 
-    with open(movie_review_filename, 'r') as review_file:
+def uploadText(filename: str) -> str:
+    with open(filename,'r') as review_file:
+        content = review_file.read()
+
+    return content
+
+def analyze(filename: str, cloud: str) -> float:
+    """Run a sentiment analysis request on text.
+
+    :param filename: text file
+    :type filename: str
+    :param cloud: type of cloud service
+    :type cloud: str
+    :return: score
+    :return type: float
+    """
+
+    with open(filename, 'r') as review_file:
         # Instantiates a plain text document.
         content = review_file.read()
 
@@ -60,31 +86,53 @@ def analyze(movie_review_filename, cloud):
         response = client.analyze_sentiment(document=document)
     else:
         print("Cloud not supported.")
+    # print(response)
 
-    print_result(response, cloud)
+    score = response.document_sentiment.score
+    magnitude = response.document_sentiment.magnitude
+    print("------Google Natural Language Analysis------")
+    for index, sentence in enumerate(response.sentences):
+        sentence_sentiment = sentence.sentiment.score
+        print('Sentence {} has a sentiment score of {}'.format(
+            index, sentence_sentiment))
+    print('Overall Sentiment: score of {} with magnitude of {}'.format(
+        score, magnitude))
+
+    return score
+
+    # print_result(response, cloud)
+    # return response
 
 
-def print_result(response, cloud):
-
-    if cloud == "azure":
-        print("------Azure Cognitive Services------")
-        for document in response.documents:
-            print("Sentence ", document.id, " has a sentiment score of ",
-                  "{:.2f}".format(document.score))
-    elif cloud == "google":
-        score = response.document_sentiment.score
-        magnitude = response.document_sentiment.magnitude
-        print("------Google Natural Language Analysis------")
-        for index, sentence in enumerate(response.sentences):
-            sentence_sentiment = sentence.sentiment.score
-            print('Sentence {} has a sentiment score of {}'.format(
-                index, sentence_sentiment))
-        print('Overall Sentiment: score of {} with magnitude of {}'.format(
-            score, magnitude))
-    else:
-        print("Cloud not supported.")
-
-    return 0
+# def print_result(response, cloud):
+#     """
+#
+#     :param response: response value of sentiment analysis
+#     :type response: float
+#     :param cloud: cloud service being used
+#     :type cloud: str
+#     :return: 0
+#     """
+#
+#     if cloud == "azure":
+#         print("------Azure Cognitive Services------")
+#         for document in response.documents:
+#             print("Sentence ", document.id, " has a sentiment score of ",
+#                   "{:.2f}".format(document.score))
+#     elif cloud == "google":
+#         score = response.document_sentiment.score
+#         magnitude = response.document_sentiment.magnitude
+#         print("------Google Natural Language Analysis------")
+#         for index, sentence in enumerate(response.sentences):
+#             sentence_sentiment = sentence.sentiment.score
+#             print('Sentence {} has a sentiment score of {}'.format(
+#                 index, sentence_sentiment))
+#         print('Overall Sentiment: score of {} with magnitude of {}'.format(
+#             score, magnitude))
+#     else:
+#         print("Cloud not supported.")
+#
+#     return 0
 
 
 if __name__ == '__main__':
@@ -96,5 +144,5 @@ if __name__ == '__main__':
         help='The filename of the movie review you\'d like to analyze.')
     parser.add_argument('cloud', help="The cloud service you would like to use.")
     args = parser.parse_args()
-
-    analyze(args.movie_review_filename, args.cloud)
+    uploadText(args.movie_review_filename)
+    # analyze(args.movie_review_filename, args.cloud)
