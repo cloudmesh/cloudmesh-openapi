@@ -63,11 +63,12 @@ class Generator:
 
     importfuction = textwrap.dedent("""
         from {library}.{module} import {class_nm}
+        import numpy as np
         import array
         from cloudmesh.openapi.registry.cache import ResultCache
                 """)
 
-    functiontemplate = textwrap.dedent("""
+    functiontemplatearrayandX_param = textwrap.dedent("""
     
         def {functioname}({parameters}) -> {returnparam1}:
         
@@ -78,11 +79,49 @@ class Generator:
             {docstring}
             {text1}
             
+            {X_numpyconversion}
+            model = ResultCache().load("{model_tag}")
+            {returnparam1} = model.{functioname}({param_wo_type})
+            {returnparam1} = {returnparam1}.tolist()
+            
+            
+            return {returnparam1}
+        """)
+
+    functiontemplatewithX_param = textwrap.dedent("""
+
+            def {functioname}({parameters}) -> {returnparam1}:
+
+                {text1}
+                {description}
+
+
+                {docstring}
+                {text1}
+
+                {X_numpyconversion}
+                model = ResultCache().load("{model_tag}")
+                {returnparam1} = model.{functioname}({param_wo_type})
+                
+                
+                return {returnparam1}
+            """)
+
+    functiontemplate = textwrap.dedent("""
+
+        def {functioname}({parameters}) -> {returnparam1}:
+
+            {text1}
+            {description}
+
+
+            {docstring}
+            {text1}
+
             model = ResultCache().load("{model_tag}")
             {returnparam1} = model.{functioname}({param_wo_type})
             
             
-              
             return {returnparam1}
         """)
 
@@ -96,7 +135,7 @@ class Generator:
 
                 {docstring}
                 {text1}
-
+               
                 {functioname} = {functioname}({param_wo_type})
                 
 
@@ -104,7 +143,7 @@ class Generator:
                 return {functioname}
             """)
 
-    functiontemplatebaseestimator = textwrap.dedent("""
+    functiontemplatefit = textwrap.dedent("""
 
                 def {functioname}({parameters}):
 
@@ -114,13 +153,32 @@ class Generator:
 
                     {docstring}
                     {text1}
-
+                    
+                    {X_numpyconversion}
                     {functioname} = {base_estimator}().{functioname}({param_wo_type})
                     ResultCache().save("{model_tag}","pickle",{functioname})
 
 
-                    return {base_estimator}
+                    return 
                 """)
+
+    functiontemplatesetparams = textwrap.dedent("""
+
+                    def {functioname}({parameters}):
+
+                        {text1}
+                        {description}
+
+
+                        {docstring}
+                        {text1}
+
+                        {functioname} = {base_estimator}().{functioname}({param_wo_type})
+                        ResultCache().save("{model_tag}","pickle",{functioname})
+
+
+                        return
+                    """)
     def populate_parameters_function(self, f, paras_dict, paras_desc):
         """
         Function to loop all the parameters of given function and generate
@@ -174,7 +232,6 @@ class Generator:
         paras = {}
         returnparam = {}
         for p in r['Parameters']:
-            #print(p)
             para_str = str(p.type)
             para_type = scraper.scrap(para_str)
             if self.is_valid_para(para_type, type_table):
@@ -193,7 +250,6 @@ class Generator:
         key = 'return'
         if key not in paras.keys():
             paras['return'] = 'self'
-        #print(paras)
         return paras
 
     def get_docstrings(self, parsing_obj):
@@ -215,7 +271,6 @@ class Generator:
             para_name = str(p.name)
             para_desc = '\n                    '.join(p.desc)
             paras_desc['return'] = para_desc
-        #print(paras_desc)
         key = 'return'
         if key not in paras_desc.keys():
             paras_desc['return'] = 'self'
@@ -264,7 +319,7 @@ class Generator:
         text1 = '"""'
         key = 'return'
         returnparam =''
-
+        print(paras_dict_func)
         if  key in paras_dict_func.keys():
             if paras_dict_func['return'] != 'self':
                 returnparam = paras_dict_func['return']
@@ -279,7 +334,6 @@ class Generator:
         else:
             parametersfunc = parametersfunc[:returnparamindex-2]
 
-
         returnparamindex1 = params.find('return')
         if (returnparamindex1 == -1):
             pass
@@ -287,26 +341,73 @@ class Generator:
             params = ''
         else:
             params = params[:returnparamindex1 - 2]
-
         functionname = class_obj.__name__
-
+        match = re.search(r'X: array', parametersfunc)
+        X_param_index = parametersfunc.find('X: array')
+        if match:
+            parametersfunc =  parametersfunc + "," + " X_shape_x: int," + " X_shape_y: int"
+        parametersfunc = parametersfunc.replace('array','list')
+        X_numpyconversion = f"X = np.array(X).reshape(X_shape_x,X_shape_y)"
         if returnparam != '':
+            if returnparam == 'array' and  X_param_index == 0 :
+                returnparam = 'list'
 
-            spec = self.functiontemplate.format(
-                functioname=functionname,
-                description=description,
-                text1 = text1,
-                model_tag=model_tag,
-                parameters=parametersfunc,
-                param_wo_type=params,
-                docstring=docstring,
-                returnparam1=returnparam
-            )
+                spec = self.functiontemplatearrayandX_param.format(
+                    functioname=functionname,
+                    description=description,
+                    text1=text1,
+                    model_tag=model_tag,
+                    X_numpyconversion=X_numpyconversion,
+                    parameters=parametersfunc,
+                    param_wo_type=params,
+                    docstring=docstring,
+                    returnparam1=returnparam
+                )
+                return spec
+            elif X_param_index == 0 :
+                spec = self.functiontemplatewithX_param.format(
+                    functioname=functionname,
+                    description=description,
+                    text1=text1,
+                    model_tag=model_tag,
+                    X_numpyconversion=X_numpyconversion,
+                    parameters=parametersfunc,
+                    param_wo_type=params,
+                    docstring=docstring,
+                    returnparam1=returnparam
+                )
+                return spec
+            else:
 
-            return spec
+                spec = self.functiontemplate.format(
+                    functioname=functionname,
+                    description=description,
+                    text1 = text1,
+                    model_tag=model_tag,
+                    parameters=parametersfunc,
+                    param_wo_type=params,
+                    docstring=docstring,
+                    returnparam1=returnparam
+                )
+
+                return spec
         else:
-            if functionname in('fit','set_params') :
-                spec = self.functiontemplatebaseestimator.format(
+            if functionname == 'fit':
+                spec = self.functiontemplatefit.format(
+                    functioname=functionname,
+                    description=description,
+                    base_estimator=base_estimator,
+                    X_numpyconversion=X_numpyconversion,
+                    model_tag=model_tag,
+                    text1=text1,
+                    parameters=parametersfunc,
+                    param_wo_type=params,
+                    docstring=docstring,
+                    returnparam1=returnparam
+                )
+                return spec
+            elif functionname =='set_params':
+                spec = self.functiontemplatesetparams.format(
                     functioname=functionname,
                     description=description,
                     base_estimator=base_estimator,
