@@ -36,13 +36,6 @@ def dynamic_import(abs_module_path, class_name):
 
 class Server(object):
 
-    @staticmethod
-    def get_name(name, spec):
-        if name is None:
-            return os.path.basename(spec).replace(".yaml", "")
-        else:
-            return name
-
     def __init__(self,
                  name=None,
                  spec=None,
@@ -58,12 +51,15 @@ class Server(object):
 
         self.spec = path_expand(spec)
 
+        self.name = Server.get_name(name, self.spec)
+
         if directory is None:
             self.directory = os.path.dirname(self.spec)
         else:
             self.directory = directory
 
-        self.name = Server.get_name(name, self.spec)
+
+
 
         self.host = host
         self.port = port
@@ -92,6 +88,12 @@ class Server(object):
 
         Console.ok(self.directory)
 
+    @staticmethod
+    def get_name(name, spec):
+        if name is None:
+            return os.path.basename(spec).replace(".yaml", "")
+        else:
+            return name
 
     @daemon
     def _run_deamon(self):
@@ -150,6 +152,7 @@ class Server(object):
 
                 print()
 
+
                 registry = Registry()
                 registry.add_form_file(details,
                                        pid=pid,
@@ -159,6 +162,7 @@ class Server(object):
                                        host=self.host,
                                        url=url
                                        )
+
                 self._run_deamon()
 
         return pid
@@ -168,9 +172,31 @@ class Server(object):
         pids = []
 
         result = Shell.ps()
-        result = result.split('\n')
+        #result = result.split('\n')
 
         for pinfo in result:
+            if pinfo["cmdline"] is not None:
+                line = ' '.join(pinfo["cmdline"])
+                if "openapi server start" in line:
+                    info = line.split("start")[1].split("--")[0].strip()
+                    if name is None:
+                        name = os.path.basename(
+                            line.split("openapi server start")[1]
+                        ).split(".")[0]
+                        pids.append({"name": name, "pid": pinfo['pid'], "spec": info})
+                    elif name is not None and f"{name}.yaml" in info:
+                        pids.append({"name":name, "pid": pinfo['pid'], "spec": info})
+                    else:
+                        pids.append({"name":name, "pid": pinfo["pid"], "spec":info})
+                elif "cmsoaserver.py" in line and sys.platform == 'win32':
+                    info = line.spli("python.exe")[1].strip()
+                    if name is None:
+                        name = Path(info).stem.split("_")[0].split()
+                    pids.append({"name": name, "pid": pinfo['pid'], "spec": info})
+
+        return pids
+
+        '''for pinfo in result:
             if "openapi server start" in pinfo:
                 pinfo = pinfo.split(" ")
                 info = pinfo[11]
@@ -188,7 +214,7 @@ class Server(object):
                 if name is None:
                     name = Path(info).stem.split("_")[0].strip()
                 pids.append({"name": name, "pid": pinfo['pid'], "spec": info})
-        return pids
+        return pids'''
 
     @staticmethod
     def list(name=None):
