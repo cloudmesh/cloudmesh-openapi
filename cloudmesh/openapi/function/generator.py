@@ -16,7 +16,6 @@ from docstring_parser import parse
 # TODO: why are we not using Code Format from pyCharm?
 
 class Generator:
-
     openAPITemplate = textwrap.dedent("""
         openapi: 3.0.0
         info:
@@ -103,7 +102,7 @@ class Generator:
               description: {description}
               schema:
                 {_type}""").format(name=name.strip(),
-                                   description=description.strip(),
+                                   description=description.strip().replace("\n", "\t"),
                                    _type=_type.strip())
 
         return spec
@@ -134,7 +133,7 @@ class Generator:
               '{code}':
                 description: {description}
             """).format(code=code.strip(),
-                        description=description.strip()
+                        description=description.strip().replace("\n", "\t")
                         )
         elif not _type.startswith('object'):
             # int, bool, float, str, list
@@ -145,7 +144,7 @@ class Generator:
                   text/plain:
                     schema:
                       {_type}""").format(code=code.strip(),
-                                         description=description.strip(),
+                                         description=description.strip().replace("\n", "\t"),
                                          _type=_type.strip())
         else:
             # dict (generic json) or dataclass ($ref)
@@ -156,7 +155,7 @@ class Generator:
                   application/json:
                     schema:
                       {_type}""").format(code=code.strip(),
-                                         description=description.strip(),
+                                         description=description.strip().replace("\n", "\t"),
                                          _type=_type.strip())
         return spec
 
@@ -277,7 +276,7 @@ class Generator:
                   {responses}
         """).format(
             description=description,
-            l_description=l_description,
+            l_description=l_description.replace("\n", "\t"),
             class_name=class_name,
             funcname=funcname,
             parameters=parameters.strip(),
@@ -325,7 +324,7 @@ class Generator:
         filename = pathlib.Path(filename).stem
 
         # Loop through all functions
-        for k, v in func_objects.items():   # k = function_name, v = function object
+        for k, v in func_objects.items():  # k = function_name, v = function object
             VERBOSE(v)
             func_name = v.__name__
 
@@ -353,7 +352,7 @@ class Generator:
             parameters = self.populate_parameters(v)
             print(f"Parameters: {parameters}")
             if parameters != "":
-                #Console.info(f"Processing parameters for function {func_name}")
+                # Console.info(f"Processing parameters for function {func_name}")
                 parameters = textwrap.indent(parameters, ' ' * 6)
                 VERBOSE(parameters, label="openapi function parameters")
             else:
@@ -362,12 +361,12 @@ class Generator:
 
             # Define responses section(s) for openapi yaml
             if 'return' in v.__annotations__:
-                #Console.info(f"Processing response for function {func_name}")
+                # Console.info(f"Processing response for function {func_name}")
                 responses = self.generate_response('200',
                                                    v.__annotations__['return'],
                                                    'OK')
             else:
-                #Console.info(f"Processing NO response for function {func_name}")
+                # Console.info(f"Processing NO response for function {func_name}")
                 responses = self.generate_response('204',
                                                    "No Response",
                                                    'This operation returns no response.')
@@ -419,7 +418,7 @@ class Generator:
             try:
                 if yamlfile != "" and yamlfile is not None:
                     version = open(yamlfile, 'w').write(spec.strip())
-                else: # should really never get here
+                else:  # should really never get here
                     version = open(f"{outdir}/{class_name}.yaml", 'w').write(spec.strip())
             except IOError:
                 Console.error("Unable to write yaml file")
@@ -461,12 +460,12 @@ class Generator:
             # TODO: handling functions with no input parameters needs additional testing
 
         if 'return' in f.__annotations__:
-            #Console.info(f"Processing response for function {title}")
+            # Console.info(f"Processing response for function {title}")
             responses = self.generate_response('200',
                                                f.__annotations__['return'],
                                                'OK')
         else:
-            #Console.info(f"Processing NO response for function {title}")
+            # Console.info(f"Processing NO response for function {title}")
             responses = self.generate_response('204',
                                                "No Response",
                                                'This operation returns no response.')
@@ -499,7 +498,7 @@ class Generator:
             filename=filename,
             components=components
         )
-        
+
         # remove 'parameters:' section if empty
         if parameters == '':
             spec = re.sub('\s*parameters:', '', spec)
@@ -507,7 +506,7 @@ class Generator:
             try:
                 if yamlfile != "" and yamlfile is not None:
                     version = open(yamlfile, 'w').write(spec)
-                else: # should really never get here
+                else:  # should really never get here
                     version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
             except IOError:
                 Console.error("Unable to write yaml file")
@@ -516,7 +515,7 @@ class Generator:
 
         return
 
-    #we have to test below functions
+    # we have to test below functions
     def file_put(root_url, service, filename, verbose=False):
 
         url = f'http://{root_url}/cloudmesh/{service}/file/put'
