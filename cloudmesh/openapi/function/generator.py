@@ -1,5 +1,6 @@
 import pathlib
 import textwrap
+import re
 from dataclasses import is_dataclass
 
 import requests
@@ -283,7 +284,9 @@ class Generator:
             responses=responses.strip(),
             operationId=operationId
         )
-
+        # remove 'parameters:' section if empty
+        if parameters == '':
+            spec = re.sub('\s*parameters:', '', spec)
         return spec
 
     def generate_openapi_class(self,
@@ -496,7 +499,10 @@ class Generator:
             filename=filename,
             components=components
         )
-
+        
+        # remove 'parameters:' section if empty
+        if parameters == '':
+            spec = re.sub('\s*parameters:', '', spec)
         if write:
             try:
                 if yamlfile != "" and yamlfile is not None:
