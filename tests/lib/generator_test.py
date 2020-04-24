@@ -21,6 +21,7 @@ from importlib import import_module
 from cloudmesh.openapi.function.executor import Parameter
 import types
 from cloudmesh.common.dotdict import dotdict
+import time
 
 
 class GeneratorBaseTest:
@@ -28,13 +29,11 @@ class GeneratorBaseTest:
 
 
     def __init__(self,filename,all_functions,import_class,function_name = None):
-        global globalcommandstring
-        global globalbuildcommandstring
-        global globalcommandparameter
-        global globalbuildcommandparameter
-        cmd = self.get_servercommand(filename, all_functions, import_class,function_name)
-        dataforclass = self.server_dotdict(cmd)
-        globalcommandparameter = Parameter(dataforclass)
+        global globalcommandstring  # this will hold command string without build folder
+        global globalbuildcommandstring # this will hold command string with build folder
+        global globalcommandparameter  # this will hold command string without build parameter information
+        global globalbuildcommandparameter  # this will hold command string with build parameter information
+        globalcommandparameter = Parameter(self.server_dotdict(self.get_servercommand(filename, all_functions, import_class,function_name)))
         build_dotdict=self.build_dotdict(function_name)
         globalbuildcommandparameter=Parameter(build_dotdict)
         globalbuildcommandstring= self.get_build_servercommand(build_dotdict)
@@ -160,10 +159,6 @@ class GeneratorBaseTest:
 
 class ServerBaseTest:
 
-    def __init__(self, startservercommand):
-        global globalstartservercommand
-        globalstartservercommand =startservercommand
-
     def start_service(self):
         """
         function to test if the server is started and available to return
@@ -171,7 +166,7 @@ class ServerBaseTest:
         """
         HEADING()
         Benchmark.Start()
-        os.system(globalstartservercommand)
+        os.system(f"cms openapi server start {globalbuildcommandparameter.yamlfile}")
         result = requests.get('http://127.0.0.1:8080/cloudmesh/ui')
         Benchmark.Stop()
         assert result.status_code == 200  # find test

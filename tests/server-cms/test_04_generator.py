@@ -10,12 +10,10 @@ import sys
 sys.path.append("./tests/lib")
 from generator_test import GeneratorBaseTest, ServerBaseTest
 import pytest
-from cloudmesh.common.dotdict import dotdict
 
-filename="./tests/generator-calculator/calculator.py"
+filename="./tests/server-cms/cms.py"
 all_functions= True
 import_class=False
-
 
 @pytest.mark.incremental
 class TestGeneratorTestClass():
@@ -49,10 +47,8 @@ class TestGeneratorTestClass():
     def test_start_service(self,serverBaseTestFixture):
         serverBaseTestFixture.start_service()
 
-    def test_stop_server(self, serverBaseTestFixture):
+    def test_stop_server(self,serverBaseTestFixture):
         serverBaseTestFixture.stop_server()
 
     def test_delete_build_file(self, generatorBaseTestFixture):
-       generatorBaseTestFixture.delete_file()
-
-
+        generatorBaseTestFixture.delete_file()

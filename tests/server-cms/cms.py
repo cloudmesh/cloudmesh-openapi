@@ -1,6 +1,4 @@
-from cloudmesh.common.debug import VERBOSE
 from cloudmesh.compute.vm.Provider import Provider
-from cloudmesh.common.console import Console
 
 flat = True
 service = "chameleon"
