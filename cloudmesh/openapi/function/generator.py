@@ -282,8 +282,6 @@ class Generator:
             if long_description != None \
             else 'None (Optional extended description in CommonMark or HTML)'
 
-        #l_description = textwrap.indent(textwrap.dedent(l_description.strip()), ' ' * 17)
-
         if all_function:
             operationId = f"{filename}.{funcname}"
         else:
