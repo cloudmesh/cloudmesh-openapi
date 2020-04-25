@@ -2,8 +2,12 @@ from cloudmesh.mongo.CmDatabase import CmDatabase
 from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 from pathlib import Path
 from cloudmesh.common.util import path_expand
+from cloudmesh.common.debug import VERBOSE
+from cloudmesh.common.console import Console
 import pickle
-
+from cloudmesh.common.StopWatch import StopWatch
+from cloudmesh.common.Benchmark import Benchmark
+import os
 
 class ResultCache:
 
@@ -32,7 +36,8 @@ class ResultCache:
         if type == "pickle":
             cached_file = self._make_pickle(modelname, modelobject, str(p.absolute()))
         else:
-            print("Unsupported serialization type provided")
+            Console.error(f"Unsupported serialization type provided : {type}")
+            raise Exception
 
         # update db cache with below details
         entry = {
@@ -61,13 +66,27 @@ class ResultCache:
         """
 
         cm = CmDatabase()
+        # USER env variable is required by StopWatch
+        if os.getenv('USER'):
+            # Do nothing
+            VERBOSE("USER env variable is already defined")
+        else:
+            os.environ['USER'] = 'No USER env var defined'
+
         test = cm.find(cloud="local", kind="cache", query={"name": {'$regex': f"{name}"}})
         cached_file = test[0]['cached_file']
-        print(f"Loading serialized model: {cached_file}")
-        unserialized_model = self._load_pickle(cached_file)
+        Console.info(f"Loading serialized model: {cached_file}")
+        StopWatch.start(f"Load pickle {name}")
+        deserialized_model = self._load_pickle(cached_file)
+        StopWatch.stop(f"Load pickle {name}")
+        time_taken = StopWatch.get(f"Load pickle {name}")
 
-
-        return unserialized_model
+        deserialized_model_dict = {
+            "model_name": name,
+            "model_object": deserialized_model,
+            "duration": time_taken  # duration of deserialization function
+        }
+        return deserialized_model
 
     def _make_pickle(self, title, data, path):
         """
@@ -106,6 +125,7 @@ if __name__ == "__main__":
     from sklearn.linear_model import LogisticRegression
     from sklearn.datasets import load_iris
 
+
     newcache = ResultCache()
 
     X, y = load_iris(return_X_y=True)
@@ -113,5 +133,7 @@ if __name__ == "__main__":
     clf = LogisticRegression(random_state=0, max_iter=300).fit(X, y)
     print(newcache.save("irismodel1", "pickle", clf))
     print("finished caching model")
+    #model_dict = newcache.load("irismodel1")
     model = newcache.load("irismodel1")
-    print(model.predict_proba(X[:2, :]))
+    #print(model_dict['model_object'].predict(X[:2, :]))
+    print(model.predict(X[:2, :]))

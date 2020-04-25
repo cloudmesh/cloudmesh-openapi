@@ -458,12 +458,13 @@ def generator(input_sklibrary,model_tag):
     class_name = input_params[-1]
     openAPI = Generator()
     spec = openAPI.generate_import_params(input_params)
-    open(f"{input_params[-1]}.py", 'a').write(spec)
+    print(f"Writing python code to file: {input_params[-1]}.py")
+    open(f"{input_params[-1]}.py", 'w').write(spec)
     #spec = openAPI.generate_function(module, class_name,base_estimator)
     #open(f"{input_params[-1]}.py", 'a').write(spec)
     for i in range(len(method_list)):
         module = my_class
-        function =  method_list[i]
+        function = method_list[i]
         openAPI = Generator()
         spec = openAPI.generate_function(module,function,base_estimator,model_tag)
         open(f"{input_params[-1]}.py", 'a').write(spec)

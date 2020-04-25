@@ -18,7 +18,7 @@ paths:
           description: Samples.
           schema:
             type: array
-                  items: {}
+            items: {}
       responses:
         '200':
           description: OK
@@ -26,7 +26,7 @@ paths:
             text/plain:
               schema:
                 type: array
-                  items: {}
+                items: {}
 
   /LogisticRegression/fit:
      get:
@@ -37,32 +37,29 @@ paths:
         - in: query
           name: X
           description: Training vector, where n_samples is the number of samples and
-        n_features is the number of features.
+                       n_features is the number of features.
           schema:
-            type: string
+            type: array
+            items: {}
         - in: query
           name: y
           description: Target vector relative to X.
           schema:
             type: array
-                  items: {}
+            items: {}
         - in: query
           name: sample_weight
           description: Array of weights that are assigned to individual samples.
-        If not provided, then each sample is given unit weight.
+                       If not provided, then each sample is given unit weight.
 
-        .. versionadded:: 0.17
-           *sample_weight* support to LogisticRegression.
+                       .. versionadded:: 0.17
+                          *sample_weight* support to LogisticRegression.
           schema:
             type: array
-                  items: {}
+            items: {}
       responses:
         '204':
           description: This operation returns no response.
-          content:
-            text/plain:
-              schema:
-                No Response
 
   /LogisticRegression/get_params:
      get:
@@ -73,7 +70,7 @@ paths:
         - in: query
           name: deep
           description: If True, will return the parameters for this estimator and
-        contained subobjects that are estimators.
+                       contained subobjects that are estimators.
           schema:
             type: boolean
       responses:
@@ -95,7 +92,7 @@ paths:
           description: Samples.
           schema:
             type: array
-                  items: {}
+            items: {}
       responses:
         '200':
           description: OK
@@ -103,7 +100,7 @@ paths:
             text/plain:
               schema:
                 type: array
-                  items: {}
+                items: {}
 
   /LogisticRegression/predict_log_proba:
      get:
@@ -114,10 +111,10 @@ paths:
         - in: query
           name: X
           description: Vector to be scored, where `n_samples` is the number of samples and
-        `n_features` is the number of features.
+                       `n_features` is the number of features.
           schema:
             type: array
-                  items: {}
+            items: {}
       responses:
         '200':
           description: OK
@@ -125,7 +122,7 @@ paths:
             text/plain:
               schema:
                 type: array
-                  items: {}
+                items: {}
 
   /LogisticRegression/predict_proba:
      get:
@@ -136,10 +133,10 @@ paths:
         - in: query
           name: X
           description: Vector to be scored, where `n_samples` is the number of samples and
-        `n_features` is the number of features.
+                       `n_features` is the number of features.
           schema:
             type: array
-                  items: {}
+            items: {}
       responses:
         '200':
           description: OK
@@ -147,7 +144,7 @@ paths:
             text/plain:
               schema:
                 type: array
-                  items: {}
+                items: {}
 
   /LogisticRegression/score:
      get:
@@ -160,19 +157,19 @@ paths:
           description: Test samples.
           schema:
             type: array
-                  items: {}
+            items: {}
         - in: query
           name: y
           description: True labels for X.
           schema:
             type: array
-                  items: {}
+            items: {}
         - in: query
           name: sample_weight
           description: Sample weights.
           schema:
             type: array
-                  items: {}
+            items: {}
       responses:
         '200':
           description: OK
@@ -192,11 +189,7 @@ paths:
           description: no description provided in docstring
           schema:
             type: object
-                 additionalProperties: true
+            additionalProperties: true
       responses:
         '204':
           description: This operation returns no response.
-          content:
-            text/plain:
-              schema:
-                No Response
