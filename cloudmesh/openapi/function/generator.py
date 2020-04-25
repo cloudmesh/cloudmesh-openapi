@@ -102,7 +102,7 @@ class Generator:
               description: {description}
               schema:
                 {_type}""").format(name=name.strip(),
-                                   description=description.strip().replace("\n", "\t"),
+                                   description=description.strip(),
                                    _type=_type.strip())
 
         return spec
@@ -133,7 +133,7 @@ class Generator:
               '{code}':
                 description: {description}
             """).format(code=code.strip(),
-                        description=description.strip().replace("\n", "\t")
+                        description=description.strip()
                         )
         elif not _type.startswith('object'):
             # int, bool, float, str, list
@@ -144,7 +144,7 @@ class Generator:
                   text/plain:
                     schema:
                       {_type}""").format(code=code.strip(),
-                                         description=description.strip().replace("\n", "\t"),
+                                         description=description.strip(),
                                          _type=_type.strip())
         else:
             # dict (generic json) or dataclass ($ref)
@@ -155,7 +155,7 @@ class Generator:
                   application/json:
                     schema:
                       {_type}""").format(code=code.strip(),
-                                         description=description.strip().replace("\n", "\t"),
+                                         description=description.strip(),
                                          _type=_type.strip())
         return spec
 
@@ -276,7 +276,7 @@ class Generator:
                   {responses}
         """).format(
             description=description,
-            l_description=l_description.replace("\n", "\t"),
+            l_description=l_description,
             class_name=class_name,
             funcname=funcname,
             parameters=parameters.strip(),
