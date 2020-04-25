@@ -136,11 +136,12 @@ class Generator:
                 {docstring}
                 {text1}
                
-                {functioname} = {functioname}({param_wo_type})
+                {functioname} = {base_estimator}().{functioname}({param_wo_type})
+                ResultCache().save("{model_tag}","pickle",{functioname})
                 
 
 
-                return {functioname}
+                return
             """)
 
     functiontemplatefit = textwrap.dedent("""
@@ -325,7 +326,7 @@ class Generator:
                 returnparam = paras_dict_func['return']
             else:
                 returnparam
-
+        returnparamindex = 0
         returnparamindex = parametersfunc.find('return')
         if (returnparamindex == -1):
             pass
@@ -333,7 +334,7 @@ class Generator:
             parametersfunc = ''
         else:
             parametersfunc = parametersfunc[:returnparamindex-2]
-
+        returnparamindex1 = 0
         returnparamindex1 = params.find('return')
         if (returnparamindex1 == -1):
             pass
@@ -343,11 +344,12 @@ class Generator:
             params = params[:returnparamindex1 - 2]
         functionname = class_obj.__name__
         match = re.search(r'X: array', parametersfunc)
+        X_param_index = parametersfunc.find('X: array')
         if match:
             parametersfunc =  parametersfunc + "," + " X_shape_x: int," + " X_shape_y: int"
         parametersfunc = parametersfunc.replace('array','list')
         X_numpyconversion = f"X = np.array(X).reshape(X_shape_x,X_shape_y)"
-        X_param_index = parametersfunc.find('X: array')
+
         if returnparam != '':
             if returnparam == 'array' and  X_param_index == 0 :
                 returnparam = 'list'
@@ -425,6 +427,8 @@ class Generator:
                     description=description,
                     text1=text1,
                     parameters=parametersfunc,
+                    base_estimator=base_estimator,
+                    model_tag=model_tag,
                     param_wo_type=params,
                     docstring=docstring,
                     returnparam1=returnparam
@@ -458,7 +462,8 @@ def Sklearngenerator(input_sklibrary,model_tag):
     class_name = input_params[-1]
     openAPI = Generator()
     spec = openAPI.generate_import_params(input_params)
-    open(f"{input_params[-1]}.py", 'a').write(spec)
+    print(f"Writing python code to file: {input_params[-1]}.py")
+    open(f"{input_params[-1]}.py", 'w').write(spec)
     #spec = openAPI.generate_function(module, class_name,base_estimator)
     #open(f"{input_params[-1]}.py", 'a').write(spec)
     for i in range(len(method_list)):
