@@ -16,7 +16,6 @@ from docstring_parser import parse
 # TODO: why are we not using Code Format from pyCharm?
 
 class Generator:
-
     openAPITemplate = textwrap.dedent("""
         openapi: 3.0.0
         info:
@@ -350,7 +349,8 @@ class Generator:
         filename = pathlib.Path(filename).stem
 
         # Loop through all functions
-        for k, v in func_objects.items():   # k = function_name, v = function object
+        for k, v in func_objects.items():  # k = function_name, v = function object
+            VERBOSE(v)
             func_name = v.__name__
             Console.info('*'*40)
             Console.info(f"Currently processing function: {func_name}")
@@ -435,7 +435,7 @@ class Generator:
             try:
                 if yamlfile != "" and yamlfile is not None:
                     version = open(yamlfile, 'w').write(spec.strip())
-                else: # should really never get here
+                else:  # should really never get here
                     version = open(f"{outdir}/{class_name}.yaml", 'w').write(spec.strip())
             except IOError:
                 Console.error("Unable to write yaml file")
@@ -515,7 +515,7 @@ class Generator:
             filename=filename,
             components=components
         )
-        
+
         # remove 'parameters:' section if empty
         if parameters == '':
             spec = re.sub('\s*parameters:', '', spec)
@@ -523,7 +523,7 @@ class Generator:
             try:
                 if yamlfile != "" and yamlfile is not None:
                     version = open(yamlfile, 'w').write(spec)
-                else: # should really never get here
+                else:  # should really never get here
                     version = open(f"{outdir}/{title}.yaml", 'w').write(spec)
             except IOError:
                 Console.error("Unable to write yaml file")
