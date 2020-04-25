@@ -4,8 +4,10 @@ from msrest.authentication import CognitiveServicesCredentials
 from google.cloud import language
 from google.cloud.language import enums
 from google.cloud.language import types
-import requests, uuid, json
+import requests, uuid, json, yaml, os
 from google.cloud import translate
+from cloudmesh.common.FlatDict import flatten
+from cloudmesh.common.dotdict import dotdict
 
 """
 Set of functions to analyze a provided plain text document for language 
@@ -21,8 +23,26 @@ Example from Google:
 export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/service-account-file.json"
 """
 
-# key = ""
-# endpoint = ""
+
+def get_credentials():
+    credential_file = os.environ['CLOUDMESH_CREDENTIALS_YAML']
+    credentials_list = []
+    with open(credential_file) as file:
+        documents = yaml.full_load(file)
+    credentials = flatten(documents)
+    credentials = dotdict(credentials)
+
+    # add needed credentials to the credentials array
+    credentials_list.append(
+        credentials.cloudmesh__cloud__azure__credentials__AZURE_TRANSLATOR_KEY)
+    credentials_list.append(
+        credentials.cloudmesh__cloud__azure__credentials__AZURE_TEXT_ANALYTICS_KEY)
+    credentials_list.append(
+        credentials.cloudmesh__cloud__azure__credentials__AZURE_TEXT_ANALYTICS_ENDPOINT)
+    credentials_list.append(
+        credentials.cloudmesh__cloud__google__credentials__path_to_json_file)
+
+    return credentials_list
 
 
 def analyze(filename: str, cloud: str) -> float:
@@ -37,12 +57,15 @@ def analyze(filename: str, cloud: str) -> float:
 
     """
 
+    credentials_list = get_credentials()
+
     with open(filename, 'r') as review_file:
         # Instantiates a plain text document.
         content = review_file.read()
 
     if cloud == "azure":
-        credentials = CognitiveServicesCredentials(key)
+        credentials = CognitiveServicesCredentials(credentials_list[1])
+        endpoint = credentials_list[2]
         text_analytics_client = TextAnalyticsClient(endpoint=endpoint,
                                                     credentials=credentials)
         client = text_analytics_client
@@ -100,8 +123,10 @@ def translate_text(cloud: str, text: str, lang: str) -> str:
         :return type: str
         """
 
+    credentials = get_credentials()
+
     if cloud == "azure":
-        key = '944a3ede0ca24694bb4e80e78e10f721'
+        key = credentials[0]
 
         endpoint = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0'
         params = '&to=' + lang
@@ -127,7 +152,7 @@ def translate_text(cloud: str, text: str, lang: str) -> str:
     elif cloud == "google":
         client = translate.TranslationServiceClient()
 
-        parent = client.location_path('project_id', "global")
+        parent = client.location_path('project_id', 'global')
 
         request = client.translate_text(
             parent=parent,
@@ -144,5 +169,3 @@ def translate_text(cloud: str, text: str, lang: str) -> str:
         return response
     else:
         print("Cloud not supported.")
-
-
