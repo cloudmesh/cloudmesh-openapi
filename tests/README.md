@@ -6,12 +6,13 @@
 
 Framework file is present under tests/lib named as generator_test.py
 
-#### Four test cases are related to generator API
+#### Below test cases are related to generator API
 
 1. Create a build folder and copy py file into it. Build sub folder will created where test py file present.
 1. It will call generator generate function to generate Yaml file inside build folder
 1. It will check if generated YMAL file syntax is correct or not.
 1. It will check if number of function generated in YMAL is same as py file.
+1. Delete the build folder.
 
 #### Two test cases are related to server API
 
@@ -38,7 +39,7 @@ Framework file is present under tests/lib named as generator_test.py
 1. First boolean flag in GeneratorBaseTest for --all_functions and second flag is for --import_class
 1. If you need to write more test cases based on your requirement, check order of test case and write accordingly.
 
-### How to create test case
+### How to run test case
 
 Below command can use to run your case. Make sure your current directory is cloudmesh-openapi.
 
@@ -48,11 +49,12 @@ pytest -v --capture=no tests/generator-calculator/test_01_generator.py
 ```
 
 
-## Currently available test case file for below open api
+## Below are test case files
 
 1. generator-calculator and file name is test_01_generator.py
 1. generator-testclass and file name is test_02_generator.py
 1. server-cpu and file name is test_03_generator.py
+1. server-cms and file name is test_04_generator.py
 
 
 <!--## test_001_registry.py
