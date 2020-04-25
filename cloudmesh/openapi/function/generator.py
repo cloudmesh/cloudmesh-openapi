@@ -20,15 +20,15 @@ class Generator:
         openapi: 3.0.0
         info:
           title: {title}
-          description: {description}
+          description: "{description}"
           version: "{version}"
         servers:
           - url: {serverurl}
-            description: {description}
+            description: "{description}"
         paths:
           /{name}:
              get:
-              summary: {description}
+              summary: "{description}"
               description: Optional extended description in CommonMark or HTML.
               operationId: {filename}.{name}
               parameters:
@@ -42,11 +42,11 @@ class Generator:
         openapi: 3.0.0
         info:
           title: {title}
-          description: {description}
+          description: "{description}"
           version: "{version}"
         servers:
           - url: {serverurl}
-            description: {description}
+            description: "{description}"
         paths:
           {paths}
         {components}
@@ -65,9 +65,9 @@ class Generator:
             'bool': 'type: boolean',
             'float': 'type: number',
             'str': 'type: string',
-            'list': 'type: array\n          items: {}',
-            'array': 'type: array\n          items: {}',
-            'dict': 'type: object\n         additionalProperties: true'
+            'list': 'type: array',
+            'array': 'type: array',
+            'dict': 'type: object\n    additionalProperties: true'
         }
 
         if is_dataclass(_type):
@@ -96,14 +96,26 @@ class Generator:
         else:
             _type = self.parse_type(_type.__name__)
 
-        spec = textwrap.dedent("""
-            - in: query
-              name: {name}
-              description: {description}
-              schema:
-                {_type}""").format(name=name.strip(),
-                                   description=description.strip(),
-                                   _type=_type.strip())
+        if _type.find('array') != -1:
+            spec = textwrap.dedent("""
+                - in: query
+                  name: {name}
+                  description: "{description}"
+                  schema:
+                    {_type}
+                    items: 
+                      type: number""").format(name=name.strip(),
+                                       description=description.strip(),
+                                       _type=_type.strip())
+        else:
+            spec = textwrap.dedent("""
+                - in: query
+                  name: {name}
+                  description: "{description}"
+                  schema:
+                    {_type}""").format(name=name.strip(),
+                                       description=description.strip(),
+                                       _type=_type.strip())
 
         return spec
 
@@ -122,7 +134,7 @@ class Generator:
 
         if type(_type) == str:
             if _type == "No Response":
-                Console.info("Operation with no response")
+                VERBOSE("Processing operation with no response")
             else:
                 _type = self.parse_type(_type)
         else:
@@ -131,26 +143,38 @@ class Generator:
         if _type == "No Response":
             spec = textwrap.dedent("""
               '{code}':
-                description: {description}
+                description: "{description}"
             """).format(code=code.strip(),
                         description=description.strip()
                         )
         elif not _type.startswith('object'):
             # int, bool, float, str, list
-            spec = textwrap.dedent("""
-              '{code}':
-                description: {description}
-                content:
-                  text/plain:
-                    schema:
-                      {_type}""").format(code=code.strip(),
-                                         description=description.strip(),
-                                         _type=_type.strip())
+            if (_type.find('array') != -1):
+                spec = textwrap.dedent("""
+                  '{code}':
+                    description: "{description}"
+                    content:
+                      text/plain:
+                        schema:
+                          {_type}
+                          items: {{}}""").format(code=code.strip(),
+                                             description=description.strip(),
+                                             _type=_type.strip())
+            else:
+                spec = textwrap.dedent("""
+                  '{code}':
+                    description: "{description}"
+                    content:
+                      text/plain:
+                        schema:
+                          {_type}""").format(code=code.strip(),
+                                             description=description.strip(),
+                                             _type=_type.strip())
         else:
             # dict (generic json) or dataclass ($ref)
             spec = textwrap.dedent("""
               '{code}':
-                description: {description}
+                description: "{description}"
                 content:
                   application/json:
                     schema:
@@ -219,7 +243,6 @@ class Generator:
 
                 # TODO: used dosctring_parser package for now.  But this
                 #   requires pip install.  Consider alternatives.
-
                 docstring = parse(func_obj.__doc__)
                 for param in docstring.params:
                     if param.arg_name == parameter:
@@ -267,8 +290,8 @@ class Generator:
         spec = textwrap.dedent("""
             /{class_name}/{funcname}:
                get:
-                summary: {description}
-                description: {l_description}
+                summary: "{description}"
+                description: "{l_description}"
                 operationId: {operationId}
                 parameters:
                   {parameters}
@@ -276,7 +299,7 @@ class Generator:
                   {responses}
         """).format(
             description=description,
-            l_description=l_description,
+            l_description=l_description.strip(),
             class_name=class_name,
             funcname=funcname,
             parameters=parameters.strip(),
@@ -327,37 +350,29 @@ class Generator:
         for k, v in func_objects.items():  # k = function_name, v = function object
             VERBOSE(v)
             func_name = v.__name__
+            Console.info('*'*40)
+            Console.info(f"Currently processing function: {func_name}")
 
             # func_description = v.__doc__.strip().split("\n")[0]
             docstring = parse(v.__doc__)
 
             func_description = docstring.short_description
+
             func_ldescription = docstring.long_description
+            if func_ldescription:
+                func_ldescription = textwrap.indent(func_ldescription.strip(), ' ' * 17)
 
             VERBOSE(func_description)
-            Console.info(func_description)
             VERBOSE(func_ldescription)
-            Console.info(func_ldescription)
-
-            # TODO: handling functions with no input parameters and no return
-            # value needs additional testing
-
-            if v.__annotations__:
-                Console.info(f"Annotations found for function {func_name} processing")
-            else:
-                Console.error(f"No annotations found for function '{func_name}'")
-                raise Exception
 
             # Define parameters section(s) for openapi yaml
             parameters = self.populate_parameters(v)
-            print(f"Parameters: {parameters}")
             if parameters != "":
                 # Console.info(f"Processing parameters for function {func_name}")
                 parameters = textwrap.indent(parameters, ' ' * 6)
                 VERBOSE(parameters, label="openapi function parameters")
             else:
-                Console.info(f"Function {func_name} has no parameters "
-                             "defined in docstring")
+                Console.info(f"Function {func_name} has no parameters defined.")
 
             # Define responses section(s) for openapi yaml
             if 'return' in v.__annotations__:
@@ -456,7 +471,7 @@ class Generator:
             parameters = textwrap.indent(parameters, ' ' * 8)
             VERBOSE(parameters, label="openapi function parameters")
         else:
-            Console.info(f"Function {title} has no parameters defined in docstring")
+            Console.info(f"Function {title} has no parameters defined")
             # TODO: handling functions with no input parameters needs additional testing
 
         if 'return' in f.__annotations__:

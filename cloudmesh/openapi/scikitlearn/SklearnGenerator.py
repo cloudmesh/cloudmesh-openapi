@@ -468,7 +468,7 @@ def Sklearngenerator(input_sklibrary,model_tag):
     #open(f"{input_params[-1]}.py", 'a').write(spec)
     for i in range(len(method_list)):
         module = my_class
-        function =  method_list[i]
+        function = method_list[i]
         openAPI = Generator()
         spec = openAPI.generate_function(module,function,base_estimator,model_tag)
         open(f"{input_params[-1]}.py", 'a').write(spec)

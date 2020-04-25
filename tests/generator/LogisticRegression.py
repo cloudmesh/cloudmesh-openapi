@@ -21,7 +21,7 @@ def decision_function(X: list, X_shape_x: int, X_shape_y: int) -> list:
     """
 
     X = np.array(X).reshape(X_shape_x,X_shape_y)
-    model = ResultCache().load("JagsLogis")
+    model = ResultCache().load("JonathanLogis")
     list = model.decision_function(X)
     list = list.tolist()
 
@@ -47,7 +47,7 @@ def densify():
     return densify
 
 
-def fit(X: list, y: list, sample_weight: list, X_shape_x: int, X_shape_y: int):
+def fit(X: list, y: list, sample_weight: list):
 
     """
     Fit the model according to the given training data.
@@ -55,7 +55,7 @@ def fit(X: list, y: list, sample_weight: list, X_shape_x: int, X_shape_y: int):
 
     :param X: Training vector, where n_samples is the number of samples and
                     n_features is the number of features.
-    :type X: array
+    :type X: str
     :param y: Target vector relative to X.
     :type y: array
     :param sample_weight: Array of weights that are assigned to individual samples.
@@ -71,7 +71,7 @@ def fit(X: list, y: list, sample_weight: list, X_shape_x: int, X_shape_y: int):
 
     X = np.array(X).reshape(X_shape_x,X_shape_y)
     fit = LogisticRegression().fit(X, y, sample_weight)
-    ResultCache().save("JagsLogis","pickle",fit)
+    ResultCache().save("JonathanLogis","pickle",fit)
 
 
     return 
@@ -91,7 +91,7 @@ def get_params(deep: bool) -> str:
     
     """
 
-    model = ResultCache().load("JagsLogis")
+    model = ResultCache().load("JonathanLogis")
     str = model.get_params(deep)
 
 
@@ -103,6 +103,9 @@ def predict(X: list, X_shape_x: int, X_shape_y: int) -> list:
     """
     Predict class labels for samples in X.
 
+    This is a test for a long description
+    that spans multiple lines.
+
 
     :param X: Samples.
     :type X: array
@@ -112,7 +115,7 @@ def predict(X: list, X_shape_x: int, X_shape_y: int) -> list:
     """
 
     X = np.array(X).reshape(X_shape_x,X_shape_y)
-    model = ResultCache().load("JagsLogis")
+    model = ResultCache().load("JonathanLogis")
     list = model.predict(X)
     list = list.tolist()
 
@@ -136,7 +139,7 @@ def predict_log_proba(X: list, X_shape_x: int, X_shape_y: int) -> list:
     """
 
     X = np.array(X).reshape(X_shape_x,X_shape_y)
-    model = ResultCache().load("JagsLogis")
+    model = ResultCache().load("JonathanLogis")
     list = model.predict_log_proba(X)
     list = list.tolist()
 
@@ -160,7 +163,7 @@ def predict_proba(X: list, X_shape_x: int, X_shape_y: int) -> list:
     """
 
     X = np.array(X).reshape(X_shape_x,X_shape_y)
-    model = ResultCache().load("JagsLogis")
+    model = ResultCache().load("JonathanLogis")
     list = model.predict_proba(X)
     list = list.tolist()
 
@@ -186,7 +189,7 @@ def score(X: list, y: list, sample_weight: list, X_shape_x: int, X_shape_y: int)
     """
 
     X = np.array(X).reshape(X_shape_x,X_shape_y)
-    model = ResultCache().load("JagsLogis")
+    model = ResultCache().load("JonathanLogis")
     float = model.score(X, y, sample_weight)
 
 
@@ -207,7 +210,7 @@ def set_params(**params: dict):
     """
 
     set_params = LogisticRegression().set_params(**params)
-    ResultCache().save("JagsLogis","pickle",set_params)
+    ResultCache().save("JonathanLogis","pickle",set_params)
 
 
     return
