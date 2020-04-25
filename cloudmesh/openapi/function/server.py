@@ -131,9 +131,9 @@ class Server(object):
             if sys.platform == 'win32':
                 pid = self.run_os()
             else:
-
-                pid = Server.ps(name=name)[0]["pid"]
-                _spec = Server.ps(name=name)[0]["spec"]
+                self._run_deamon()
+                pid = Server.ps(name=name)[1]["pid"]
+                _spec = Server.ps(name=name)[1]["spec"]
 
                 with open(_spec, "r") as stream:
                     try:
@@ -163,8 +163,6 @@ class Server(object):
                                        url=url
                                        )
 
-                self._run_deamon()
-
         return pid
 
     @staticmethod
@@ -173,11 +171,11 @@ class Server(object):
 
         result = Shell.ps()
         #result = result.split('\n')
-
         for pinfo in result:
             if pinfo["cmdline"] is not None:
                 line = ' '.join(pinfo["cmdline"])
                 if "openapi server start" in line:
+                    print(pinfo)
                     info = line.split("start")[1].split("--")[0].strip()
                     if name is None:
                         name = os.path.basename(
@@ -193,9 +191,8 @@ class Server(object):
                     if name is None:
                         name = Path(info).stem.split("_")[0].split()
                     pids.append({"name": name, "pid": pinfo['pid'], "spec": info})
-
+        print(pids)
         return pids
-
         '''for pinfo in result:
             if "openapi server start" in pinfo:
                 pinfo = pinfo.split(" ")
