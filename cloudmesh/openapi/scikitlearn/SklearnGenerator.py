@@ -343,11 +343,11 @@ class Generator:
             params = params[:returnparamindex1 - 2]
         functionname = class_obj.__name__
         match = re.search(r'X: array', parametersfunc)
-        X_param_index = parametersfunc.find('X: array')
         if match:
             parametersfunc =  parametersfunc + "," + " X_shape_x: int," + " X_shape_y: int"
         parametersfunc = parametersfunc.replace('array','list')
         X_numpyconversion = f"X = np.array(X).reshape(X_shape_x,X_shape_y)"
+        X_param_index = parametersfunc.find('X: array')
         if returnparam != '':
             if returnparam == 'array' and  X_param_index == 0 :
                 returnparam = 'list'
@@ -447,7 +447,7 @@ class Generator:
         return spec
 
 
-def generator(input_sklibrary,model_tag):
+def Sklearngenerator(input_sklibrary,model_tag):
     my_class = locate(input_sklibrary)
     method_list = [func for func,value in inspect.getmembers(my_class) if func[0] != '_']
     method_list = [value for value in method_list if value != 'classes_']
@@ -469,7 +469,7 @@ def generator(input_sklibrary,model_tag):
         open(f"{input_params[-1]}.py", 'a').write(spec)
 
 if __name__ == "__main__":
-    generator(input_sklibrary,model_tag)
+    Sklearngenerator(input_sklibrary,model_tag)
 
 
 
