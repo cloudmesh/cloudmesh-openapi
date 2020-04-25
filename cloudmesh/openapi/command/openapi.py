@@ -358,8 +358,9 @@ class OpenapiCommand(PluginCommand):
                 s = Server(
                     name=arguments.NAME,
                     spec=path_expand(arguments.YAML),
-                    directory=path_expand(
-                        arguments.directory) or arguments.directory,
+                    directory=None,
+                    #directory=path_expand(
+                    #    arguments.directory) or arguments.directory,
                     port=arguments.port,
                     host=arguments.host,
                     server=arguments.wsgi,

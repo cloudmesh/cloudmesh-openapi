@@ -10,10 +10,12 @@ import sys
 sys.path.append("./tests/lib")
 from generator_test import GeneratorBaseTest, ServerBaseTest
 import pytest
-from cloudmesh.common.dotdict import dotdict
 
-startservercommand="cms openapi server start ./tests/server-cpu/build/cpu.yaml cpu --directory=./tests/server-cpu/build/"
+
 filename="./tests/server-cpu/cpu.py"
+all_functions= False
+import_class=False
+function_name = "get_processor_name"
 
 @pytest.mark.incremental
 class TestGeneratorTestClass():
@@ -21,19 +23,16 @@ class TestGeneratorTestClass():
 
     @pytest.fixture(scope="module")
     def generatorBaseTestFixture(self):
-        gen= GeneratorBaseTest(filename,False,False,"get_processor_name")
-        # gen.function_name = "get_processor_name"
+        gen= GeneratorBaseTest(filename,all_functions,import_class,"get_processor_name")
         return gen
 
-    # def test_as(self,generatorBaseTestFixture):
-    #     pass
     @pytest.fixture(scope="module")
     def serverBaseTestFixture(self):
-        server = ServerBaseTest(startservercommand);
+        server = ServerBaseTest()
         return server
 
     def test_copy_file(self,generatorBaseTestFixture):
-        generatorBaseTestFixture.copy_py_file();
+        generatorBaseTestFixture.copy_py_file()
 
     def test_generate(self,generatorBaseTestFixture):
         """
