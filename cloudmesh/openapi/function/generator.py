@@ -67,7 +67,7 @@ class Generator:
             'str': 'type: string',
             'list': 'type: array',
             'array': 'type: array',
-            'dict': 'type: object\n    additionalProperties: true'
+            'dict': 'type: object\n        additionalProperties: true'
         }
 
         if is_dataclass(_type):
