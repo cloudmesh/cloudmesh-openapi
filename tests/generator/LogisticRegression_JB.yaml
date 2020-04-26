@@ -1,0 +1,218 @@
+openapi: 3.0.0
+info:
+  title: LogisticRegression
+  description: No description provided
+  version: "1.0"
+servers:
+  - url: http://127.0.0.2:8080/cloudmesh
+    description: No description provided
+paths:
+  /LogisticRegression/decision_function:
+     get:
+      summary: Predict confidence scores for samples.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: LogisticRegression.decision_function
+      parameters:
+        - in: query
+          name: X
+          description: Samples.
+          schema:
+            type: array
+            items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items: {}
+
+  /LogisticRegression/fit:
+     get:
+      summary: Fit the model according to the given training data.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: LogisticRegression.fit
+      parameters:
+        - in: query
+          name: X
+          description: Training vector, where n_samples is the number of samples and
+                       n_features is the number of features.
+          schema:
+            $ref: '#/components/schemas/2dArrayOfNumber'
+        - in: query
+          name: y
+          description: Target vector relative to X.
+          schema:
+            $ref: '#/components/schemas/ArrayOfNumber'
+        - in: query
+          name: sample_weight
+          description: Array of weights that are assigned to individual samples.
+                       If not provided, then each sample is given unit weight.
+
+                      # .. versionadded:: 0.17
+                      #    *sample_weight* support to LogisticRegression.
+          schema:
+            $ref: '#/components/schemas/ArrayOfNumber'
+      responses:
+        '204':
+          description: This operation returns no response.
+
+  /LogisticRegression/get_params:
+     get:
+      summary: Get parameters for this estimator.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: LogisticRegression.get_params
+      parameters:
+        - in: query
+          name: deep
+          description: If True, will return the parameters for this estimator and
+                       contained subobjects that are estimators.
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /LogisticRegression/predict:
+     get:
+      summary: Predict class labels for samples in X.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: LogisticRegression.predict
+      parameters:
+        - in: query
+          name: X
+          description: Samples.
+          schema:
+            type: array
+            items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items: {}
+
+  /LogisticRegression/predict_log_proba:
+     get:
+      summary: Predict logarithm of probability estimates.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: LogisticRegression.predict_log_proba
+      parameters:
+        - in: query
+          name: X
+          description: Vector to be scored, where `n_samples` is the number of samples and
+                       `n_features` is the number of features.
+          schema:
+            type: array
+            items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items: {}
+
+  /LogisticRegression/predict_proba:
+     get:
+      summary: Probability estimates.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: LogisticRegression.predict_proba
+      parameters:
+        - in: query
+          name: X
+          description: Vector to be scored, where `n_samples` is the number of samples and
+                       `n_features` is the number of features.
+          schema:
+            type: array
+            items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items: {}
+
+  /LogisticRegression/score:
+     get:
+      summary: Return the mean accuracy on the given test data and labels.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: LogisticRegression.score
+      parameters:
+        - in: query
+          name: X
+          description: Test samples.
+          schema:
+            type: array
+            items: {}
+        - in: query
+          name: y
+          description: True labels for X.
+          schema:
+            type: array
+            items: {}
+        - in: query
+          name: sample_weight
+          description: Sample weights.
+          schema:
+            type: array
+            items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: number
+
+  /LogisticRegression/set_params:
+     get:
+      summary: Set the parameters of this estimator.
+      description: None (Optional extended description in CommonMark or HTML)
+      operationId: LogisticRegression.set_params
+      parameters:
+        - in: query
+          name: params
+          description: no description provided in docstring
+          schema:
+            type: object
+            additionalProperties: true
+      responses:
+        '204':
+          description: This operation returns no response.
+
+components:
+  schemas:
+    ArrayOfNumber:
+      type: array
+      items:
+        type: number
+      example: [1.0, 2.1, 3.2, 4.2]
+
+    ArrayOfArrayOfNumber:
+      type: array
+      items: {
+        type: array,
+        items: {
+          type: number
+        },
+        example: [1, 2, 3, 4]
+      }
+
+    2dArrayOfNumber:
+      type: array
+      items:
+        type: array
+        items:
+          type: number
+

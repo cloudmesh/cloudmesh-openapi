@@ -1,11 +1,10 @@
 
 from sklearn.linear_model import LogisticRegression
-import numpy as np
 import array
 from cloudmesh.openapi.registry.cache import ResultCache
 
 
-def decision_function(X: list, X_shape_x: int, X_shape_y: int) -> list:
+def decision_function(X: array) -> array:
 
     """
     Predict confidence scores for samples.
@@ -20,13 +19,12 @@ def decision_function(X: list, X_shape_x: int, X_shape_y: int) -> list:
     
     """
 
-    X = np.array(X).reshape(X_shape_x,X_shape_y)
-    model = ResultCache().load("JonathanLogis")
-    list = model.decision_function(X)
-    list = list.tolist()
+    model = ResultCache().load("LogisticRegression")
+    array = model.decision_function(X)
 
 
-    return list
+
+    return array
 
 
 def densify():
@@ -47,7 +45,7 @@ def densify():
     return densify
 
 
-def fit(X: list, y: list, sample_weight: list):
+def fit(X: str, y: array, sample_weight: array):
 
     """
     Fit the model according to the given training data.
@@ -69,12 +67,11 @@ def fit(X: list, y: list, sample_weight: list):
     
     """
 
-    X = np.array(X).reshape(X_shape_x,X_shape_y)
     fit = LogisticRegression().fit(X, y, sample_weight)
-    ResultCache().save("JonathanLogis","pickle",fit)
+    ResultCache().save("LogisticRegression","pickle",fit)
 
 
-    return 
+    return LogisticRegression
 
 
 def get_params(deep: bool) -> str:
@@ -91,20 +88,18 @@ def get_params(deep: bool) -> str:
     
     """
 
-    model = ResultCache().load("JonathanLogis")
+    model = ResultCache().load("LogisticRegression")
     str = model.get_params(deep)
+
 
 
     return str
 
 
-def predict(X: list, X_shape_x: int, X_shape_y: int) -> list:
+def predict(X: array) -> array:
 
     """
     Predict class labels for samples in X.
-
-    This is a test for a long description
-    that spans multiple lines.
 
 
     :param X: Samples.
@@ -114,16 +109,15 @@ def predict(X: list, X_shape_x: int, X_shape_y: int) -> list:
     
     """
 
-    X = np.array(X).reshape(X_shape_x,X_shape_y)
-    model = ResultCache().load("JonathanLogis")
-    list = model.predict(X)
-    list = list.tolist()
+    model = ResultCache().load("LogisticRegression")
+    array = model.predict(X)
 
 
-    return list
+
+    return array
 
 
-def predict_log_proba(X: list, X_shape_x: int, X_shape_y: int) -> list:
+def predict_log_proba(X: array) -> array:
 
     """
     Predict logarithm of probability estimates.
@@ -138,16 +132,15 @@ def predict_log_proba(X: list, X_shape_x: int, X_shape_y: int) -> list:
     
     """
 
-    X = np.array(X).reshape(X_shape_x,X_shape_y)
-    model = ResultCache().load("JonathanLogis")
-    list = model.predict_log_proba(X)
-    list = list.tolist()
+    model = ResultCache().load("LogisticRegression")
+    array = model.predict_log_proba(X)
 
 
-    return list
+
+    return array
 
 
-def predict_proba(X: list, X_shape_x: int, X_shape_y: int) -> list:
+def predict_proba(X: array) -> array:
 
     """
     Probability estimates.
@@ -162,16 +155,15 @@ def predict_proba(X: list, X_shape_x: int, X_shape_y: int) -> list:
     
     """
 
-    X = np.array(X).reshape(X_shape_x,X_shape_y)
-    model = ResultCache().load("JonathanLogis")
-    list = model.predict_proba(X)
-    list = list.tolist()
+    model = ResultCache().load("LogisticRegression")
+    array = model.predict_proba(X)
 
 
-    return list
+
+    return array
 
 
-def score(X: list, y: list, sample_weight: list, X_shape_x: int, X_shape_y: int) -> float:
+def score(X: array, y: array, sample_weight: array) -> float:
 
     """
     Return the mean accuracy on the given test data and labels.
@@ -188,9 +180,9 @@ def score(X: list, y: list, sample_weight: list, X_shape_x: int, X_shape_y: int)
     
     """
 
-    X = np.array(X).reshape(X_shape_x,X_shape_y)
-    model = ResultCache().load("JonathanLogis")
+    model = ResultCache().load("LogisticRegression")
     float = model.score(X, y, sample_weight)
+
 
 
     return float
@@ -210,10 +202,10 @@ def set_params(**params: dict):
     """
 
     set_params = LogisticRegression().set_params(**params)
-    ResultCache().save("JonathanLogis","pickle",set_params)
+    ResultCache().save("LogisticRegression","pickle",set_params)
 
 
-    return
+    return LogisticRegression
 
 
 def sparsify():

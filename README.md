@@ -280,14 +280,7 @@ Description:
 
 ## Pytests
 
-TODO: How to run them
-
- * [test_registry](tests/test_registry.py)
- * [test_generator](tests/test_generator.py)
- * [test_server_cms_cpu_Windows](tests/test_server_cms_cpu_Windows.py)
- * [test_server_cms_sampleFunction](tests/test_server_cms_sampleFunction.py)
- * [test_server_cms_cpu](tests/test_server_cms_cpu.py)
- * [test_generator_broken](tests/test_generator_broken.py)
+Please follow [Pytest Information](tests/README.md) document for pytests related information
 
 ## Examples
 

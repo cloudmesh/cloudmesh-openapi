@@ -15,8 +15,7 @@ from cloudmesh.openapi.function import generator
 from cloudmesh.openapi.function.server import Server
 from cloudmesh.openapi.function.executor import Parameter
 from cloudmesh.openapi.registry.Registry import Registry
-from cloudmesh.openapi.scikitlearn.SklearnGenerator import \
-    generator as SklearnGenerator
+from cloudmesh.openapi.scikitlearn.SklearnGenerator import Sklearngenerator
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
 
@@ -60,10 +59,12 @@ class OpenapiCommand(PluginCommand):
               openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
               openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
               openapi TODO doc [SERVICES...] [--dir=DIR]
-              openapi sklearn generate FUNCTION
+              openapi sklearn generate FUNCTION MODELTAG
+              openapi sklearn upload --filename=FILENAME
 
           Arguments:
               FUNCTION  The name for the function or class
+              MODELTAG  The arbirtary name choosen by the user to store the Sklearn trained model as Pickle object
               FILENAME  Path to python file containing the function or class
               SERVERURL OpenAPI server URL Default: https://localhost:8080/cloudmesh
               YAML      Path to yaml file that will contain OpenAPI spec. Default: FILENAME with .py replaced by .yaml
@@ -71,7 +72,7 @@ class OpenapiCommand(PluginCommand):
               FILE      The specification
 
           Options:
-              --import_class         FUNCTION is a class name instead of a function name
+              --import_class         FUNCTION is a required class name instead of an optional function name
               --all_functions        Generate OpenAPI spec for all functions in FILENAME
               --debug                Use the server in debug mode
               --verbose              Specifies to run in debug mode
@@ -102,7 +103,7 @@ class OpenapiCommand(PluginCommand):
                 TODO: do we have a prototype of this?
 
 
-            openapi sklearn generate sklearn.linear_model.LogisticRegression
+            openapi sklearn sklearn.linear_model.LogisticRegression
                 Generates the
 
             openapi generate [FUNCTION] --filename=FILENAME
@@ -155,7 +156,7 @@ class OpenapiCommand(PluginCommand):
 
 
         """
-
+        #print(arguments)
         map_parameters(arguments,
                        'fg',
                        'os',
@@ -172,12 +173,14 @@ class OpenapiCommand(PluginCommand):
                        'host')
         arguments.debug = arguments.verbose
 
-        # VERBOSE(arguments)
+        #VERBOSE(arguments)
 
         
         if arguments.generate:
             if arguments.import_class and arguments.all_functions:
                 Console.error('Cannot generate openapi with both --import_class and --all_functions')
+            if arguments.import_class and not arguments.function:
+                Console.error('FUNCTION paramter (class name) is required when using --import_class')
             try:
                 p = Parameter(arguments)
                 p.Print()
@@ -355,8 +358,9 @@ class OpenapiCommand(PluginCommand):
                 s = Server(
                     name=arguments.NAME,
                     spec=path_expand(arguments.YAML),
-                    directory=path_expand(
-                        arguments.directory) or arguments.directory,
+                    directory=None,
+                    #directory=path_expand(
+                    #    arguments.directory) or arguments.directory,
                     port=arguments.port,
                     host=arguments.host,
                     server=arguments.wsgi,
@@ -389,13 +393,22 @@ class OpenapiCommand(PluginCommand):
                 Console.error("Server not running")
 
         elif arguments.sklearn:
+            print(test)
 
             try:
-                SklearnGenerator(arguments.FUNCTION)
-
+                Sklearngenerator(input_sklibrary=arguments.FUNCTION,
+                                 model_tag=arguments.MODELTAG)
             except Exception as e:
                 print(e)
 
+        elif arguments.sklearn and arguments.upload:
+
+            try:
+                openAPI = generator.Generator()
+                openAPI.fileput()
+
+            except Exception as e:
+                print(e)
 
         '''
 
