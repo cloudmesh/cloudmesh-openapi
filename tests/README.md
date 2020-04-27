@@ -45,7 +45,14 @@ Below command can use to run your case. Make sure your current directory is clou
 
 ```bash
 $ how do you call this
-pytest -v --capture=no tests/generator-calculator/test_01_generator.py
+pytest -v -x --capture=no tests/generator-calculator/test_01_generator.py
+```
+
+### Run test case with CSV command enabled
+
+```bash
+$ how do you call this
+pytest -v -x --capture=no tests/generator-calculator/test_01_generator.py  | fgrep '# cvs'
 ```
 
 
@@ -55,6 +62,7 @@ pytest -v --capture=no tests/generator-calculator/test_01_generator.py
 1. generator-testclass and file name is test_02_generator.py
 1. server-cpu and file name is test_03_generator.py
 1. server-cms and file name is test_04_generator.py
+1. generator and file name is test_05_generator.py
 
 
 <!--## test_001_registry.py

@@ -18,8 +18,9 @@ from cloudmesh.openapi.registry.Registry import Registry
 def daemon(func):
     def wrapper(*args, **kwargs):
         pid = os.fork()
-
+        global daemonpid
         if pid != 0:
+            daemonpid = pid
             print ("Deamon PID", pid)
 
         if pid: return
@@ -129,7 +130,11 @@ class Server(object):
                 pid = self.run_os()
             else:
                 self._run_deamon()
-                pid = Server.ps(name=name)[1]["pid"]
+                if daemonpid is not None:
+                    pid = daemonpid
+                else:
+                    pid = Server.ps(name=name)[1]["pid"]
+
                 _spec = Server.ps(name=name)[1]["spec"]
 
                 with open(_spec, "r") as stream:

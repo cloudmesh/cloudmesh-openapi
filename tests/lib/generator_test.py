@@ -11,17 +11,21 @@ Here come document for test
 """
 import os
 import sys
+
 import requests
+
 sys.path.append("./tests")
 import util as util
-from cloudmesh.common.Benchmark import Benchmark
 from cloudmesh.common.Shell import Shell
-from cloudmesh.common.util import HEADING
 from importlib import import_module
 from cloudmesh.openapi.function.executor import Parameter
 import types
 from cloudmesh.common.dotdict import dotdict
-import time
+from cloudmesh.common.Benchmark import Benchmark
+from cloudmesh.common.util import HEADING
+
+service ="openapi"
+Benchmark.debug()
 
 
 class GeneratorBaseTest:
@@ -53,11 +57,11 @@ class GeneratorBaseTest:
     def get_build_servercommand(self,build_dotdict) -> str:
         serverCommand=""
         if globalbuildcommandparameter.import_class:
-          serverCommand=f"cms openapi generate {build_dotdict.FUNCTION} --filename={build_dotdict.filename} --import_class"
+          serverCommand=f"cms openapi generate {build_dotdict.FUNCTION} --filename={build_dotdict['--filename']} --import_class"
         elif globalbuildcommandparameter.all_functions:
-          serverCommand = f"cms openapi generate --filename={build_dotdict.filename} --all_functions"
+          serverCommand = f"cms openapi generate --filename={build_dotdict['--filename']} --all_functions"
         else:
-          serverCommand = f"cms openapi generate {build_dotdict.FUNCTION} --filename={build_dotdict.filename}"
+          serverCommand = f"cms openapi generate {build_dotdict.FUNCTION} --filename={build_dotdict['--filename']}"
         return serverCommand
 
     def server_dotdict(self,serverCommand) -> dotdict:
@@ -72,7 +76,7 @@ class GeneratorBaseTest:
                     dotdictd["all_functions"] = True
                     dotdictd["import_class"] = False
                 elif "--filename" in word:
-                    dotdictd["filename"] = word.split("=")[1]
+                    dotdictd["--filename"] = word.split("=")[1]
             return dotdictd
         if serverCommand.__contains__("server"):
            pass
@@ -92,7 +96,7 @@ class GeneratorBaseTest:
             dotdictd["import_class"] = False
             dotdictd["FUNCTION"] = function_name
 
-        dotdictd["filename"] = globalcommandparameter.module_directory+"/build/"+globalcommandparameter.module_name+".py"
+        dotdictd["--filename"] = globalcommandparameter.module_directory+"/build/"+globalcommandparameter.module_name+".py"
 
 
         return dotdictd
@@ -126,10 +130,12 @@ class GeneratorBaseTest:
         Benchmark.Start()
         spec = util.readyaml(globalbuildcommandparameter.yamlfile)
         keys = spec.keys()
+        Benchmark.Stop()
         assert "openapi" in keys
         assert "info" in keys
         assert "servers" in keys
         assert "paths" in keys
+
 
     def validate_function(self):
         """
@@ -152,10 +158,15 @@ class GeneratorBaseTest:
                 if isinstance(attr, types.MethodType):
                     assert f"/{globalbuildcommandparameter.function}/{attr_name}" in paths
 
+        Benchmark.Stop()
 
     def delete_file(self):
+        HEADING()
+        Benchmark.Start()
         import shutil
         shutil.rmtree(globalcommandparameter.module_directory+"/build")
+        Benchmark.Stop()
+
 
 class ServerBaseTest:
 
@@ -175,7 +186,6 @@ class ServerBaseTest:
         HEADING()
 
         Benchmark.Start()
-        # result = Shell.execute(f"cms openapi server stop {name}", shell=True)
         os.system(f"cms openapi server stop {globalbuildcommandparameter.function}")
         Benchmark.Stop()
         gotException = False;
@@ -184,3 +194,7 @@ class ServerBaseTest:
         except Exception as ex:
             gotException = True
         assert gotException
+
+
+    def test_benchmark(self):
+        Benchmark.print(sysinfo=True, csv=True, tag=service)
