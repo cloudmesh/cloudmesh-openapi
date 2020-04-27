@@ -207,6 +207,8 @@ class OpenapiCommand(PluginCommand):
                     # setattr(sys.modules[module_name], function, class_obj)
                     class_description = class_obj.__doc__.strip().split("\n")[0]
                     func_objects = {}
+
+                    '''
                     for attr_name in dir(class_obj):
                         attr = getattr(class_obj, attr_name)                        
                         if isinstance(attr, types.MethodType) and attr_name[0] is not '_':
@@ -217,8 +219,15 @@ class OpenapiCommand(PluginCommand):
                             func_objects[attr_name] = attr
                         elif is_dataclass(attr):
                             dataclass_list.append(attr)
+                    '''
+
+                    for attr_name in dir(class_obj):
+                        attr = getattr(class_obj, attr_name)
+                        if isinstance(attr, types.MethodType) and attr_name[0] is not '_':
+                            setattr(sys.modules[function], attr_name, attr)
+                            func_objects[attr_name] = attr
+
                     openAPI = generator.Generator()
-                    # TODO: fix all function support at some point, maybe
                     Console.info('Generating openapi for class: ' + class_obj.__name__)
                     openAPI.generate_openapi_class(class_name = class_obj.__name__,
                                                    class_description = class_description,
@@ -358,9 +367,9 @@ class OpenapiCommand(PluginCommand):
                 s = Server(
                     name=arguments.NAME,
                     spec=path_expand(arguments.YAML),
-                    directory=None,
-                    #directory=path_expand(
-                    #    arguments.directory) or arguments.directory,
+                    # directory=None,
+                    directory=path_expand(arguments.directory) \
+                        if arguments.directory else arguments.directory,
                     port=arguments.port,
                     host=arguments.host,
                     server=arguments.wsgi,
@@ -401,6 +410,7 @@ class OpenapiCommand(PluginCommand):
             except Exception as e:
                 print(e)
 
+        '''
         elif arguments.sklearn and arguments.upload:
 
             try:
@@ -409,8 +419,6 @@ class OpenapiCommand(PluginCommand):
 
             except Exception as e:
                 print(e)
-
-        '''
 
         arguments.wsgi = arguments["--server"]
 
