@@ -54,9 +54,7 @@ class Parameter:
 
     def get(self, arguments):
         self.cwd = path_expand(os.path.curdir)
-
-        filename = arguments.filename
-
+        filename = arguments['--filename']
         if filename is None:
             Console.error(f"--filename={filename}")
         self.filename = path_expand(filename)
