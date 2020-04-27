@@ -8,6 +8,11 @@ import requests, uuid, json, yaml, os
 from google.cloud import translate
 from cloudmesh.common.FlatDict import flatten
 from cloudmesh.common.dotdict import dotdict
+from cloudmesh.common.Shell import Shell
+from cloudmesh.mongo.CmDatabase import CmDatabase
+from cloudmesh.common.util import path_expand
+from pathlib import Path
+from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 
 """
 Set of functions to analyze a provided plain text document for language 
@@ -45,6 +50,62 @@ def get_credentials():
     return credentials_list
 
 
+@DatabaseUpdate()
+def add_file(fileName, **kwargs):
+    """
+    Adds the contents of a file located in the specified location to the registry
+
+    :param fileName: The name of the file containing text
+    :return:
+    """
+    cache_path = "~/.cloudmesh/text-cache/"
+    p = Path(path_expand(cache_path))
+    file_location = str(p) + "/" + fileName
+    file_list = Shell.run("ls " + cache_path)
+    file_list = file_list.split("\n")
+    file_list.pop()
+
+    if fileName in file_list:
+        with open(file_location, 'r') as review_file:
+            # Instantiates a plain text document.
+            content = review_file.read()
+
+        entry = {
+            "cm": {
+                "cloud": "local",
+                "kind": "text",
+                "name": fileName,
+                "driver": None
+            },
+            "name": fileName,
+            "content": content
+        }
+
+    for key in kwargs:
+        entry[key] = kwargs[key]
+
+    return entry
+
+
+def load_content(fileName):
+    """
+    Load the content from the entry if it exists in the mongo db local-text
+    collection
+
+    :param fileName: name of the file contents being accessed
+    :return:
+    """
+
+    db = CmDatabase()
+    result = db.find(collection="local-text",
+                      cloud="local",
+                      kind="text",
+                      query={"name": f"{fileName}"})
+    result = flatten(result)
+    result.pop()
+    return result[0]["content"]
+
+
 def analyze(filename: str, cloud: str) -> float:
     """Run a sentiment analysis request on text within a passed filename.
 
@@ -57,11 +118,14 @@ def analyze(filename: str, cloud: str) -> float:
 
     """
 
+    # get credentials for Google and Azure cloud text services listed in
+    # cloudmesh yaml
     credentials_list = get_credentials()
 
-    with open(filename, 'r') as review_file:
-        # Instantiates a plain text document.
-        content = review_file.read()
+    # add file located in text cache directory to the registry so it can be
+    # loaded and passed to services.
+    add_file(filename)
+    content = load_content(filename)
 
     if cloud == "azure":
         credentials = CognitiveServicesCredentials(credentials_list[1])
@@ -79,7 +143,6 @@ def analyze(filename: str, cloud: str) -> float:
                        "language": "en",
                        "text": sentence}
             documents.append(new_doc.copy())
-        print(documents)
         response = client.sentiment(documents=documents)
     elif cloud == "google":
         client = language.LanguageServiceClient()
