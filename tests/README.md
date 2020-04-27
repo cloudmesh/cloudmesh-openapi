@@ -48,6 +48,13 @@ $ how do you call this
 pytest -v -x --capture=no tests/generator-calculator/test_01_generator.py
 ```
 
+### Run test case with CSV command enabled
+
+```bash
+$ how do you call this
+pytest -v -x --capture=no tests/generator-calculator/test_01_generator.py  | fgrep '# cvs'
+```
+
 
 ## Below are test case files
 
