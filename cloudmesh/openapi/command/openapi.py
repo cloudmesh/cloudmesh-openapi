@@ -391,7 +391,7 @@ class OpenapiCommand(PluginCommand):
             except ConnectionError:
                 Console.error("Server not running")
 
-        elif arguments.sklearn:
+        elif arguments.sklearn and not arguments.upload:
             print(test)
 
             try:
