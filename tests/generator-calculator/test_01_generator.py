@@ -15,6 +15,9 @@ from cloudmesh.common.dotdict import dotdict
 filename="./tests/generator-calculator/calculator.py"
 all_functions= True
 import_class=False
+from cloudmesh.common.Benchmark import Benchmark
+
+Benchmark.debug()
 
 
 @pytest.mark.incremental
@@ -55,4 +58,7 @@ class TestGeneratorTestClass():
     def test_delete_build_file(self, generatorBaseTestFixture):
        generatorBaseTestFixture.delete_file()
 
+
+    def test_benchmark(self,generatorBaseTestFixture):
+        Benchmark.print(sysinfo=True, csv=True, tag=generatorBaseTestFixture.service)
 
