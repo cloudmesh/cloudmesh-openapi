@@ -1,23 +1,108 @@
 openapi: 3.0.0
 info:
-  title: Cloudmesh
-  description: A simple service to interface with cloudmesh in OpenAPI 3.0
-  license:
-    name: Apache 2.0
-  version: 0.0.1
-
+  title: cms
+  description: "No description provided"
+  version: "1.0"
 servers:
   - url: http://localhost:8080/cloudmesh
-
+    description: "No description provided"
 paths:
-  /list:
-    get:
-      summary: Returns list of vms on chameleon
-      operationId: cms.vms
+  /cms/boot:
+     get:
+      summary: "Boots a VM on the cloud service"
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: cms.boot
+      parameters:
+        - in: query
+          name: service
+          description: "The name of the service"
+          schema:
+            type: string
       responses:
         '200':
-          description: VM list
+          description: "OK"
           content:
-            text/html:
+            text/plain:
               schema:
-                type: string
+                type: array
+                items: {}
+
+  /cms/flavor:
+     get:
+      summary: "Lists the flavors on the cloud service"
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: cms.flavor
+      parameters:
+        - in: query
+          name: service
+          description: "The name of the service"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: array
+                items: {}
+
+  /cms/image:
+     get:
+      summary: "Lists the images on teh cloud service"
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: cms.image
+      parameters:
+        - in: query
+          name: service
+          description: "The name of the service"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: array
+                items: {}
+
+  /cms/test:
+     get:
+      summary: "None"
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: cms.test
+      parameters:
+        - in: query
+          name: service
+          description: "no description provided in docstring"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: object
+                additionalProperties: true
+
+  /cms/vm:
+     get:
+      summary: "Lists the VMs on the cloud service"
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: cms.vm
+      parameters:
+        - in: query
+          name: service
+          description: "The name of the service"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: array
+                items: {}

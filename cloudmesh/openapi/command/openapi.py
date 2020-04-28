@@ -166,7 +166,6 @@ class OpenapiCommand(PluginCommand):
                        'directory',
                        'yamlfile',
                        'serverurl',
-                       'filename',
                        'name',
                        'import_class',
                        'all_functions',
@@ -343,10 +342,10 @@ class OpenapiCommand(PluginCommand):
 
             registry.Print(data=result, output=arguments.output)
 
-        elif arguments.register and arguments.filename:
+        elif arguments.register and arguments['filename']:
 
             registry = Registry()
-            result = [registry.add_form_file(arguments.filename)]
+            result = [registry.add_form_file(arguments['filename'])]
 
             registry.Print(data=result, output=arguments.output)
 
