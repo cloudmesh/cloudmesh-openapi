@@ -81,6 +81,7 @@ class ResultCache:
         StopWatch.stop(f"Load pickle {name}")
         time_taken = StopWatch.get(f"Load pickle {name}")
 
+        # TODO: figure out how useful the duration is and return to client if required
         deserialized_model_dict = {
             "model_name": name,
             "model_object": deserialized_model,

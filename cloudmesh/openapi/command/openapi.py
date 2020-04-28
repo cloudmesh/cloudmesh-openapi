@@ -197,66 +197,53 @@ class OpenapiCommand(PluginCommand):
                     attr = getattr(imported_module, attr_name)
                     if is_dataclass(attr):
                         dataclass_list.append(attr)
-                # not currently supporting multiple functions or all functions
-                # could do comma-separated function/class names
                 
                 if arguments.import_class:
+
                     class_obj = getattr(imported_module, function)
-                    # do we maybe need to do this here?
-                    # setattr(sys.modules[module_name], function, class_obj)
                     class_description = class_obj.__doc__.strip().split("\n")[0]
                     func_objects = {}
 
-                    '''
-                    for attr_name in dir(class_obj):
-                        attr = getattr(class_obj, attr_name)                        
-                        if isinstance(attr, types.MethodType) and attr_name[0] is not '_':
-                            # are we sure this is right?
-                            # would probably create a valid openapi yaml, but not technically accurate
-                            # module.function may work but it should be module.Class.function
-                            setattr(sys.modules[module_name], attr_name, attr)
-                            func_objects[attr_name] = attr
-                        elif is_dataclass(attr):
-                            dataclass_list.append(attr)
-                    '''
-
+                    # print(dir(sys.modules[module_name].__getattribute__(function)))
                     for attr_name in dir(class_obj):
                         attr = getattr(class_obj, attr_name)
-                        if isinstance(attr, types.MethodType) and attr_name[0] is not '_':
-                            setattr(sys.modules[function], attr_name, attr)
+                        if isinstance(attr, types.MethodType) and attr_name[0] != '_':
+                            # Commented the below line out because I don't think it's required anymore. Import_module is importing everything in
+                            # setattr(sys.modules[module_name].__getattribute__(function), attr_name, attr)
                             func_objects[attr_name] = attr
+                    # print(dir(sys.modules[module_name].__getattribute__(function)))
 
                     openAPI = generator.Generator()
                     Console.info('Generating openapi for class: ' + class_obj.__name__)
-                    openAPI.generate_openapi_class(class_name = class_obj.__name__,
-                                                   class_description = class_description,
-                                                   filename = filename,
-                                                   func_objects = func_objects, 
-                                                   serverurl = serverurl,
-                                                   outdir = directory,
-                                                   yamlfile = yamlfile,
-                                                   dataclass_list = dataclass_list, 
-                                                   all_function = False,
+                    openAPI.generate_openapi_class(class_name=class_obj.__name__,
+                                                   class_description=class_description,
+                                                   filename=filename,
+                                                   func_objects=func_objects,
+                                                   serverurl=serverurl,
+                                                   outdir=directory,
+                                                   yamlfile=yamlfile,
+                                                   dataclass_list=dataclass_list,
+                                                   all_function=False,
                                                    write=True)
                 elif arguments.all_functions:
                     func_objects = {}
                     for attr_name in dir(imported_module):
-                        if type(getattr(imported_module, attr_name)).__name__ == 'function' and attr_name[0] is not '_':
+                        if type(getattr(imported_module, attr_name)).__name__ == 'function' and attr_name[0] != '_':
                             func_obj = getattr(imported_module, attr_name)
                             setattr(sys.modules[module_name], attr_name, func_obj)
                             func_objects[attr_name] = func_obj
                     openAPI = generator.Generator()
                     Console.info('Generating openapi for all functions in file: ' + filename)
-                    openAPI.generate_openapi_class(class_name = module_name,
-                                                   class_description = "No description provided",
-                                                   filename = filename,
-                                                   func_objects = func_objects,
-                                                   serverurl = serverurl,
-                                                   outdir = directory,
-                                                   yamlfile = yamlfile,
-                                                   dataclass_list = dataclass_list,
-                                                   all_function = True,
-                                                   write = True)
+                    openAPI.generate_openapi_class(class_name=module_name,
+                                                   class_description="No description provided",
+                                                   filename=filename,
+                                                   func_objects=func_objects,
+                                                   serverurl=serverurl,
+                                                   outdir=directory,
+                                                   yamlfile=yamlfile,
+                                                   dataclass_list=dataclass_list,
+                                                   all_function=True,
+                                                   write=True)
                                                    
                 else:
                     func_obj = getattr(imported_module, function)

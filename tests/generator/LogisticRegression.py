@@ -40,14 +40,15 @@ def densify():
     
     """
 
-    densify = densify()
+    densify = LogisticRegression().densify()
+    ResultCache().save("JonathanLogis","pickle",densify)
 
 
 
-    return densify
+    return
 
 
-def fit(X: list, y: list, sample_weight: list):
+def fit(X: list, y: list, sample_weight: list, X_shape_x: int, X_shape_y: int):
 
     """
     Fit the model according to the given training data.
@@ -55,7 +56,7 @@ def fit(X: list, y: list, sample_weight: list):
 
     :param X: Training vector, where n_samples is the number of samples and
                     n_features is the number of features.
-    :type X: str
+    :type X: array
     :param y: Target vector relative to X.
     :type y: array
     :param sample_weight: Array of weights that are assigned to individual samples.
@@ -102,9 +103,6 @@ def predict(X: list, X_shape_x: int, X_shape_y: int) -> list:
 
     """
     Predict class labels for samples in X.
-
-    This is a test for a long description
-    that spans multiple lines.
 
 
     :param X: Samples.
@@ -227,8 +225,9 @@ def sparsify():
     
     """
 
-    sparsify = sparsify()
+    sparsify = LogisticRegression().sparsify()
+    ResultCache().save("JonathanLogis","pickle",sparsify)
 
 
 
-    return sparsify
+    return
