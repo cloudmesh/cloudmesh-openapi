@@ -24,8 +24,7 @@ from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.Benchmark import Benchmark
 from cloudmesh.common.util import HEADING
 
-service ="openapi"
-Benchmark.debug()
+
 
 
 class GeneratorBaseTest:
@@ -41,6 +40,7 @@ class GeneratorBaseTest:
         build_dotdict=self.build_dotdict(function_name)
         globalbuildcommandparameter=Parameter(build_dotdict)
         globalbuildcommandstring= self.get_build_servercommand(build_dotdict)
+        self.service ="openapi"
 
 
 
@@ -196,5 +196,5 @@ class ServerBaseTest:
         assert gotException
 
 
-    def test_benchmark(self):
+    def benchmark(self):
         Benchmark.print(sysinfo=True, csv=True, tag=service)
