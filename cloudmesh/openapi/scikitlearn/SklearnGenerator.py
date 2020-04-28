@@ -46,9 +46,9 @@ class TypeScraper:
             if re.search(table_key, literal_type, re.IGNORECASE):
                 res.add(self.type_table[table_key])
 
-        if literal_type[0] == '{':
-            table_key = 'string'
-            res.add(self.type_table[table_key])
+        #if literal_type[0] == '{':
+        #    table_key = 'string'
+        #    res.add(self.type_table[table_key])
         if literal_type[:4] == 'dict':
             table_key = 'dictionary'
             res.add(self.type_table[table_key])
@@ -320,7 +320,7 @@ class Generator:
         text1 = '"""'
         key = 'return'
         returnparam =''
-        print(paras_dict_func)
+        #print(paras_dict_func)
         if  key in paras_dict_func.keys():
             if paras_dict_func['return'] != 'self':
                 returnparam = paras_dict_func['return']
