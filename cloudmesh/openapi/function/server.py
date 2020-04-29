@@ -59,12 +59,9 @@ class Server(object):
         else:
             self.directory = directory
 
-
-
-
-        self.host = host
-        self.port = port
-        self.debug = debug
+        self.host = host or "127.0.0.1"
+        self.port = port or 8080
+        self.debug = debug or True
         self.server = server or "flask"
         self.server_command = ""
 
@@ -192,7 +189,7 @@ class Server(object):
                     else:
                         pids.append({"name":name, "pid": pinfo["pid"], "spec":info})
                 elif "cmsoaserver.py" in line and sys.platform == 'win32':
-                    info = line.spli("python.exe")[1].strip()
+                    info = line.split("python.exe")[1].strip()
                     if name is None:
                         name = Path(info).stem.split("_")[0].split()
                     pids.append({"name": name, "pid": pinfo['pid'], "spec": info})

@@ -67,7 +67,7 @@ class Generator:
             'str': 'type: string',
             'list': 'type: array',
             'array': 'type: array',
-            'dict': 'type: object\n        additionalProperties: true'
+            'dict': 'type: object'
         }
 
         if is_dataclass(_type):
@@ -105,6 +105,16 @@ class Generator:
                     {_type}
                     items: 
                       type: number""").format(name=name.strip(),
+                                       description=description.strip(),
+                                       _type=_type.strip())
+        elif _type.find('object') != -1:
+            spec = textwrap.dedent("""
+                - in: query
+                  name: {name}
+                  description: "{description}"
+                  schema:
+                    {_type}
+                    additionalProperties: true""").format(name=name.strip(),
                                        description=description.strip(),
                                        _type=_type.strip())
         else:
@@ -172,15 +182,27 @@ class Generator:
                                              _type=_type.strip())
         else:
             # dict (generic json) or dataclass ($ref)
-            spec = textwrap.dedent("""
-              '{code}':
-                description: "{description}"
-                content:
-                  application/json:
-                    schema:
-                      {_type}""").format(code=code.strip(),
-                                         description=description.strip(),
-                                         _type=_type.strip())
+            if (_type.find('object') != -1):
+                spec = textwrap.dedent("""
+                  '{code}':
+                    description: "{description}"
+                    content:
+                      application/json:
+                        schema:
+                          {_type}
+                          additionalProperties: True""").format(code=code.strip(),
+                                             description=description.strip(),
+                                             _type=_type.strip())
+            else:
+                spec = textwrap.dedent("""
+                  '{code}':
+                    description: "{description}"
+                    content:
+                      application/json:
+                        schema:
+                          {_type}""").format(code=code.strip(),
+                                             description=description.strip(),
+                                             _type=_type.strip())
         return spec
 
     def generate_properties(self, attr, _type):

@@ -3,13 +3,17 @@
 # pytest -v  tests/test_03_generator.py
 # pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
 ###############################################################
-import os
-import time
-from pprint import pprint
 import sys
 sys.path.append("./tests/lib")
 from generator_test import GeneratorBaseTest, ServerBaseTest
 import pytest
+
+from cloudmesh.common.Benchmark import Benchmark
+from cloudmesh.common.util import HEADING
+from cloudmesh.management.configuration.name import Name
+service ="openapi"
+Benchmark.debug()
+
 
 filename="./tests/generator/LinearRegression.py"
 all_functions= True
@@ -29,6 +33,7 @@ class TestGeneratorTestClass():
         server = ServerBaseTest()
         return server
 
+
     def test_copy_file(self,generatorBaseTestFixture):
         generatorBaseTestFixture.copy_py_file()
 
@@ -44,6 +49,10 @@ class TestGeneratorTestClass():
     def test_validate_function(self, generatorBaseTestFixture):
         generatorBaseTestFixture.validate_function()
 
+    # fit
+    #
+
+
     def test_start_service(self,serverBaseTestFixture):
         serverBaseTestFixture.start_service()
 
@@ -52,3 +61,7 @@ class TestGeneratorTestClass():
 
     def test_delete_build_file(self, generatorBaseTestFixture):
         generatorBaseTestFixture.delete_file()
+
+    def test_benchmark(self):
+        Benchmark.print(sysinfo=True, csv=True, tag=service)
+

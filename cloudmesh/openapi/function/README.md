@@ -1,5 +1,11 @@
 # function package
 
+The function package includes 3 submodules:
+
+  1. executor.py
+  2. generator.py
+  3. server.py
+
 ## Submodules
 
 ## function.executor module

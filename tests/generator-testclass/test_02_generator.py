@@ -10,7 +10,7 @@ import sys
 sys.path.append("./tests/lib")
 from generator_test import GeneratorBaseTest, ServerBaseTest
 import pytest
-
+from cloudmesh.common.Benchmark import Benchmark
 filename="./tests/generator-testclass/calculator.py"
 all_functions= False
 import_class=True
@@ -55,3 +55,6 @@ class TestGeneratorTestClass():
 
     def test_delete_build_file(self, generatorBaseTestFixture):
         generatorBaseTestFixture.delete_file()
+
+    def test_benchmark(self,generatorBaseTestFixture):
+        Benchmark.print(sysinfo=True, csv=True, tag=generatorBaseTestFixture.service)

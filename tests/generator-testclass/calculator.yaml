@@ -1,31 +1,31 @@
 openapi: 3.0.0
 info:
   title: Calculator
-  description: A simple calculator that allows you to do basic math operations
+  description: "A simple calculator that allows you to do basic math operations"
   version: "1.0"
 servers:
   - url: http://localhost:8080/cloudmesh
-    description: A simple calculator that allows you to do basic math operations
+    description: "A simple calculator that allows you to do basic math operations"
 paths:
   /Calculator/dividefloat:
      get:
-      summary: Divide int by float.
-      description: None (Optional extended description in CommonMark or HTML)
+      summary: "Divide int by float."
+      description: "None (Optional extended description in CommonMark or HTML)"
       operationId: calculator.Calculator.dividefloat
       parameters:
         - in: query
           name: x
-          description: the value of input #1
+          description: "the value of input #1"
           schema:
             type: integer
         - in: query
           name: y
-          description: the value of input #2
+          description: "the value of input #2"
           schema:
             type: number
       responses:
         '200':
-          description: OK
+          description: "OK"
           content:
             text/plain:
               schema:
@@ -33,23 +33,23 @@ paths:
 
   /Calculator/multiplyint:
      get:
-      summary: Multiply int by int.
-      description: None (Optional extended description in CommonMark or HTML)
+      summary: "Multiply int by int."
+      description: "None (Optional extended description in CommonMark or HTML)"
       operationId: calculator.Calculator.multiplyint
       parameters:
         - in: query
           name: x
-          description: the value of input #1
+          description: "the value of input #1"
           schema:
             type: integer
         - in: query
           name: y
-          description: the value of input #2
+          description: "the value of input #2"
           schema:
             type: integer
       responses:
         '200':
-          description: OK
+          description: "OK"
           content:
             text/plain:
               schema:
