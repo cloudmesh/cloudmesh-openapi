@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: cpu
+  description: A simple service to get cpuinfo as an example of using OpenAPI 3.0
+  license:
+    name: Apache 2.0
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:8080/cloudmesh
+
+paths:
+  /upload:
+    post:
+      summary: upload a file
+      operationId: uploadexample.upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                upload:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string

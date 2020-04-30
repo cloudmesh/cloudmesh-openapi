@@ -129,6 +129,8 @@ class Server(object):
         if foreground:
             self._run_app()
         else:
+            # We need below if condition for window machine. In window machine pid = os.fork()
+            # does not work. So do not remove if condition.
             if sys.platform == 'win32':
                 pid = self.run_os()
             else:
