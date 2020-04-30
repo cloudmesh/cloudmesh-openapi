@@ -61,7 +61,7 @@ class Server(object):
 
         self.host = host or "127.0.0.1"
         self.port = port or 8080
-        self.debug = debug or True
+        self.debug = debug or False
         self.server = server or "flask"
         self.server_command = ""
 
