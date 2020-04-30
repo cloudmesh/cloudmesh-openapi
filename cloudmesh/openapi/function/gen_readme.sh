@@ -1,7 +1,7 @@
 #!/bin/bash
 ##########################
 
-md_name="function"
+md_name=`basename $PWD`
 
 # do pip install of sphinx and sphinx-markdown-builder:  
 # pip install sphinx sphinx-markdown-builder
@@ -31,5 +31,5 @@ make markdown
 
 # copy generated markdown to permanent location as README and cleanup
 
-mv _build/markdown/${md_name}.md ../README.md
+cp _build/markdown/${md_name}.md ../
 cd ..; rm -r sphinx-docs;
