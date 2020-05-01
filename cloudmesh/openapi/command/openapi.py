@@ -113,12 +113,15 @@ class OpenapiCommand(PluginCommand):
                                          [--yamlfile=YAML]
                                          [--import_class]
                                          [--all_functions]
+                                         [--enable_upload]
                                          [--verbose]
                 Generates an OpenAPI specification for FUNCTION in FILENAME and
                 writes the result to YAML. Use --import_class to import a class
                 with its associated class methods, or use --all_functions to 
                 import all functions in FILENAME. These options ignore functions
-                whose names start with '_'
+                whose names start with '_'. Use --enable_upload to add file
+                upload functionality to a copy of your python file and the
+                resulting yaml file.
 
             openapi server start YAML [NAME]
                               [--directory=DIRECTORY]
@@ -129,15 +132,17 @@ class OpenapiCommand(PluginCommand):
                               [--debug]
                               [--fg]
                               [--os]
-                TODO: add description
+                starts an openapi web service using YAML as a specification
+                TODO: directory is hard coded as None, and in server.py it
+                  defaults to the directory where the yaml file lives. Can
+                  we just remove this argument?
 
             openapi server stop NAME
                 stops the openapi service with the given name
                 TODO: where does this command has to be started from
 
             openapi server list [NAME] [--output=OUTPUT]
-                Provides a list of all OpenAPI services.
-                TODO: Is thhis command is the same a register list?
+                Provides a list of all OpenAPI services in the registry
 
             openapi server ps [NAME] [--output=OUTPUT]
                 list the running openapi service
@@ -242,7 +247,7 @@ class OpenapiCommand(PluginCommand):
                     func_objects = {}
                     for attr_name in dir(class_obj):
                         attr = getattr(class_obj, attr_name)                        
-                        if isinstance(attr, types.MethodType) and attr_name[0] is not '_':
+                        if isinstance(attr, types.MethodType) and attr_name[0] != '_':
                             # are we sure this is right?
                             # would probably create a valid openapi yaml, but not technically accurate
                             # module.function may work but it should be module.Class.function
@@ -266,7 +271,7 @@ class OpenapiCommand(PluginCommand):
                 elif arguments.all_functions:
                     func_objects = {}
                     for attr_name in dir(imported_module):
-                        if type(getattr(imported_module, attr_name)).__name__ == 'function' and attr_name[0] is not '_':
+                        if type(getattr(imported_module, attr_name)).__name__ == 'function' and attr_name[0] != '_':
                             func_obj = getattr(imported_module, attr_name)
                             setattr(sys.modules[module_name], attr_name, func_obj)
                             func_objects[attr_name] = func_obj
@@ -332,7 +337,7 @@ class OpenapiCommand(PluginCommand):
         elif arguments.server and arguments.list:
 
             try:
-                result = Server.list(self, name=arguments.NAME)
+                result = Server.list(name=arguments.NAME)
 
                 # BUG: order= nt yet defined
 
@@ -427,14 +432,15 @@ class OpenapiCommand(PluginCommand):
             except ConnectionError:
                 Console.error("Server not running")
 
-        elif arguments.sklearn:
+        elif arguments.sklearn and not arguments.upload:
 
             try:
                 Sklearngenerator(input_sklibrary=arguments.FUNCTION,
                                  model_tag=arguments.MODELTAG)
             except Exception as e:
                 print(e)
-
+        
+        #TODO: implement this?
         elif arguments.sklearn and arguments.upload:
 
             try:
