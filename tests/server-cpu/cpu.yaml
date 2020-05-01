@@ -12,7 +12,7 @@ paths:
      get:
       summary: "The name of the processor"
       description: Optional extended description in CommonMark or HTML.
-      operationId: cpu.get_processor_name
+      operationId: cpu_upload-enabled.get_processor_name
         
       responses:
         '200':
@@ -21,4 +21,26 @@ paths:
             text/plain:
               schema:
                 type: string
+
+  /upload:
+    post:
+      summary: upload a file
+      operationId: cpu_upload-enabled.upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                upload:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+
 

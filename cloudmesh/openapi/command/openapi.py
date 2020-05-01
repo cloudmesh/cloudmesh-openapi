@@ -6,6 +6,7 @@ import types
 from dataclasses import is_dataclass
 from importlib import import_module
 from pathlib import Path
+from shutil import copyfile
 
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.console import Console
@@ -39,6 +40,7 @@ class OpenapiCommand(PluginCommand):
                                          [--yamlfile=YAML]
                                          [--import_class]
                                          [--all_functions]
+                                         [--enable_upload]
                                          [--verbose]
               openapi server start YAML [NAME]
                               [--directory=DIRECTORY]
@@ -169,6 +171,7 @@ class OpenapiCommand(PluginCommand):
                        'name',
                        'import_class',
                        'all_functions',
+                       'enable_upload',
                        'host')
         arguments.debug = arguments.verbose
 
@@ -190,6 +193,33 @@ class OpenapiCommand(PluginCommand):
                 serverurl = p.serverurl # http://localhost:8080/cloudmesh/
                 module_name = p.module_name # myfile
                 
+                enable_upload = arguments.enable_upload
+                # append the upload function to the end of a copy of the file if not already done
+                if enable_upload:
+                    uploadPython = textwrap.dedent("""
+                        from cloudmesh.openapi.registry.fileoperation import FileOperation
+                        
+                        def upload() -> str:
+                            filename=FileOperation().file_upload()
+                            return filename
+                        
+                        #### upload functionality added
+                        """)
+                    upload_added = False
+                    for line in open(filename):
+                        if '#### upload functionality added' in line:
+                            upload_added = True
+                    if not upload_added:
+                        filename_upload = filename.replace('.py', '_upload-enabled.py')
+                        copyfile(filename, filename_upload)
+                        Console.info(f'copied {filename} to {filename_upload}')
+                        filename = filename_upload
+                        module_name = module_name + '_upload-enabled'
+                        with open(filename, 'a') as f:
+                            f.write('\n')
+                            f.write(uploadPython)
+                        Console.info(f'added upload functionality to {filename}')
+
                 # Parameter() takes care of putting the filename in the path
                 imported_module = import_module(module_name)
                 dataclass_list = []
@@ -199,7 +229,11 @@ class OpenapiCommand(PluginCommand):
                         dataclass_list.append(attr)
                 # not currently supporting multiple functions or all functions
                 # could do comma-separated function/class names
-                
+
+                if enable_upload:
+                    upload_obj = getattr(imported_module, 'upload')
+                    setattr(sys.modules[module_name], 'upload', upload_obj)
+
                 if arguments.import_class:
                     class_obj = getattr(imported_module, function)
                     # do we maybe need to do this here?
@@ -217,7 +251,6 @@ class OpenapiCommand(PluginCommand):
                         elif is_dataclass(attr):
                             dataclass_list.append(attr)
                     openAPI = generator.Generator()
-                    # TODO: fix all function support at some point, maybe
                     Console.info('Generating openapi for class: ' + class_obj.__name__)
                     openAPI.generate_openapi_class(class_name = class_obj.__name__,
                                                    class_description = class_description,
@@ -228,6 +261,7 @@ class OpenapiCommand(PluginCommand):
                                                    yamlfile = yamlfile,
                                                    dataclass_list = dataclass_list, 
                                                    all_function = False,
+                                                   enable_upload = enable_upload,
                                                    write=True)
                 elif arguments.all_functions:
                     func_objects = {}
@@ -247,6 +281,7 @@ class OpenapiCommand(PluginCommand):
                                                    yamlfile = yamlfile,
                                                    dataclass_list = dataclass_list,
                                                    all_function = True,
+                                                   enable_upload = enable_upload,
                                                    write = True)
                                                    
                 else:
@@ -260,6 +295,7 @@ class OpenapiCommand(PluginCommand):
                                              outdir = directory,
                                              yamlfile = yamlfile,
                                              dataclass_list = dataclass_list,
+                                             enable_upload = enable_upload,
                                              write = True)
                 
             except Exception as e:
