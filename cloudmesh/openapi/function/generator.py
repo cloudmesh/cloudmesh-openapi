@@ -35,6 +35,7 @@ class Generator:
                 {parameters}
               responses:
                 {responses}
+        {upload}
         {components}
         """)
 
@@ -49,8 +50,33 @@ class Generator:
             description: "{description}"
         paths:
           {paths}
+        {upload}
         {components}
         """)
+
+    uploadTemplate = textwrap.dedent("""
+        /upload:
+          post:
+            summary: upload a file
+            operationId: {filename}.upload
+            requestBody:
+              content:
+                multipart/form-data:
+                  schema:
+                    type: object
+                    properties:
+                      upload:
+                        type: string
+                        format: binary
+            responses:
+              '200':
+                description: "OK"
+                content:
+                  text/plain:
+                    schema:
+                      type: string
+                      """)
+
 
     def parse_type(self, _type):
         """
@@ -343,6 +369,7 @@ class Generator:
                                yamlfile=None,
                                dataclass_list=None,
                                all_function=False,
+                               enable_upload=False,
                                write=True):
         """
         function to generate open API of python function.
@@ -439,6 +466,11 @@ class Generator:
                 schemas = schemas + textwrap.indent(self.generate_schema(dc), ' ' * 6)
         VERBOSE(components, label="openapi function components")
 
+        upload = ''
+        if enable_upload:
+            upload = self.uploadTemplate.format(filename=filename)
+            upload = textwrap.indent(upload, ' ' * 2)
+
         # Update openapi template to create final version of openapi yaml
         spec = self.openAPITemplate2.format(
             title=class_name,
@@ -447,6 +479,7 @@ class Generator:
             paths=paths.strip(),
             serverurl=serverurl,
             filename=filename,
+            upload=upload,
             components=components.strip()
         )
 
@@ -471,6 +504,7 @@ class Generator:
                          outdir=None,
                          yamlfile=None,
                          dataclass_list=None,
+                         enable_upload=False,
                          write=True):
         """
         function to generate open API of python function.
@@ -521,9 +555,12 @@ class Generator:
 
         VERBOSE(components, label="openapi function components")
 
-        # TODO: figure out where to define dataclasses and how
-        #  best to pass them to generate_schema()
         filename = pathlib.Path(filename).stem
+        upload=''
+        if enable_upload:
+            upload = self.uploadTemplate.format(filename=filename)
+            upload = textwrap.indent(upload, ' ' * 2)
+
         spec = self.openAPITemplate.format(
             title=title,
             name=f.__name__,
@@ -533,6 +570,7 @@ class Generator:
             responses=responses.strip(),
             serverurl=serverurl,
             filename=filename,
+            upload=upload,
             components=components
         )
 
