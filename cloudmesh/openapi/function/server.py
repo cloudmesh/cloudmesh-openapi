@@ -16,12 +16,18 @@ from cloudmesh.openapi.registry.Registry import Registry
 
 
 def daemon(func):
+    """
+    Decorator used to execute a Connexion flask app as a daemon
+
+    :param func:
+    :return:
+    """
     def wrapper(*args, **kwargs):
         pid = os.fork()
         global daemonpid
         if pid != 0:
             daemonpid = pid
-            print ("Deamon PID", pid)
+            print("Deamon PID", pid)
 
         if pid: return
         r = func(*args, **kwargs)
@@ -35,7 +41,12 @@ def dynamic_import(abs_module_path, class_name):
     target_class = getattr(module_object, class_name)
     return target_class
 
+
 class Server(object):
+    """
+    This class manages all actions taken to interact with an OpenAPI AI server.
+
+    """
 
     def __init__(self,
                  name=None,
@@ -48,7 +59,6 @@ class Server(object):
         if spec is None:
             Console.error("No service specification file defined")
             raise FileNotFoundError
-
 
         self.spec = path_expand(spec)
 
@@ -78,16 +88,23 @@ class Server(object):
                 Console.error(
                     "tornado not install. Please use `pip install tornado`")
                 sys.exit(1)
-                return ""
+                # return ""
             if self.debug:
                 Console.error("Tornado does not support --verbose")
                 sys.exit(1)
-                return ""
+                # return ""
 
         Console.ok(self.directory)
 
     @staticmethod
     def get_name(name, spec):
+        """
+        Get the name of a server using specification
+
+        :param name:
+        :param spec:
+        :return:
+        """
         if name is None:
             return os.path.basename(spec).replace(".yaml", "")
         else:
@@ -95,9 +112,19 @@ class Server(object):
 
     @daemon
     def _run_deamon(self):
+        """
+        Starts up a Connexion flask app as a daemon process
+
+        :return:
+        """
         self._run_app()
 
     def _run_app(self):
+        """
+        Starts up a Connexion flask app
+
+        :return:
+        """
         Console.ok("starting server")
 
         sys.path.append(self.directory)
@@ -113,7 +140,7 @@ class Server(object):
 
     def start(self, name=None, spec=None, foreground=False):
         """
-        Start up an openapi server
+        Start up an OpenApi server
 
         :param name:
         :param spec:
@@ -156,7 +183,6 @@ class Server(object):
 
                 print()
 
-
                 registry = Registry()
                 registry.add_form_file(details,
                                        pid=pid,
@@ -171,6 +197,13 @@ class Server(object):
 
     @staticmethod
     def ps(name=None):
+        """
+        List all of the actively running servers or if name is provided return whether the server is running
+
+        :param name:
+        :return:
+        """
+
         pids = []
 
         result = Shell.ps()
@@ -197,30 +230,11 @@ class Server(object):
                     pids.append({"name": name, "pid": pinfo['pid'], "spec": info})
         print(pids)
         return pids
-        '''for pinfo in result:
-            if "openapi server start" in pinfo:
-                pinfo = pinfo.split(" ")
-                info = pinfo[11]
-                if name is None:
-                    name = os.path.basename(
-                        pinfo[11].split("."))
-                if name is not None and name in pinfo:
-                    pids.append(
-                        {"name": pinfo[12], "pid": pinfo[0], "spec": info})
-                else:
-                    pids.append(
-                        {"name": name, "pid": pinfo[0], "spec": info})
-            elif "cmsoaserver.py" in pinfo and sys.platform == 'win32':
-                info = pinfo.split("python.exe")[1].strip()
-                if name is None:
-                    name = Path(info).stem.split("_")[0].strip()
-                pids.append({"name": name, "pid": pinfo['pid'], "spec": info})
-        return pids'''
 
     @staticmethod
     def list(name=None):
         """
-        Lists the servises registered
+        Lists the servers that have been registered in Registry
 
         :param name:
         :return:
@@ -233,7 +247,7 @@ class Server(object):
     @staticmethod
     def stop(name=None):
         """
-        Stop a running server
+        Stop a running OpenApi server
 
         :param name:
         :return:
@@ -245,6 +259,7 @@ class Server(object):
 
         entries = registry.list(name=name)
         pid = ""
+        result = None
         if len(entries) > 1:
             Console.error(f"Aborting, returned more than one entry from the Registry with the name {name}")
             raise Exception
@@ -252,7 +267,6 @@ class Server(object):
             pid = str(entries[0]['pid'])
         else:
             result = Server.ps(name=name)
-            #pid = str(result[0]["pid"])
 
         try:
             if len(pid) > 0:  # check if pid found in registry and if found kill
