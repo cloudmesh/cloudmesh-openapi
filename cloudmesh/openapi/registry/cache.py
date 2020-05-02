@@ -9,7 +9,11 @@ from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.Benchmark import Benchmark
 import os
 
+
 class ResultCache:
+    """
+    Saves serialized model to local cache and saves metadata to local db
+    """
 
     def __init__(self):
         pass
