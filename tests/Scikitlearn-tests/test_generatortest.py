@@ -27,8 +27,7 @@ class LogisticRegressiontest:
 
     def fit(X,y,sample_weight,X_shape_x,X_shape_y):
         """
-        function to test if the server is started and available to return
-        a successful http code
+        function to test the fit function
         """
         HEADING()
         Benchmark.Start()
@@ -38,8 +37,7 @@ class LogisticRegressiontest:
 
     def score(X,y,sample_weight,X_shape_x,X_shape_y):
         """
-        function to test if the server is started and available to return
-        a successful http code
+        function to test the score function
         """
         HEADING()
         Benchmark.Start()
@@ -49,8 +47,7 @@ class LogisticRegressiontest:
 
     def predict_proba(X,X_shape_x,X_shape_y):
         """
-        function to test if the server is started and available to return
-        a successful http code
+        function to test the predict_proba
         """
         HEADING()
         Benchmark.Start()
@@ -60,8 +57,7 @@ class LogisticRegressiontest:
 
     def predict_log_proba(X,X_shape_x,X_shape_y):
         """
-        function to test if the server is started and available to return
-        a successful http code
+        function to test the predict_log_proba
         """
         HEADING()
         Benchmark.Start()
@@ -71,8 +67,7 @@ class LogisticRegressiontest:
 
     def predict(X,X_shape_x,X_shape_y):
         """
-        function to test if the server is started and available to return
-        a successful http code
+        function to test the predict
         """
         HEADING()
         Benchmark.Start()
