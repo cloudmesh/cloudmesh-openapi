@@ -6,6 +6,17 @@
 import os
 import time
 from pprint import pprint
+
+import pytest
+import tests.util as util
+from cloudmesh.common.Benchmark import Benchmark
+from cloudmesh.common.Shell import Shell
+from cloudmesh.common.util import HEADING
+#variable=Variables()
+#filename= variable['filename']
+import os
+import time
+from pprint import pprint
 import sys
 sys.path.append("./tests/Scikitlearn-tests")
 from cloudmesh.openapi.scikitlearn import SklearnGenerator
@@ -23,57 +34,58 @@ X_shape_x = 4
 X_shape_y = 2
 
 @pytest.mark.incremental
-class LogisticRegressiontest:
+class Test:
 
-    def fit(X,y,sample_weight,X_shape_x,X_shape_y):
+    def test_fit(self):
         """
-        function to test the fit function
+        function to test the fit
         """
+
         HEADING()
         Benchmark.Start()
         LogisticRegression.fit(X,y,sample_weight,X_shape_x,X_shape_y)
         Benchmark.Stop()
         assert True
 
-    def score(X,y,sample_weight,X_shape_x,X_shape_y):
+    def test_score(self):
         """
-        function to test the score function
+        function to test the score
         """
         HEADING()
         Benchmark.Start()
-        LogisticRegression.score(X,y,sample_weight,X_shape_x,X_shape_y)
+        score = LogisticRegression.score(X,y,sample_weight,X_shape_x,X_shape_y)
         Benchmark.Stop()
-        assert True
+        assert score > 0
 
-    def predict_proba(X,X_shape_x,X_shape_y):
+    def test_predict_proba(self):
         """
         function to test the predict_proba
         """
         HEADING()
         Benchmark.Start()
-        LogisticRegression.predict_proba(X,y,sample_weight,X_shape_x,X_shape_y)
+        LogisticRegression.predict_proba(X,X_shape_x,X_shape_y)
         Benchmark.Stop()
         assert True
 
-    def predict_log_proba(X,X_shape_x,X_shape_y):
+    def test_predict_log_proba(self):
         """
         function to test the predict_log_proba
         """
         HEADING()
         Benchmark.Start()
-        LogisticRegression.predict_log_proba(X,y,sample_weight,X_shape_x,X_shape_y)
+        LogisticRegression.predict_log_proba(X,X_shape_x,X_shape_y)
         Benchmark.Stop()
         assert True
 
-    def predict(X,X_shape_x,X_shape_y):
+    def test_predict(self):
         """
         function to test the predict
         """
         HEADING()
         Benchmark.Start()
-        LogisticRegression.predict(X,y,sample_weight,X_shape_x,X_shape_y)
+        LogisticRegression.predict(X,X_shape_x,X_shape_y)
         Benchmark.Stop()
         assert True
 
     def test_benchmark(self):
-        Benchmark.print(sysinfo=True, csv=True, tag=service)
+        Benchmark.print(sysinfo=True, csv=True)
