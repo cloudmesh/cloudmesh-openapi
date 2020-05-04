@@ -5,6 +5,10 @@ from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 
 
 class Registry:
+    """
+      This class will help to register service into db.
+      which later use to stop server.
+    """
     kind = "register"
 
     collection = "local-registry"
