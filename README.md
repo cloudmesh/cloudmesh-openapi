@@ -189,7 +189,7 @@ openapi register list [NAME] [--output=OUTPUT]
 openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
 openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
 openapi TODO doc [SERVICES...] [--dir=DIR]
-openapi sklearn generate FUNCTION MODELTAG
+openapi sklearn FUNCTION MODELTAG
 openapi sklearn upload --filename=FILENAME
 
 Arguments:
