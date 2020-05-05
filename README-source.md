@@ -387,7 +387,20 @@ merge [APIS...] - > single.yaml
 
 ### Google
 
-* Andrew
+After you create your google cloud account, it is recommended to download and install Google's [Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts).
+This will enable CLI. Make sure you enable all the required services. 
+
+For example:
+
+`gcloud services enable servicemanagement.googleapis.com`
+<BR>
+`gcloud services enable servicecontrol.googleapis.com`
+<BR>
+`gcloud services enable endpoints.googleapis.com`
+
+and any other services you might be using for your specific Cloud API function. 
+
+
 
 ### AWS
 
