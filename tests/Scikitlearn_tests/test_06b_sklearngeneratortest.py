@@ -7,22 +7,14 @@ import os
 import time
 from pprint import pprint
 
-import pytest
-import tests.util as util
+
 from cloudmesh.common.Benchmark import Benchmark
-from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
-#variable=Variables()
-#filename= variable['filename']
-import os
-import time
-from pprint import pprint
-import sys
-sys.path.append("./tests/Scikitlearn-tests")
-from cloudmesh.openapi.scikitlearn import SklearnGenerator
 from tests.generator import LogisticRegression
+
+import sys
+sys.path.append("./tests/Scikitlearn_tests")
 import pytest
-from cloudmesh.common.dotdict import dotdict
 
 filename="./tests/generator/LogisticRegression.py"
 all_functions= True
