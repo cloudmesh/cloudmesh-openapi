@@ -252,32 +252,17 @@ merge [APIS...] - > single.yaml
 
 ## sckit learn
 
-```
---output=yaml
---output=function
-
-generatie a function by hand, where is the documentation, where are
-the links ???
-
-This motivates doing it automatically.
-
-def param(name, type, description):
-	t1 = f":param {{name}}: {{description}}"
-    t2 = f":type {{type}}"
-	return t
 
 
+Cms command to generate the py file for SKlearn function
 
-spec -> function.py with typing -> generator -> yaml
+cms openapi sklearn sklearn.linear_model.LogisticRegression Logregpytest
 
-spec -> yaml
+Generating Logistic regression Pytest
 
-cms generate --sckitlearn --name=abc --function="LinearRegression().fit" -> LinearRegression_fit.yaml
-
-cms generate --sckitlearn --name=abc --function="LinearRegression().predict,LinearRegression().fit"  -> LinearRegression_abc.yaml
-
-cms generate --sckitlearn --class="LinearRegression"  -> LinearRegression.yaml
-
-	* integrate all methods in the class
-```
+ pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
+ 
+ Testing the functions in the Logistic regression 
+ 
+ pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
 
