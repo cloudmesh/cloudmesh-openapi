@@ -423,33 +423,40 @@ and any other services you might be using for your specific Cloud API function.
 
 
 
-## sckit learn
+## scikit learn
 
-```
---output=yaml
---output=function
+Before running these commands Please install Cloudmesh-openapi and test a Quickstart for configuration
+checks.
 
-generatie a function by hand, where is the documentation, where are
-the links ???
+## Run all these commands from the cloudmesh-openapi directory.
 
-This motivates doing it automatically.
+* This Command will generate the .py file for the module in the Scikit learn.
 
-def param(name, type, description):
-	t1 = f":param {name}: {description}"
-    t2 = f":type {type}"
-	return t
+  cms openapi sklearn  sklearn.linear_model.LinearRegression Linregpytest
+
+* Generate the .yaml from the sklearn py file.
+
+  cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions
+
+* Start the Server from the .yaml file
+
+  cms openapi server start ./tests/generator/LinearRegression.yaml
+
+  Access the URL at http://localhost:8080/cloudmesh/ui/
+
+* Stop the Server 
+
+  Replace the PID of the server in the below command to stop the server.
+
+  cms openapi server stop PID
 
 
+## Pytests for Scikit learn tests.
 
-spec -> function.py with typing -> generator -> yaml
+* Generate the .py for the Scikit learn module
 
-spec -> yaml
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
 
-cms generate --sckitlearn --name=abc --function="LinearRegression().fit" -> LinearRegression_fit.yaml
+* Running Pytests for the LinearRegression.py generated from 6a pytest
 
-cms generate --sckitlearn --name=abc --function="LinearRegression().predict,LinearRegression().fit"  -> LinearRegression_abc.yaml
-
-cms generate --sckitlearn --class="LinearRegression"  -> LinearRegression.yaml
-
-	* integrate all methods in the class
-```
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py

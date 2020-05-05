@@ -17,8 +17,8 @@ from cloudmesh.openapi.scikitlearn import SklearnGenerator
 import pytest
 all_functions= True
 import_class=False
-input_sklibrary = 'sklearn.linear_model.LogisticRegression'
-model_tag = 'Logregpytest'
+input_sklibrary = 'sklearn.linear_model.LinearRegression'
+model_tag = 'Linregpytest'
 
 @pytest.mark.incremental
 class Test:
