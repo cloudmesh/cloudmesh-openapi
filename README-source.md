@@ -254,11 +254,11 @@ merge [APIS...] - > single.yaml
 
 
 
-Cms command to generate the py file for SKlearn function
+* Cms command to generate the py file for SKlearn function
 
 cms openapi sklearn sklearn.linear_model.LogisticRegression Logregpytest
 
-Generating Logistic regression Pytest
+* Generating Logistic regression Pytest
 
  pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
  
