@@ -432,6 +432,8 @@ cms openapi server start ./tests/generator/LinearRegression.yaml
 
 [Access the URL at](http://localhost:8080/cloudmesh/ui/) 
 
+[Access the URL at](https://www.google.com/)
+
 4. Stop the Server 
 
 Replace the PID of the server in the below command to stop the server.
