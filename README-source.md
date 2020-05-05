@@ -1,8 +1,18 @@
 # Cloudmesh OpenAPI Merge
 
-{icons}
 
-{warning}
+[![image](https://img.shields.io/travis/TankerHQ/cloudmesh-openapi.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesh-openapi)
+[![image](https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi)
+[![image](https://img.shields.io/pypi/v/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi/)
+[![image](https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg)](https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE)
+
+
+
+> **Note:** The README.md page is outomatically generated, do not edit it.
+> To modify  change the content in
+> <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md>
+> Curley brackets must use two in README-source.md
+
 
 ## Prerequisits
 
@@ -152,66 +162,216 @@ is:
 
 ## Manual
 
-{manual}
+```bash
+Usage:
+openapi generate [FUNCTION] --filename=FILENAME
+                         [--serverurl=SERVERURL]
+                         [--yamlfile=YAML]
+                         [--import_class]
+                         [--all_functions]
+                         [--verbose]
+openapi server start YAML [NAME]
+              [--directory=DIRECTORY]
+              [--port=PORT]
+              [--server=SERVER]
+              [--host=HOST]
+              [--verbose]
+              [--debug]
+              [--fg]
+              [--os]
+openapi server stop NAME
+openapi server list [NAME] [--output=OUTPUT]
+openapi server ps [NAME] [--output=OUTPUT]
+openapi register add NAME ENDPOINT
+openapi register filename NAME
+openapi register delete NAME
+openapi register list [NAME] [--output=OUTPUT]
+openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
+openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
+openapi TODO doc [SERVICES...] [--dir=DIR]
+openapi sklearn generate FUNCTION MODELTAG
+openapi sklearn upload --filename=FILENAME
+
+Arguments:
+FUNCTION  The name for the function or class
+MODELTAG  The arbirtary name choosen by the user to store the Sklearn trained model as Pickle object
+FILENAME  Path to python file containing the function or class
+SERVERURL OpenAPI server URL Default: https://localhost:8080/cloudmesh
+YAML      Path to yaml file that will contain OpenAPI spec. Default: FILENAME with .py replaced by .yaml
+DIR       The directory of the specifications
+FILE      The specification
+
+Options:
+--import_class         FUNCTION is a required class name instead of an optional function name
+--all_functions        Generate OpenAPI spec for all functions in FILENAME
+--debug                Use the server in debug mode
+--verbose              Specifies to run in debug mode
+                     [default: False]
+--port=PORT            The port for the server [default: 8080]
+--directory=DIRECTORY  The directory in which the server is run
+--server=SERVER        The server [default: flask]
+--output=OUTPUT        The outputformat, table, csv, yaml, json
+                     [default: table]
+--srcdir=SRCDIR        The directory of the specifications
+--destdir=DESTDIR      The directory where the generated code
+                     is placed
+
+Description:
+This command does some useful things.
+
+openapi TODO doc FILE --format=(txt|md|rst) [--indent=INDENT]
+Sometimes it is useful to generate teh openaopi documentation
+in another format. We provide fucntionality to generate the
+documentation from the yaml file in a different formt.
+
+openapi TODO doc --format=(txt|md|rst) [SERVICES...]
+Creates a short documentation from services registered in the
+registry.
+
+openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
+Merges tow service specifications into a single servoce
+TODO: do we have a prototype of this?
+
+
+openapi sklearn sklearn.linear_model.LogisticRegression
+Generates the
+
+openapi generate [FUNCTION] --filename=FILENAME
+                         [--serverurl=SERVERURL]
+                         [--yamlfile=YAML]
+                         [--import_class]
+                         [--all_functions]
+                         [--verbose]
+Generates an OpenAPI specification for FUNCTION in FILENAME and
+writes the result to YAML. Use --import_class to import a class
+with its associated class methods, or use --all_functions to 
+import all functions in FILENAME. These options ignore functions
+whose names start with '_'
+
+openapi server start YAML [NAME]
+              [--directory=DIRECTORY]
+              [--port=PORT]
+              [--server=SERVER]
+              [--host=HOST]
+              [--verbose]
+              [--debug]
+              [--fg]
+              [--os]
+TODO: add description
+
+openapi server stop NAME
+stops the openapi service with the given name
+TODO: where does this command has to be started from
+
+openapi server list [NAME] [--output=OUTPUT]
+Provides a list of all OpenAPI services.
+TODO: Is thhis command is the same a register list?
+
+openapi server ps [NAME] [--output=OUTPUT]
+list the running openapi service
+
+openapi register add NAME ENDPOINT
+Openapi comes with a service registry in which we can register
+openapi services.
+
+openapi register filename NAME
+In case you have a yaml file the openapi service can also be
+registerd from a yaml file
+
+openapi register delete NAME
+Deletes the names service from the registry
+
+openapi register list [NAME] [--output=OUTPUT]
+Provides a list of all registerd OpenAPI services
+
+
+```
+
 
 
 ## Pytests
 
-TODO: How to run them
-
-{tests}
+Please follow [Pytest Information](tests/README.md) document for pytests related information
 
 ## Examples
 
-TBD
+### One function in python file
 
-??????
+1. Please check [Python file](tests/server-cpu/cpu.py).
 
-### One function in function.py
-
-cms openapi generate function.py -> function.yaml
-
-
-Bugs: docstring is not yet in the yaml from the function
-
-function.py
+1. Run below command to generate yaml file
 
 ```
-def a(x:int, y:int):
-return 1
+cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
 ```
 
-### Multiple functions in function.py
+### Multiple functions in python file
+
+1. Please check [Python file](tests/generator-calculator/calculator.py)
+
+1. Run below command to generate yaml file
 
 ```
-cms openapi generate function.py [--names=a,c] -> function.yaml
- #dont include b
+cms openapi generate --filename=./tests/generator-calculator/calculator.py --all_functions
 ```
 
-cms openapi generate function.py -> function.yaml
+### function(s) in python class file
 
-function.py
+1. Please check [Python file](tests/generator-testclass/calculator.py)
 
-functions = list all functions in file
+1. Run below command to generate yaml file
 
 ```
-def a(x:int, y:int):
-	r = b(x,y)
-	return 3
-
-def b(x:int, y:int):
-	return 1
-
-def c(x:int, y:int):
-	return 1
+cms openapi generate --filename=./tests/generator-testclass/calculator.py --import_class"
 ```
+
 
 ### Uploading data
 
-Always the same
-so we can preimplement
+Please follow [Python file example](tests/generator-upload/uploadexample.py) and [Yaml file example](tests/generator-upload/uploadexample.yaml)
 
-abc.txt -> /data/xyz/klmn.txt
+Currently you need to manually add yaml code to your yaml file which was generated by generator. 
+
+#### Steps
+
+Copy below code contains to your yaml file
+
+```
+/upload:
+    post:
+      summary: upload a file
+      operationId: uploadexample.upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                upload:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+```
+
+Copy below code contains to your py file
+
+```
+from cloudmesh.openapi.registry.fileoperation import FileOperation
+
+def upload() -> str:
+
+    filename=FileOperation().file_upload()
+    return filename
+```
+
+Start server , now you will see upload api and when you upload any file, it will go to "/.cloudmesh/upload-file" folder
+ 
 
 ### Downloading data
 
@@ -252,17 +412,31 @@ merge [APIS...] - > single.yaml
 
 ## sckit learn
 
+```
+--output=yaml
+--output=function
+
+generatie a function by hand, where is the documentation, where are
+the links ???
+
+This motivates doing it automatically.
+
+def param(name, type, description):
+	t1 = f":param {name}: {description}"
+    t2 = f":type {type}"
+	return t
 
 
-* Cms command to generate the py file for SKlearn function
 
-cms openapi sklearn sklearn.linear_model.LogisticRegression Logregpytest
+spec -> function.py with typing -> generator -> yaml
 
-* Generating Logistic regression Pytest
+spec -> yaml
 
- pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
- 
- Testing the functions in the Logistic regression 
- 
- pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
+cms generate --sckitlearn --name=abc --function="LinearRegression().fit" -> LinearRegression_fit.yaml
 
+cms generate --sckitlearn --name=abc --function="LinearRegression().predict,LinearRegression().fit"  -> LinearRegression_abc.yaml
+
+cms generate --sckitlearn --class="LinearRegression"  -> LinearRegression.yaml
+
+	* integrate all methods in the class
+```
