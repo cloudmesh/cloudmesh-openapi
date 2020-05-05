@@ -412,40 +412,38 @@ merge [APIS...] - > single.yaml
 
 ## scikit learn
 
-```
 Before running these commands Please install Cloudmesh-openapi and test a Quickstart for confifuration
 checks.
 
-Run all these commands from the cloudmesh-openapi directory.
+## Run all these commands from the cloudmesh-openapi directory.
 
-1. This Command will the .py file for the module in the Scikit learn.
+* This Command will the .py file for the module in the Scikit learn.
 
 cms openapi sklearn  sklearn.linear_model.LinearRegression Linregpytest
 
-2. Generate the .yaml from the sklearn py file.
+* Generate the .yaml from the sklearn py file.
 
 cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions
 
-3. Start the Server from the .yaml file
+* Start the Server from the .yaml file
 
 cms openapi server start ./tests/generator/LinearRegression.yaml
 
 Access the URL at http://localhost:8080/cloudmesh/ui/
 
-
-4. Stop the Server 
+* Stop the Server 
 
 Replace the PID of the server in the below command to stop the server.
 
 cms openapi server stop PID
 
 
-Pytests for Scikit learn tests.
+## Pytests for Scikit learn tests.
 
-1. Generate the .py for the Scikit learn module
+* Generate the .py for the Scikit learn module
 
 pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
 
-2. Running Pytests for the LinearRegression.py generated from 6a pytest
+* Running Pytests for the LinearRegression.py generated from 6a pytest
 
 pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
