@@ -419,31 +419,31 @@ checks.
 
 * This Command will the .py file for the module in the Scikit learn.
 
-cms openapi sklearn  sklearn.linear_model.LinearRegression Linregpytest
+  cms openapi sklearn  sklearn.linear_model.LinearRegression Linregpytest
 
 * Generate the .yaml from the sklearn py file.
 
-cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions
+  cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions
 
 * Start the Server from the .yaml file
 
-cms openapi server start ./tests/generator/LinearRegression.yaml
+  cms openapi server start ./tests/generator/LinearRegression.yaml
 
-Access the URL at http://localhost:8080/cloudmesh/ui/
+  Access the URL at http://localhost:8080/cloudmesh/ui/
 
 * Stop the Server 
 
-Replace the PID of the server in the below command to stop the server.
+  Replace the PID of the server in the below command to stop the server.
 
-cms openapi server stop PID
+  cms openapi server stop PID
 
 
 ## Pytests for Scikit learn tests.
 
 * Generate the .py for the Scikit learn module
 
-pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
 
 * Running Pytests for the LinearRegression.py generated from 6a pytest
 
-pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
