@@ -412,12 +412,12 @@ merge [APIS...] - > single.yaml
 
 ## scikit learn
 
-Before running these commands Please install Cloudmesh-openapi and test a Quickstart for confifuration
+Before running these commands Please install Cloudmesh-openapi and test a Quickstart for configuration
 checks.
 
 ## Run all these commands from the cloudmesh-openapi directory.
 
-* This Command will the .py file for the module in the Scikit learn.
+* This Command will generate the .py file for the module in the Scikit learn.
 
   cms openapi sklearn  sklearn.linear_model.LinearRegression Linregpytest
 
