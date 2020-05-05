@@ -430,7 +430,7 @@ cms openapi generate --filename=./tests/generator/LinearRegression.py --all_func
 
 cms openapi server start ./tests/generator/LinearRegression.yaml
 
-Access the URL at <http://localhost:8080/cloudmesh/ui/>
+[Access the URL at](http://localhost:8080/cloudmesh/ui/) 
 
 4. Stop the Server 
 
