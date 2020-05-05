@@ -10,10 +10,14 @@ import sys
 sys.path.append("./tests/lib")
 from generator_test import GeneratorBaseTest, ServerBaseTest
 import pytest
-from cloudmesh.common.Benchmark import Benchmark
 filename="./tests/server-cms/cms.py"
 all_functions= True
 import_class=False
+from cloudmesh.common.Benchmark import Benchmark
+from cloudmesh.common.debug import VERBOSE
+from cloudmesh.common.util import HEADING
+import requests
+
 
 @pytest.mark.incremental
 class TestGeneratorTestClass():
@@ -46,6 +50,19 @@ class TestGeneratorTestClass():
 
     def test_start_service(self,serverBaseTestFixture):
         serverBaseTestFixture.start_service()
+
+    def test_cpu(self):
+        HEADING()
+        url = f"http://127.0.0.1:8080/cloudmesh/cms/test"
+        Benchmark.Start()
+        payload = {'service': 'value1'}
+        result = requests.get(url, params=payload)
+        assert result.status_code == 200, "Status code value should be 200"
+        assert result.reason == 'OK'
+        assert result.headers['content-type'] == 'text/plain; charset=utf-8'
+        assert result.json().get('test') is not None
+        Benchmark.Stop()
+        VERBOSE(result)
 
     def test_stop_server(self,serverBaseTestFixture):
         serverBaseTestFixture.stop_server()

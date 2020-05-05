@@ -44,25 +44,49 @@ Framework file is present under tests/lib named as generator_test.py
 Below command can use to run your case. Make sure your current directory is cloudmesh-openapi.
 
 ```bash
-$ how do you call this
-pytest -v -x --capture=no tests/generator-calculator/test_01_generator.py
+$ how do you call this you can add -x to stop pytest when first test failed
+pytest -v  --capture=no tests/generator-calculator/test_01_generator.py
 ```
 
 ### Run test case with CSV command enabled
 
 ```bash
-$ how do you call this
-pytest -v -x --capture=no tests/generator-calculator/test_01_generator.py  | fgrep '# cvs'
+$ how do you call this , you can add -x to stop pytest when first test failed
+pytest -v  --capture=no tests/generator-calculator/test_01_generator.py  | fgrep '# cvs'
 ```
 
 
 ## Below are test case files
 
-1. generator-calculator and file name is test_01_generator.py
-1. generator-testclass and file name is test_02_generator.py
-1. server-cpu and file name is test_03_generator.py
-1. server-cms and file name is test_04_generator.py
-1. generator and file name is test_05_generator.py
+Generator-calculator and file name is test_01_generator.py
+
+```
+pytest -v  --capture=no tests/generator-calculator/test_01_generator.py
+```
+
+Generator-testclass and file name is test_02_generator.py
+
+```
+pytest -v --capture=no tests/generator-testclass/test_02_generator
+```
+
+Server-cpu and file name is test_03_generator.py
+
+```
+pytest -v  --capture=no tests/server-cpu/test_03_generator
+```
+
+Server-cms and file name is test_04_generator.py
+
+```
+pytest -v  --capture=no tests/server-cms/test_04_generator
+```
+
+Generator and file name is test_05_generator.py
+
+```
+pytest -v --capture=no tests/generator/test_05_generator
+```
 
 
 <!--## test_001_registry.py

@@ -8,22 +8,23 @@
 
 
 
-> **Note:** The README.md page is outomatically generated, do not edit it.
+> **Note:** The README.md page is automatically generated, do not edit it.
 > To modify  change the content in
 > <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md>
-> Curley brackets must use two in README-source.md
+> curly brackets must use two in README-source.md
 
 
-## Prerequisits
+## Prerequisites
 
 * We use recommend Python 3.8.2 Python or newer.
 * We recommend pip version 20.0.2 or newer
 * We recommend that you use a venv (see developer install)
 * MongoDB installed as regular program not as service
+* Please run cim init command to start mongodb server
 
 We have not checked if it works on older versions.
 
-## Instalation
+## Installation
 
 Make sure that cloudmesh is properly installed on your machine and you
 have mongodb setup to work with cloudmesh.
@@ -32,7 +33,7 @@ More details to setting up mongo can be found in the
 
 * [Cloudmesh Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html)
 
-###  User Instalation
+###  User Installation
 
 Make sure you use a python venv before installing. Users can install the
 code with
@@ -42,7 +43,7 @@ $ pip install cloudmesh-openapi
 ```
 
 
-### Developere Instalation
+### Developer Installation
 
 Developers install also the source code
 
@@ -59,7 +60,29 @@ cloudmesh-installer get openapi
 
 When getting started using the `openapi`, please first call `cms help
 openapi` to see the available functions and options. For your
-convenience we include the manual page later on in this documenth.
+convenience we include the manual page later on in this document.
+
+## Quick steps to generate,start and stop CPU sample example
+
+Navigate to ~/cm/cloudmesh-openaai folder and below commands 
+
+### Generate yaml file
+
+```
+cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
+```
+
+### Start server 
+
+```
+cms openapi server start ./tests/server-cpu/cpu.yaml
+```
+
+### Start server 
+
+```
+cms openapi server stop cpu
+```
 
 ## Usage
 
@@ -299,7 +322,7 @@ Please follow [Pytest Information](tests/README.md) document for pytests related
 
 1. Please check [Python file](tests/server-cpu/cpu.py).
 
-1. Run below command to generate yaml file
+1. Run below command to generate yaml file and start server
 
 ```
 cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
@@ -309,22 +332,29 @@ cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
 
 1. Please check [Python file](tests/generator-calculator/calculator.py)
 
-1. Run below command to generate yaml file
+1. Run below command to generate yaml file and start server
 
 ```
 cms openapi generate --filename=./tests/generator-calculator/calculator.py --all_functions
 ```
 
-### function(s) in python class file
+```
+cms openapi generate server start ./tests/generator-calculator/calculator.py
+```
+
+### Function(s) in python class file
 
 1. Please check [Python file](tests/generator-testclass/calculator.py)
 
-1. Run below command to generate yaml file
+1. Run below command to generate yaml file and start server
 
 ```
 cms openapi generate --filename=./tests/generator-testclass/calculator.py --import_class"
 ```
 
+```
+cms openapi generate server start ./tests/generator-testclass/calculator.py
+```
 
 ### Uploading data
 
