@@ -9,7 +9,11 @@ from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.Benchmark import Benchmark
 import os
 
+
 class ResultCache:
+    """
+    Saves serialized model to local cache and saves metadata to local db
+    """
 
     def __init__(self):
         pass
@@ -81,6 +85,7 @@ class ResultCache:
         StopWatch.stop(f"Load pickle {name}")
         time_taken = StopWatch.get(f"Load pickle {name}")
 
+        # TODO: figure out how useful the duration is and return to client if required
         deserialized_model_dict = {
             "model_name": name,
             "model_object": deserialized_model,

@@ -6,6 +6,7 @@ import types
 from dataclasses import is_dataclass
 from importlib import import_module
 from pathlib import Path
+from shutil import copyfile
 
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.console import Console
@@ -39,6 +40,7 @@ class OpenapiCommand(PluginCommand):
                                          [--yamlfile=YAML]
                                          [--import_class]
                                          [--all_functions]
+                                         [--enable_upload]
                                          [--verbose]
               openapi server start YAML [NAME]
                               [--directory=DIRECTORY]
@@ -59,7 +61,7 @@ class OpenapiCommand(PluginCommand):
               openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
               openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
               openapi TODO doc [SERVICES...] [--dir=DIR]
-              openapi sklearn generate FUNCTION MODELTAG
+              openapi sklearn FUNCTION MODELTAG
               openapi sklearn upload --filename=FILENAME
 
           Arguments:
@@ -111,12 +113,15 @@ class OpenapiCommand(PluginCommand):
                                          [--yamlfile=YAML]
                                          [--import_class]
                                          [--all_functions]
+                                         [--enable_upload]
                                          [--verbose]
                 Generates an OpenAPI specification for FUNCTION in FILENAME and
                 writes the result to YAML. Use --import_class to import a class
                 with its associated class methods, or use --all_functions to 
                 import all functions in FILENAME. These options ignore functions
-                whose names start with '_'
+                whose names start with '_'. Use --enable_upload to add file
+                upload functionality to a copy of your python file and the
+                resulting yaml file.
 
             openapi server start YAML [NAME]
                               [--directory=DIRECTORY]
@@ -127,15 +132,17 @@ class OpenapiCommand(PluginCommand):
                               [--debug]
                               [--fg]
                               [--os]
-                TODO: add description
+                starts an openapi web service using YAML as a specification
+                TODO: directory is hard coded as None, and in server.py it
+                  defaults to the directory where the yaml file lives. Can
+                  we just remove this argument?
 
             openapi server stop NAME
                 stops the openapi service with the given name
                 TODO: where does this command has to be started from
 
             openapi server list [NAME] [--output=OUTPUT]
-                Provides a list of all OpenAPI services.
-                TODO: Is thhis command is the same a register list?
+                Provides a list of all OpenAPI services in the registry
 
             openapi server ps [NAME] [--output=OUTPUT]
                 list the running openapi service
@@ -166,10 +173,10 @@ class OpenapiCommand(PluginCommand):
                        'directory',
                        'yamlfile',
                        'serverurl',
-                       'filename',
                        'name',
                        'import_class',
                        'all_functions',
+                       'enable_upload',
                        'host')
         arguments.debug = arguments.verbose
 
@@ -191,6 +198,33 @@ class OpenapiCommand(PluginCommand):
                 serverurl = p.serverurl # http://localhost:8080/cloudmesh/
                 module_name = p.module_name # myfile
                 
+                enable_upload = arguments.enable_upload
+                # append the upload function to the end of a copy of the file if not already done
+                if enable_upload:
+                    uploadPython = textwrap.dedent("""
+                        from cloudmesh.openapi.registry.fileoperation import FileOperation
+                        
+                        def upload() -> str:
+                            filename=FileOperation().file_upload()
+                            return filename
+                        
+                        #### upload functionality added
+                        """)
+                    upload_added = False
+                    for line in open(filename):
+                        if '#### upload functionality added' in line:
+                            upload_added = True
+                    if not upload_added:
+                        filename_upload = filename.replace('.py', '_upload-enabled.py')
+                        copyfile(filename, filename_upload)
+                        Console.info(f'copied {filename} to {filename_upload}')
+                        filename = filename_upload
+                        module_name = module_name + '_upload-enabled'
+                        with open(filename, 'a') as f:
+                            f.write('\n')
+                            f.write(uploadPython)
+                        Console.info(f'added upload functionality to {filename}')
+
                 # Parameter() takes care of putting the filename in the path
                 imported_module = import_module(module_name)
                 dataclass_list = []
@@ -200,7 +234,11 @@ class OpenapiCommand(PluginCommand):
                         dataclass_list.append(attr)
                 # not currently supporting multiple functions or all functions
                 # could do comma-separated function/class names
-                
+
+                if enable_upload:
+                    upload_obj = getattr(imported_module, 'upload')
+                    setattr(sys.modules[module_name], 'upload', upload_obj)
+
                 if arguments.import_class:
                     class_obj = getattr(imported_module, function)
                     # do we maybe need to do this here?
@@ -209,7 +247,7 @@ class OpenapiCommand(PluginCommand):
                     func_objects = {}
                     for attr_name in dir(class_obj):
                         attr = getattr(class_obj, attr_name)                        
-                        if isinstance(attr, types.MethodType) and attr_name[0] is not '_':
+                        if isinstance(attr, types.MethodType) and attr_name[0] != '_':
                             # are we sure this is right?
                             # would probably create a valid openapi yaml, but not technically accurate
                             # module.function may work but it should be module.Class.function
@@ -218,7 +256,6 @@ class OpenapiCommand(PluginCommand):
                         elif is_dataclass(attr):
                             dataclass_list.append(attr)
                     openAPI = generator.Generator()
-                    # TODO: fix all function support at some point, maybe
                     Console.info('Generating openapi for class: ' + class_obj.__name__)
                     openAPI.generate_openapi_class(class_name = class_obj.__name__,
                                                    class_description = class_description,
@@ -229,11 +266,12 @@ class OpenapiCommand(PluginCommand):
                                                    yamlfile = yamlfile,
                                                    dataclass_list = dataclass_list, 
                                                    all_function = False,
+                                                   enable_upload = enable_upload,
                                                    write=True)
                 elif arguments.all_functions:
                     func_objects = {}
                     for attr_name in dir(imported_module):
-                        if type(getattr(imported_module, attr_name)).__name__ == 'function' and attr_name[0] is not '_':
+                        if type(getattr(imported_module, attr_name)).__name__ == 'function' and attr_name[0] != '_':
                             func_obj = getattr(imported_module, attr_name)
                             setattr(sys.modules[module_name], attr_name, func_obj)
                             func_objects[attr_name] = func_obj
@@ -248,6 +286,7 @@ class OpenapiCommand(PluginCommand):
                                                    yamlfile = yamlfile,
                                                    dataclass_list = dataclass_list,
                                                    all_function = True,
+                                                   enable_upload = enable_upload,
                                                    write = True)
                                                    
                 else:
@@ -261,6 +300,7 @@ class OpenapiCommand(PluginCommand):
                                              outdir = directory,
                                              yamlfile = yamlfile,
                                              dataclass_list = dataclass_list,
+                                             enable_upload = enable_upload,
                                              write = True)
                 
             except Exception as e:
@@ -297,7 +337,7 @@ class OpenapiCommand(PluginCommand):
         elif arguments.server and arguments.list:
 
             try:
-                result = Server.list(self, name=arguments.NAME)
+                result = Server.list(name=arguments.NAME)
 
                 # BUG: order= nt yet defined
 
@@ -343,10 +383,10 @@ class OpenapiCommand(PluginCommand):
 
             registry.Print(data=result, output=arguments.output)
 
-        elif arguments.register and arguments.filename:
+        elif arguments.register and arguments['filename']:
 
             registry = Registry()
-            result = [registry.add_form_file(arguments.filename)]
+            result = [registry.add_form_file(arguments['filename'])]
 
             registry.Print(data=result, output=arguments.output)
 
@@ -392,15 +432,15 @@ class OpenapiCommand(PluginCommand):
             except ConnectionError:
                 Console.error("Server not running")
 
-        elif arguments.sklearn:
-            print(test)
+        elif arguments.sklearn and not arguments.upload:
 
             try:
                 Sklearngenerator(input_sklibrary=arguments.FUNCTION,
                                  model_tag=arguments.MODELTAG)
             except Exception as e:
                 print(e)
-
+        
+        #TODO: implement this?
         elif arguments.sklearn and arguments.upload:
 
             try:

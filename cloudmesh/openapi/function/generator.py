@@ -16,6 +16,7 @@ from docstring_parser import parse
 # TODO: why are we not using Code Format from pyCharm?
 
 class Generator:
+
     openAPITemplate = textwrap.dedent("""
         openapi: 3.0.0
         info:
@@ -35,6 +36,7 @@ class Generator:
                 {parameters}
               responses:
                 {responses}
+        {upload}
         {components}
         """)
 
@@ -49,12 +51,36 @@ class Generator:
             description: "{description}"
         paths:
           {paths}
+        {upload}
         {components}
         """)
 
+    uploadTemplate = textwrap.dedent("""
+        /upload:
+          post:
+            summary: upload a file
+            operationId: {filename}.upload
+            requestBody:
+              content:
+                multipart/form-data:
+                  schema:
+                    type: object
+                    properties:
+                      upload:
+                        type: string
+                        format: binary
+            responses:
+              '200':
+                description: "OK"
+                content:
+                  text/plain:
+                    schema:
+                      type: string
+                      """)
+
     def parse_type(self, _type):
         """
-        function to parse supported openapi data types
+        Function to lookup and output supported OpenApi data type using python data type as input
 
         :param _type:
         :return:
@@ -67,7 +93,7 @@ class Generator:
             'str': 'type: string',
             'list': 'type: array',
             'array': 'type: array',
-            'dict': 'type: object\n        additionalProperties: true'
+            'dict': 'type: object'
         }
 
         if is_dataclass(_type):
@@ -83,13 +109,17 @@ class Generator:
 
     def generate_parameter(self, name, _type, description):
         """
-        function to generate parameters YAML contents
+        Function to generate a single OpenApi YAML formatted parameter section
 
         :param name:
         :param _type:
         :param description:
         :return:
         """
+
+        # Note: did not use f string approach to populate parameter values in strings due to indentation issues.
+        #   It seems that f string approach interprets newlines in the parameter values after embedding in string and
+        #   we need it to happen before.
 
         if type(_type) == str:
             _type = self.parse_type(_type)
@@ -107,6 +137,16 @@ class Generator:
                       type: number""").format(name=name.strip(),
                                        description=description.strip(),
                                        _type=_type.strip())
+        elif _type.find('object') != -1:
+            spec = textwrap.dedent("""
+                - in: query
+                  name: {name}
+                  description: "{description}"
+                  schema:
+                    {_type}
+                    additionalProperties: true""").format(name=name.strip(),
+                                       description=description.strip(),
+                                       _type=_type.strip())
         else:
             spec = textwrap.dedent("""
                 - in: query
@@ -121,7 +161,7 @@ class Generator:
 
     def generate_response(self, code, _type, description):
         """
-        function to generate response yaml contents
+        Function to generate a single OpenApi YAML formatted response section
 
         :param code:
         :param _type:
@@ -129,10 +169,8 @@ class Generator:
         :return:
         """
 
-        # TODO need to figure out how to set up docstring return type correctly
-        #   so that it's parsable
-
         if type(_type) == str:
+            # Only retrieve openapi data type for responses that return a value
             if _type == "No Response":
                 VERBOSE("Processing operation with no response")
             else:
@@ -172,20 +210,32 @@ class Generator:
                                              _type=_type.strip())
         else:
             # dict (generic json) or dataclass ($ref)
-            spec = textwrap.dedent("""
-              '{code}':
-                description: "{description}"
-                content:
-                  application/json:
-                    schema:
-                      {_type}""").format(code=code.strip(),
-                                         description=description.strip(),
-                                         _type=_type.strip())
+            if (_type.find('object') != -1):
+                spec = textwrap.dedent("""
+                  '{code}':
+                    description: "{description}"
+                    content:
+                      application/json:
+                        schema:
+                          {_type}
+                          additionalProperties: True""").format(code=code.strip(),
+                                             description=description.strip(),
+                                             _type=_type.strip())
+            else:
+                spec = textwrap.dedent("""
+                  '{code}':
+                    description: "{description}"
+                    content:
+                      application/json:
+                        schema:
+                          {_type}""").format(code=code.strip(),
+                                             description=description.strip(),
+                                             _type=_type.strip())
         return spec
 
     def generate_properties(self, attr, _type):
         """
-        function to generate properties of a schema
+        Function to generate a single OpenApi YAML formatted schema properties section
 
         :param attr:
         :param _type:
@@ -204,8 +254,7 @@ class Generator:
 
     def generate_schema(self, _class):
         """
-        function to generate schema in the components section from @dataclass
-        attributes
+        Function to generate a single OpenApi YAML formatted schema section using python dataclass as input
 
         :param _class:
         :return:
@@ -227,8 +276,8 @@ class Generator:
 
     def populate_parameters(self, func_obj):
         """
-        Function to loop all the parameters of given function and generate
-        specification
+        Function that converts all the input parameters of a python function into a single OpenApi YAML formatted
+        parameters section.
 
         :param func_obj:
         :return:
@@ -240,9 +289,6 @@ class Generator:
                 continue  # dicts are unordered, so use continue
                 # intead of break to be safe
             else:
-
-                # TODO: used dosctring_parser package for now.  But this
-                #   requires pip install.  Consider alternatives.
                 docstring = parse(func_obj.__doc__)
                 for param in docstring.params:
                     if param.arg_name == parameter:
@@ -265,7 +311,7 @@ class Generator:
                       filename=None,
                       all_function=None):
         """
-        function to generate path yaml contents
+        Function that generates a single OpenApi YAML formatted operation ID section
 
         :param class_name:
         :param description:
@@ -321,9 +367,11 @@ class Generator:
                                yamlfile=None,
                                dataclass_list=None,
                                all_function=False,
+                               enable_upload=False,
                                write=True):
         """
-        function to generate open API of python function.
+        This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted
+        specification for a python class or module with multiple functions.
 
         :param class_name:
         :param class_description:
@@ -353,7 +401,6 @@ class Generator:
             Console.info('*'*40)
             Console.info(f"Currently processing function: {func_name}")
 
-            # func_description = v.__doc__.strip().split("\n")[0]
             docstring = parse(v.__doc__)
 
             func_description = docstring.short_description
@@ -417,6 +464,11 @@ class Generator:
                 schemas = schemas + textwrap.indent(self.generate_schema(dc), ' ' * 6)
         VERBOSE(components, label="openapi function components")
 
+        upload = ''
+        if enable_upload:
+            upload = self.uploadTemplate.format(filename=filename)
+            upload = textwrap.indent(upload, ' ' * 2)
+
         # Update openapi template to create final version of openapi yaml
         spec = self.openAPITemplate2.format(
             title=class_name,
@@ -425,6 +477,7 @@ class Generator:
             paths=paths.strip(),
             serverurl=serverurl,
             filename=filename,
+            upload=upload,
             components=components.strip()
         )
 
@@ -449,9 +502,11 @@ class Generator:
                          outdir=None,
                          yamlfile=None,
                          dataclass_list=None,
+                         enable_upload=False,
                          write=True):
         """
-        function to generate open API of python function.
+        This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted
+        specification for a module with one single function.
 
         :param f:
         :param filename:
@@ -472,7 +527,6 @@ class Generator:
             VERBOSE(parameters, label="openapi function parameters")
         else:
             Console.info(f"Function {title} has no parameters defined")
-            # TODO: handling functions with no input parameters needs additional testing
 
         if 'return' in f.__annotations__:
             # Console.info(f"Processing response for function {title}")
@@ -499,9 +553,12 @@ class Generator:
 
         VERBOSE(components, label="openapi function components")
 
-        # TODO: figure out where to define dataclasses and how
-        #  best to pass them to generate_schema()
         filename = pathlib.Path(filename).stem
+        upload = ''
+        if enable_upload:
+            upload = self.uploadTemplate.format(filename=filename)
+            upload = textwrap.indent(upload, ' ' * 2)
+
         spec = self.openAPITemplate.format(
             title=title,
             name=f.__name__,
@@ -511,6 +568,7 @@ class Generator:
             responses=responses.strip(),
             serverurl=serverurl,
             filename=filename,
+            upload=upload,
             components=components
         )
 
@@ -530,7 +588,7 @@ class Generator:
 
         return
 
-    # we have to test below functions
+    # TODO: integrate the below functions into the package
     def file_put(root_url, service, filename, verbose=False):
 
         url = f'http://{root_url}/cloudmesh/{service}/file/put'

@@ -46,9 +46,9 @@ class TypeScraper:
             if re.search(table_key, literal_type, re.IGNORECASE):
                 res.add(self.type_table[table_key])
 
-        if literal_type[0] == '{':
-            table_key = 'string'
-            res.add(self.type_table[table_key])
+        #if literal_type[0] == '{':
+        #    table_key = 'string'
+        #    res.add(self.type_table[table_key])
         if literal_type[:4] == 'dict':
             table_key = 'dictionary'
             res.add(self.type_table[table_key])
@@ -320,7 +320,7 @@ class Generator:
         text1 = '"""'
         key = 'return'
         returnparam =''
-        print(paras_dict_func)
+        #print(paras_dict_func)
         if  key in paras_dict_func.keys():
             if paras_dict_func['return'] != 'self':
                 returnparam = paras_dict_func['return']
@@ -463,7 +463,7 @@ def Sklearngenerator(input_sklibrary,model_tag):
     openAPI = Generator()
     spec = openAPI.generate_import_params(input_params)
     print(f"Writing python code to file: {input_params[-1]}.py")
-    open(f"{input_params[-1]}.py", 'w').write(spec)
+    open(f"./tests/generator/{input_params[-1]}.py", 'w').write(spec)
     #spec = openAPI.generate_function(module, class_name,base_estimator)
     #open(f"{input_params[-1]}.py", 'a').write(spec)
     for i in range(len(method_list)):
@@ -471,7 +471,7 @@ def Sklearngenerator(input_sklibrary,model_tag):
         function = method_list[i]
         openAPI = Generator()
         spec = openAPI.generate_function(module,function,base_estimator,model_tag)
-        open(f"{input_params[-1]}.py", 'a').write(spec)
+        open(f"./tests/generator/{input_params[-1]}.py", 'a').write(spec)
 
 if __name__ == "__main__":
     Sklearngenerator(input_sklibrary,model_tag)

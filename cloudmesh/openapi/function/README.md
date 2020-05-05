@@ -2,6 +2,12 @@
 
 ## Submodules
 
+## function.conf module
+
+
+### function.conf.setup(app)
+
+### function.conf.skip(app, what, name, obj, would_skip, options)
 ## function.executor module
 
 
@@ -58,6 +64,12 @@ Initialize self.  See help(type(self)) for accurate signature.
 #### get(arguments)
 ## function.generator module
 
+### Issues:
+
+1. Only Arrays of number data type are supported.  Details are listed in the
+ following issue:
+ <https://github.com/cloudmesh/cloudmesh-openapi/issues/60>  
+ 
 
 ### class function.generator.Generator()
 Bases: `object`
@@ -69,8 +81,9 @@ Bases: `object`
 
 #### file_put(service, filename, verbose=False)
 
-#### generate_openapi(f=None, filename=None, serverurl=None, outdir=None, yamlfile=None, dataclass_list=None, write=True)
-function to generate open API of python function.
+#### generate_openapi(f=None, filename=None, serverurl=None, outdir=None, yamlfile=None, dataclass_list=None, enable_upload=False, write=True)
+This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted
+specification for a module with one single function.
 
 
 * **Parameters**
@@ -103,8 +116,9 @@ function to generate open API of python function.
     
 
 
-#### generate_openapi_class(class_name=None, class_description=None, filename=None, func_objects=None, serverurl=None, outdir=None, yamlfile=None, dataclass_list=None, all_function=False, write=True)
-function to generate open API of python function.
+#### generate_openapi_class(class_name=None, class_description=None, filename=None, func_objects=None, serverurl=None, outdir=None, yamlfile=None, dataclass_list=None, all_function=False, enable_upload=False, write=True)
+This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted
+specification for a python class or module with multiple functions.
 
 
 * **Parameters**
@@ -147,7 +161,7 @@ function to generate open API of python function.
 
 
 #### generate_parameter(name, _type, description)
-function to generate parameters YAML contents
+Function to generate a single OpenApi YAML formatted parameter section
 
 
 * **Parameters**
@@ -169,7 +183,7 @@ function to generate parameters YAML contents
 
 
 #### generate_path(class_name=None, description=None, long_description=None, funcname=None, parameters=None, responses=None, filename=None, all_function=None)
-function to generate path yaml contents
+Function that generates a single OpenApi YAML formatted operation ID section
 
 
 * **Parameters**
@@ -206,7 +220,7 @@ function to generate path yaml contents
 
 
 #### generate_properties(attr, _type)
-function to generate properties of a schema
+Function to generate a single OpenApi YAML formatted schema properties section
 
 
 * **Parameters**
@@ -225,7 +239,7 @@ function to generate properties of a schema
 
 
 #### generate_response(code, _type, description)
-function to generate response yaml contents
+Function to generate a single OpenApi YAML formatted response section
 
 
 * **Parameters**
@@ -247,8 +261,7 @@ function to generate response yaml contents
 
 
 #### generate_schema(_class)
-function to generate schema in the components section from @dataclass
-attributes
+Function to generate a single OpenApi YAML formatted schema section using python dataclass as input
 
 
 * **Parameters**
@@ -262,12 +275,12 @@ attributes
     
 
 
-#### openAPITemplate( = '\\nopenapi: 3.0.0\\ninfo:\\n  title: {title}\\n  description: "{description}"\\n  version: "{version}"\\nservers:\\n  - url: {serverurl}\\n    description: "{description}"\\npaths:\\n  /{name}:\\n     get:\\n      summary: "{description}"\\n      description: Optional extended description in CommonMark or HTML.\\n      operationId: {filename}.{name}\\n      parameters:\\n        {parameters}\\n      responses:\\n        {responses}\\n{components}\\n')
+#### openAPITemplate( = '\\nopenapi: 3.0.0\\ninfo:\\n  title: {title}\\n  description: "{description}"\\n  version: "{version}"\\nservers:\\n  - url: {serverurl}\\n    description: "{description}"\\npaths:\\n  /{name}:\\n     get:\\n      summary: "{description}"\\n      description: Optional extended description in CommonMark or HTML.\\n      operationId: {filename}.{name}\\n      parameters:\\n        {parameters}\\n      responses:\\n        {responses}\\n{upload}\\n{components}\\n')
 
-#### openAPITemplate2( = '\\nopenapi: 3.0.0\\ninfo:\\n  title: {title}\\n  description: "{description}"\\n  version: "{version}"\\nservers:\\n  - url: {serverurl}\\n    description: "{description}"\\npaths:\\n  {paths}\\n{components}\\n')
+#### openAPITemplate2( = '\\nopenapi: 3.0.0\\ninfo:\\n  title: {title}\\n  description: "{description}"\\n  version: "{version}"\\nservers:\\n  - url: {serverurl}\\n    description: "{description}"\\npaths:\\n  {paths}\\n{upload}\\n{components}\\n')
 
 #### parse_type(_type)
-function to parse supported openapi data types
+Function to lookup and output supported OpenApi data type using python data type as input
 
 
 * **Parameters**
@@ -282,8 +295,8 @@ function to parse supported openapi data types
 
 
 #### populate_parameters(func_obj)
-Function to loop all the parameters of given function and generate
-specification
+Function that converts all the input parameters of a python function into a single OpenApi YAML formatted
+parameters section.
 
 
 * **Parameters**
@@ -296,11 +309,15 @@ specification
 
     
 
+
+#### uploadTemplate( = '\\n/upload:\\n  post:\\n    summary: upload a file\\n    operationId: {filename}.upload\\n    requestBody:\\n      content:\\n        multipart/form-data:\\n          schema:\\n            type: object\\n            properties:\\n              upload:\\n                type: string\\n                format: binary\\n    responses:\\n      \\'200\\':\\n        description: "OK"\\n        content:\\n          text/plain:\\n            schema:\\n              type: string\\n')
 ## function.server module
 
 
 ### class function.server.Server(name=None, spec=None, directory=None, host='127.0.0.1', server='flask', port=8080, debug=True)
 Bases: `object`
+
+This class manages all actions taken to interact with an OpenAPI AI server.
 
 
 #### \__init__(name=None, spec=None, directory=None, host='127.0.0.1', server='flask', port=8080, debug=True)
@@ -308,9 +325,26 @@ Initialize self.  See help(type(self)) for accurate signature.
 
 
 #### static get_name(name, spec)
+Get the name of a server using specification
+
+
+* **Parameters**
+
+    
+    * **name** – 
+
+
+    * **spec** – 
+
+
+
+* **Returns**
+
+    
+
 
 #### static list(name=None)
-Lists the servises registered
+Lists the servers that have been registered in Registry
 
 
 * **Parameters**
@@ -325,6 +359,19 @@ Lists the servises registered
 
 
 #### static ps(name=None)
+List all of the actively running servers or if name is provided return whether the server is running
+
+
+* **Parameters**
+
+    **name** – 
+
+
+
+* **Returns**
+
+    
+
 
 #### run_os()
 Start an openapi server by creating a physical flask script
@@ -336,7 +383,7 @@ Start an openapi server by creating a physical flask script
 
 
 #### start(name=None, spec=None, foreground=False)
-Start up an openapi server
+Start up an OpenApi server
 
 
 * **Parameters**
@@ -358,7 +405,7 @@ Start up an openapi server
 
 
 #### static stop(name=None)
-Stop a running server
+Stop a running OpenApi server
 
 
 * **Parameters**
@@ -373,5 +420,18 @@ Stop a running server
 
 
 ### function.server.daemon(func)
+Decorator used to execute a Connexion flask app as a daemon
+
+
+* **Parameters**
+
+    **func** – 
+
+
+
+* **Returns**
+
+    
+
 
 ### function.server.dynamic_import(abs_module_path, class_name)
