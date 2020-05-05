@@ -69,3 +69,47 @@
 6. cms image processing
 
    - contributors: Falconi, Ishan
+
+
+## Deployment steps
+
+1. Install cms openapi bundle:
+
+<https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README.md#instalation>
+
+
+## Pytests
+
+### Test documentation:
+
+  <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md>
+
+### Simple initial test:
+
+1. Manual steps for CPU:
+   - Go to main project repo directory
+      ```cd ~/cm/cloudmesh-openapi```
+      
+   - Generate yaml
+      ```cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py```
+     
+   - Start Server
+      
+      ```cms openapi server start ./tests/server-cpu/cpu.yaml```
+      
+   - Run Swagger UI
+   
+      - go to <http://127.0.0.1:8080/cloudmesh/ui>
+  
+   - Stop Server
+   
+       ```cms openapi server stop cpu```
+
+2. Automated test for CPU:
+   - Go to main project repo directory
+      ```cd ~/cm/cloudmesh-openapi```
+      
+   - Execute pytest for cpu
+      ```pytest -v -x --capture=no tests/server-cpu/test_03_generator.py```
+
+
