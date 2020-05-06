@@ -1,0 +1,90 @@
+openapi: 3.0.0
+info:
+  title: azure-ai-image-function
+  description: "No description provided"
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/cloudmesh
+    description: "No description provided"
+paths:
+  /azure-ai-image-function/file_upload:
+     get:
+      summary: "This function will upload file into .cloudmesh/upload-file location"
+      description: "This will first get upload file object from request.files function
+                   and then override this object in given location."
+      operationId: azure-ai-image-function.file_upload
+      
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /azure-ai-image-function/get_image_analysis:
+     get:
+      summary: "Analyze an Image"
+      description: "This example analyzes the contents of an image with the confidence score."
+      operationId: azure-ai-image-function.get_image_analysis
+      parameters:
+        - in: query
+          name: image_name
+          description: "Name of the image+extension"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /azure-ai-image-function/get_image_desc:
+     get:
+      summary: "Describe an Image"
+      description: "This example describes the contents of an image with the confidence score."
+      operationId: azure-ai-image-function.get_image_desc
+      parameters:
+        - in: query
+          name: image_name
+          description: "Name of the image+extension"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /azure-ai-image-function/get_image_tags:
+     get:
+      summary: "Generate list of tags for input image with confidence score."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: azure-ai-image-function.get_image_tags
+      parameters:
+        - in: query
+          name: image_name
+          description: "Name of the image+extension"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /azure-ai-image-function/path_expand:
+     get:
+      summary: "returns a string with expanded variable."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: azure-ai-image-function.path_expand
+      
+      responses:
+        '204':
+          description: "This operation returns no response."
