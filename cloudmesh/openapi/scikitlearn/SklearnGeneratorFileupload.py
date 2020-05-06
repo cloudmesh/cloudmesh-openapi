@@ -583,7 +583,7 @@ class Generator:
 
         return spec
 
-def Sklearngenerator(input_sklibrary,model_tag):
+def SklearngeneratorFile(input_sklibrary,model_tag):
     my_class = locate(input_sklibrary)
     method_list = [func for func,value in inspect.getmembers(my_class) if func[0] != '_']
     method_list = [value for value in method_list if value != 'classes_']
