@@ -63,7 +63,7 @@ class OpenapiCommand(PluginCommand):
               openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
               openapi TODO doc [SERVICES...] [--dir=DIR]
               openapi sklearn FUNCTION MODELTAG
-              openapi sklearnfile FUNCTION MODELTAG
+              openapi sklearnreadfile FUNCTION MODELTAG
               openapi sklearn upload --filename=FILENAME
 
           Arguments:
