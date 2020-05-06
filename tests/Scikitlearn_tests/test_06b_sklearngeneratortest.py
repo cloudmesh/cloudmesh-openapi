@@ -35,7 +35,7 @@ class Test:
 
         HEADING()
         Benchmark.Start()
-        LinearRegression.fit(X,y,sample_weight,X_shape_x,X_shape_y)
+        LinearRegression.fit(X,y,X_shape_x,X_shape_y)
         Benchmark.Stop()
         assert True
 
@@ -45,7 +45,7 @@ class Test:
         """
         HEADING()
         Benchmark.Start()
-        score = LinearRegression.score(X,y,sample_weight,X_shape_x,X_shape_y)
+        score = LinearRegression.score(X,y,X_shape_x,X_shape_y)
         Benchmark.Stop()
         assert score > 0
 
