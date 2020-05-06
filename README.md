@@ -468,7 +468,7 @@ checks.
 
 * This Command will generate the .py file for the module in the Scikit learn.
 
- cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregnew
+  cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregnew
 
 * Generate the .yaml from the sklearn py file which supports upload functionality so that you can upload files
 
