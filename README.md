@@ -212,7 +212,8 @@ openapi register list [NAME] [--output=OUTPUT]
 openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
 openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
 openapi TODO doc [SERVICES...] [--dir=DIR]
-openapi sklearn generate FUNCTION MODELTAG
+openapi sklearn FUNCTION MODELTAG
+openapi sklearnfile FUNCTION MODELTAG
 openapi sklearn upload --filename=FILENAME
 
 Arguments:
@@ -257,7 +258,11 @@ TODO: do we have a prototype of this?
 
 
 openapi sklearn sklearn.linear_model.LogisticRegression
-Generates the
+Generates the .py file for the Sklearn module which will be input to generator
+
+openapi sklearnfile sklearn.linear_model.LogisticRegression
+Generates the .py file for the Sklearn module which will be input to generator
+which supports file read capabilities
 
 openapi generate [FUNCTION] --filename=FILENAME
                          [--serverurl=SERVERURL]
