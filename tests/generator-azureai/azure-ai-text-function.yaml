@@ -1,26 +1,41 @@
 openapi: 3.0.0
 info:
   title: azure-ai-text-function
-  description: No description provided
+  description: "No description provided"
   version: "1.0"
 servers:
   - url: http://localhost:8080/cloudmesh
-    description: No description provided
+    description: "No description provided"
 paths:
-  /azure-ai-text-function/get_read_results:
+  /azure-ai-text-function/file_upload:
      get:
-      summary: adding float and float.
-      description: None (Optional extended description in CommonMark or HTML)
-      operationId: azure-ai-text-function.get_read_results
+      summary: "This function will upload file into .cloudmesh/upload-file location"
+      description: "This will first get upload file object from request.files function
+                   and then override this object in given location."
+      operationId: azure-ai-text-function.file_upload
+      
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /azure-ai-text-function/get_text_results:
+     get:
+      summary: "Read text from an image"
+      description: "This example describes the contents of a text image"
+      operationId: azure-ai-text-function.get_text_results
       parameters:
         - in: query
-          name: remote_text_url
-          description: x value
+          name: image_name
+          description: "Name of the image+extension"
           schema:
             type: string
       responses:
         '200':
-          description: OK
+          description: "OK"
           content:
             text/plain:
               schema:

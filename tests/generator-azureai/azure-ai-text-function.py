@@ -6,9 +6,10 @@ from msrest.authentication import CognitiveServicesCredentials
 
 from array import array
 import os
-import image
+from PIL import Image
 import sys
 import time
+import requests
 
 
 # Add Computer Vision subscription key to the environment variables.
@@ -24,42 +25,50 @@ else:
     print("\nSet the COMPUTER_VISION_ENDPOINT environment variable.\n**Restart your shell or IDE for changes to take effect.**")
     sys.exit()
 
-#Authenticate the client
-computervision_client = ComputerVisionClient(endpoint, CognitiveServicesCredentials(subscription_key))
-
-#remote_image_printed_text_url = "./images/printed_text.jpg"
-
-def get_read_results(remote_text_url: str) -> str:
+def file_upload() -> str:
     """
-    adding float and float.
-
-    :param remote_text_url: x value
-    :type remote_text_url: str
-    :return type: str
+       This function will upload file into .cloudmesh/upload-file location
+       This will first get upload file object from request.files function
+       and then override this object in given location.
     """
-    print("===== Batch Read File - remote =====")
-    # Get an image with printed text
-    # remote_image_printed_text_url = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg"
+    file = connexion.request.files.get("upload")
+    filename = file.filename
+    if file:
+        file_path = f"~/.cloudmesh/upload-file"
+        p = Path(path_expand(file_path))
+        p.mkdir(parents=True, exist_ok=True)
+        file.save(f'{p.absolute()}/{filename}')
+    return filename
 
-    # Call API with URL and raw response (allows you to get the operation location)
-    recognize_printed_results = computervision_client.batch_read_file(remote_text_url, raw=True)
 
-    # Get the operation location (URL with an ID at the end) from the response
-    operation_location_remote = recognize_printed_results.headers["Operation-Location"]
-    # Grab the ID from the URL
-    operation_id = operation_location_remote.split("/")[-1]
+def get_text_results(image_name: str) -> str:
+    """
+    Read text from an image
+    This example describes the contents of a text image
 
-    # Call the "GET" API and wait for it to retrieve the results
-    while True:
-        get_printed_text_results = computervision_client.get_read_operation_result(operation_id)
-        if get_printed_text_results.status not in ['NotStarted', 'Running']:
-            break
-        time.sleep(1)
+    Parameters:
+        image_name (str): Name of the image+extension
+    """
+    # ComputerVision describe service URL
+    ocr_url = endpoint + "vision/v2.1/ocr"
 
-    # Print the detected text, line by line
-    if get_printed_text_results.status == TextOperationStatusCodes.succeeded:
-        for text_result in get_printed_text_results.recognition_results:
-            for line in text_result.lines:
-                print(line.text)
-                print(line.bounding_box)
-    print()
+    # Set image_path to the local path of an image that you want to analyze.
+    image_path = "/Users/ishanmishra/Documents/ECC/cloudmesh/sp20-516-238/azure-ai/images/"+image_name  # this will come from the upload function
+
+    # Read the image into a byte array
+    image_data = open(image_path, "rb").read()
+
+    print("===== Read text from an image =====")
+    # Call API
+    headers = {'Ocp-Apim-Subscription-Key': subscription_key,
+               'Content-Type': 'application/octet-stream'}
+    params = {'language': 'unk',
+              'detectOrientation':'true'}
+
+    response = requests.post(ocr_url, headers=headers, data=image_data)
+
+    response.raise_for_status()
+
+    read_text = response.json()
+    #print(read_text
+    return read_text
