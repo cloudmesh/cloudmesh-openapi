@@ -13,12 +13,12 @@ from cloudmesh.common.util import HEADING
 
 import sys
 sys.path.append("./tests/Scikitlearn_tests")
-from cloudmesh.openapi.scikitlearn import SklearnGeneratorFileupload as SklearnGenerator
+from cloudmesh.openapi.scikitlearn import SklearnGeneratorFileupload as SklearngeneratorFile
 import pytest
 all_functions= True
 import_class=False
 input_sklibrary = 'sklearn.linear_model.LinearRegression'
-model_tag = 'Linregpytest'
+model_tag = 'Linregfile'
 
 @pytest.mark.incremental
 class Test:
@@ -27,7 +27,7 @@ class Test:
 
         HEADING()
         Benchmark.Start()
-        SklearnGenerator.Sklearngenerator(input_sklibrary, model_tag)
+        SklearngeneratorFile.SklearngeneratorFile(input_sklibrary, model_tag)
         Benchmark.Stop()
         assert True
 
