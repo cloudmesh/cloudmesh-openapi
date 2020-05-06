@@ -1,7 +1,5 @@
 ###############################################################
-# pytest -v --capture=no tests/test_03_generator.py
-# pytest -v  tests/test_03_generator.py
-# pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
+# pytest -v --capture=no tests/generator-testclass/test_02_generator.py
 ###############################################################
 import os
 import time
@@ -10,10 +8,13 @@ import sys
 sys.path.append("./tests/lib")
 from generator_test import GeneratorBaseTest, ServerBaseTest
 import pytest
-from cloudmesh.common.Benchmark import Benchmark
 filename="./tests/generator-testclass/calculator.py"
 all_functions= False
 import_class=True
+from cloudmesh.common.Benchmark import Benchmark
+from cloudmesh.common.debug import VERBOSE
+from cloudmesh.common.util import HEADING
+import requests
 
 @pytest.mark.incremental
 class TestGeneratorTestClass():
@@ -49,6 +50,19 @@ class TestGeneratorTestClass():
     def test_start_service(self,serverBaseTestFixture):
         serverBaseTestFixture.start_service()
 
+    def test_cpu(self):
+        HEADING()
+        url = f"http://127.0.0.1:8080/cloudmesh/Calculator/dividefloat"
+        Benchmark.Start()
+        payload = {'x': '10', 'y' :'10'}
+        result = requests.get(url, params=payload)
+        assert result.status_code == 200, "Status code value should be 200"
+        assert result.reason == 'OK'
+        assert result.headers['content-type'] == 'text/plain; charset=utf-8'
+        print(result.json())
+        assert result.json() ==1.0
+        Benchmark.Stop()
+        VERBOSE(result)
 
     def test_stop_server(self,serverBaseTestFixture):
         serverBaseTestFixture.stop_server()
