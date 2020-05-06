@@ -345,6 +345,12 @@ class Generator:
         functionname = class_obj.__name__
         match = re.search(r'X: array', parametersfunc)
         X_param_index = parametersfunc.find('X: array')
+        sample_weight_index = parametersfunc.find('sample_weight: array')
+        if sample_weight_index != -1:
+            parametersfunc = parametersfunc[:sample_weight_index - 2]
+        sample_weight_index_params = params.find('sample_weight')
+        if sample_weight_index_params != -1:
+            params = params[:sample_weight_index_params - 2]
         if match:
             parametersfunc =  parametersfunc + "," + " X_shape_x: int," + " X_shape_y: int"
         parametersfunc = parametersfunc.replace('array','list')
