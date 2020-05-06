@@ -277,7 +277,6 @@ class OpenapiCommand(PluginCommand):
                             func_objects[attr_name] = func_obj
                     openAPI = generator.Generator()
                     Console.info('Generating openapi for all functions in file: ' + filename)
-                    # enable_upload is false here because it will get picked up anyway as one of the functions in the file
                     openAPI.generate_openapi_class(class_name = module_name,
                                                    class_description = "No description provided",
                                                    filename = filename,
@@ -287,7 +286,7 @@ class OpenapiCommand(PluginCommand):
                                                    yamlfile = yamlfile,
                                                    dataclass_list = dataclass_list,
                                                    all_function = True,
-                                                   enable_upload = False,
+                                                   enable_upload = enable_upload,
                                                    write = True)
                                                    
                 else:
