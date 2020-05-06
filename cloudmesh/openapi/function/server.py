@@ -180,6 +180,7 @@ class Server(object):
                 print("   PID:     ", pid)
                 print("   Spec:    ", _spec)
                 print("   URL:     ", url)
+                print("   Cloudmesh UI:     ", url + '/ui') 
 
                 print()
 
