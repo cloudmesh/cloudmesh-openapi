@@ -604,7 +604,7 @@ def Sklearngenerator(input_sklibrary,model_tag):
         open(f"./tests/generator/{input_params[-1]}.py", 'a').write(spec)
 
 if __name__ == "__main__":
-    Sklearngenerator(input_sklibrary,model_tag)
+    SklearngeneratorFile(input_sklibrary,model_tag)
 
 
 
