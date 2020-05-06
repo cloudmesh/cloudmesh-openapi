@@ -8,22 +8,23 @@
 
 
 
-> **Note:** The README.md page is outomatically generated, do not edit it.
+> **Note:** The README.md page is automatically generated, do not edit it.
 > To modify  change the content in
 > <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md>
-> Curley brackets must use two in README-source.md
+> curly brackets must use two in README-source.md
 
 
-## Prerequisits
+## Prerequisites
 
 * We use recommend Python 3.8.2 Python or newer.
 * We recommend pip version 20.0.2 or newer
 * We recommend that you use a venv (see developer install)
 * MongoDB installed as regular program not as service
+* Please run cim init command to start mongodb server
 
 We have not checked if it works on older versions.
 
-## Instalation
+## Installation
 
 Make sure that cloudmesh is properly installed on your machine and you
 have mongodb setup to work with cloudmesh.
@@ -32,7 +33,7 @@ More details to setting up mongo can be found in the
 
 * [Cloudmesh Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html)
 
-###  User Instalation
+###  User Installation
 
 Make sure you use a python venv before installing. Users can install the
 code with
@@ -42,7 +43,7 @@ $ pip install cloudmesh-openapi
 ```
 
 
-### Developere Instalation
+### Developer Installation
 
 Developers install also the source code
 
@@ -59,7 +60,29 @@ cloudmesh-installer get openapi
 
 When getting started using the `openapi`, please first call `cms help
 openapi` to see the available functions and options. For your
-convenience we include the manual page later on in this documenth.
+convenience we include the manual page later on in this document.
+
+## Quick steps to generate,start and stop CPU sample example
+
+Navigate to ~/cm/cloudmesh-openaai folder and below commands 
+
+### Generate yaml file
+
+```
+cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
+```
+
+### Start server 
+
+```
+cms openapi server start ./tests/server-cpu/cpu.yaml
+```
+
+### Start server 
+
+```
+cms openapi server stop cpu
+```
 
 ## Usage
 
@@ -299,7 +322,7 @@ Please follow [Pytest Information](tests/README.md) document for pytests related
 
 1. Please check [Python file](tests/server-cpu/cpu.py).
 
-1. Run below command to generate yaml file
+1. Run below command to generate yaml file and start server
 
 ```
 cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
@@ -309,22 +332,29 @@ cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
 
 1. Please check [Python file](tests/generator-calculator/calculator.py)
 
-1. Run below command to generate yaml file
+1. Run below command to generate yaml file and start server
 
 ```
 cms openapi generate --filename=./tests/generator-calculator/calculator.py --all_functions
 ```
 
-### function(s) in python class file
+```
+cms openapi generate server start ./tests/generator-calculator/calculator.py
+```
+
+### Function(s) in python class file
 
 1. Please check [Python file](tests/generator-testclass/calculator.py)
 
-1. Run below command to generate yaml file
+1. Run below command to generate yaml file and start server
 
 ```
 cms openapi generate --filename=./tests/generator-testclass/calculator.py --import_class"
 ```
 
+```
+cms openapi generate server start ./tests/generator-testclass/calculator.py
+```
 
 ### Uploading data
 
@@ -387,7 +417,20 @@ merge [APIS...] - > single.yaml
 
 ### Google
 
-* Andrew
+After you create your google cloud account, it is recommended to download and install Google's [Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts).
+This will enable CLI. Make sure you enable all the required services. 
+
+For example:
+
+`gcloud services enable servicemanagement.googleapis.com`
+<BR>
+`gcloud services enable servicecontrol.googleapis.com`
+<BR>
+`gcloud services enable endpoints.googleapis.com`
+
+and any other services you might be using for your specific Cloud API function. 
+
+
 
 ### AWS
 
@@ -412,39 +455,38 @@ merge [APIS...] - > single.yaml
 
 ## scikit learn
 
-```
-Before running these commands Please install Cloudmesh-openapi and test a Quickstart for confifuration
+Before running these commands Please install Cloudmesh-openapi and test a Quickstart for configuration
 checks.
 
-Run all these commands from the cloudmesh-openapi directory.
+## Run all these commands from the cloudmesh-openapi directory.
 
-1. This Command will the .py file for the module in the Scikit learn.
+* This Command will generate the .py file for the module in the Scikit learn.
 
-cms openapi sklearn  sklearn.linear_model.LinearRegression Linregpytest
+  cms openapi sklearn  sklearn.linear_model.LinearRegression Linregpytest
 
-2. Generate the .yaml from the sklearn py file.
+* Generate the .yaml from the sklearn py file.
 
-cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions
+  cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions
 
-3. Start the Server from the .yaml file
+* Start the Server from the .yaml file
 
-cms openapi server start ./tests/generator/LinearRegression.yaml
+  cms openapi server start ./tests/generator/LinearRegression.yaml
 
-* [Access the URL at](https:google.com)
+  Access the URL at http://localhost:8080/cloudmesh/ui/
 
-4. Stop the Server 
+* Stop the Server 
 
-Replace the PID of the server in the below command to stop the server.
+  Replace the PID of the server in the below command to stop the server.
 
-cms openapi server stop PID
+  cms openapi server stop PID
 
 
-Pytests for Scikit learn tests.
+## Pytests for Scikit learn tests.
 
-1. Generate the .py for the Scikit learn module
+* Generate the .py for the Scikit learn module
 
-pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
 
-2. Running Pytests for the LinearRegression.py generated from 6a pytest
+* Running Pytests for the LinearRegression.py generated from 6a pytest
 
-pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py

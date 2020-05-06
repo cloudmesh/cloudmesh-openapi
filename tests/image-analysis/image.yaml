@@ -7,36 +7,15 @@ servers:
   - url: http://localhost:8080/cloudmesh
     description: No description provided
 paths:
-  /imgae/upload:
-    post:
-      summary: upload a file
-      operationId: image.upload
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                upload:
-                  type: string
-                  format: binary
-      responses:
-        '200':
-          description: "OK"
-          content:
-            text/plain:
-              schema:
-                type: string
-
   /image/detect_text:
-     get:
-      summary: google vision
-      description: None (Optional extended description in CommonMark or HTML)
-      operationId: image.detect_text
-      responses:
-        '200':
-          description: OK
-          content:
-            text/plain:
-              schema:
-                type: string
+       get:
+        summary: google vision
+        description: None (Optional extended description in CommonMark or HTML)
+        operationId: image.detect_text
+        responses:
+          '200':
+            description: OK
+            content:
+              text/plain:
+                schema:
+                  type: string

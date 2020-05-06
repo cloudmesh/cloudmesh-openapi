@@ -7,13 +7,20 @@ from cloudmesh.openapi.registry.fileoperation import FileOperation
 from flask import jsonify
 #from cloudmesh.common.debug import VERBOSE
 
-def upload() -> str:
-    filename=FileOperation().file_upload()
-    return filename
+'''
+def geturl(x) -> str:
+    """
+    upload function
+
+    :return:
+    """
+    return f'http://localhost:8080/cloudmesh/image/image_url?x={x}'
+'''
 
 def detect_text() -> str:
     """
     Detects text in the file.
+
     :return: result
     :return type: str
     """
@@ -24,12 +31,16 @@ def detect_text() -> str:
 
     client = vision.ImageAnnotatorClient(credentials=credentials)
 
+
     path = path_expand('~/cm/cloudmesh-openapi/tests/image-analysis/sign_text.png')
 
     with io.open(path, 'rb') as image_file:
         content = image_file.read()
 
+
     image = vision.types.Image(content=content)
+    #image = vision.types.Image()
+    #image.source.image_uri = geturl('https://cdn.searchenginejournal.com/wp-content/uploads/2014/09/google-logo-760x380.png')
 
     response = client.text_detection(image=image)
 
@@ -48,6 +59,6 @@ def detect_text() -> str:
             'https://cloud.google.com/apis/design/errors'.format(
                 response.error.message))
 
-    return p
-    #return jsonify(p)
+    return jsonify(p)
+
 
