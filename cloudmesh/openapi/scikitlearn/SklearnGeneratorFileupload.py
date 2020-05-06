@@ -90,6 +90,8 @@ class Generator:
             {docstring}
             {text1}
             
+            {X_input}
+            {y_input}
             {X_numpyconversion}
             {y_upload}
             model = ResultCache().load("{model_tag}")
@@ -110,7 +112,8 @@ class Generator:
 
                 {docstring}
                 {text1}
-
+                
+                {X_input}
                 {X_numpyconversion}
                 model = ResultCache().load("{model_tag}")
                 {returnparam1} = model.{functioname}({param_wo_type})
@@ -130,7 +133,9 @@ class Generator:
 
                 {docstring}
                 {text1}
-
+                
+                {X_input}
+                {y_input}
                 {X_numpyconversion}
                 {y_upload}
                 model = ResultCache().load("{model_tag}")
@@ -149,7 +154,8 @@ class Generator:
 
                     {docstring}
                     {text1}
-
+                    
+                    {X_input}
                     {X_numpyconversion}
                     model = ResultCache().load("{model_tag}")
                     {returnparam1} = model.{functioname}({param_wo_type})
@@ -206,6 +212,8 @@ class Generator:
                     {docstring}
                     {text1}
                     
+                    {X_input}
+                    {y_input}
                     {X_numpyconversion}
                     {y_upload}
                     {functioname} = {base_estimator}().{functioname}({param_wo_type})
@@ -410,8 +418,14 @@ class Generator:
             parametersfunc = parametersfunc
         parametersfunc = parametersfunc.replace('array','str')
 #        X_numpyconversion = f"X = np.array(X).reshape(X_shape_x,X_shape_y)"
-        X_upload = "X = pd.read_csv(\"~/.cloudmesh/upload-file/X.csv\")"
-        y_upload = "y = pd.read_csv(\"~/.cloudmesh/upload-file/y.csv\")"
+       # "~/.cloudmesh/upload-file/" + f"{X}" + ".csv"
+        X_input = "\"~/.cloudmesh/upload-file/\" + f\"{X}\" + \".csv\""
+        X_input = "X_input = " + f'{X_input}'
+        y_input =  "\"~/.cloudmesh/upload-file/\" + f\"{y}\" + \".csv\""
+        y_input = "y_input = " + f'{y_input}'
+        #X_upload = "X = pd.read_csv(f\"~/.cloudmesh/upload-file/{X}.csv\")"
+        X_upload = "X = pd.read_csv(X_input)"
+        y_upload = "y = pd.read_csv(y_input)"
         #sample_weight_upload = "sample_weight = pd.read_csv(\"~/.cloudmesh/upload-file/sample_weight.csv\")"
 
 
@@ -426,6 +440,8 @@ class Generator:
                     description=description,
                     text1=text1,
                     model_tag=model_tag,
+                    X_input = X_input,
+                    y_input = y_input,
                     X_numpyconversion=X_upload,
                     y_upload=y_upload,
                     parameters=parametersfunc,
@@ -440,6 +456,8 @@ class Generator:
                     description=description,
                     text1=text1,
                     model_tag=model_tag,
+                    X_input=X_input,
+                    y_input=y_input,
                     X_numpyconversion=X_upload,
                     y_upload=y_upload,
                     parameters=parametersfunc,
@@ -457,6 +475,7 @@ class Generator:
                     description=description,
                     text1=text1,
                     model_tag=model_tag,
+                    X_input=X_input,
                     X_numpyconversion=X_upload,
                     parameters=parametersfunc,
                     param_wo_type=params,
@@ -472,6 +491,7 @@ class Generator:
                     description=description,
                     text1=text1,
                     model_tag=model_tag,
+                    X_input=X_input,
                     X_numpyconversion=X_upload,
                     parameters=parametersfunc,
                     param_wo_type=params,
@@ -499,6 +519,8 @@ class Generator:
                     functioname=functionname,
                     description=description,
                     base_estimator=base_estimator,
+                    X_input=X_input,
+                    y_input=y_input,
                     X_numpyconversion=X_upload,
                     y_upload=y_upload,
                     model_tag=model_tag,
