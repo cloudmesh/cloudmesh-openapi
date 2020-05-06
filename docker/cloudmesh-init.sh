@@ -8,4 +8,3 @@ cms config set cloudmesh.data.mongo.MONGO_PASSWORD=OPENAPI3
 cms admin mongo install
 export PATH="$PATH:/root/local/mongo/bin"
 cms init
-cat
