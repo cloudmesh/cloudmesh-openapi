@@ -19,8 +19,8 @@ import pytest
 filename="./tests/generator/LinearRegression.py"
 all_functions= True
 import_class=False
-X = "X_test"
-y = "y_test"
+X = "X_SAT"
+y = "y_GPA"
 
 @pytest.mark.incremental
 class Test:

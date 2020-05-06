@@ -487,7 +487,7 @@ checks.
 
 * Download the files from Scikit-learntestfiles
     
-   X_test, y_test
+   X_SAT, y_GPA
    
 * Use Upload functionality in Server to upload the files.
 

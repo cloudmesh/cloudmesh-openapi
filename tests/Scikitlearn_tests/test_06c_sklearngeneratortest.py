@@ -18,7 +18,7 @@ import pytest
 all_functions= True
 import_class=False
 input_sklibrary = 'sklearn.linear_model.LinearRegression'
-model_tag = 'Linregfile'
+model_tag = 'Linregfile2'
 
 @pytest.mark.incremental
 class Test:
