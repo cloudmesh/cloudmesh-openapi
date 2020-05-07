@@ -510,6 +510,9 @@ checks.
   
 ## Scikit-Learn generator with file read capabilities
 
+* Install pandas
+  pip install pandas
+
 * This Command will generate the .py file for the module in the Scikit learn.
 
   cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregnew
