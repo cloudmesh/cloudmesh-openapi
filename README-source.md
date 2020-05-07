@@ -420,8 +420,40 @@ Using the Azure Computer Vision AI service, you can describe, analyze and/ or ge
   * requests
   * Pillow
 * Install Computer Vision client library
-  * pip install --upgrade azure-cognitiveservices-vision-computervision
+  * ```pip install --upgrade azure-cognitiveservices-vision-computervision```
 
+#### Steps to implement and use Azure AI image and text *REST-services*
+
+* Go to `./cloudmesh-openapi` directory
+
+* Run following command to generate the YAML files
+
+  `cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload`<br>
+  `cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload`
+
+* Verify the *YAML* files created in `./tests/generator-azureai` directory
+
+  * `azure-ai-image-function.yaml`
+  * `azure-ai-text-function.yaml`
+  
+* Start the REST service by running following command in `./cloudmesh-openapi` directory
+
+  `cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml`
+
+The default port used for starting the service is 8080. In case you want to start more than one REST service, use a different port in following command: 
+
+  `cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>`
+
+* Access the REST service using [http://localhost:8080/cloudmesh/ui/](http://localhost:8080/cloudmesh/ui/)
+
+* Check the running REST services using following command:
+
+  `cms openapi server ps`
+
+* Stop the REST service using following command(s):
+
+  `cms openapi server stop azure-ai-image-function`<br>
+  `cms openapi server stop azure-ai-text-function`  
 
 ### Openstack
 
