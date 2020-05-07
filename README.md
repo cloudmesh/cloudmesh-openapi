@@ -78,7 +78,14 @@ cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
 cms openapi server start ./tests/server-cpu/cpu.yaml
 ```
 
-### Start server 
+### Issue a Request 
+
+```
+CURL CALL MISSING HERE
+```
+
+
+### Stop server 
 
 ```
 cms openapi server stop cpu
