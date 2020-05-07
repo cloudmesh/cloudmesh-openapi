@@ -410,7 +410,18 @@ and any other services you might be using for your specific Cloud API function.
 
 ### Azure
 
-* Andrew
+Using the Azure Computer Vision AI service, you can describe, analyze and/ or get tags for a locally stored image or you can read the text from an image or hand-written file.
+
+#### Prerequisite for setting up Azure ComputerVision AI service
+
+* Azure subscription. If you don't have one, create a [free account](https://azure.microsoft.com/try/cognitive-services/) before you continue further.
+* Create a Computer Vision resource and get the COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT. Follow [instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix) to get the same.
+* Install following Python packages in your virtual environment:
+  * requests
+  * Pillow
+* Install Computer Vision client library
+  * pip install --upgrade azure-cognitiveservices-vision-computervision
+
 
 ### Openstack
 
