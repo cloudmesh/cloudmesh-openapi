@@ -19,6 +19,7 @@ else:
     print("\nSet the COMPUTER_VISION_ENDPOINT environment variable.\n**Restart your shell or IDE for changes to take effect.**")
     sys.exit()
 
+'''
 def file_upload() -> str:
     """
        This function will upload file into .cloudmesh/upload-file location
@@ -33,7 +34,7 @@ def file_upload() -> str:
         p.mkdir(parents=True, exist_ok=True)
         file.save(f'{p.absolute()}/{filename}')
     return filename
-
+'''
 
 def get_image_desc(image_name: str) -> str:
     """
@@ -46,8 +47,12 @@ def get_image_desc(image_name: str) -> str:
     # ComputerVision describe service URL
     describe_url = endpoint + "vision/v2.1/describe"
 
-    # Set image_path to the local path of an image that you want to analyze.
-    image_path = "/Users/ishanmishra/Documents/ECC/cloudmesh/sp20-516-238/azure-ai/images/"+image_name  # this will come from the upload function
+    # Set image_path to the local path of an image
+    file_path = f"~/.cloudmesh/upload-file"
+
+    p = Path(path_expand(file_path))
+
+    image_path = p/image_name  # set image path
 
     # Read the image into a byte array
     image_data = open(image_path, "rb").read()
@@ -77,8 +82,12 @@ def get_image_analysis(image_name: str) -> str:
     # ComputerVision analyze service URL
     analyze_url = endpoint + "vision/v2.1/analyze"
 
-    # Set image_path to the local path of an image that you want to analyze.
-    image_path = "/Users/ishanmishra/Documents/ECC/cloudmesh/sp20-516-238/azure-ai/images/"+image_name  # this will come from the upload function
+    # Set image_path to the local path of an image
+    file_path = f"~/.cloudmesh/upload-file"
+
+    p = Path(path_expand(file_path))
+
+    image_path = p/image_name  # set image path
 
     # Read the image into a byte array
     image_data = open(image_path, "rb").read()
@@ -108,8 +117,12 @@ def get_image_tags(image_name: str) -> str:
     # ComputerVision tag service URL
     tag_url = endpoint + "vision/v2.1/tag"
 
-    # Set image_path to the local path of an image that you want to analyze.
-    image_path = "/Users/ishanmishra/Documents/ECC/cloudmesh/sp20-516-238/azure-ai/images/"+image_name  # this will come from the upload function
+    # Set image_path to the local path of an image
+    file_path = f"~/.cloudmesh/upload-file"
+
+    p = Path(path_expand(file_path))
+
+    image_path = p/image_name  # set image path
 
     # Read the image into a byte array
     image_data = open(image_path, "rb").read()
