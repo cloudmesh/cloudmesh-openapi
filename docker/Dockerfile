@@ -66,4 +66,4 @@ RUN ["chmod", "+x", "/root/start-server.sh"]
 RUN ["chmod", "+x", "/root/stop-server.sh"]
 RUN /root/cloudmesh-init.sh
 EXPOSE 8080
-ENTRYPOINT ["/bin/sh"]
+CMD ["/bin/bash"]
