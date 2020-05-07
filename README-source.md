@@ -505,3 +505,46 @@ checks.
 * Running Pytests for the LinearRegression.py generated from 6a pytest
 
   pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
+
+ 
+  
+## Scikit-Learn generator with file read capabilities
+
+* This Command will generate the .py file for the module in the Scikit learn.
+
+  cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregnew
+
+* Generate the .yaml from the sklearn py file which supports upload functionality so that you can upload files
+
+  cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions --enable_upload
+
+* Start the Server from the .yaml file
+
+  cms openapi server start ./tests/generator/LinearRegression.yaml
+
+  Access the URL at http://localhost:8080/cloudmesh/ui/
+
+* Download the files from Scikit-learntestfiles
+    
+   X_SAT, y_GPA
+   
+* Use Upload functionality in Server to upload the files.
+
+* These files should land in ~/.cloudmesh/upload-file in your local
+
+* Now you can Fit and predict 
+
+* Stop the Server 
+
+  Replace the PID of the server in the below command to stop the server.
+
+  cms openapi server stop PID
+
+
+## Pytests for Scikit learn tests.
+
+* Generate the .py for the Scikit learn module woth file reading capabilities
+
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06c_sklearngeneratortest.py
+
+* Running Pytests for the LinearRegression.py generated from 6d pytest
