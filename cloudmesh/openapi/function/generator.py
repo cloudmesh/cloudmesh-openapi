@@ -398,6 +398,9 @@ class Generator:
         for k, v in func_objects.items():  # k = function_name, v = function object
             VERBOSE(v)
             func_name = v.__name__
+            # otherwise it will process the upload function, which doesn't have a defined response
+            if func_name == 'upload' and enable_upload == True:
+                continue
             Console.info('*'*40)
             Console.info(f"Currently processing function: {func_name}")
 

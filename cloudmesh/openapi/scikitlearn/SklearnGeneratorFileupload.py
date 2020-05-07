@@ -5,6 +5,7 @@ from pydoc import locate
 from numpydoc import docscrape
 
 
+
 class TypeScraper:
     """
     Scrape types from a string.
@@ -64,11 +65,21 @@ class Generator:
     importfuction = textwrap.dedent("""
         from {library}.{module} import {class_nm}
         import numpy as np
+        import pandas as pd
         import array
         from cloudmesh.openapi.registry.cache import ResultCache
+        from cloudmesh.openapi.registry.fileoperation import FileOperation
                 """)
 
-    functiontemplatearrayandX_param = textwrap.dedent("""
+    uploadfunction =  textwrap.dedent("""
+    
+      def upload() -> str:
+
+        filename = FileOperation().file_upload()
+        return filename
+        """)
+
+    functiontemplateretarryXandY = textwrap.dedent("""
     
         def {functioname}({parameters}) -> {returnparam1}:
         
@@ -79,7 +90,10 @@ class Generator:
             {docstring}
             {text1}
             
+            {X_input}
+            {y_input}
             {X_numpyconversion}
+            {y_upload}
             model = ResultCache().load("{model_tag}")
             {returnparam1} = model.{functioname}({param_wo_type})
             {returnparam1} = {returnparam1}.tolist()
@@ -88,7 +102,7 @@ class Generator:
             return {returnparam1}
         """)
 
-    functiontemplatewithX_param = textwrap.dedent("""
+    functiontemplateretarryX = textwrap.dedent("""
 
             def {functioname}({parameters}) -> {returnparam1}:
 
@@ -98,14 +112,57 @@ class Generator:
 
                 {docstring}
                 {text1}
-
+                
+                {X_input}
                 {X_numpyconversion}
+                model = ResultCache().load("{model_tag}")
+                {returnparam1} = model.{functioname}({param_wo_type})
+                {returnparam1} = {returnparam1}.tolist()
+
+
+                return {returnparam1}
+            """)
+
+    functiontemplateXandY = textwrap.dedent("""
+
+            def {functioname}({parameters}) -> {returnparam1}:
+
+                {text1}
+                {description}
+
+
+                {docstring}
+                {text1}
+                
+                {X_input}
+                {y_input}
+                {X_numpyconversion}
+                {y_upload}
                 model = ResultCache().load("{model_tag}")
                 {returnparam1} = model.{functioname}({param_wo_type})
                 
                 
                 return {returnparam1}
             """)
+    functiontemplatewithonlyX_param = textwrap.dedent("""
+
+                def {functioname}({parameters}) -> {returnparam1}:
+
+                    {text1}
+                    {description}
+
+
+                    {docstring}
+                    {text1}
+                    
+                    {X_input}
+                    {X_numpyconversion}
+                    model = ResultCache().load("{model_tag}")
+                    {returnparam1} = model.{functioname}({param_wo_type})
+
+
+                    return {returnparam1}
+                """)
 
     functiontemplate = textwrap.dedent("""
 
@@ -155,7 +212,10 @@ class Generator:
                     {docstring}
                     {text1}
                     
+                    {X_input}
+                    {y_input}
                     {X_numpyconversion}
+                    {y_upload}
                     {functioname} = {base_estimator}().{functioname}({param_wo_type})
                     ResultCache().save("{model_tag}","pickle",{functioname})
 
@@ -345,40 +405,94 @@ class Generator:
         functionname = class_obj.__name__
         match = re.search(r'X: array', parametersfunc)
         X_param_index = parametersfunc.find('X: array')
+        y_param_index = parametersfunc.find('y: array')
         sample_weight_index = parametersfunc.find('sample_weight: array')
         if sample_weight_index != -1:
             parametersfunc = parametersfunc[:sample_weight_index - 2]
-        sample_weight_index_params = params.find('sample_weight')
+        sample_weight_index_params =  params.find('sample_weight')
         if sample_weight_index_params != -1:
-            params = params[:sample_weight_index_params - 2]
+            params = params[:sample_weight_index_params-2]
+
         if match:
-            parametersfunc =  parametersfunc + "," + " X_shape_x: int," + " X_shape_y: int"
-        parametersfunc = parametersfunc.replace('array','list')
-        X_numpyconversion = f"X = np.array(X).reshape(X_shape_x,X_shape_y)"
+            #parametersfunc =  parametersfunc + "," + " X_shape_x: int," + " X_shape_y: int"
+            parametersfunc = parametersfunc
+        parametersfunc = parametersfunc.replace('array','str')
+#        X_numpyconversion = f"X = np.array(X).reshape(X_shape_x,X_shape_y)"
+       # "~/.cloudmesh/upload-file/" + f"{X}" + ".csv"
+        X_input = "\"~/.cloudmesh/upload-file/\" + f\"{X}\" + \".csv\""
+        X_input = "X_input = " + f'{X_input}'
+        y_input =  "\"~/.cloudmesh/upload-file/\" + f\"{y}\" + \".csv\""
+        y_input = "y_input = " + f'{y_input}'
+        #X_upload = "X = pd.read_csv(f\"~/.cloudmesh/upload-file/{X}.csv\")"
+        X_upload = "X = pd.read_csv(X_input)"
+        y_upload = "y = pd.read_csv(y_input)"
+        #sample_weight_upload = "sample_weight = pd.read_csv(\"~/.cloudmesh/upload-file/sample_weight.csv\")"
+
+
+
 
         if returnparam != '':
-            if returnparam == 'array' and  X_param_index == 0 :
+            if returnparam == 'array' and  (X_param_index == 0 and y_param_index == 10 ):
                 returnparam = 'list'
 
-                spec = self.functiontemplatearrayandX_param.format(
+                spec = self.functiontemplateretarryXandY.format(
                     functioname=functionname,
                     description=description,
                     text1=text1,
                     model_tag=model_tag,
-                    X_numpyconversion=X_numpyconversion,
+                    X_input = X_input,
+                    y_input = y_input,
+                    X_numpyconversion=X_upload,
+                    y_upload=y_upload,
                     parameters=parametersfunc,
                     param_wo_type=params,
                     docstring=docstring,
                     returnparam1=returnparam
                 )
                 return spec
-            elif X_param_index == 0 :
-                spec = self.functiontemplatewithX_param.format(
+            elif (X_param_index == 0 and y_param_index == 10):
+                spec = self.functiontemplateXandY.format(
                     functioname=functionname,
                     description=description,
                     text1=text1,
                     model_tag=model_tag,
-                    X_numpyconversion=X_numpyconversion,
+                    X_input=X_input,
+                    y_input=y_input,
+                    X_numpyconversion=X_upload,
+                    y_upload=y_upload,
+                    parameters=parametersfunc,
+                    param_wo_type=params,
+                    docstring=docstring,
+                    returnparam1=returnparam
+                )
+                return spec
+
+            elif (returnparam == 'array' and (X_param_index == 0 and y_param_index == -1)):
+                returnparam = 'list'
+
+                spec = self.functiontemplateretarryX.format(
+                    functioname=functionname,
+                    description=description,
+                    text1=text1,
+                    model_tag=model_tag,
+                    X_input=X_input,
+                    X_numpyconversion=X_upload,
+                    parameters=parametersfunc,
+                    param_wo_type=params,
+                    docstring=docstring,
+                    returnparam1=returnparam
+                )
+                return spec
+
+            elif (X_param_index == 0 and y_param_index == -1):
+
+                spec = self.functiontemplatewithonlyX_param.format(
+                    functioname=functionname,
+                    description=description,
+                    text1=text1,
+                    model_tag=model_tag,
+                    X_input=X_input,
+                    X_numpyconversion=X_upload,
                     parameters=parametersfunc,
                     param_wo_type=params,
                     docstring=docstring,
@@ -405,7 +519,10 @@ class Generator:
                     functioname=functionname,
                     description=description,
                     base_estimator=base_estimator,
-                    X_numpyconversion=X_numpyconversion,
+                    X_input=X_input,
+                    y_input=y_input,
+                    X_numpyconversion=X_upload,
+                    y_upload=y_upload,
                     model_tag=model_tag,
                     text1=text1,
                     parameters=parametersfunc,
@@ -456,8 +573,17 @@ class Generator:
         )
         return spec
 
+    def generate_upload(self):
+        """
+        :param input_params: takes the input passed from the function
+        :return:
+        """
 
-def Sklearngenerator(input_sklibrary,model_tag):
+        spec = self.uploadfunction.format()
+
+        return spec
+
+def SklearngeneratorFile(input_sklibrary,model_tag):
     my_class = locate(input_sklibrary)
     method_list = [func for func,value in inspect.getmembers(my_class) if func[0] != '_']
     method_list = [value for value in method_list if value != 'classes_']
@@ -470,8 +596,6 @@ def Sklearngenerator(input_sklibrary,model_tag):
     spec = openAPI.generate_import_params(input_params)
     print(f"Writing python code to file: {input_params[-1]}.py")
     open(f"./tests/generator/{input_params[-1]}.py", 'w').write(spec)
-    #spec = openAPI.generate_function(module, class_name,base_estimator)
-    #open(f"{input_params[-1]}.py", 'a').write(spec)
     for i in range(len(method_list)):
         module = my_class
         function = method_list[i]
@@ -480,7 +604,7 @@ def Sklearngenerator(input_sklibrary,model_tag):
         open(f"./tests/generator/{input_params[-1]}.py", 'a').write(spec)
 
 if __name__ == "__main__":
-    Sklearngenerator(input_sklibrary,model_tag)
+    SklearngeneratorFile(input_sklibrary,model_tag)
 
 
 

@@ -64,5 +64,7 @@ COPY . /root
 RUN ["chmod", "+x", "/root/cloudmesh-init.sh"]
 RUN ["chmod", "+x", "/root/start-server.sh"]
 RUN ["chmod", "+x", "/root/stop-server.sh"]
+RUN /root/cloudmesh-init.sh
 EXPOSE 8080
-ENTRYPOINT /root/cloudmesh-init.sh
+WORKDIR /usr/local/code/cloudmesh-openapi
+CMD ["/bin/bash"]

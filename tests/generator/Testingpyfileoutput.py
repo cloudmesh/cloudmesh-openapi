@@ -1,19 +1,18 @@
-from tests.generator import LogisticRegression
+from tests.generator import LinearRegression
 import numpy as np
 from sklearn.datasets import load_iris
 #X, y = load_iris(return_X_y=True)
-X = [1,2,3,4,5,6,7,8]
-y = [1,3,5,7]
-y = np.array(y)
-sample_weight = [1,1,1,1]
-print(type(y))
+X = "X.csv"
+y = "y.csv"
+
+sample_weight = "sample_weight.csv"
 #print(np.array(y))
 
-fit = LogisticRegression.fit(X,y,sample_weight,4,2)
-print(LogisticRegression.predict(X,4,2))#
-print(LogisticRegression.decision_function(X,4,2))
-print(LogisticRegression.predict_proba(X,4,2))
-print(LogisticRegression.score(X,y,sample_weight,4,2))
+fit = LinearRegression.fit(X,y)
+print(LinearRegression.predict(X))
+# print(LogisticRegression.decision_function(X,4,2))
+#print(LinearRegression.predict_proba(X,4,2))
+print(LinearRegression.score(X,y))
 
 # from tests.generator import LinearRegression
 # from sklearn.datasets import load_iris

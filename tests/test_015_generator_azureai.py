@@ -13,12 +13,12 @@ from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
 
 directory = "./tests/generator-azureai"
-filename = "azure-ai-image.py"
+filename = "azure-ai-image-function.py"
 
 location = f"{directory}/{filename}"
 
 
-"cms openapi generate azure_ai_image --baseurl="./tests/generator-azureai" --filename=azure-ai-image.py --yamldirectory="./tests/generator-azureai" --all_functions"
+"cms openapi generate azure_ai_image --filename="./tests/generator-azureai/azure-ai-image-function.py" --all_functions"
 
 
 @pytest.mark.incremental
@@ -32,7 +32,7 @@ class TestGenerator:
 
         Benchmark.Start()
         Shell.run(
-            "cms openapi generate azure_ai_image --yamldirectory={directory} --filename={location}")
+            "cms openapi generate azure_ai_image --filename={location} --all_functions")
         Benchmark.Stop()
 
     def test_read_spec(self):
@@ -71,12 +71,12 @@ class rest:
         time.sleep(2)
         baseurl = "http://127.0.0.1:8080/cloudmesh"
 
-        curl = f"curl {baseurl}/azureimage"
+        curl = f"curl {baseurl}/azure-ai-image-function"
 
         response = Shell.run(curl)
         assert response.__contains__("200")
 
-        Shell.cms("openapi server stop azureimage   ")
+        Shell.cms("openapi server stop azure-ai-image-function")
         response = Shell.run(curl)
         fail_message = "Failed to connect to 127.0.0.1 port 80: Connection refuse"
         assert response.__contains__(fail_message)

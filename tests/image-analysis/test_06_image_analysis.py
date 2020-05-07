@@ -1,5 +1,7 @@
 ###############################################################
-# pytest -v --capture=no tests/server-cms/test_04_generator.py
+# pytest -v --capture=no tests/test_03_generator.py
+# pytest -v  tests/test_03_generator.py
+# pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
 ###############################################################
 import os
 import time
@@ -8,14 +10,12 @@ import sys
 sys.path.append("./tests/lib")
 from generator_test import GeneratorBaseTest, ServerBaseTest
 import pytest
-filename="./tests/server-cms/cms.py"
-all_functions= True
-import_class=False
-from cloudmesh.common.Benchmark import Benchmark
-from cloudmesh.common.debug import VERBOSE
-from cloudmesh.common.util import HEADING
-import requests
 
+
+filename="./tests/image-analysis/image.py"
+all_functions= False
+import_class=False
+function_name = "detect_text"
 
 @pytest.mark.incremental
 class TestGeneratorTestClass():
@@ -23,7 +23,7 @@ class TestGeneratorTestClass():
 
     @pytest.fixture(scope="module")
     def generatorBaseTestFixture(self):
-        gen= GeneratorBaseTest(filename,all_functions,import_class)
+        gen= GeneratorBaseTest(filename,all_functions,import_class,function_name)
         return gen
 
     @pytest.fixture(scope="module")
@@ -49,24 +49,10 @@ class TestGeneratorTestClass():
     def test_start_service(self,serverBaseTestFixture):
         serverBaseTestFixture.start_service()
 
-    def test_cms(self):
-        HEADING()
-        url = f"http://127.0.0.1:8080/cloudmesh/cms/test"
-        Benchmark.Start()
-        payload = {'service': 'value1'}
-        result = requests.get(url, params=payload)
-        assert result.status_code == 200, "Status code value should be 200"
-        assert result.reason == 'OK'
-        assert result.headers['content-type'] == 'text/plain; charset=utf-8'
-        assert result.json().get('test') is not None
-        Benchmark.Stop()
-        VERBOSE(result)
+    ## add my own test case here
 
     def test_stop_server(self,serverBaseTestFixture):
         serverBaseTestFixture.stop_server()
 
     def test_delete_build_file(self, generatorBaseTestFixture):
         generatorBaseTestFixture.delete_file()
-
-    def test_benchmark(self,generatorBaseTestFixture):
-        Benchmark.print(sysinfo=True, csv=True, tag=generatorBaseTestFixture.service)

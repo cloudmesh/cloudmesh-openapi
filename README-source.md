@@ -1,19 +1,30 @@
 # Cloudmesh OpenAPI Merge
 
-{icons}
 
-{warning}
+[![image](https://img.shields.io/travis/TankerHQ/cloudmesh-openapi.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesh-openapi)
+[![image](https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi)
+[![image](https://img.shields.io/pypi/v/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi/)
+[![image](https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg)](https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE)
 
-## Prerequisits
+
+
+> **Note:** The README.md page is automatically generated, do not edit it.
+> To modify  change the content in
+> <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md>
+> curly brackets must use two in README-source.md
+
+
+## Prerequisites
 
 * We use recommend Python 3.8.2 Python or newer.
 * We recommend pip version 20.0.2 or newer
 * We recommend that you use a venv (see developer install)
 * MongoDB installed as regular program not as service
+* Please run cim init command to start mongodb server
 
 We have not checked if it works on older versions.
 
-## Instalation
+## Installation
 
 Make sure that cloudmesh is properly installed on your machine and you
 have mongodb setup to work with cloudmesh.
@@ -22,7 +33,7 @@ More details to setting up mongo can be found in the
 
 * [Cloudmesh Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html)
 
-###  User Instalation
+###  User Installation
 
 Make sure you use a python venv before installing. Users can install the
 code with
@@ -32,7 +43,7 @@ $ pip install cloudmesh-openapi
 ```
 
 
-### Developere Instalation
+### Developer Installation
 
 Developers install also the source code
 
@@ -49,7 +60,29 @@ cloudmesh-installer get openapi
 
 When getting started using the `openapi`, please first call `cms help
 openapi` to see the available functions and options. For your
-convenience we include the manual page later on in this documenth.
+convenience we include the manual page later on in this document.
+
+## Quick steps to generate,start and stop CPU sample example
+
+Navigate to ~/cm/cloudmesh-openaai folder and below commands 
+
+### Generate yaml file
+
+```
+cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
+```
+
+### Start server 
+
+```
+cms openapi server start ./tests/server-cpu/cpu.yaml
+```
+
+### Start server 
+
+```
+cms openapi server stop cpu
+```
 
 ## Usage
 
@@ -152,66 +185,195 @@ is:
 
 ## Manual
 
-{manual}
+```bash
+Usage:
+openapi generate [FUNCTION] --filename=FILENAME
+                         [--serverurl=SERVERURL]
+                         [--yamlfile=YAML]
+                         [--import_class]
+                         [--all_functions]
+                         [--verbose]
+openapi server start YAML [NAME]
+              [--directory=DIRECTORY]
+              [--port=PORT]
+              [--server=SERVER]
+              [--host=HOST]
+              [--verbose]
+              [--debug]
+              [--fg]
+              [--os]
+openapi server stop NAME
+openapi server list [NAME] [--output=OUTPUT]
+openapi server ps [NAME] [--output=OUTPUT]
+openapi register add NAME ENDPOINT
+openapi register filename NAME
+openapi register delete NAME
+openapi register list [NAME] [--output=OUTPUT]
+openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
+openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
+openapi TODO doc [SERVICES...] [--dir=DIR]
+openapi sklearn generate FUNCTION MODELTAG
+openapi sklearn upload --filename=FILENAME
+
+Arguments:
+FUNCTION  The name for the function or class
+MODELTAG  The arbirtary name choosen by the user to store the Sklearn trained model as Pickle object
+FILENAME  Path to python file containing the function or class
+SERVERURL OpenAPI server URL Default: https://localhost:8080/cloudmesh
+YAML      Path to yaml file that will contain OpenAPI spec. Default: FILENAME with .py replaced by .yaml
+DIR       The directory of the specifications
+FILE      The specification
+
+Options:
+--import_class         FUNCTION is a required class name instead of an optional function name
+--all_functions        Generate OpenAPI spec for all functions in FILENAME
+--debug                Use the server in debug mode
+--verbose              Specifies to run in debug mode
+                     [default: False]
+--port=PORT            The port for the server [default: 8080]
+--directory=DIRECTORY  The directory in which the server is run
+--server=SERVER        The server [default: flask]
+--output=OUTPUT        The outputformat, table, csv, yaml, json
+                     [default: table]
+--srcdir=SRCDIR        The directory of the specifications
+--destdir=DESTDIR      The directory where the generated code
+                     is placed
+
+Description:
+This command does some useful things.
+
+openapi TODO doc FILE --format=(txt|md|rst) [--indent=INDENT]
+Sometimes it is useful to generate teh openaopi documentation
+in another format. We provide fucntionality to generate the
+documentation from the yaml file in a different formt.
+
+openapi TODO doc --format=(txt|md|rst) [SERVICES...]
+Creates a short documentation from services registered in the
+registry.
+
+openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
+Merges tow service specifications into a single servoce
+TODO: do we have a prototype of this?
+
+
+openapi sklearn sklearn.linear_model.LogisticRegression
+Generates the
+
+openapi generate [FUNCTION] --filename=FILENAME
+                         [--serverurl=SERVERURL]
+                         [--yamlfile=YAML]
+                         [--import_class]
+                         [--all_functions]
+                         [--verbose]
+Generates an OpenAPI specification for FUNCTION in FILENAME and
+writes the result to YAML. Use --import_class to import a class
+with its associated class methods, or use --all_functions to 
+import all functions in FILENAME. These options ignore functions
+whose names start with '_'
+
+openapi server start YAML [NAME]
+              [--directory=DIRECTORY]
+              [--port=PORT]
+              [--server=SERVER]
+              [--host=HOST]
+              [--verbose]
+              [--debug]
+              [--fg]
+              [--os]
+TODO: add description
+
+openapi server stop NAME
+stops the openapi service with the given name
+TODO: where does this command has to be started from
+
+openapi server list [NAME] [--output=OUTPUT]
+Provides a list of all OpenAPI services.
+TODO: Is thhis command is the same a register list?
+
+openapi server ps [NAME] [--output=OUTPUT]
+list the running openapi service
+
+openapi register add NAME ENDPOINT
+Openapi comes with a service registry in which we can register
+openapi services.
+
+openapi register filename NAME
+In case you have a yaml file the openapi service can also be
+registerd from a yaml file
+
+openapi register delete NAME
+Deletes the names service from the registry
+
+openapi register list [NAME] [--output=OUTPUT]
+Provides a list of all registerd OpenAPI services
+
+
+```
+
 
 
 ## Pytests
 
-TODO: How to run them
-
-{tests}
+Please follow [Pytest Information](tests/README.md) document for pytests related information
 
 ## Examples
 
-TBD
+### One function in python file
 
-??????
+1. Please check [Python file](tests/server-cpu/cpu.py).
 
-### One function in function.py
-
-cms openapi generate function.py -> function.yaml
-
-
-Bugs: docstring is not yet in the yaml from the function
-
-function.py
+1. Run below command to generate yaml file and start server
 
 ```
-def a(x:int, y:int):
-return 1
+cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
 ```
 
-### Multiple functions in function.py
+### Multiple functions in python file
+
+1. Please check [Python file](tests/generator-calculator/calculator.py)
+
+1. Run below command to generate yaml file and start server
 
 ```
-cms openapi generate function.py [--names=a,c] -> function.yaml
- #dont include b
+cms openapi generate --filename=./tests/generator-calculator/calculator.py --all_functions
 ```
 
-cms openapi generate function.py -> function.yaml
+```
+cms openapi generate server start ./tests/generator-calculator/calculator.py
+```
 
-function.py
+### Function(s) in python class file
 
-functions = list all functions in file
+1. Please check [Python file](tests/generator-testclass/calculator.py)
+
+1. Run below command to generate yaml file and start server
 
 ```
-def a(x:int, y:int):
-	r = b(x,y)
-	return 3
+cms openapi generate --filename=./tests/generator-testclass/calculator.py --import_class"
+```
 
-def b(x:int, y:int):
-	return 1
-
-def c(x:int, y:int):
-	return 1
+```
+cms openapi generate server start ./tests/generator-testclass/calculator.py
 ```
 
 ### Uploading data
 
-Always the same
-so we can preimplement
+Code to handle uploads is located in cloudmesh-openapi/tests/generator-upload. The code snippet in uploadexample.py and the specification in uploadexample.yaml can be added to existing projects by adding the `--enable_upload` flag to the `cms openapi generate` command. The web service will be able to retrieve the uploaded file from ~/.cloudmesh/upload-file/. 
 
-abc.txt -> /data/xyz/klmn.txt
+#### Upload example
+
+This example shows how to upload a CSV file and how the web service can retrieve it.
+
+First, generate the OpenAPI specification and start the server
+
+```
+cms openapi generate print_csv2np --filename=./tests/generator-upload/csv_reader.py --enable_upload
+cms openapi server start ./tests/generator-upload/csv_reader.yaml
+```
+
+Next, navigate to localhost:8080/cloudmesh/ui. Click to open the /upload endpoint, then click 'Try it out.' Click to choose a file to upload, then upload tests/generator-upload/np_test.csv. Click 'Execute' to complete the upload.
+
+To access what was in the uploaded file, click to open the /print_csv2np endpoint, then click 'Try it out.' Enter np_test.csv in the field that prompts for a filename, and then click Execute to view the numpy array defined by the CSV file.
 
 ### Downloading data
 
@@ -227,7 +389,20 @@ merge [APIS...] - > single.yaml
 
 ### Google
 
-* Andrew
+After you create your google cloud account, it is recommended to download and install Google's [Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts).
+This will enable CLI. Make sure you enable all the required services. 
+
+For example:
+
+`gcloud services enable servicemanagement.googleapis.com`
+<BR>
+`gcloud services enable servicecontrol.googleapis.com`
+<BR>
+`gcloud services enable endpoints.googleapis.com`
+
+and any other services you might be using for your specific Cloud API function. 
+
+
 
 ### AWS
 
@@ -235,7 +410,50 @@ merge [APIS...] - > single.yaml
 
 ### Azure
 
-* Andrew
+Using the Azure Computer Vision AI service, you can describe, analyze and/ or get tags for a locally stored image or you can read the text from an image or hand-written file.
+
+#### Prerequisite for setting up Azure ComputerVision AI service
+
+* Azure subscription. If you don't have one, create a [free account](https://azure.microsoft.com/try/cognitive-services/) before you continue further.
+* Create a Computer Vision resource and get the COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT. Follow [instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix) to get the same.
+* Install following Python packages in your virtual environment:
+  * requests
+  * Pillow
+* Install Computer Vision client library
+  * ```pip install --upgrade azure-cognitiveservices-vision-computervision```
+
+#### Steps to implement and use Azure AI image and text *REST-services*
+
+* Go to `./cloudmesh-openapi` directory
+
+* Run following command to generate the YAML files
+
+  `cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload`<br>
+  `cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload`
+
+* Verify the *YAML* files created in `./tests/generator-azureai` directory
+
+  * `azure-ai-image-function.yaml`
+  * `azure-ai-text-function.yaml`
+  
+* Start the REST service by running following command in `./cloudmesh-openapi` directory
+
+  `cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml`
+
+The default port used for starting the service is 8080. In case you want to start more than one REST service, use a different port in following command: 
+
+  `cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>`
+
+* Access the REST service using [http://localhost:8080/cloudmesh/ui/](http://localhost:8080/cloudmesh/ui/)
+
+* Check the running REST services using following command:
+
+  `cms openapi server ps`
+
+* Stop the REST service using following command(s):
+
+  `cms openapi server stop azure-ai-image-function`<br>
+  `cms openapi server stop azure-ai-text-function`  
 
 ### Openstack
 
@@ -250,34 +468,89 @@ merge [APIS...] - > single.yaml
 
 
 
-## sckit learn
+## scikit learn
 
-```
---output=yaml
---output=function
+Before running these commands Please install Cloudmesh-openapi and test a Quickstart for configuration
+checks.
 
-generatie a function by hand, where is the documentation, where are
-the links ???
+## Run all these commands from the cloudmesh-openapi directory.
 
-This motivates doing it automatically.
+* This Command will generate the .py file for the module in the Scikit learn.
 
-def param(name, type, description):
-	t1 = f":param {{name}}: {{description}}"
-    t2 = f":type {{type}}"
-	return t
+  cms openapi sklearn  sklearn.linear_model.LinearRegression Linregpytest
+
+* Generate the .yaml from the sklearn py file.
+
+  cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions
+
+* Start the Server from the .yaml file
+
+  cms openapi server start ./tests/generator/LinearRegression.yaml
+
+  Access the URL at http://localhost:8080/cloudmesh/ui/
+
+* Stop the Server 
+
+  Replace the PID of the server in the below command to stop the server.
+
+  cms openapi server stop PID
 
 
+## Pytests for Scikit learn tests.
 
-spec -> function.py with typing -> generator -> yaml
+* Generate the .py for the Scikit learn module
 
-spec -> yaml
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
 
-cms generate --sckitlearn --name=abc --function="LinearRegression().fit" -> LinearRegression_fit.yaml
+* Running Pytests for the LinearRegression.py generated from 6a pytest
 
-cms generate --sckitlearn --name=abc --function="LinearRegression().predict,LinearRegression().fit"  -> LinearRegression_abc.yaml
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
 
-cms generate --sckitlearn --class="LinearRegression"  -> LinearRegression.yaml
+ 
+  
+## Scikit-Learn generator with file read capabilities
 
-	* integrate all methods in the class
-```
+* Install Pandas,scikit-learn
+ 
+  pip install pandas
+  
+  pip install scikit-learn
 
+* This Command will generate the .py file for the module in the Scikit learn.
+
+  cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregnew
+
+* Generate the .yaml from the sklearn py file which supports upload functionality so that you can upload files
+
+  cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions --enable_upload
+
+* Start the Server from the .yaml file
+
+  cms openapi server start ./tests/generator/LinearRegression.yaml
+
+  Access the URL at http://localhost:8080/cloudmesh/ui/
+
+* Download the files from Scikit-learntestfiles
+    
+   X_SAT, y_GPA
+   
+* Use Upload functionality in Server to upload the files.
+
+* These files should land in ~/.cloudmesh/upload-file in your local
+
+* Now you can Fit and predict 
+
+* Stop the Server 
+
+  Replace the PID of the server in the below command to stop the server.
+
+  cms openapi server stop PID
+
+
+## Pytests for Scikit learn tests.
+
+* Generate the .py for the Scikit learn module woth file reading capabilities
+
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06c_sklearngeneratortest.py
+
+* Running Pytests for the LinearRegression.py generated from 6d pytest

@@ -7,24 +7,16 @@ import os
 import time
 from pprint import pprint
 
-import pytest
-import tests.util as util
-from cloudmesh.common.Benchmark import Benchmark
-from cloudmesh.common.Shell import Shell
-from cloudmesh.common.util import HEADING
-#variable=Variables()
-#filename= variable['filename']
-import os
-import time
-from pprint import pprint
-import sys
-sys.path.append("./tests/Scikitlearn-tests")
-from cloudmesh.openapi.scikitlearn import SklearnGenerator
-from tests.generator import LogisticRegression
-import pytest
-from cloudmesh.common.dotdict import dotdict
 
-filename="./tests/generator/LogisticRegression.py"
+from cloudmesh.common.Benchmark import Benchmark
+from cloudmesh.common.util import HEADING
+from tests.generator import LinearRegression
+
+import sys
+sys.path.append("./tests/Scikitlearn_tests")
+import pytest
+
+filename="./tests/generator/LinearRegression.py"
 all_functions= True
 import_class=False
 X = [1,2,3,4,5,6,7,8]
@@ -43,7 +35,7 @@ class Test:
 
         HEADING()
         Benchmark.Start()
-        LogisticRegression.fit(X,y,sample_weight,X_shape_x,X_shape_y)
+        LinearRegression.fit(X,y,X_shape_x,X_shape_y)
         Benchmark.Stop()
         assert True
 
@@ -53,29 +45,29 @@ class Test:
         """
         HEADING()
         Benchmark.Start()
-        score = LogisticRegression.score(X,y,sample_weight,X_shape_x,X_shape_y)
+        score = LinearRegression.score(X,y,X_shape_x,X_shape_y)
         Benchmark.Stop()
         assert score > 0
 
-    def test_predict_proba(self):
-        """
-        function to test the predict_proba
-        """
-        HEADING()
-        Benchmark.Start()
-        LogisticRegression.predict_proba(X,X_shape_x,X_shape_y)
-        Benchmark.Stop()
-        assert True
-
-    def test_predict_log_proba(self):
-        """
-        function to test the predict_log_proba
-        """
-        HEADING()
-        Benchmark.Start()
-        LogisticRegression.predict_log_proba(X,X_shape_x,X_shape_y)
-        Benchmark.Stop()
-        assert True
+    # def test_predict_proba(self):
+    #     """
+    #     function to test the predict_proba
+    #     """
+    #     HEADING()
+    #     Benchmark.Start()
+    #     LinearRegression.predict_proba(X,X_shape_x,X_shape_y)
+    #     Benchmark.Stop()
+    #     assert True
+    #
+    # def test_predict_log_proba(self):
+    #     """
+    #     function to test the predict_log_proba
+    #     """
+    #     HEADING()
+    #     Benchmark.Start()
+    #     LogisticRegression.predict_log_proba(X,X_shape_x,X_shape_y)
+    #     Benchmark.Stop()
+    #     assert True
 
     def test_predict(self):
         """
@@ -83,7 +75,7 @@ class Test:
         """
         HEADING()
         Benchmark.Start()
-        LogisticRegression.predict(X,X_shape_x,X_shape_y)
+        LinearRegression.predict(X,X_shape_x,X_shape_y)
         Benchmark.Stop()
         assert True
 
