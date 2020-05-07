@@ -80,3 +80,12 @@ def get_text_results(image_name: str) -> str:
     read_text = response.json()
     #print(read_text
     return read_text
+
+
+from cloudmesh.openapi.registry.fileoperation import FileOperation
+
+def upload() -> str:
+    filename=FileOperation().file_upload()
+    return filename
+
+#### upload functionality added

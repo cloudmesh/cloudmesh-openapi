@@ -48,11 +48,11 @@ def get_image_desc(image_name: str) -> str:
     describe_url = endpoint + "vision/v2.1/describe"
 
     # Set image_path to the local path of an image
-    file_path = f"~/.cloudmesh/upload-file"
-
+    file_path = f"~/.cloudmesh/upload-file/"
     p = Path(path_expand(file_path))
-
+    print(p)
     image_path = p/image_name  # set image path
+    print(image_path)
 
     # Read the image into a byte array
     image_data = open(image_path, "rb").read()
@@ -87,7 +87,7 @@ def get_image_analysis(image_name: str) -> str:
 
     p = Path(path_expand(file_path))
 
-    image_path = p/image_name  # set image path
+    image_path = p + image_name  # set image path
 
     # Read the image into a byte array
     image_data = open(image_path, "rb").read()
@@ -122,7 +122,7 @@ def get_image_tags(image_name: str) -> str:
 
     p = Path(path_expand(file_path))
 
-    image_path = p/image_name  # set image path
+    image_path = p + image_name  # set image path
 
     # Read the image into a byte array
     image_data = open(image_path, "rb").read()
@@ -141,3 +141,12 @@ def get_image_tags(image_name: str) -> str:
     image_tags = response.json()
     #print(image_tags)
     return image_tags
+
+
+from cloudmesh.openapi.registry.fileoperation import FileOperation
+
+def upload() -> str:
+    filename=FileOperation().file_upload()
+    return filename
+
+#### upload functionality added
