@@ -50,7 +50,7 @@ class TestGeneratorTestClass():
     def test_start_service(self,serverBaseTestFixture):
         serverBaseTestFixture.start_service()
 
-    def test_cpu(self):
+    def test_dividefloat(self):
         HEADING()
         url = f"http://127.0.0.1:8080/cloudmesh/Calculator/dividefloat"
         Benchmark.Start()
@@ -61,6 +61,20 @@ class TestGeneratorTestClass():
         assert result.headers['content-type'] == 'text/plain; charset=utf-8'
         print(result.json())
         assert result.json() ==1.0
+        Benchmark.Stop()
+        VERBOSE(result)
+
+    def test_multiplyint(self):
+        HEADING()
+        url = f"http://127.0.0.1:8080/cloudmesh/Calculator/multiplyint"
+        Benchmark.Start()
+        payload = {'x': '10', 'y' :'10'}
+        result = requests.get(url, params=payload)
+        assert result.status_code == 200, "Status code value should be 200"
+        assert result.reason == 'OK'
+        assert result.headers['content-type'] == 'text/plain; charset=utf-8'
+        print(result.json())
+        assert result.json() ==100.0
         Benchmark.Stop()
         VERBOSE(result)
 

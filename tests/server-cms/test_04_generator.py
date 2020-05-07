@@ -49,7 +49,7 @@ class TestGeneratorTestClass():
     def test_start_service(self,serverBaseTestFixture):
         serverBaseTestFixture.start_service()
 
-    def test_cpu(self):
+    def test_cms(self):
         HEADING()
         url = f"http://127.0.0.1:8080/cloudmesh/cms/test"
         Benchmark.Start()
