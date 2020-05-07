@@ -510,9 +510,11 @@ checks.
   
 ## Scikit-Learn generator with file read capabilities
 
-* Install Pandas
-  
+* Install Pandas,scikit-learn
+ 
   pip install pandas
+  
+  pip install scikit-learn
 
 * This Command will generate the .py file for the module in the Scikit learn.
 
