@@ -510,6 +510,6 @@ checks.
 
 * Running Pytests for the LinearRegression.py generated from 6d pytest
 
-  pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06d_sklearngeneratortest.py
  
  
