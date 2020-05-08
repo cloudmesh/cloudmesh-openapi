@@ -9,10 +9,23 @@ define banner
 	@echo "############################################################"
 endef
 
-readme:
-	python ../cloudmesh-common/bin/readme.py cloudmesh-$(package) cms
+
+readme: readme-generate
 	-git commit -m "Upadte Readme" README.md README-source.md
 	-git push
+
+readme-generate:
+	python ../cloudmesh-common/bin/readme.py cloudmesh-$(package) cms
+
+doc:
+	mkdir -p docs
+	cp -r sphinx/sphinx-docs/_build/html/* docs
+	touch docs/.nojekyll
+
+doc-real:
+	mkdir -p docs
+	cd sphinx; gen_apidoc.sh
+	cp sphinx/sphinx_docs/_build/html/docs
 
 source:
 	cd ../cloudmesh-common; make source
