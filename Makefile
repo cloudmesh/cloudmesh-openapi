@@ -32,6 +32,9 @@ doc:
 	cd sphinx/sphinx-docs; make html
 	cp -r sphinx/sphinx-docs/_build/html/* docs
 	touch docs/.nojekyll
+	pandoc README.md -o docs/README.rst
+	pandoc README-Scikitlearn.md -o docs/README-Scikitlearn.rst
+	pandoc README.md -o docs/README.rst
 
 doc-real:
 	mkdir -p docs
