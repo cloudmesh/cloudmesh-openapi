@@ -86,7 +86,7 @@ We can interact with the Scikit-learn library using either CURL commands or thro
 5. Utilize the Scikit-learn generate command to create the python file which will used to generate OpenAPI spec
 
     ```bash
-    cms openapi sklearn  sklearn.linear_model.LinearRegression Linregpytest
+    cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregpytest
     ```
      
     The sample generated file can be viewed at [tests/generator](https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/generator)
