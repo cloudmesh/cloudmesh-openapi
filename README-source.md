@@ -1,17 +1,8 @@
 # Cloudmesh OpenAPI Merge
 
+{warning}
 
-[![image](https://img.shields.io/travis/TankerHQ/cloudmesh-openapi.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesh-openapi)
-[![image](https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi)
-[![image](https://img.shields.io/pypi/v/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi/)
-[![image](https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg)](https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE)
-
-
-
-> **Note:** The README.md page is automatically generated, do not edit it.
-> To modify  change the content in
-> <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md>
-> curly brackets must use two in README-source.md
+{icons}
 
 
 ## Prerequisites
@@ -36,7 +27,13 @@ More details to setting up mongo can be found in the
 ###  User Installation
 
 Make sure you use a python venv before installing. Users can install the
-code with
+code withpython -m venv ~/ENV3
+source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
+mkdir cm
+cd cm
+pip install cloudmesh-installer
+cloudmesh-installer get openapi 
+
 
 ```bash
 $ pip install cloudmesh-openapi
@@ -58,7 +55,13 @@ cloudmesh-installer get openapi
 
 ## Overview
 
-When getting started using the `openapi`, please first call `cms help
+When getting started using the `openapi`, please first call `cms helppython -m venv ~/ENV3
+source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
+mkdir cm
+cd cm
+pip install cloudmesh-installer
+cloudmesh-installer get openapi 
+
 openapi` to see the available functions and options. For your
 convenience we include the manual page later on in this document.
 
@@ -95,7 +98,13 @@ cms openapi server stop cpu
 ### Writing Python
 
 Cloudmesh uses introspection to generate an OpenAPI compliant YAML specification that will allow your Python code to run as a web service. For this reason, any code you write must conform to a set of guidelines.
-- The parameters and return values of any functions you write must use typing
+- The parameters and return values of any functions you write must use typingpython -m venv ~/ENV3
+source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
+mkdir cm
+cd cm
+pip install cloudmesh-installer
+cloudmesh-installer get openapi 
+
 - Your functions must include docstrings
 - If a function uses or returns a class, that class must be defined as a dataclass in the same file
 
@@ -125,13 +134,13 @@ $ cms openapi generate [function_name] --filename=[filename.py]
 
 If you would like to include more than one function in your web service, like addition and subtraction, use the `--all_functions` flag. This will ignore functions whose names start with '\_'.
 
-```
+```bash
 $ cms openapi generate --filename=[filename.py] --all_functions
 ```
 
 You can even write a class like Calculator that contains functions for addition, subtraction, etc. You can generate a specification for an entire class by using the `--import_class` flag.
 
-```
+```bash
 $ cms openapi generate [ClassName] --filename=[filename.py] --import_class
 ```
 
@@ -169,131 +178,7 @@ $ cms openapi stop [server name]
 
 ## Manual
 
-```bash
-Usage:
-openapi generate [FUNCTION] --filename=FILENAME
-                         [--serverurl=SERVERURL]
-                         [--yamlfile=YAML]
-                         [--import_class]
-                         [--all_functions]
-                         [--verbose]
-openapi server start YAML [NAME]
-              [--directory=DIRECTORY]
-              [--port=PORT]
-              [--server=SERVER]
-              [--host=HOST]
-              [--verbose]
-              [--debug]
-              [--fg]
-              [--os]
-openapi server stop NAME
-openapi server list [NAME] [--output=OUTPUT]
-openapi server ps [NAME] [--output=OUTPUT]
-openapi register add NAME ENDPOINT
-openapi register filename NAME
-openapi register delete NAME
-openapi register list [NAME] [--output=OUTPUT]
-openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
-openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
-openapi TODO doc [SERVICES...] [--dir=DIR]
-openapi sklearn generate FUNCTION MODELTAG
-openapi sklearn upload --filename=FILENAME
-
-Arguments:
-FUNCTION  The name for the function or class
-MODELTAG  The arbirtary name choosen by the user to store the Sklearn trained model as Pickle object
-FILENAME  Path to python file containing the function or class
-SERVERURL OpenAPI server URL Default: https://localhost:8080/cloudmesh
-YAML      Path to yaml file that will contain OpenAPI spec. Default: FILENAME with .py replaced by .yaml
-DIR       The directory of the specifications
-FILE      The specification
-
-Options:
---import_class         FUNCTION is a required class name instead of an optional function name
---all_functions        Generate OpenAPI spec for all functions in FILENAME
---debug                Use the server in debug mode
---verbose              Specifies to run in debug mode
-                     [default: False]
---port=PORT            The port for the server [default: 8080]
---directory=DIRECTORY  The directory in which the server is run
---server=SERVER        The server [default: flask]
---output=OUTPUT        The outputformat, table, csv, yaml, json
-                     [default: table]
---srcdir=SRCDIR        The directory of the specifications
---destdir=DESTDIR      The directory where the generated code
-                     is placed
-
-Description:
-This command does some useful things.
-
-openapi TODO doc FILE --format=(txt|md|rst) [--indent=INDENT]
-Sometimes it is useful to generate teh openaopi documentation
-in another format. We provide fucntionality to generate the
-documentation from the yaml file in a different formt.
-
-openapi TODO doc --format=(txt|md|rst) [SERVICES...]
-Creates a short documentation from services registered in the
-registry.
-
-openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
-Merges tow service specifications into a single servoce
-TODO: do we have a prototype of this?
-
-
-openapi sklearn sklearn.linear_model.LogisticRegression
-Generates the
-
-openapi generate [FUNCTION] --filename=FILENAME
-                         [--serverurl=SERVERURL]
-                         [--yamlfile=YAML]
-                         [--import_class]
-                         [--all_functions]
-                         [--verbose]
-Generates an OpenAPI specification for FUNCTION in FILENAME and
-writes the result to YAML. Use --import_class to import a class
-with its associated class methods, or use --all_functions to 
-import all functions in FILENAME. These options ignore functions
-whose names start with '_'
-
-openapi server start YAML [NAME]
-              [--directory=DIRECTORY]
-              [--port=PORT]
-              [--server=SERVER]
-              [--host=HOST]
-              [--verbose]
-              [--debug]
-              [--fg]
-              [--os]
-TODO: add description
-
-openapi server stop NAME
-stops the openapi service with the given name
-TODO: where does this command has to be started from
-
-openapi server list [NAME] [--output=OUTPUT]
-Provides a list of all OpenAPI services.
-TODO: Is thhis command is the same a register list?
-
-openapi server ps [NAME] [--output=OUTPUT]
-list the running openapi service
-
-openapi register add NAME ENDPOINT
-Openapi comes with a service registry in which we can register
-openapi services.
-
-openapi register filename NAME
-In case you have a yaml file the openapi service can also be
-registerd from a yaml file
-
-openapi register delete NAME
-Deletes the names service from the registry
-
-openapi register list [NAME] [--output=OUTPUT]
-Provides a list of all registerd OpenAPI services
-
-
-```
-
+{manual}
 
 
 ## Pytests
@@ -538,3 +423,7 @@ checks.
   pytest -v --capture=no tests/Scikitlearn_tests/test_06c_sklearngeneratortest.py
 
 * Running Pytests for the LinearRegression.py generated from 6d pytest
+
+## Pytests
+
+{tests}
