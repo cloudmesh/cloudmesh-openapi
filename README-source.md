@@ -483,7 +483,9 @@ You can copy the files at this location, `./cloudmesh-openapi/tests/textanaysis-
 The natural langauge analysis API can be improved by allowing for full phrase translation via the API. If you contribute to this 
 API there is room for improvement to add custom translation models as well if preferred to pre-trained APIs.
 
-#### Prerequisite for setting up Azure ComputerVision AI service
+#### Setting up Azure ComputerVision AI services
+
+##### Prerequisite 
 
 Using the Azure Computer Vision AI service, you can describe, analyze and/ or get tags for a locally stored image or you can read the text from an image or hand-written file.
 
@@ -493,74 +495,86 @@ Using the Azure Computer Vision AI service, you can describe, analyze and/ or ge
   * requests
   * Pillow
 * Install Computer Vision client library
-```
+
+```bash
 pip install --upgrade azure-cognitiveservices-vision-computervision
 ```
 
-#### Steps to implement and use Azure AI image and text *REST-services*
+##### Steps to implement and use Azure AI image and text *REST-services*
 
 * Go to ```./cloudmesh-openapi``` directory
 
 * Run following command to generate the YAML files
-```
+
+```bash
   cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload`<br>
   cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload`
 ```
 * Verify the *YAML* files created in `./tests/generator-azureai` directory
-```
+
+```bash
   azure-ai-image-function.yaml
   azure-ai-text-function.yaml
 ```
   
 * Start the REST service by running following command in `./cloudmesh-openapi` directory
-```
+
+```bash
   cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml
 ```
+
 The default port used for starting the service is 8080. In case you want to start more than one REST service, use a different port in following command: 
-```
+
+```bash
   cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>
 ```
 
 * Access the REST service using [http://localhost:8080/cloudmesh/ui/](http://localhost:8080/cloudmesh/ui/)
 
 * After you have started the azure-ai-image-function or azure-ai-text-function on default port 8080, run following command to upload the image or text_image file
+
+```bash
+  curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/generator-azureai/<image_name_with_extension>;type=image/jpeg"
 ```
-curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/generator-azureai/<image_name_with_extension>;type=image/jpeg"
-```
+  
   Keep your test image files at ```./tests/generator-azureai/``` directory
 
 * With *azure-ai-text-function* started on port=8080, in order to test the azure ai function for text detection in an image, run following command
-```
-curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```bash
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 ```
 
 * With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for describing an image, run following command
-```
-curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```bash
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 ```
 
 * With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for analyzing an image, run following command
-```
-curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
+```bash
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 ```
 
 * With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for identifying tags in an image, run following command
-```
-curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
+```bash
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 ```
 
 * Check the running REST services using following command:
-```
+
+```bash
   cms openapi server ps
 ```
 
 * Stop the REST service using following command(s):
-```
-  cms openapi server stop azure-ai-image-function <br> 
+
+```bash
+  cms openapi server stop azure-ai-image-function
   cms openapi server stop azure-ai-text-function
 ```
 
