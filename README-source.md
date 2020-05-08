@@ -281,11 +281,11 @@ This will enable CLI. Make sure you enable all the required services.
 
 For example:
 
-`gcloud services enable servicemanagement.googleapis.com`D
+`gcloud services enable servicemanagement.googleapis.com`
+
 `gcloud services enable endpoints.googleapis.com`
 
 and any other services you might be using for your specific Cloud API function. 
-
 
 To begin using the tests for any of the Google Cloud Platform AI services you must first set up a Google account 
 (set up a free tier account): [Google Account Setup](https://cloud.google.com/billing/docs/how-to/manage-billing-account)
@@ -491,142 +491,78 @@ Using the Azure Computer Vision AI service, you can describe, analyze and/ or ge
 * Create a Computer Vision resource and get the COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT. Follow [instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix) to get the same.
 * Install following Python packages in your virtual environment:
   * requests
-  * PillowD
+  * Pillow
 * Install Computer Vision client library
-  * ```pip install --upgrade azure-cognitiveservices-vision-computervision```
+```
+pip install --upgrade azure-cognitiveservices-vision-computervision
+```
 
 #### Steps to implement and use Azure AI image and text *REST-services*
 
-* Go to `./cloudmesh-openapi` directory
+* Go to ```./cloudmesh-openapi``` directory
 
 * Run following command to generate the YAML files
-
-  `cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload`<br>
-  `cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload`
-
+```
+  cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload`<br>
+  cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload`
+```
 * Verify the *YAML* files created in `./tests/generator-azureai` directory
-
-  * `azure-ai-image-function.yaml`
-  * `azure-ai-text-function.yaml`
+```
+  azure-ai-image-function.yaml
+  azure-ai-text-function.yaml
+```
   
 * Start the REST service by running following command in `./cloudmesh-openapi` directory
-
-  `cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml`
-
+```
+  cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml
+```
 The default port used for starting the service is 8080. In case you want to start more than one REST service, use a different port in following command: 
-
-  `cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>`
+```
+  cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>
+```
 
 * Access the REST service using [http://localhost:8080/cloudmesh/ui/](http://localhost:8080/cloudmesh/ui/)
 
-* Check the running REST services using following command:
+* After you have started the azure-ai-image-function or azure-ai-text-function on default port 8080, run following command to upload the image or text_image file
+```
+curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/generator-azureai/<image_name_with_extension>;type=image/jpeg"
+```
+  Keep your test image files at ```./tests/generator-azureai/``` directory
 
-  `cms openapi server ps`
+* With *azure-ai-text-function* started on port=8080, in order to test the azure ai function for text detection in an image, run following command
+```
+curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```
+
+* With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for describing an image, run following command
+```
+curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```
+
+* With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for analyzing an image, run following command
+```
+curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```
+
+* With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for identifying tags in an image, run following command
+```
+curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```
+
+* Check the running REST services using following command:
+```
+  cms openapi server ps
+```
 
 * Stop the REST service using following command(s):
-
-  `cms openapi server stop azure-ai-image-function`<br>
-  `cms openapi server stop azure-ai-text-function`  D
-
-### Openstack
-
-* Jagadesh (cloudmesh)
-
-
-
-### Oracle
-
-* Prateek
-
-
-
-
-## scikit learn
-
-Before running these commands Please install Cloudmesh-openapi and test a Quickstart for configuration
-checks.
-
-## Run all these commands from the cloudmesh-openapi directory.
-
-* This Command will generate the .py file for the module in the Scikit learn.
-
-  cms openapi sklearn  sklearn.linear_model.LinearRegression Linregpytest
-
-* Generate the .yaml from the sklearn py file.
-
-  cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions
-
-* Start the Server from the .yaml file
-
-  cms openapi server start ./tests/generator/LinearRegression.yaml
-
-  Access the URL at http://localhost:8080/cloudmesh/ui/
-
-* Stop the Server 
-
-  Replace the PID of the server in the below command to stop the server.
-
-  cms openapi server stop PID
-
-
-## Pytests for Scikit learn tests.
-
-* Generate the .py for the Scikit learn module
-
-  pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
-
-* Running Pytests for the LinearRegression.py generated from 6a pytest
-
-  pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
-
- 
-  
-## Scikit-Learn generator with file read capabilities
-
-* Install Pandas,scikit-learn
- 
-  pip install pandas
-  
-  pip install scikit-learn
-
-* This Command will generate the .py file for the module in the Scikit learn.
-
-  cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregnew
-
-* Generate the .yaml from the sklearn py file which supports upload functionality so that you can upload files
-
-  cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions --enable_upload
-
-* Start the Server from the .yaml file
-
-  cms openapi server start ./tests/generator/LinearRegression.yaml
-
-  Access the URL at http://localhost:8080/cloudmesh/ui/
-
-* Download the files from Scikit-learntestfiles
-    
-   X_SAT, y_GPA
-   
-* Use Upload functionality in Server to upload the files.
-
-* These files should land in ~/.cloudmesh/upload-file in your local
-
-* Now you can Fit and predict 
-
-* Stop the Server 
-
-  Replace the PID of the server in the below command to stop the server.
-
-  cms openapi server stop PID
-
-D
-## Pytests for Scikit learn tests.
-
-* Generate the .py for the Scikit learn module woth file reading capabilities
-
-  pytest -v --capture=no tests/Scikitlearn_tests/test_06c_sklearngeneratortest.py
-
-* Running Pytests for the LinearRegression.py generated from 6d pytest
+```
+  cms openapi server stop azure-ai-image-function <br> 
+  cms openapi server stop azure-ai-text-function
+```
 
 ## Test 
 

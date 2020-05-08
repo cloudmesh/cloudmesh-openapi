@@ -7,11 +7,23 @@ servers:
   - url: http://localhost:8080/cloudmesh
     description: No description provided
 paths:
-  /image/detect_text:
+  /image/google:
        get:
         summary: google vision
         description: None (Optional extended description in CommonMark or HTML)
-        operationId: image.detect_text
+        operationId: image.detect_text_google
+        responses:
+          '200':
+            description: OK
+            content:
+              text/plain:
+                schema:
+                  type: string
+  /image/aws:
+       get:
+        summary: aws rekognition
+        description: None (Optional extended description in CommonMark or HTML)
+        operationId: image.detect_text_aws
         responses:
           '200':
             description: OK

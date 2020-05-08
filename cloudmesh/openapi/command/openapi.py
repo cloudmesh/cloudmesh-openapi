@@ -17,7 +17,7 @@ from cloudmesh.openapi.function.server import Server
 from cloudmesh.openapi.function.executor import Parameter
 from cloudmesh.openapi.registry.Registry import Registry
 from cloudmesh.openapi.scikitlearn.SklearnGenerator import Sklearngenerator
-from cloudmesh.openapi.scikitlearn.SklearnGeneratorFileupload import SklearngeneratorFile
+from cloudmesh.openapi.scikitlearn.SklearnGeneratorFile import SklearngeneratorFile
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
 
