@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>cloudmesh.shell.command &#8212; AI Project  documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for cloudmesh.shell.command</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">shlex</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+
+<span class="kn">from</span> <span class="nn">cloudmesh.common.dotdict</span> <span class="kn">import</span> <span class="n">dotdict</span>
+<span class="kn">from</span> <span class="nn">docopt</span> <span class="kn">import</span> <span class="n">docopt</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.common.console</span> <span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pformat</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.common.variables</span> <span class="kn">import</span> <span class="n">Variables</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.common.util</span> <span class="kn">import</span> <span class="n">banner</span>
+
+
+<span class="k">class</span> <span class="nc">PluginCommand</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">CloudPluginCommand</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">ShellPluginCommand</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">HPCPluginCommand</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">CometPluginCommand</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">map_parameters</span><span class="p">(</span><span class="n">arguments</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This command is useful to map parameters with -- to regular argument dicts</span>
+<span class="sd">    for easier processing.</span>
+
+<span class="sd">    :param arguments:</span>
+<span class="sd">    :param args:</span>
+<span class="sd">    :return:</span>
+
+<span class="sd">    an example is</span>
+
+<span class="sd">    map_parameters(arguments,</span>
+<span class="sd">                       &#39;active&#39;,</span>
+<span class="sd">                       &#39;cloud&#39;)</span>
+
+<span class="sd">    where --active=ACTIVE is mapped to arguments[&quot;active&quot;]</span>
+<span class="sd">    and  --cloud=CLOUD is mapped to arguments[&quot;cloud&quot;]</span>
+
+<span class="sd">    as arguments is a dotdict, they can than for example be called as</span>
+
+<span class="sd">    arguments.cloud</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span> <span class="o">+</span> <span class="n">arg</span>
+        <span class="k">if</span> <span class="n">flag</span> <span class="ow">in</span> <span class="n">arguments</span><span class="p">:</span>
+            <span class="n">arguments</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="n">flag</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">arguments</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="c1"># noinspection PySingleQuotedDocstring,PyUnusedLocal</span>
+<span class="k">def</span> <span class="nf">command</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A decorator to create a function with docopt arguments.</span>
+<span class="sd">    It also generates a help function</span>
+
+<span class="sd">    @command</span>
+<span class="sd">    def do_myfunc(self, args):</span>
+<span class="sd">        &quot;&quot;&quot; docopts text &quot;&quot;&quot;</span>
+<span class="sd">        pass</span>
+
+<span class="sd">    will create</span>
+
+<span class="sd">    def do_myfunc(self, args, arguments):</span>
+<span class="sd">        &quot;&quot;&quot; docopts text &quot;&quot;&quot;</span>
+<span class="sd">        ...</span>
+
+<span class="sd">    def help_myfunc(self, args, arguments):</span>
+<span class="sd">        ... prints the docopt text ...</span>
+
+<span class="sd">    :param func: the function for the decorator</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">classname</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getouterframes</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">())[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="n">help_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;do_&quot;</span><span class="p">,</span> <span class="s2">&quot;help_&quot;</span><span class="p">)</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">new</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="c1"># instance.new.__doc__ = doc</span>
+        <span class="c1"># noinspection PyUnusedLocal</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">argv</span> <span class="o">=</span> <span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="c1"># pprint(argv)</span>
+            <span class="n">arguments</span> <span class="o">=</span> <span class="n">dotdict</span><span class="p">(</span><span class="n">docopt</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">argv</span><span class="o">=</span><span class="n">argv</span><span class="p">))</span>
+            <span class="c1"># pprint(arguments)</span>
+            <span class="c1"># verbose = int(Variables()[&quot;verbose&quot;] or 0)</span>
+            <span class="c1"># if verbose &gt; 9:</span>
+            <span class="c1">#    s = pformat(arguments)</span>
+            <span class="c1">#    banner(s, label=&quot;Arguments&quot;, color=&quot;BLUE&quot;)</span>
+            <span class="n">func</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">SystemExit</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="s2">&quot;::&quot;</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+                    <span class="n">usage</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;::&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">usage</span> <span class="o">=</span> <span class="n">doc</span>
+
+                <span class="n">usage</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;Usage:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="nb">print</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Usage:&quot;</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">usage</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                        <span class="n">kind</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Arguments&quot;</span><span class="p">,</span> <span class="s2">&quot;Options&quot;</span><span class="p">,</span> <span class="s2">&quot;Example&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;Descriptiom&quot;</span><span class="p">]:</span>
+                            <span class="k">break</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="s2">&quot;Could not execute the command. Please check usage with&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">()</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">msg</span><span class="p">(</span><span class="s2">&quot;    cms help&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;do_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">()</span>
+                <span class="c1"># print (args)</span>
+                <span class="c1"># print(e)</span>
+                <span class="c1"># print(doc)</span>
+
+    <span class="n">new</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">doc</span>
+    <span class="k">return</span> <span class="n">new</span>
+
+
+<span class="c1"># noinspection PySingleQuotedDocstring,PyUnusedLocal</span>
+<span class="k">def</span> <span class="nf">basecommand</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A decorator to create a function with docopt arguments.</span>
+<span class="sd">    It also generates a help function</span>
+
+<span class="sd">    @command</span>
+<span class="sd">    def do_myfunc(self, args):</span>
+<span class="sd">        &quot;&quot;&quot; docopts text &quot;&quot;&quot;</span>
+<span class="sd">        pass</span>
+
+<span class="sd">    will create</span>
+
+<span class="sd">    def do_myfunc(self, args, arguments):</span>
+<span class="sd">        &quot;&quot;&quot; docopts text &quot;&quot;&quot;</span>
+<span class="sd">        ...</span>
+
+<span class="sd">    def help_myfunc(self, args, arguments):</span>
+<span class="sd">        ... prints the docopt text ...</span>
+
+<span class="sd">    :param func: the function for the decorator</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">classname</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getouterframes</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">())[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="n">help_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;do_&quot;</span><span class="p">,</span> <span class="s2">&quot;help_&quot;</span><span class="p">)</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">new</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="c1"># instance.new.__doc__ = doc</span>
+        <span class="c1"># noinspection PyUnusedLocal</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># print(&quot;ARGS&quot;, args)</span>
+            <span class="n">argv</span> <span class="o">=</span> <span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="c1"># print (&quot;ARGV&quot;, argv)</span>
+            <span class="n">arguments</span> <span class="o">=</span> <span class="n">docopt</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">argv</span><span class="o">=</span><span class="n">argv</span><span class="p">)</span>
+            <span class="n">func</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
+        <span class="c1"># except docopt.DocoptExit as e:</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">traceback</span>
+            <span class="kn">import</span> <span class="nn">sys</span>
+            <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Could not execute the command.&quot;</span><span class="p">)</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Check usage..&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">SystemExit</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Could not execute the command.&quot;</span><span class="p">)</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Check usage..&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+    <span class="n">new</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">doc</span>
+    <span class="k">return</span> <span class="n">new</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">AI Project</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../openapi.html">openapi package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, sp20-516-ai.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
