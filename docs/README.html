@@ -1,0 +1,916 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Cloudmesh OpenAPI Service Generator &mdash; Cloudmesh OpenAPI Service Generator  documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Cloudmesh OpenAPI Merge" href="README-Scikitlearn.html" />
+    <link rel="prev" title="Cloudmesh OpenAPI Service Generator" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Cloudmesh OpenAPI Service Generator
+          
+
+          
+            
+            <img src="_static/logo3.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cloudmesh OpenAPI Service Generator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#user-installation">User Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#developer-installation">Developer Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-steps-to-generate-start-and-stop-cpu-sample-example">Quick steps to generate,start and stop CPU sample example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#generate-yaml-file">Generate yaml file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#start-server">Start server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#issue-a-request">Issue a Request</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stop-server">Stop server</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#end-to-end-walkthrough">End-to-end walkthrough</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#writing-python">Writing Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generating-openapi-specification">Generating OpenAPI specification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#starting-a-server">Starting a server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sending-requests-to-the-server">Sending requests to the server</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#manual">Manual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pytests">Pytests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#one-function-in-python-file">One function in python file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-functions-in-python-file">Multiple functions in python file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#function-s-in-python-class-file">Function(s) in python class file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uploading-data">Uploading data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#upload-example">Upload example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#downloading-data">Downloading data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#merge-openapis">Merge openapi’s</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#google">Google</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-your-google-account">Setting up your Google account</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-the-google-natural-language-and-translate-rest-services">Running the Google Natural Language and Translate REST Services</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#aws">AWS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#azure">Azure</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-azure-sentiment-analysis-and-translation-services">Setting up Azure Sentiment Analysis and Translation Services</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-azure-computervision-ai-services">Setting up Azure ComputerVision AI services</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#test">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="README-Scikitlearn.html">Cloudmesh OpenAPI Merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openapi.html">openapi package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Cloudmesh OpenAPI Service Generator</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Cloudmesh OpenAPI Service Generator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/README.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cloudmesh-openapi-service-generator">
+<h1>Cloudmesh OpenAPI Service Generator<a class="headerlink" href="#cloudmesh-openapi-service-generator" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p><strong>Note:</strong> The README.md page is outomatically generated, do not edit
+it. To modify change the content in
+<a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md">https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md</a>
+Curley brackets must use two in README-source.md</p>
+</div></blockquote>
+<p><a class="reference external" href="https://pypi.org/project/cloudmesh-openapi/"><img alt="image" src="https://img.shields.io/pypi/v/cloudmesh-openapi.svg" /></a> <a class="reference external" href="https://pypi.python.org/pypi/cloudmesh-openapi"><img alt="Python" src="https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg" /></a> <a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a> <a class="reference external" href="https://pypi.python.org/pypi/cloudmesh-openapi"><img alt="Format" src="https://img.shields.io/pypi/format/cloudmesh-openapi.svg" /></a> <a class="reference external" href="https://pypi.python.org/pypi/cloudmesh-openapi"><img alt="Status" src="https://img.shields.io/pypi/status/cloudmesh-openapi.svg" /></a> <a class="reference external" href="https://travis-ci.com/cloudmesh/cloudmesh-openapi"><img alt="Travis" src="https://travis-ci.com/cloudmesh/cloudmesh-openapi.svg?branch=master" /></a></p>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>We use recommend Python 3.8.2 Python or newer.</p></li>
+<li><p>We recommend pip version 20.0.2 or newer</p></li>
+<li><p>We recommend that you use a venv (see developer install)</p></li>
+<li><p>MongoDB installed as regular program not as service</p></li>
+<li><p>Please run cim init command to start mongodb server</p></li>
+</ul>
+<p>We have not checked if it works on older versions.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Make sure that <code class="docutils literal notranslate"><span class="pre">cloudmesh</span></code> is properly installed on your machine and
+you have mongodb setup to work with cloudmesh.</p>
+<p>D More details to setting up <code class="docutils literal notranslate"><span class="pre">mongo</span></code> can be found in the</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://cloudmesh.github.io/cloudmesh-manual/installation/install.html">Cloudmesh
+Manual</a></p></li>
+</ul>
+<div class="section" id="user-installation">
+<h3>User Installation<a class="headerlink" href="#user-installation" title="Permalink to this headline">¶</a></h3>
+<p>Make sure you use a python venv before installing. Users can install the
+code with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m venv ~/ENV3
+<span class="nb">source</span> ~/ENV3/bin/activate <span class="c1"># on windows ENV3\Scripts\activate</span>
+mkdir cm
+<span class="nb">cd</span> cm
+pip installl cloudmesh-installer get openapi
+cms <span class="nb">help</span>
+cms gui quick
+<span class="c1"># fill out mongo variables we should have a `cms gui openapi`</span>
+<span class="c1"># make sure autinstall is True</span>
+cms admin mongo install --froce
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install cloudmesh-openapi
+</pre></div>
+</div>
+</div>
+<div class="section" id="developer-installation">
+<h3>Developer Installation<a class="headerlink" href="#developer-installation" title="Permalink to this headline">¶</a></h3>
+<p>Developers install also the source code</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m venv ~/ENV3
+<span class="nb">source</span> ~/ENV3/bin/activate <span class="c1"># on windows ENV3\Scripts\activate</span>
+mkdir cm
+<span class="nb">cd</span> cm
+pip install cloudmesh-installer
+cloudmesh-installer get openapi
+cms <span class="nb">help</span>
+cms gui quick
+<span class="c1"># fill out mongo variables we should have a `cms gui openapi`</span>
+<span class="c1"># make sure autinstall is True</span>
+cms admin mongo install --froce
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>When getting started using the <code class="docutils literal notranslate"><span class="pre">openapi</span></code>, please first call</p>
+<p>cms help python -m venv ~/ENV3 source ~/ENV3/bin/activate # on windows
+ENV3:raw-latex:<cite>Scripts</cite><a href="#id1"><span class="problematic" id="id2">:raw-latex:`\activateDD`</span></a> mkdir cm cd cm pip
+install cloudmesh-installer cloudmesh-installer get openapi</p>
+<p>openapi</p>
+<p>to see the available functions and options. For your convenience we
+include the manual page later on in this document.</p>
+</div>
+<div class="section" id="quick-steps-to-generate-start-and-stop-cpu-sample-example">
+<h2>Quick steps to generate,start and stop CPU sample example<a class="headerlink" href="#quick-steps-to-generate-start-and-stop-cpu-sample-example" title="Permalink to this headline">¶</a></h2>
+<p>Navigate to ~/cm/cloudmesh-openapi folder and run following commands</p>
+<div class="section" id="generate-yaml-file">
+<h3>Generate yaml file<a class="headerlink" href="#generate-yaml-file" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cms</span> <span class="n">openapi</span> <span class="n">generate</span> <span class="n">get_processor_name</span> <span class="o">--</span><span class="n">filename</span><span class="o">=./</span><span class="n">tests</span><span class="o">/</span><span class="n">server</span><span class="o">-</span><span class="n">cpu</span><span class="o">/</span><span class="n">cpu</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="start-server">
+<h3>Start server<a class="headerlink" href="#start-server" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cms</span> <span class="n">openapi</span> <span class="n">server</span> <span class="n">start</span> <span class="o">./</span><span class="n">tests</span><span class="o">/</span><span class="n">server</span><span class="o">-</span><span class="n">cpu</span><span class="o">/</span><span class="n">cpu</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="issue-a-request">
+<h3>Issue a Request<a class="headerlink" href="#issue-a-request" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">X</span> <span class="n">GET</span> <span class="s2">&quot;http://localhost:8080/cloudmesh/get_processor_name&quot;</span> <span class="o">-</span><span class="n">H</span> <span class="s2">&quot;accept: text/plain&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stop-server">
+<h3>Stop server<a class="headerlink" href="#stop-server" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cms</span> <span class="n">openapi</span> <span class="n">server</span> <span class="n">stop</span> <span class="n">cpu</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="end-to-end-walkthrough">
+<h2>End-to-end walkthrough<a class="headerlink" href="#end-to-end-walkthrough" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="writing-python">
+<h3>Writing Python<a class="headerlink" href="#writing-python" title="Permalink to this headline">¶</a></h3>
+<p>Cloudmesh uses introspection to generate an OpenAPI compliant YAML
+specification that will allow your Python code to run as a web service.
+For this reason, any code you write must conform to a set of guidelines.
+- The parameters and return values of any functions you write must use
+typingpython -m venv ~/ENV3 source ~/ENV3/bin/activate # on windows
+ENV3:raw-latex:<cite>Scripts</cite><a href="#id3"><span class="problematic" id="id4">:raw-latex:`\activate`</span></a> mkdir cm cd cm pip
+install cloudmesh-installer cloudmesh-installer get openapi</p>
+<ul class="simple">
+<li><p>Your functions must include docstrings</p></li>
+<li><p>If a function uses or returns a class, that class must be defined as
+a dataclass in the same file</p></li>
+</ul>
+<p>The following function is a great example to get started. Note how x, y,
+and the return type are all <code class="docutils literal notranslate"><span class="pre">float</span></code>. The description in the docstring
+will be added to your YAML specification to help describe what the
+function does.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    adding float and float.</span>
+<span class="sd">    :param x: x value</span>
+<span class="sd">    :type x: float</span>
+<span class="sd">    :param y: y value</span>
+<span class="sd">    :type y: float</span>
+<span class="sd">    :return: result</span>
+<span class="sd">    :return type: floatD</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="generating-openapi-specification">
+<h3>Generating OpenAPI specification<a class="headerlink" href="#generating-openapi-specification" title="Permalink to this headline">¶</a></h3>
+<p>Once you have a Python function you would like to deploy as a web
+service, you can generate the OpenAPI specification. Navigate to your
+.py file’s directory and generate the YAML. This will print information
+to your console about the YAML file that was generated.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cms openapi generate [function_name] --filename=[filename.py]
+</pre></div>
+</div>
+<p>If you would like to include more than one function in your web service,
+like addition and subtraction, use the <code class="docutils literal notranslate"><span class="pre">--all_functions</span></code> flag. This
+will ignore functions whose names start with ‘_’.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cms openapi generate --filename<span class="o">=[</span>filename.py<span class="o">]</span> --all_functions
+</pre></div>
+</div>
+<p>You can even write a class like Calculator that contains functions for
+addition, subtraction, etc. You can generate a specification for an
+entire class by using the <code class="docutils literal notranslate"><span class="pre">--import_class</span></code> flag.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cms openapi generate <span class="o">[</span>ClassName<span class="o">]</span> --filename<span class="o">=[</span>filename.py<span class="o">]</span> --import_class
+</pre></div>
+</div>
+</div>
+<div class="section" id="starting-a-server">
+<h3>Starting a server<a class="headerlink" href="#starting-a-server" title="Permalink to this headline">¶</a></h3>
+<p>Once you have generated a specification, you can start the web service
+on your localhost by providing the path to the YAML file. This will
+print information to your console about the server</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cms openapi server start ./[filename.yaml]
+
+  Starting: [server name]
+  PID:      [PID]
+  Spec:     ./[filename.py]
+  URL:      http://localhost:8080/cloudmesh
+  Cloudmesh UI:      http://localhost:8080/cloudmesh/ui
+</pre></div>
+</div>
+</div>
+<div class="section" id="sending-requests-to-the-server">
+<h3>Sending requests to the server<a class="headerlink" href="#sending-requests-to-the-server" title="Permalink to this headline">¶</a></h3>
+<p>Now you have two options to interact with the web service. The first is
+to navigate the the Cloudmesh UI and click on each endpoint to test the
+functionality. The second is to use curl commands to submit requests.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ curl -X GET &quot;http://localhost:8080/cloudmesh/add?x=1.2&amp;y=1.5&quot; -H &quot;accept: text/plain&quot;
+2.7
+</pre></div>
+</div>
+<p>D ### Stopping the server D Now you can stop the server using the name
+of the server. If you forgot the name, use <code class="docutils literal notranslate"><span class="pre">cms</span> <span class="pre">openapi</span> <span class="pre">server</span> <span class="pre">ps</span></code> to
+get a list of server processes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cms openapi stop [server name]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="manual">
+<h2>Manual<a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="pytests">
+<h2>Pytests<a class="headerlink" href="#pytests" title="Permalink to this headline">¶</a></h2>
+<p>Please follow <a class="reference external" href="tests/README.md">Pytest Information</a> document for
+pytests related information</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="one-function-in-python-file">
+<h3>One function in python file<a class="headerlink" href="#one-function-in-python-file" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Please check <a class="reference external" href="tests/server-cpu/cpu.py">Python file</a>.</p></li>
+<li><p>Run below command to generate yaml file and start server</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cms</span> <span class="n">openapi</span> <span class="n">generate</span> <span class="n">get_processor_name</span> <span class="o">--</span><span class="n">filename</span><span class="o">=./</span><span class="n">tests</span><span class="o">/</span><span class="n">server</span><span class="o">-</span><span class="n">cpu</span><span class="o">/</span><span class="n">cpu</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiple-functions-in-python-file">
+<h3>Multiple functions in python file<a class="headerlink" href="#multiple-functions-in-python-file" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Please check <a class="reference external" href="tests/generator-calculator/calculator.py">Python
+file</a></p></li>
+<li><p>Run below command to generate yaml file and start server</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cms</span> <span class="n">openapi</span> <span class="n">generate</span> <span class="o">--</span><span class="n">filename</span><span class="o">=./</span><span class="n">tests</span><span class="o">/</span><span class="n">generator</span><span class="o">-</span><span class="n">calculator</span><span class="o">/</span><span class="n">calculator</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">all_functions</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cms</span> <span class="n">openapi</span> <span class="n">generate</span> <span class="n">server</span> <span class="n">start</span> <span class="o">./</span><span class="n">tests</span><span class="o">/</span><span class="n">generator</span><span class="o">-</span><span class="n">calculator</span><span class="o">/</span><span class="n">calculator</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="function-s-in-python-class-file">
+<h3>Function(s) in python class file<a class="headerlink" href="#function-s-in-python-class-file" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Please check <a class="reference external" href="tests/generator-testclass/calculator.py">Python
+file</a></p></li>
+<li><p>Run below command to generate yaml file and start server</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cms</span> <span class="n">openapi</span> <span class="n">generate</span> <span class="o">--</span><span class="n">filename</span><span class="o">=./</span><span class="n">tests</span><span class="o">/</span><span class="n">generator</span><span class="o">-</span><span class="n">testclass</span><span class="o">/</span><span class="n">calculator</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">import_class</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cms</span> <span class="n">openapi</span> <span class="n">generate</span> <span class="n">server</span> <span class="n">start</span> <span class="o">./</span><span class="n">tests</span><span class="o">/</span><span class="n">generator</span><span class="o">-</span><span class="n">testclass</span><span class="o">/</span><span class="n">calculator</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="uploading-data">
+<h3>Uploading data<a class="headerlink" href="#uploading-data" title="Permalink to this headline">¶</a></h3>
+<p>Code to handle uploads is located in
+cloudmesh-openapi/tests/generator-upload. The code snippet in
+uploadexample.py and the specification in uploadexample.yaml can be
+added to existing projects by adding the <code class="docutils literal notranslate"><span class="pre">--enable_upload</span></code> flag to the
+<code class="docutils literal notranslate"><span class="pre">cms</span> <span class="pre">openapi</span> <span class="pre">generate</span></code> command. The web service will be able to
+retrieve the uploaded file from ~/.cloudmesh/upload-file/.</p>
+<div class="section" id="upload-example">
+<h4>Upload example<a class="headerlink" href="#upload-example" title="Permalink to this headline">¶</a></h4>
+<p>This example shows how to upload a CSV file and how the web service can
+retrieve it.</p>
+<p>First, generate the OpenAPI specification and start the server</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cms</span> <span class="n">openapi</span> <span class="n">generate</span> <span class="n">print_csv2np</span> <span class="o">--</span><span class="n">filename</span><span class="o">=./</span><span class="n">tests</span><span class="o">/</span><span class="n">generator</span><span class="o">-</span><span class="n">upload</span><span class="o">/</span><span class="n">csv_reader</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">enable_upload</span>
+<span class="n">cms</span> <span class="n">openapi</span> <span class="n">server</span> <span class="n">start</span> <span class="o">./</span><span class="n">tests</span><span class="o">/</span><span class="n">generator</span><span class="o">-</span><span class="n">upload</span><span class="o">/</span><span class="n">csv_reader</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+<p>Next, navigate to localhost:8080/cloudmesh/ui. Click to open the /upload
+endpoint, then click ‘Try it out.’ Click to choose a file to upload,
+then upload tests/generator-upload/np_test.csv. Click ‘Execute’ to
+complete the upload.</p>
+<p>To access what was in the uploaded file, click to open the /print_csv2np
+endpoint, then click ‘Try it out.’ Enter np_test.csv in the field that
+prompts for a filename, and then click Execute to view the numpy array
+defined by the CSV file.</p>
+</div>
+</div>
+<div class="section" id="downloading-data">
+<h3>Downloading data<a class="headerlink" href="#downloading-data" title="Permalink to this headline">¶</a></h3>
+<p>Always the same</p>
+<p>abc.txt &lt;- /data/xyz/klmn.txt</p>
+</div>
+<div class="section" id="merge-openapis">
+<h3>Merge openapi’s<a class="headerlink" href="#merge-openapis" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">merge</span> <span class="p">[</span><span class="n">APIS</span><span class="o">...</span><span class="p">]</span> <span class="o">-</span> <span class="o">&gt;</span> <span class="n">single</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="google">
+<h3>Google<a class="headerlink" href="#google" title="Permalink to this headline">¶</a></h3>
+<p>After you create your google cloud account, it is recommended to
+download and install Google’s <a class="reference external" href="https://cloud.google.com/sdk/docs/quickstarts">Cloud
+SDK</a>. This will enable
+CLI. Make sure you enable all the required services.</p>
+<p>For example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">gcloud</span> <span class="pre">services</span> <span class="pre">enable</span> <span class="pre">servicemanagement.googleapis.com</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">gcloud</span> <span class="pre">services</span> <span class="pre">enable</span> <span class="pre">endpoints.googleapis.com</span></code></p>
+<p>and any other services you might be using for your specific Cloud API
+function.</p>
+<p>To begin using the tests for any of the Google Cloud Platform AI
+services you must first set up a Google account (set up a free tier
+account): <a class="reference external" href="https://cloud.google.com/billing/docs/how-to/manage-billing-account">Google Account
+Setup</a></p>
+<p>After you create your google cloud account, it is recommended to
+download and install Google’s <a class="reference external" href="https://cloud.google.com/sdk/docs/quickstarts">Cloud
+SDK</a>. This will enable
+CLI. Make sure you enable all the required services.</p>
+<p>For example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">gcloud</span> <span class="pre">services</span> <span class="pre">enable</span> <span class="pre">servicemanagement.googleapis.com</span></code>
+<code class="docutils literal notranslate"><span class="pre">gcloud</span> <span class="pre">services</span> <span class="pre">enable</span> <span class="pre">servicecontrol.googleapis.com</span></code>
+<code class="docutils literal notranslate"><span class="pre">gcloud</span> <span class="pre">services</span> <span class="pre">enable</span> <span class="pre">endpoints.googleapis.com</span></code></p>
+<p>and any other services you might be using for your specific Cloud API
+function.</p>
+<p>It is also required to install the cloudmesh-cloud package, if not
+already installed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cloudmesh-installer get cloud
+cloudmesh-installer install cloud
+</pre></div>
+</div>
+<p>This will allow you automatically fill out the cloudmesh yaml file with
+your credentials once you generate the servcie account JSON file.</p>
+<p>After you have verified your account is created you must then give your
+account access to the proper APIs and create a project in the Google
+Cloud Platform(GCP) console.</p>
+<ol class="arabic simple">
+<li><p>Go to the <a class="reference external" href="console.cloud.google.com/projectselector2/home/">project
+selector</a></p></li>
+<li><p>Follow directions from Google to create a project linked to your
+account</p></li>
+</ol>
+<div class="section" id="setting-up-your-google-account">
+<h4>Setting up your Google account<a class="headerlink" href="#setting-up-your-google-account" title="Permalink to this headline">¶</a></h4>
+<p>Before you generate the service account JSON file for your account you
+will want to enable a number of services in the GCP console.</p>
+<ul class="simple">
+<li><p>Google Compute</p></li>
+<li><p>Billing</p></li>
+<li><p>Cloud Natural Language API</p></li>
+<li><p>Translate API</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>To do this you will need to click the menu icon in the Dashboard
+navigation bar. Ensure you are in the correct porject.</p></li>
+<li><p>Once that menu is open hover over the “APIs and Services” menu item
+and click on “Dashboard” in the submenu.</p></li>
+<li><p>At the dashboard click on the “+ Enable APIs and Services” button at
+the top of the dashboard</p></li>
+<li><p>Search for <strong>cloud natural language</strong>” to find the API in the search
+results and click the result</p></li>
+<li><p>Once the page opens click “Enable”</p></li>
+<li><p>Do the same for the <strong>translate</strong> API to enable that as well</p></li>
+<li><p>Do the same for the <strong>compute engine API</strong> to enable that as well</p></li>
+</ol>
+<p>You must now properly set up the account roles to ensure you will have
+access to the API. Follow the directions from Google to <a class="reference external" href="https://cloud.google.com/natural-language/docs/setup#auth">set up proper
+authentication</a></p>
+<p>Make you account an owner for each of the APIs in the IAM tool as
+directed in the authentication steps for the natural language API. This
+makes your service account have proper access to the required APIs and
+once the private key is downloaded those will be stored there.</p>
+<p>It is VERY important that you create a service account and download the
+private key as described in the directions from Google. If you do not
+the cms google commands will not work properly.</p>
+<p>Once you have properly set up your permissions please make sure you
+download your JSON private key for the service account that has
+permissions set up for the required API services. These steps to
+download are found
+<a class="reference external" href="https://cloud.google.com/natural-language/docs/setup#sa-create">here</a>.
+Please take note of where you store the downloaded JSON and copy the
+path string to a easily accessible location.</p>
+<p>The client libraries for each API are included in teh requirements.txt
+file for the openapi proejct and should be isntalled when the package is
+installed. If not, follow directions outlined by google install each
+package:</p>
+<p><code class="docutils literal notranslate"><span class="pre">google-cloud-translate</span></code>, <code class="docutils literal notranslate"><span class="pre">google-cloud-language</span></code></p>
+<p>To pass the information from your service account private key file ot
+the cloudmesh yaml file run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms register update --kind<span class="o">=</span>google --service<span class="o">=</span>compute --filename<span class="o">=</span><span class="s">&lt;&lt;goog</span>le json file&gt;&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-the-google-natural-language-and-translate-rest-services">
+<h4>Running the Google Natural Language and Translate REST Services<a class="headerlink" href="#running-the-google-natural-language-and-translate-rest-services" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">~/.cloudmesh</span></code> repo and create a cache directory
+for your text examples you would like to analyze.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir text-cache
+</pre></div>
+</div>
+</li>
+<li><p>Add any plain text files your would like to analyze to this directory
+with a name that has no special characters or spaces. You can copy
+the files at this location,
+<code class="docutils literal notranslate"><span class="pre">./cloudmesh-openapi/tests/textanaysis-example-text/reviews/</span></code> into
+the text-cache if you want to use provided examples.</p></li>
+<li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">./cloudmesh-openapi</span></code> directory on your machine</p></li>
+<li><p>Utilize the generate command to create the OpenAPI spec</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapi generate TextAnalysis --filename<span class="o">=</span>./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
+</pre></div>
+</div>
+</li>
+<li><p>Start the server after the yaml file is generated ot the same
+directory as the .py file</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
+</pre></div>
+</div>
+</li>
+<li><p>Run a curl command against the newly running server to verify it
+returns a result as expected.</p>
+<ul class="simple">
+<li><p>Sample text file name is only meant to be the name of the file not
+the full path.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://127.0.0.1:8080/cloudmesh/analyze?filename=&lt;&lt;sample text file name&gt;&gt;&amp;cloud=google&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>This is currently only ready to translate a single word through
+the API.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://127.0.0.1:8080/cloudmesh/translate_text?cloud=google&amp;text=&lt;&lt;word to translate&gt;&gt;&amp;lang=&lt;&lt;lang code&gt;&gt;&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Stop the server</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapi server stop natural-lang-analysis
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="aws">
+<h3>AWS<a class="headerlink" href="#aws" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Jonathan</p></li>
+</ul>
+</div>
+<div class="section" id="azure">
+<h3>Azure<a class="headerlink" href="#azure" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="setting-up-azure-sentiment-analysis-and-translation-services">
+<h4>Setting up Azure Sentiment Analysis and Translation Services<a class="headerlink" href="#setting-up-azure-sentiment-analysis-and-translation-services" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Create an Azure subscription. If you don’t have one, create a <a class="reference external" href="https://azure.microsoft.com/try/cognitive-services/">free
+account</a></p></li>
+<li><p>Create a <a class="reference external" href="https://portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics">Text Analysis
+resource</a></p>
+<ul class="simple">
+<li><p>This link will require you to be logged in to the Azure portal</p></li>
+</ul>
+</li>
+<li><p>Create a <a class="reference external" href="https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows">Translation
+Resource</a></p></li>
+<li><p>The microsoft packages are included in the openapi package
+requirements file so they should be installed. If they are not,
+install the following:</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">msrest</span></code>, <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">azure-ai-textanalytics</span></code></p>
+<ol class="arabic" start="5">
+<li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">~/.cloudmesh</span></code> repo and create a cache directory
+for your text examples you would like to analyze.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir text-cache
+</pre></div>
+</div>
+</li>
+<li><p>Add any plain text files your would like to analyze to this
+directory with a name that has no special characters or spaces. You
+can copy the files at this location,
+<code class="docutils literal notranslate"><span class="pre">./cloudmesh-openapi/tests/textanaysis-example-text/reviews/</span></code> into
+the text-cache if you want to use provided examples.</p></li>
+<li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">./cloudmesh-openapi</span></code> directory on your machine</p></li>
+<li><p>Utilize the generate command to create the OpenAPI spec</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapi generate TextAnalysis --filename<span class="o">=</span>./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
+</pre></div>
+</div>
+</li>
+<li><p>Start the server after the yaml file is generated ot the same
+directory as the .py file</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
+</pre></div>
+</div>
+</li>
+<li><p>Run a curl command against the newly running server to verify it
+returns a result as expected.</p>
+<ul class="simple">
+<li><p>Sample text file name is only meant to be the name of the file
+not the full path.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://127.0.0.1:8080/cloudmesh/analyze?filename=&lt;&lt;sample text file name&gt;&gt;&amp;cloud=azure&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>This is currently only ready to translate a single word through
+the API.</p></li>
+<li><p>Available language tags are described in the <a class="reference external" href="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages">Azure
+docs</a></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://127.0.0.1:8080/cloudmesh/translate_text?cloud=azure&amp;text=&lt;&lt;word to translate&gt;&gt;&amp;lang=&lt;&lt;lang code&gt;&gt;&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Stop the server</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapi server stop natural-lang-analysis
+</pre></div>
+</div>
+</li>
+</ol>
+<p>The natural langauge analysis API can be improved by allowing for full
+phrase translation via the API. If you contribute to this API there is
+room for improvement to add custom translation models as well if
+preferred to pre-trained APIs.</p>
+</div>
+<div class="section" id="setting-up-azure-computervision-ai-services">
+<h4>Setting up Azure ComputerVision AI services<a class="headerlink" href="#setting-up-azure-computervision-ai-services" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="prerequisite">
+<h5>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h5>
+<p>Using the Azure Computer Vision AI service, you can describe, analyze
+and/ or get tags for a locally stored image or you can read the text
+from an image or hand-written file.</p>
+<ul class="simple">
+<li><p>Azure subscription. If you don’t have one, create a <a class="reference external" href="https://azure.microsoft.com/try/cognitive-services/">free
+account</a>
+before you continue further.</p></li>
+<li><p>Create a Computer Vision resource and get the
+COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT. Follow
+<a class="reference external" href="https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix">instructions</a>
+to get the same.</p></li>
+<li><p>Install following Python packages in your virtual environment:</p>
+<ul>
+<li><p>requests</p></li>
+<li><p>Pillow</p></li>
+</ul>
+</li>
+<li><p>Install Computer Vision client library</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install --upgrade azure-cognitiveservices-vision-computervision
+</pre></div>
+</div>
+</div>
+<div class="section" id="steps-to-implement-and-use-azure-ai-image-and-text-rest-services">
+<h5>Steps to implement and use Azure AI image and text <em>REST-services</em><a class="headerlink" href="#steps-to-implement-and-use-azure-ai-image-and-text-rest-services" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>Go to <code class="docutils literal notranslate"><span class="pre">./cloudmesh-openapi</span></code> directory</p></li>
+<li><p>Run following command to generate the YAML files</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapi generate AzureAiImage --filename<span class="o">=</span>./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload
+cms openapi generate AzureAiText --filename<span class="o">=</span>./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Verify the <em>YAML</em> files created in <code class="docutils literal notranslate"><span class="pre">./tests/generator-azureai</span></code>
+directory</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>azure-ai-image-function.yaml
+azure-ai-text-function.yaml
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Start the REST service by running following command in
+<code class="docutils literal notranslate"><span class="pre">./cloudmesh-openapi</span></code> directory</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml
+</pre></div>
+</div>
+<p>The default port used for starting the service is 8080. In case you want
+to start more than one REST service, use a different port in following
+command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port<span class="o">=</span>&lt;**Use a different port than <span class="m">8080</span>**&gt;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Access the REST service using <a class="reference external" href="http://localhost:8080/cloudmesh/ui/">http://localhost:8080/cloudmesh/ui/</a></p></li>
+<li><p>After you have started the azure-ai-image-function or
+azure-ai-text-function on default port 8080, run following command to
+upload the image or text_image file</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X POST <span class="s2">&quot;http://localhost:8080/cloudmesh/upload&quot;</span> -H  <span class="s2">&quot;accept: text/plain&quot;</span> -H  <span class="s2">&quot;Content-Type: multipart/form-data&quot;</span> -F <span class="s2">&quot;upload=@tests/generator-azureai/&lt;image_name_with_extension&gt;;type=image/jpeg&quot;</span>
+</pre></div>
+</div>
+<p>Keep your test image files at <code class="docutils literal notranslate"><span class="pre">./tests/generator-azureai/</span></code> directory</p>
+<ul class="simple">
+<li><p>With <em>azure-ai-text-function</em> started on port=8080, in order to test
+the azure ai function for text detection in an image, run following
+command</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=&lt;image_name_with_extension_uploaded_earlier&gt;&quot;</span> -H <span class="s2">&quot;accept: text/plain&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>With <em>azure-ai-image-function</em> started on port=8080, in order to test
+the azure ai function for describing an image, run following command</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=&lt;image_name_with_extension_uploaded_earlier&gt;&quot;</span> -H <span class="s2">&quot;accept: text/plain&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>With <em>azure-ai-image-function</em> started on port=8080, in order to test
+the azure ai function for analyzing an image, run following command</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_analysis?image_name=&lt;image_name_with_extension_uploaded_earlier&gt;&quot;</span> -H <span class="s2">&quot;accept: text/plain&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>With <em>azure-ai-image-function</em> started on port=8080, in order to test
+the azure ai function for identifying tags in an image, run following
+command</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_tags?image_name=&lt;image_name_with_extension_uploaded_earlier&gt;&quot;</span> -H <span class="s2">&quot;accept: text/plain&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Check the running REST services using following command:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapi server ps
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Stop the REST service using following command(s):</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapi server stop azure-ai-image-function
+cms openapi server stop azure-ai-text-function
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="test">
+<h2>Test<a class="headerlink" href="#test" title="Permalink to this headline">¶</a></h2>
+<p>The following table lists the different test we have, we provide
+additional information for the tests in the test directory ina README
+file. Summaries are provided bellwo the table</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 57%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Test</p></th>
+<th class="head"><p>Short Description</p></th>
+<th class="head"><p>Link</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Generator</p></td>
+<td><p>Bla Bla</p></td>
+<td><p>Link</p></td>
+</tr>
+</tbody>
+</table>
+<p>Generator:</p>
+<blockquote>
+<div><p>This is a paragraph describing what the test is supposed to do can be
+short another line</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="tests/test_001_registry.py">test_001_registry</a></p></li>
+<li><p><a class="reference external" href="tests/test_003_server_manage_cpu.py">test_003_server_manage_cpu</a></p></li>
+<li><p><a class="reference external" href="tests/test_010_generator.py">test_010_generator</a></p></li>
+<li><p><a class="reference external" href="tests/test_011_generator_cpu.py">test_011_generator_cpu</a></p></li>
+<li><p><a class="reference external" href="tests/test_012_generator_calculator.py">test_012_generator_calculator</a></p></li>
+<li><p><a class="reference external" href="tests/test_015_generator_azureai.py">test_015_generator_azureai</a></p></li>
+<li><p><a class="reference external" href="tests/test_020_server_manage.py">test_020_server_manage</a></p></li>
+<li><p><a class="reference external" href="tests/test_generator_natural_language.py">test_generator_natural_language</a></p></li>
+<li><p><a class="reference external" href="tests/test_server_cms_cpu.py">test_server_cms_cpu</a></p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="README-Scikitlearn.html" class="btn btn-neutral float-right" title="Cloudmesh OpenAPI Merge" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Cloudmesh OpenAPI Service Generator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, The Cloudmesh Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

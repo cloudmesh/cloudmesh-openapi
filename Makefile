@@ -29,12 +29,12 @@ readme-generate:
 doc:
 	mkdir -p docs
 	cd sphinx; sh gen_apidocs.sh
+	pandoc README.md -o sphinx/sphinx-docs/README.rst
+	pandoc README-Scikitlearn.md -o sphinx/sphinx-docs/README-Scikitlearn.rst
+	pandoc README.md -o docs/README.rst
 	cd sphinx/sphinx-docs; make html
 	cp -r sphinx/sphinx-docs/_build/html/* docs
 	touch docs/.nojekyll
-	pandoc README.md -o docs/README.rst
-	pandoc README-Scikitlearn.md -o docs/README-Scikitlearn.rst
-	pandoc README.md -o docs/README.rst
 
 doc-real:
 	mkdir -p docs
