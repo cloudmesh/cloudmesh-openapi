@@ -84,104 +84,72 @@ cms openapi server start ./tests/server-cpu/cpu.yaml
 cms openapi server stop cpu
 ```
 
-## Usage
+## End-to-end walkthrough
 
-After that the first step is to find an Open Api 3 compliant spec that
-you are comfortable using or to create one yourself. If you are not
-familiar with Open API specs, it is suggested to go read up on those
-before using this command.
+### Writing Python
 
-Create a YAML file in your project directory for the Open Api
-specification
-
-Here is an example spec that can be used:
-
-```yaml
-openapi: 3.0.0
-info:
-  title: cpu
-  description: A simple service to get cpuinfo as an example of using OpenAPI 3.0
-  license:
-    name: Apache 2.0
-  version: 0.0.1
-
-servers:
-  - url: http://localhost:8080/cloudmesh
-
-paths:
-  /cpu:
-    get:
-      summary: Returns cpu information of the hosting server
-      operationId: cpu.get_processor_name
-      responses:
-        '200':
-          description: cpu info
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/cpu"
-
-components:
-  schemas:
-    cpu:
-      type: "object"
-      required:
-        - "model"
-      properties:
-        model:
-          type: "string"
+Cloudmesh uses introspection to generate an OpenAPI compliant YAML specification that will allow your Python code to run as a web service. For this reason, any code you write must conform to a set of guidelines.
+- The parameters and return values of any functions you write must use typing
+- Your functions must include docstrings
+- If a function uses or returns a class, that class must be defined as a dataclass in the same file
+The following function is a great example to get started. Note how x, y, and the return type are all `float`. The description in the docstring will be added to your YAML specification to help describe what the function does.
+```python
+def add(x: float, y: float) -> float:
+    """
+    adding float and float.
+    :param x: x value
+    :type x: float
+    :param y: y value
+    :type y: float
+    :return: result
+    :return type: float
+    """
+    return x + y
 ```
 
-For this spec to work it is necessary to also create a function called
-`get_processor_name` in a cpu.py file in the same directory. Once that
-has been saved you have all the parts to now spin up you API using
-cloudmesh.
+### Generating OpenAPI specification
 
-Take not of the working directory name where you store the YAML and
-python files. To start a server to host this API you must run the
-`server start` function and pass in the relative, or absolute, location
-of the API specification as a parameter.
+Once you have a Python function you would like to deploy as a web service, you can generate the OpenAPI specification. Navigate to your .py file's directory and generate the YAML. This will print information to your console about the YAML file that was generated.
+```
+$ cms openapi generate [function_name] --filename=[filename.py]
+```
+If you would like to include more than one function in your web service, like addition and subtraction, use the `--all_functions` flag. This will ignore functions whose names start with '\_'.
+```
+$ cms openapi generate --filename=[filename.py] --all_functions
+```
+You can even write a class like Calculator that contains functions for addition, subtraction, etc. You can generate a specification for an entire class by using the `--import_class` flag.
+```
+$ cms openapi generate [ClassName] --filename=[filename.py] --import_class
+```
 
-`cms openapi server start ./cpu.yaml`
+### Starting a server
 
-This will output the serer name, PID, URL, and spec location to the
-terminal.
+Once you have generated a specification, you can start the web service on your localhost by providing the path to the YAML file. This will print information to your console about the server
+```
+$ cms openapi server start ./[filename.yaml]
 
-Verify that your server has successfully spun up by running `ps` and
-look for the PID value in the list. If it is not in the list the server
-did not start correctly.
+  Starting: [server name]
+  PID:      [PID]
+  Spec:     ./[filename.py]
+  URL:      http://localhost:8080/cloudmesh
+  Cloudmesh UI:      http://localhost:8080/cloudmesh/ui
+  
+```
 
-You can also ping the returned URL to see if you get a successful
-response.
+### Sending requests to the server
 
-### Generating API Endpoints
+Now you have two options to interact with the web service. The first is to navigate the the Cloudmesh UI and click on each endpoint to test the functionality. The second is to use curl commands to submit requests.
+```
+$ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text/plain"
+2.7
+```
 
-The openapi command can also generate Open API specs from python
-functions using `cms openapi generate`. Once you have generated an API
-spec using cloudmesh follow through the same process as above except
-with your newly generated endpoint to make the API accessible.
+### Stopping the server
 
-The data returned from a generated endpoint is returned in JSON format.
-
-### Endpoint Registry
-
-A mongodb registry allows you to store information about started servers
-and API endpoints generated by the openapi command. You can use a tool
-like Robo 3T to add a GUI to view the contents of the database to verify
-that your interactions with the database are working.
-
-There are add, delete, rename, and list functions for the registry command.
-
-`cms openapi register`
-
-### Stopping Servers
-
-When it is necessary to stop a server hosting an endpoint generated or
-start using cloudmesh use the stop command and passing the name of the
-server as a parameter. In the context of the earlier example the command
-is:
-
-`cms openapi server stop cpu`
+Now you can stop the server using the name of the server. If you forgot the name, use `cms openapi server ps` to get a list of server processes.
+```
+$ cms openapi stop [server name]
+```
 
 ## Manual
 
