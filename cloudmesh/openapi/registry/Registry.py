@@ -5,6 +5,10 @@ from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 
 
 class Registry:
+    """
+      This class will help to register service into db.
+      which later use to stop server.
+    """
     kind = "register"
 
     collection = "local-registry"
@@ -25,6 +29,13 @@ class Registry:
 
     # noinspection PyPep8Naming
     def Print(self, data, output=None):
+        """
+        print registry
+
+        :param data:
+        :param output:
+        :return:
+        """
 
         if output == "table":
 
@@ -48,6 +59,13 @@ class Registry:
 
     @DatabaseUpdate()
     def add(self, name=None, **kwargs):
+        """
+        add to registry
+
+        :param name: name to be used for registry
+        :param kwargs:
+        :return:
+        """
         entry = {
             "cm": {
                 "cloud": "local",
@@ -66,8 +84,9 @@ class Registry:
 
     def add_form_file(self, filename, **kwargs):
         """
+        add to registry from file
 
-        :param filename:
+        :param filename: path and file name
         :return:
         """
 
@@ -82,8 +101,9 @@ class Registry:
 
     def delete(self, name=None):
         """
+        delete item from registry
 
-        :param name:
+        :param name: name of the item in registry
         :return:
         """
         cm = CmDatabase()
@@ -99,6 +119,7 @@ class Registry:
 
     def list(self, name=None):
         """
+        list the registry
 
         :param name:  if none all
         :return:

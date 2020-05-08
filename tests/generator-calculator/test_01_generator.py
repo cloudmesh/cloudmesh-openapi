@@ -1,7 +1,5 @@
 ###############################################################
-# pytest -v --capture=no tests/test_03_generator.py
-# pytest -v  tests/test_03_generator.py
-# pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
+# pytest -v --capture=no tests/generator-calculator/test_01_generator.py
 ###############################################################
 import os
 import time
@@ -16,6 +14,10 @@ filename="./tests/generator-calculator/calculator.py"
 all_functions= True
 import_class=False
 from cloudmesh.common.Benchmark import Benchmark
+from cloudmesh.common.debug import VERBOSE
+from cloudmesh.common.util import HEADING
+import requests
+
 
 Benchmark.debug()
 
@@ -52,6 +54,63 @@ class TestGeneratorTestClass():
     def test_start_service(self,serverBaseTestFixture):
         serverBaseTestFixture.start_service()
 
+    def test_add(self):
+        HEADING()
+        url = "http://127.0.0.1:8080/cloudmesh/calculator/add"
+        Benchmark.Start()
+        payload = {'x': '10', 'y': '10'}
+        result = requests.get(url, params=payload)
+        assert result.status_code == 200, "Status code value should be 200"
+        assert result.reason == 'OK'
+        assert result.headers['content-type'] == 'text/plain; charset=utf-8'
+        print(result.json())
+        assert result.json() == 20.0
+        Benchmark.Stop()
+        VERBOSE(result)
+
+
+    def test_division(self):
+        HEADING()
+        url = "http://127.0.0.1:8080/cloudmesh/calculator/division"
+        Benchmark.Start()
+        payload = {'x': '10', 'y': '10'}
+        result = requests.get(url, params=payload)
+        assert result.status_code == 200, "Status code value should be 200"
+        assert result.reason == 'OK'
+        assert result.headers['content-type'] == 'text/plain; charset=utf-8'
+        print(result.json())
+        assert result.json() == 1.0
+        Benchmark.Stop()
+        VERBOSE(result)
+    #
+    def test_multiply(self):
+        HEADING()
+        url = "http://127.0.0.1:8080/cloudmesh/calculator/multiply"
+        Benchmark.Start()
+        payload = {'x': '10', 'y': '10'}
+        result = requests.get(url, params=payload)
+        assert result.status_code == 200, "Status code value should be 200"
+        assert result.reason == 'OK'
+        assert result.headers['content-type'] == 'text/plain; charset=utf-8'
+        print(result.json())
+        assert result.json() == 100.0
+        Benchmark.Stop()
+        VERBOSE(result)
+    #
+    def test_subtraction(self):
+        HEADING()
+        url = "http://127.0.0.1:8080/cloudmesh/calculator/subtraction"
+        Benchmark.Start()
+        payload = {'x': '10', 'y': '10'}
+        result = requests.get(url, params=payload)
+        assert result.status_code == 200, "Status code value should be 200"
+        assert result.reason == 'OK'
+        assert result.headers['content-type'] == 'text/plain; charset=utf-8'
+        print(result.json())
+        assert result.json() == 0.0
+        Benchmark.Stop()
+        VERBOSE(result)
+    #
     def test_stop_server(self, serverBaseTestFixture):
         serverBaseTestFixture.stop_server()
 
@@ -61,4 +120,3 @@ class TestGeneratorTestClass():
 
     def test_benchmark(self,generatorBaseTestFixture):
         Benchmark.print(sysinfo=True, csv=True, tag=generatorBaseTestFixture.service)
-

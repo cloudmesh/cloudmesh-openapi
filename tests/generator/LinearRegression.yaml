@@ -1,0 +1,133 @@
+openapi: 3.0.0
+info:
+  title: LinearRegression_upload-enabled
+  description: "No description provided"
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/cloudmesh
+    description: "No description provided"
+paths:
+  /LinearRegression_upload-enabled/fit:
+     get:
+      summary: "Fit linear model."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: LinearRegression_upload-enabled.fit
+      parameters:
+        - in: query
+          name: X
+          description: "Training data"
+          schema:
+            type: string
+        - in: query
+          name: y
+          description: "Target values. Will be cast to X's dtype if necessary"
+          schema:
+            type: string
+      responses:
+        '204':
+          description: "This operation returns no response."
+
+  /LinearRegression_upload-enabled/get_params:
+     get:
+      summary: "Get parameters for this estimator."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: LinearRegression_upload-enabled.get_params
+      parameters:
+        - in: query
+          name: deep
+          description: "If True, will return the parameters for this estimator and
+                       contained subobjects that are estimators."
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /LinearRegression_upload-enabled/predict:
+     get:
+      summary: "Predict using the linear model."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: LinearRegression_upload-enabled.predict
+      parameters:
+        - in: query
+          name: X
+          description: "Samples."
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: array
+                items: {}
+
+  /LinearRegression_upload-enabled/score:
+     get:
+      summary: "Return the coefficient of determination R^2 of the prediction."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: LinearRegression_upload-enabled.score
+      parameters:
+        - in: query
+          name: X
+          description: "Test samples. For some estimators this may be a
+                       precomputed kernel matrix or a list of generic objects instead,
+                       shape = (n_samples, n_samples_fitted),
+                       where n_samples_fitted is the number of
+                       samples used in the fitting for the estimator."
+          schema:
+            type: string
+        - in: query
+          name: y
+          description: "True values for X."
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: number
+
+  /LinearRegression_upload-enabled/set_params:
+     get:
+      summary: "Set the parameters of this estimator."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: LinearRegression_upload-enabled.set_params
+      parameters:
+        - in: query
+          name: params
+          description: "no description provided in docstring"
+          schema:
+            type: object
+            additionalProperties: true
+      responses:
+        '204':
+          description: "This operation returns no response."
+
+  /upload:
+    post:
+      summary: upload a file
+      operationId: LinearRegression_upload-enabled.upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                upload:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string

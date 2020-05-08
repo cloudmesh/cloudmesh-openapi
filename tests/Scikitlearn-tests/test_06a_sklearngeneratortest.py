@@ -6,32 +6,30 @@
 import os
 import time
 from pprint import pprint
-import sys
-sys.path.append("./tests/Scikitlearn-tests")
-from cloudmesh.openapi.scikitlearn import SklearnGenerator
-from tests.generator import LogisticRegression
-import pytest
-from cloudmesh.common.dotdict import dotdict
 
-filename="./tests/generator/LogisticRegression.py"
+
+from cloudmesh.common.Benchmark import Benchmark
+from cloudmesh.common.util import HEADING
+
+import sys
+sys.path.append("./tests/Scikitlearn_tests")
+from cloudmesh.openapi.scikitlearn import SklearnGenerator
+import pytest
 all_functions= True
 import_class=False
-X = [1,2,3,4,5,6,7,8]
-y = [1,3,5,7]
-sample_weight = [1,1,1,1]
-X_shape_x = 4
-X_shape_y = 2
+input_sklibrary = 'sklearn.linear_model.LinearRegression'
+model_tag = 'Linregpytest'
 
 @pytest.mark.incremental
-class LogisticRegressiontest:
+class Test:
 
-    def fit(X,y,sample_weight,X_shape_x,X_shape_y):
-        """
-        function to test if the server is started and available to return
-        a successful http code
-        """
+    def test_SklearnGenerator(self):
+
         HEADING()
         Benchmark.Start()
-        LogisticRegression.fit(X,y,sample_weight,X_shape_x,X_shape_y)
+        SklearnGenerator.Sklearngenerator(input_sklibrary, model_tag)
         Benchmark.Stop()
         assert True
+
+    def test_benchmark(self):
+        Benchmark.print(sysinfo=True, csv=True)

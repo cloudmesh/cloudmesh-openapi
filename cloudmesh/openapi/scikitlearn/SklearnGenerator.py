@@ -345,6 +345,12 @@ class Generator:
         functionname = class_obj.__name__
         match = re.search(r'X: array', parametersfunc)
         X_param_index = parametersfunc.find('X: array')
+        sample_weight_index = parametersfunc.find('sample_weight: array')
+        if sample_weight_index != -1:
+            parametersfunc = parametersfunc[:sample_weight_index - 2]
+        sample_weight_index_params = params.find('sample_weight')
+        if sample_weight_index_params != -1:
+            params = params[:sample_weight_index_params - 2]
         if match:
             parametersfunc =  parametersfunc + "," + " X_shape_x: int," + " X_shape_y: int"
         parametersfunc = parametersfunc.replace('array','list')
@@ -463,7 +469,7 @@ def Sklearngenerator(input_sklibrary,model_tag):
     openAPI = Generator()
     spec = openAPI.generate_import_params(input_params)
     print(f"Writing python code to file: {input_params[-1]}.py")
-    open(f"{input_params[-1]}.py", 'w').write(spec)
+    open(f"./tests/generator/{input_params[-1]}.py", 'w').write(spec)
     #spec = openAPI.generate_function(module, class_name,base_estimator)
     #open(f"{input_params[-1]}.py", 'a').write(spec)
     for i in range(len(method_list)):
@@ -471,7 +477,7 @@ def Sklearngenerator(input_sklibrary,model_tag):
         function = method_list[i]
         openAPI = Generator()
         spec = openAPI.generate_function(module,function,base_estimator,model_tag)
-        open(f"{input_params[-1]}.py", 'a').write(spec)
+        open(f"./tests/generator/{input_params[-1]}.py", 'a').write(spec)
 
 if __name__ == "__main__":
     Sklearngenerator(input_sklibrary,model_tag)

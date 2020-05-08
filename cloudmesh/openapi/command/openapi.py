@@ -17,6 +17,7 @@ from cloudmesh.openapi.function.server import Server
 from cloudmesh.openapi.function.executor import Parameter
 from cloudmesh.openapi.registry.Registry import Registry
 from cloudmesh.openapi.scikitlearn.SklearnGenerator import Sklearngenerator
+from cloudmesh.openapi.scikitlearn.SklearnGeneratorFile import SklearngeneratorFile
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, map_parameters
 
@@ -62,6 +63,7 @@ class OpenapiCommand(PluginCommand):
               openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
               openapi TODO doc [SERVICES...] [--dir=DIR]
               openapi sklearn FUNCTION MODELTAG
+              openapi sklearnreadfile FUNCTION MODELTAG
               openapi sklearn upload --filename=FILENAME
 
           Arguments:
@@ -106,7 +108,10 @@ class OpenapiCommand(PluginCommand):
 
 
             openapi sklearn sklearn.linear_model.LogisticRegression
-                Generates the
+                Generates the .py file for the Model given for the generator
+
+            openapi sklearnreadfile sklearn.linear_model.LogisticRegression
+            Generates the .py file for the Model given for the generator which supports reading files
 
             openapi generate [FUNCTION] --filename=FILENAME
                                          [--serverurl=SERVERURL]
@@ -437,6 +442,14 @@ class OpenapiCommand(PluginCommand):
             try:
                 Sklearngenerator(input_sklibrary=arguments.FUNCTION,
                                  model_tag=arguments.MODELTAG)
+            except Exception as e:
+                print(e)
+
+        elif arguments.sklearnreadfile and not arguments.upload:
+
+            try:
+                SklearngeneratorFile(input_sklibrary=arguments.FUNCTION,
+                                          model_tag=arguments.MODELTAG)
             except Exception as e:
                 print(e)
         

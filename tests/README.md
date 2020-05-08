@@ -29,13 +29,16 @@ Framework file is present under tests/lib named as generator_test.py
 1. Change startservercommand and filename variables value accordingly to your use case.
 1. Change some of parameters of constructor of GeneratorBaseTest class. 
 1. if your py file has a class then.
+
 ```bash
  gen= GeneratorBaseTest(filename,False,True)
 ```
 1. if your py file has functions then 
+
 ```bash
  gen= GeneratorBaseTest(filename,True,False)
 ```
+
 1. First boolean flag in GeneratorBaseTest for --all_functions and second flag is for --import_class
 1. If you need to write more test cases based on your requirement, check order of test case and write accordingly.
 
@@ -44,38 +47,133 @@ Framework file is present under tests/lib named as generator_test.py
 Below command can use to run your case. Make sure your current directory is cloudmesh-openapi.
 
 ```bash
-$ how do you call this
-pytest -v -x --capture=no tests/generator-calculator/test_01_generator.py
+$ how do you call this you can add -x to stop pytest when first test failed
+pytest -v  --capture=no tests/generator-calculator/test_01_generator.py
 ```
 
 ### Run test case with CSV command enabled
 
 ```bash
-$ how do you call this
-pytest -v -x --capture=no tests/generator-calculator/test_01_generator.py  | fgrep '# cvs'
+$ how do you call this , you can add -x to stop pytest when first test failed
+pytest -v  --capture=no tests/generator-calculator/test_01_generator.py  | fgrep '# cvs'
 ```
 
 
 ## Below are test case files
 
-1. generator-calculator and file name is test_01_generator.py
-1. generator-testclass and file name is test_02_generator.py
-1. server-cpu and file name is test_03_generator.py
-1. server-cms and file name is test_04_generator.py
-1. generator and file name is test_05_generator.py
+Generator-calculator and file name is test_01_generator.py
 
+```
+pytest -v  --capture=no tests/generator-calculator/test_01_generator.py
+```
 
-<!--## test_001_registry.py
+Generator-testclass and file name is test_02_generator.py
 
-descript what this do
+```
+pytest -v --capture=no tests/generator-testclass/test_02_generator
+```
+
+Server-cpu and file name is test_03_generator.py
+
+```
+pytest -v  --capture=no tests/server-cpu/test_03_generator
+```
+
+Server-cms and file name is test_04_generator.py
+
+```
+pytest -v  --capture=no tests/server-cms/test_04_generator
+```
+
+Generator and file name is test_05_generator.py
+
+```
+pytest -v --capture=no tests/generator/test_05_generator
+```
+
+Natural Language Analysis Generator Tests are run from test_generator_natural_language.py
 
 ```bash
-$ how do you call this
-cms set filename="./tests/server-cpu/cpu.yaml"
-pytest -v --capture=no tests/test_03_generator.py
-cms set filename="./tests/server-sampleFunction/sampleFunction.yaml"
-pytest -v --capture=no tests/test_03_generator.py
+pytest -v --capture=no  ./tests/test_generator_natural_language.py::TestGenerator
 ```
+
+This test will generate an OpenAPI spec for the natural-lang-analysis.py file located in the generator-natural-lang
+directory. If the above command is copied and pasted to run in the terminal it will do the following.
+
+1. Generate a yaml file
+2. Verify the spec has all the functions that are available in the natural-lang-analysis.py file
+3. Start a server hosting the openAPI spec
+4. Run a call against the sentiment analysis and translation endpoint for each available cloud service (Google/Azure) and verify it was successful.
+5. Stop the service
+
+## TODO DESCRIBE WHAT THEY DO
+
+
+cache-scikitlearn
+deprecated
+examples
+generator
+generator-azureai
+generator-calculator
+generator-natural-lang - This is described in the cloudmesh-openapi/README.md
+generator-printerclass
+generator-testclass
+generator-upload
+image-analysis
+lib
+Scikit-learntestfiles
+Scikitlearn_tests
+server-cms
+server-cms-simple
+server-cpu
+server-sample
+server-sampleFunction
+test_mlperf
+textanalysis-example-text
+__init__.py
+README.md
+test_001_registry.py
+test_03_generator.py
+test_010_generator.py
+test_011_generator_cpu.py
+test_012_generator_calculator.py
+test_015_generator_azureai.py
+test_020_server_manage.py
+test_generator_natural_language.py
+test_server_cms_cpu.py
+util.py
+
+
+THIS WAS HERE BEFORE
+
+## test_001_registry.py
+
+This test has 5 test functions
+
+1. test_registry_add
+2. test_registry_list_name
+3. test_registry_list
+4. test_registry_delete
+5. test_benchmark
+
+Test 1 calls registry and adds to the registry. If successful prints 'PASSED'
+
+Test 2 calls registry and prints ONLY the server specified in filename.
+
+Test 3 calls registry and print list for ALL servers in registry.
+
+Test 4 calls registry and deletes entry for filename.
+
+Test 5 runs benchmark test on registry.
+
+### How to call this
+
+```bash
+cms set filename="./tests/server-cpu/cpu.yaml"
+pytest -v --capture=no tests/test_001_registry.py
+```
+
+
 
 deprecated
 examples

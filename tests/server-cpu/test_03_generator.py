@@ -1,7 +1,5 @@
 ###############################################################
-# pytest -v --capture=no tests/test_03_generator.py
-# pytest -v  tests/test_03_generator.py
-# pytest -v --capture=no  tests/test_generator..py::Test_name::<METHODNAME>
+# pytest -v --capture=no tests/server-cpu/test_03_generator.py
 ###############################################################
 import os
 import time

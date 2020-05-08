@@ -45,7 +45,7 @@ def get_credentials():
     credentials_list.append(
         credentials.cloudmesh__cloud__azure__credentials__AZURE_TEXT_ANALYTICS_ENDPOINT)
     credentials_list.append(
-        credentials.cloudmesh__cloud__google__credentials__path_to_json_file)
+        credentials.cloudmesh__cloud__google__credentials__auth__json_file)
 
     return credentials_list
 

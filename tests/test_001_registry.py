@@ -10,7 +10,9 @@ import yaml as yaml
 from cloudmesh.common.Benchmark import Benchmark
 from cloudmesh.common.util import HEADING
 from cloudmesh.openapi.registry.Registry import Registry
-
+from cloudmesh.common.variables import Variables
+variable=Variables()
+filename= variable['filename']
 # sys.path.append("cloudmesh/openapi/function")
 #
 
@@ -18,7 +20,8 @@ from cloudmesh.openapi.registry.Registry import Registry
 #
 # get the spec for the tests
 #
-with open("tests/server-sampleFunction/sampleFunction.yaml", "r") as stream:
+
+with open(filename, "r") as stream:
     try:
         spec = yaml.safe_load(stream)
     except yaml.YAMLError as e:

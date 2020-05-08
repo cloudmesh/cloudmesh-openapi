@@ -1,0 +1,23 @@
+---
+title:  'Raspberry Pi SDCard Burner for Building Cloud and Compute Clusters'
+subtitle: ''
+author:
+  - name: Gregor von Laszewski
+    affilation: Indiana University
+    location: loomington, IN 47401
+    email: laszewski@gmail.com
+
+date: Nov. 1st, 2019
+tags: [rasperry pi, cluster, sdcard, cloudmesh]
+numbersections: yes
+lang: en
+babel-lang: english
+abstract: |
+
+  TBD
+
+header-includes: |
+  \usepackage{booktabs}
+
+...
+

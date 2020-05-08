@@ -1,17 +1,20 @@
 
 from sklearn.linear_model import LinearRegression
+import numpy as np
+import pandas as pd
 import array
 from cloudmesh.openapi.registry.cache import ResultCache
+from cloudmesh.openapi.registry.fileoperation import FileOperation
 
 
-def fit(X: str, y: array, sample_weight: array):
+def fit(X: str, y: str):
 
     """
     Fit linear model.
 
 
     :param X: Training data
-    :type X: str
+    :type X: array
     :param y: Target values. Will be cast to X's dtype if necessary
     :type y: array
     :param sample_weight: Individual weights for each sample
@@ -24,11 +27,15 @@ def fit(X: str, y: array, sample_weight: array):
     
     """
 
-    fit = LinearRegression().fit(X, y, sample_weight)
-    ResultCache().save("LinearRegression","pickle",fit)
+    X_input = "~/.cloudmesh/upload-file/" + f"{X}" + ".csv"
+    y_input = "~/.cloudmesh/upload-file/" + f"{y}" + ".csv"
+    X = pd.read_csv(X_input)
+    y = pd.read_csv(y_input)
+    fit = LinearRegression().fit(X, y)
+    ResultCache().save("Linregnew","pickle",fit)
 
 
-    return LinearRegression
+    return 
 
 
 def get_params(deep: bool) -> str:
@@ -45,15 +52,14 @@ def get_params(deep: bool) -> str:
     
     """
 
-    model = ResultCache().load("LinearRegression")
+    model = ResultCache().load("Linregnew")
     str = model.get_params(deep)
-
 
 
     return str
 
 
-def predict(X: array) -> array:
+def predict(X: str) -> list:
 
     """
     Predict using the linear model.
@@ -66,15 +72,17 @@ def predict(X: array) -> array:
     
     """
 
-    model = ResultCache().load("LinearRegression")
-    array = model.predict(X)
+    X_input = "~/.cloudmesh/upload-file/" + f"{X}" + ".csv"
+    X = pd.read_csv(X_input)
+    model = ResultCache().load("Linregnew")
+    list = model.predict(X)
+    list = list.tolist()
 
 
+    return list
 
-    return array
 
-
-def score(X: array, y: array, sample_weight: array) -> float:
+def score(X: str, y: str) -> float:
 
     """
     Return the coefficient of determination R^2 of the prediction.
@@ -95,9 +103,12 @@ def score(X: array, y: array, sample_weight: array) -> float:
     
     """
 
-    model = ResultCache().load("LinearRegression")
-    float = model.score(X, y, sample_weight)
-
+    X_input = "~/.cloudmesh/upload-file/" + f"{X}" + ".csv"
+    y_input = "~/.cloudmesh/upload-file/" + f"{y}" + ".csv"
+    X = pd.read_csv(X_input)
+    y = pd.read_csv(y_input)
+    model = ResultCache().load("Linregnew")
+    float = model.score(X, y)
 
 
     return float
@@ -117,7 +128,7 @@ def set_params(**params: dict):
     """
 
     set_params = LinearRegression().set_params(**params)
-    ResultCache().save("LinearRegression","pickle",set_params)
+    ResultCache().save("Linregnew","pickle",set_params)
 
 
-    return LinearRegression
+    return
