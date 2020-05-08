@@ -17,23 +17,31 @@ We have not checked if it works on older versions.
 
 ## Installation
 
-Make sure that cloudmesh is properly installed on your machine and you
-have mongodb setup to work with cloudmesh.D
+Make sure that `cloudmesh` is properly installed on your machine and you
+have mongodb setup to work with cloudmesh.
+
 D
-More details to setting up mongo can be found in the
+More details to setting up `mongo` can be found in the
 
 * [Cloudmesh Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html)
 
 ###  User Installation
 
 Make sure you use a python venv before installing. Users can install the
-code withpython -m venv ~/ENV3
+code with
+
+```bash
+python -m venv ~/ENV3
 source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
 mkdir cm
 cd cm
-pip install cloudmesh-installer
-cloudmesh-installer get openapi 
-
+pip installl cloudmesh-installer get openapi 
+cms help
+cms gui quick
+# fill out mongo variables we should have a `cms gui openapi`
+# make sure autinstall is True
+cms admin mongo install --froce
+```
 
 ```bash
 $ pip install cloudmesh-openapi
@@ -44,25 +52,35 @@ $ pip install cloudmesh-openapi
 
 Developers install also the source code
 
-```
+```bash
 python -m venv ~/ENV3
 source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
 mkdir cm
 cd cm
 pip install cloudmesh-installer
 cloudmesh-installer get openapi 
+cms help
+cms gui quick
+# fill out mongo variables we should have a `cms gui openapi`
+# make sure autinstall is True
+cms admin mongo install --froce
 ```
 
 ## Overview
 
-When getting started using the `openapi`, please first call `cms helppython -m venv ~/ENV3
+When getting started using the `openapi`, please first call 
+
+cms help
+python -m venv ~/ENV3
 source ~/ENV3/bin/activate # on windows ENV3\Scripts\activateDD
 mkdir cm
 cd cm
 pip install cloudmesh-installer
 cloudmesh-installer get openapi 
 
-openapi` to see the available functions and options. For your
+openapi
+ 
+to see the available functions and options. For your
 convenience we include the manual page later on in this document.
 
 ## Quick steps to generate,start and stop CPU sample example
