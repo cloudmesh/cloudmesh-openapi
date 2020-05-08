@@ -105,101 +105,41 @@ We can interact with the Scikit-learn library using either CURL commands or thro
    
 8. Access the REST service using [http://localhost:8080/cloudmesh/ui/](http://localhost:8080/cloudmesh/ui/)
 
-9. Now we will start running the LinearRegression using the CURL commands. We will first upload testfiles.
+9. Run a curl command against the newly running server to upload the testfiles.
+
    Place your test files in [Scikitlearn-data](https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/Scikitlearn-data)
    We are testing with X_SAT.csv(SAT Scores of students),y_GPA(GPA of students)
    
-10. Run a curl command against the newly running server to verify it returns a result as expected. 
-
-    * Sample text file name is only meant to be the name of the file not the full path.
+   ```bash
+    curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/X_SAT.csv;type=text/csv"
+    ```
+   ```bash
+    curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv"
+    ```
+   
+10. Run a curl command against the newly running server to verify fit method in Scikit-learn  using the uploaded files
 
     ```bash
-    curl -X GET "http://127.0.0.1:8080/cloudmesh/analyze?filename=<<sample text file name>>&cloud=azure"
+    curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/fit?X=X_SAT&y=y_GPA" -H "accept: */*"
+    ```
+ 
+11. Run a curl command against the newly running server to run the Predict method.
+    
+    ```bash
+    curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/predict?X=X_SAT" -H "accept: text/plain"
     ```
     
-    * This is currently only ready to translate a single word through the API. 
-    * Available language tags are described in the [Azure docs](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages)
+12. Run a curl command against the newly running server to run the Score method.
+
     ```bash
-    curl -X GET "http://127.0.0.1:8080/cloudmesh/translate_text?cloud=azure&text=<<word to translate>>&lang=<<lang code>>"
+    curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/score?X=X_SAT&y=y_GPA" -H "accept: text/plain"   
     ```
     
-11. Stop the server
+13. Stop the server
 
     ```bash
-    cms openapi server stop natural-lang-analysis
+    cms openapi server stop LinearRegression
     ```
-
-#### Prerequisite for setting up Azure ComputerVision AI service
-
-* Azure subscription. If you don't have one, create a [free account](https://azure.microsoft.com/try/cognitive-services/) before you continue further.
-* Create a Computer Vision resource and get the COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT. Follow [instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix) to get the same.
-* Install following Python packages in your virtual environment:
-  * requests
-  * Pillow
-* Install Computer Vision client library
-  * ```pip install --upgrade azure-cognitiveservices-vision-computervision```
-
-#### Steps to implement and use Azure AI image and text *REST-services*
-
-* Go to `./cloudmesh-openapi` directory
-
-* Run following command to generate the YAML files
-
-  `cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload`<br>
-  `cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload`
-
-* Verify the *YAML* files created in `./tests/generator-azureai` directory
-
-  * `azure-ai-image-function.yaml`
-  * `azure-ai-text-function.yaml`
-  
-* Start the REST service by running following command in `./cloudmesh-openapi` directory
-
-  `cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml`
-
-The default port used for starting the service is 8080. In case you want to start more than one REST service, use a different port in following command: 
-
-  `cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>`
-
-* Access the REST service using [http://localhost:8080/cloudmesh/ui/](http://localhost:8080/cloudmesh/ui/)
-
-* Check the running REST services using following command:
-
-  `cms openapi server ps`
-
-* Stop the REST service using following command(s):
-
-  `cms openapi server stop azure-ai-image-function`<br>
-  `cms openapi server stop azure-ai-text-function`  
-
-
-
-## scikit learn
-
-Before running these commands Please install Cloudmesh-openapi and test a Quickstart for configuration
-checks.
-
-## Run all these commands from the cloudmesh-openapi directory.
-
-* This Command will generate the .py file for the module in the Scikit learn.
-
-  cms openapi sklearn  sklearn.linear_model.LinearRegression Linregpytest
-
-* Generate the .yaml from the sklearn py file.
-
-  cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions
-
-* Start the Server from the .yaml file
-
-  cms openapi server start ./tests/generator/LinearRegression.yaml
-
-  Access the URL at http://localhost:8080/cloudmesh/ui/
-
-* Stop the Server 
-
-  Replace the PID of the server in the below command to stop the server.
-
-  cms openapi server stop PID
 
 
 ## Pytests for Scikit learn tests.
@@ -213,46 +153,6 @@ checks.
   pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
 
  
-  
-## Scikit-Learn generator with file read capabilities
-
-* Install Pandas,scikit-learn
- 
-  pip install pandas
-  
-  pip install scikit-learn
-
-* This Command will generate the .py file for the module in the Scikit learn.
-
-  cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregnew
-
-* Generate the .yaml from the sklearn py file which supports upload functionality so that you can upload files
-
-  cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions --enable_upload
-
-* Start the Server from the .yaml file
-
-  cms openapi server start ./tests/generator/LinearRegression.yaml
-
-  Access the URL at http://localhost:8080/cloudmesh/ui/
-
-* Download the files from Scikit-learntestfiles
-    
-   X_SAT, y_GPA
-   
-* Use Upload functionality in Server to upload the files.
-
-* These files should land in ~/.cloudmesh/upload-file in your local
-
-* Now you can Fit and predict 
-
-* Stop the Server 
-
-  Replace the PID of the server in the below command to stop the server.
-
-  cms openapi server stop PID
-
-
 ## Pytests for Scikit learn tests.
 
 * Generate the .py for the Scikit learn module woth file reading capabilities
