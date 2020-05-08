@@ -62,6 +62,24 @@ class TypeScraper:
 
 class Generator:
 
+    """
+    THe below are templates are using when generating the .py function.
+    importfuction : this template is used to generate the import statements based on the model which we use
+    uploadfunction: This template is used to generate the uploadfunction added the model
+    functiontemplateretarryXandY: This template is the used when the method has both X and y varaibles and array is
+    passed as return.
+    functiontemplateretarryX: This template is the used when the method has X Variable and array is
+    passed as return.
+    functiontemplateXandY: This template is the used when the method has both X and y varaibles and the return type is
+    other than array.
+    functiontemplatewithonlyX_param: This template is the used when the method has X Variable and the return type is
+    other than array.
+    functiontemplatereturningself:  This template is used when the method is returning self .
+    functiontemplatefit: This template is used to generate the fit function in the module.
+    functiontemplatesetparams: This template is used to generate the Setparams function in the module.
+
+    """
+
     importfuction = textwrap.dedent("""
         from {library}.{module} import {class_nm}
         import numpy as np
@@ -92,7 +110,7 @@ class Generator:
             
             {X_input}
             {y_input}
-            {X_numpyconversion}
+            {X_upload}
             {y_upload}
             model = ResultCache().load("{model_tag}")
             {returnparam1} = model.{functioname}({param_wo_type})
@@ -114,7 +132,7 @@ class Generator:
                 {text1}
                 
                 {X_input}
-                {X_numpyconversion}
+                {X_upload}
                 model = ResultCache().load("{model_tag}")
                 {returnparam1} = model.{functioname}({param_wo_type})
                 {returnparam1} = {returnparam1}.tolist()
@@ -136,7 +154,7 @@ class Generator:
                 
                 {X_input}
                 {y_input}
-                {X_numpyconversion}
+                {X_upload}
                 {y_upload}
                 model = ResultCache().load("{model_tag}")
                 {returnparam1} = model.{functioname}({param_wo_type})
@@ -156,7 +174,7 @@ class Generator:
                     {text1}
                     
                     {X_input}
-                    {X_numpyconversion}
+                    {X_upload}
                     model = ResultCache().load("{model_tag}")
                     {returnparam1} = model.{functioname}({param_wo_type})
 
@@ -214,7 +232,7 @@ class Generator:
                     
                     {X_input}
                     {y_input}
-                    {X_numpyconversion}
+                    {X_upload}
                     {y_upload}
                     {functioname} = {base_estimator}().{functioname}({param_wo_type})
                     ResultCache().save("{model_tag}","pickle",{functioname})
@@ -245,7 +263,8 @@ class Generator:
         Function to loop all the parameters of given function and generate
         specification
 
-        :param function_name:
+        :param paras_dict: parameters dictionary passed to the function
+        :param paras_desc: parameters docstrings passed to the function
         :return:
         """
         spec = str()
@@ -339,16 +358,14 @@ class Generator:
 
     def generate_function(self, module, function,base_estimator,model_tag):
         """
-        function to generate open API of python function.
 
-        :param f:
-        :param baseurl:
-        :param outdir:
-        :param yaml:
-        :param write:
+        :param module: Sklearn module like Linear Regression
+        :param function: Methods in the class of Linear Regression
+        :param base_estimator: Sklearn module like Linear Regression
+        :param model_tag: Tag used to store the name of the model instance
         :return:
-
         """
+
 
         type_table = {
             'matrix': 'array',
@@ -417,7 +434,7 @@ class Generator:
             #parametersfunc =  parametersfunc + "," + " X_shape_x: int," + " X_shape_y: int"
             parametersfunc = parametersfunc
         parametersfunc = parametersfunc.replace('array','str')
-#        X_numpyconversion = f"X = np.array(X).reshape(X_shape_x,X_shape_y)"
+#        X_upload = f"X = np.array(X).reshape(X_shape_x,X_shape_y)"
        # "~/.cloudmesh/upload-file/" + f"{X}" + ".csv"
         X_input = "\"~/.cloudmesh/upload-file/\" + f\"{X}\" + \".csv\""
         X_input = "X_input = " + f'{X_input}'
@@ -442,7 +459,7 @@ class Generator:
                     model_tag=model_tag,
                     X_input = X_input,
                     y_input = y_input,
-                    X_numpyconversion=X_upload,
+                    X_upload=X_upload,
                     y_upload=y_upload,
                     parameters=parametersfunc,
                     param_wo_type=params,
@@ -458,7 +475,7 @@ class Generator:
                     model_tag=model_tag,
                     X_input=X_input,
                     y_input=y_input,
-                    X_numpyconversion=X_upload,
+                    X_upload=X_upload,
                     y_upload=y_upload,
                     parameters=parametersfunc,
                     param_wo_type=params,
@@ -476,7 +493,7 @@ class Generator:
                     text1=text1,
                     model_tag=model_tag,
                     X_input=X_input,
-                    X_numpyconversion=X_upload,
+                    X_upload=X_upload,
                     parameters=parametersfunc,
                     param_wo_type=params,
                     docstring=docstring,
@@ -492,7 +509,7 @@ class Generator:
                     text1=text1,
                     model_tag=model_tag,
                     X_input=X_input,
-                    X_numpyconversion=X_upload,
+                    X_upload=X_upload,
                     parameters=parametersfunc,
                     param_wo_type=params,
                     docstring=docstring,
@@ -521,7 +538,7 @@ class Generator:
                     base_estimator=base_estimator,
                     X_input=X_input,
                     y_input=y_input,
-                    X_numpyconversion=X_upload,
+                    X_upload=X_upload,
                     y_upload=y_upload,
                     model_tag=model_tag,
                     text1=text1,
@@ -584,6 +601,12 @@ class Generator:
         return spec
 
 def SklearngeneratorFile(input_sklibrary,model_tag):
+    """
+
+    :param input_sklibrary: input_sklibrary = sklearn.linear_model.LinearRegression(Full model specification)
+    :param model_tag: model_tag = any name which you want the tag the model instance like LinReg1
+    :return: .py file which is input to generator which generates openAPI specification
+    """
     my_class = locate(input_sklibrary)
     method_list = [func for func,value in inspect.getmembers(my_class) if func[0] != '_']
     method_list = [value for value in method_list if value != 'classes_']
