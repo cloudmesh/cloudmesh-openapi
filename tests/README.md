@@ -97,6 +97,15 @@ Natural Language Analysis Generator Tests are run from test_generator_natural_la
 pytest -v --capture=no  ./tests/test_generator_natural_language.py::TestGenerator
 ```
 
+This test will generate an OpenAPI spec for the natural-lang-analysis.py file located in the generator-natural-lang
+directory. If the above command is copied and pasted to run in the terminal it will do the following.
+
+1. Generate a yaml file
+2. Verify the spec has all the functions that are available in the natural-lang-analysis.py file
+3. Start a server hosting the openAPI spec
+4. Run a call against the sentiment analysis and translation endpoint for each available cloud service (Google/Azure) and verify it was successful.
+5. Stop the service
+
 ## TODO DESCRIBE WHAT THEY DO
 
 
