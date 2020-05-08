@@ -1,8 +1,5 @@
-# OpenAPI3 Sklearn Generator
+# Scikit-learn GeneratorFile
 
-
-
-## Function read directly from Sklearn libraries.
 
 * Jagadeesh Kandimalla
 

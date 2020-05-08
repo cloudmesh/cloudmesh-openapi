@@ -13,7 +13,7 @@ from cloudmesh.common.util import HEADING
 
 import sys
 sys.path.append("./tests/Scikitlearn_tests")
-from cloudmesh.openapi.scikitlearn import SklearnGeneratorFileupload as SklearngeneratorFile
+from cloudmesh.openapi.scikitlearn import SklearnGeneratorFile as SklearngeneratorFile
 import pytest
 all_functions= True
 import_class=False
