@@ -29,13 +29,16 @@ Framework file is present under tests/lib named as generator_test.py
 1. Change startservercommand and filename variables value accordingly to your use case.
 1. Change some of parameters of constructor of GeneratorBaseTest class. 
 1. if your py file has a class then.
+
 ```bash
  gen= GeneratorBaseTest(filename,False,True)
 ```
 1. if your py file has functions then 
+
 ```bash
  gen= GeneratorBaseTest(filename,True,False)
 ```
+
 1. First boolean flag in GeneratorBaseTest for --all_functions and second flag is for --import_class
 1. If you need to write more test cases based on your requirement, check order of test case and write accordingly.
 
@@ -89,7 +92,47 @@ pytest -v --capture=no tests/generator/test_05_generator
 ```
 
 
-<!--## test_001_registry.py
+## TODO DESCRIBE WHAT THEY DO
+
+
+cache-scikitlearn
+deprecated
+examples
+generator
+generator-azureai
+generator-calculator
+generator-natural-lang
+generator-printerclass
+generator-testclass
+generator-upload
+image-analysis
+lib
+Scikit-learntestfiles
+Scikitlearn_tests
+server-cms
+server-cms-simple
+server-cpu
+server-sample
+server-sampleFunction
+test_mlperf
+textanalysis-example-text
+__init__.py
+README.md
+test_001_registry.py
+test_03_generator.py
+test_010_generator.py
+test_011_generator_cpu.py
+test_012_generator_calculator.py
+test_015_generator_azureai.py
+test_020_server_manage.py
+test_generator_natural_language.py
+test_server_cms_cpu.py
+util.py
+
+
+THIS WAS HERE BEFORE
+
+test_001_registry.py
 
 descript what this do
 

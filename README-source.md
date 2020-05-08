@@ -1,4 +1,4 @@
-# Cloudmesh OpenAPI Merge
+# Cloudmesh OpenAPI Service Generator
 
 {warning}
 
@@ -17,23 +17,31 @@ We have not checked if it works on older versions.
 
 ## Installation
 
-Make sure that cloudmesh is properly installed on your machine and you
+Make sure that `cloudmesh` is properly installed on your machine and you
 have mongodb setup to work with cloudmesh.
 
-More details to setting up mongo can be found in the
+D
+More details to setting up `mongo` can be found in the
 
 * [Cloudmesh Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html)
 
 ###  User Installation
 
 Make sure you use a python venv before installing. Users can install the
-code withpython -m venv ~/ENV3
+code with
+
+```bash
+python -m venv ~/ENV3
 source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
 mkdir cm
 cd cm
-pip install cloudmesh-installer
-cloudmesh-installer get openapi 
-
+pip installl cloudmesh-installer get openapi 
+cms help
+cms gui quick
+# fill out mongo variables we should have a `cms gui openapi`
+# make sure autinstall is True
+cms admin mongo install --froce
+```
 
 ```bash
 $ pip install cloudmesh-openapi
@@ -44,25 +52,35 @@ $ pip install cloudmesh-openapi
 
 Developers install also the source code
 
-```
+```bash
 python -m venv ~/ENV3
 source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
 mkdir cm
 cd cm
 pip install cloudmesh-installer
 cloudmesh-installer get openapi 
+cms help
+cms gui quick
+# fill out mongo variables we should have a `cms gui openapi`
+# make sure autinstall is True
+cms admin mongo install --froce
 ```
 
 ## Overview
 
-When getting started using the `openapi`, please first call `cms helppython -m venv ~/ENV3
-source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
+When getting started using the `openapi`, please first call 
+
+cms help
+python -m venv ~/ENV3
+source ~/ENV3/bin/activate # on windows ENV3\Scripts\activateDD
 mkdir cm
 cd cm
 pip install cloudmesh-installer
 cloudmesh-installer get openapi 
 
-openapi` to see the available functions and options. For your
+openapi
+ 
+to see the available functions and options. For your
 convenience we include the manual page later on in this document.
 
 ## Quick steps to generate,start and stop CPU sample example
@@ -119,7 +137,7 @@ def add(x: float, y: float) -> float:
     :param y: y value
     :type y: float
     :return: result
-    :return type: float
+    :return type: floatD
     """
     return x + y
 ```
@@ -167,9 +185,9 @@ Now you have two options to interact with the web service. The first is to navig
 $ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text/plain"
 2.7
 ```
-
+D
 ### Stopping the server
-
+D
 Now you can stop the server using the name of the server. If you forgot the name, use `cms openapi server ps` to get a list of server processes.
 
 ```
@@ -263,10 +281,7 @@ This will enable CLI. Make sure you enable all the required services.
 
 For example:
 
-`gcloud services enable servicemanagement.googleapis.com`
-<BR>
-`gcloud services enable servicecontrol.googleapis.com`
-<BR>
+`gcloud services enable servicemanagement.googleapis.com`D
 `gcloud services enable endpoints.googleapis.com`
 
 and any other services you might be using for your specific Cloud API function. 
@@ -287,7 +302,7 @@ Using the Azure Computer Vision AI service, you can describe, analyze and/ or ge
 * Create a Computer Vision resource and get the COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT. Follow [instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix) to get the same.
 * Install following Python packages in your virtual environment:
   * requests
-  * Pillow
+  * PillowD
 * Install Computer Vision client library
   * ```pip install --upgrade azure-cognitiveservices-vision-computervision```
 
@@ -322,7 +337,7 @@ The default port used for starting the service is 8080. In case you want to star
 * Stop the REST service using following command(s):
 
   `cms openapi server stop azure-ai-image-function`<br>
-  `cms openapi server stop azure-ai-text-function`  
+  `cms openapi server stop azure-ai-text-function`  D
 
 ### Openstack
 
@@ -415,7 +430,7 @@ checks.
 
   cms openapi server stop PID
 
-
+D
 ## Pytests for Scikit learn tests.
 
 * Generate the .py for the Scikit learn module woth file reading capabilities
