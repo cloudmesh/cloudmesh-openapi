@@ -78,7 +78,13 @@ cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
 cms openapi server start ./tests/server-cpu/cpu.yaml
 ```
 
-### Start server 
+### Issue a Request
+
+```
+curl -X GET "http://localhost:8080/cloudmesh/get_processor_name" -H "accept: text/plain"
+```
+
+### Stop server 
 
 ```
 cms openapi server stop cpu
