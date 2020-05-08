@@ -1,4 +1,4 @@
-# Cloudmesh OpenAPI Merge
+# Cloudmesh OpenAPI
 
 {warning}
 
@@ -18,8 +18,8 @@ We have not checked if it works on older versions.
 ## Installation
 
 Make sure that cloudmesh is properly installed on your machine and you
-have mongodb setup to work with cloudmesh.
-
+have mongodb setup to work with cloudmesh.D
+D
 More details to setting up mongo can be found in the
 
 * [Cloudmesh Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html)
@@ -56,7 +56,7 @@ cloudmesh-installer get openapi
 ## Overview
 
 When getting started using the `openapi`, please first call `cms helppython -m venv ~/ENV3
-source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
+source ~/ENV3/bin/activate # on windows ENV3\Scripts\activateDD
 mkdir cm
 cd cm
 pip install cloudmesh-installer
@@ -119,7 +119,7 @@ def add(x: float, y: float) -> float:
     :param y: y value
     :type y: float
     :return: result
-    :return type: float
+    :return type: floatD
     """
     return x + y
 ```
@@ -167,9 +167,9 @@ Now you have two options to interact with the web service. The first is to navig
 $ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text/plain"
 2.7
 ```
-
+D
 ### Stopping the server
-
+D
 Now you can stop the server using the name of the server. If you forgot the name, use `cms openapi server ps` to get a list of server processes.
 
 ```
@@ -263,10 +263,7 @@ This will enable CLI. Make sure you enable all the required services.
 
 For example:
 
-`gcloud services enable servicemanagement.googleapis.com`
-<BR>
-`gcloud services enable servicecontrol.googleapis.com`
-<BR>
+`gcloud services enable servicemanagement.googleapis.com`D
 `gcloud services enable endpoints.googleapis.com`
 
 and any other services you might be using for your specific Cloud API function. 
@@ -287,7 +284,7 @@ Using the Azure Computer Vision AI service, you can describe, analyze and/ or ge
 * Create a Computer Vision resource and get the COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT. Follow [instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix) to get the same.
 * Install following Python packages in your virtual environment:
   * requests
-  * Pillow
+  * PillowD
 * Install Computer Vision client library
   * ```pip install --upgrade azure-cognitiveservices-vision-computervision```
 
@@ -322,7 +319,7 @@ The default port used for starting the service is 8080. In case you want to star
 * Stop the REST service using following command(s):
 
   `cms openapi server stop azure-ai-image-function`<br>
-  `cms openapi server stop azure-ai-text-function`  
+  `cms openapi server stop azure-ai-text-function`  D
 
 ### Openstack
 
@@ -415,7 +412,7 @@ checks.
 
   cms openapi server stop PID
 
-
+D
 ## Pytests for Scikit learn tests.
 
 * Generate the .py for the Scikit learn module woth file reading capabilities
