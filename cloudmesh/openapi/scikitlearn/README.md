@@ -17,3 +17,24 @@
       in the code which is not supported by sklearn libraries,so we used the base code for building the 
       api but docscrape code is introduced to get the params and docstrings.
     * People from pytorch and keras can reuse this code if the docstrings in the library follows numpydoc conventions.
+
+
+
+## Pytests for Scikit learn tests.
+
+* Generate the .py for the Scikit learn module
+
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
+
+* Running Pytests for the LinearRegression.py generated from 6a pytest
+
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
+
+ 
+## Pytests for Scikit learn tests.
+
+* Generate the .py for the Scikit learn module woth file reading capabilities
+
+  pytest -v --capture=no tests/Scikitlearn_tests/test_06c_sklearngeneratortest.py
+
+* Running Pytests for the LinearRegression.py generated from 6d pytest
