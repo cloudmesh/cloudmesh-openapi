@@ -4,7 +4,9 @@
   Sckit-learn Library.
   
 * The function takes two inputs
+
     1.input_sklibrary
+    
     2.model_tag
     
 *  Examples of the inputs are
@@ -28,18 +30,19 @@
 *  The below pytest generates the .py file used by generator to do a OPENAPI specification.
   
    [Pytestcode](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/Scikitlearn-tests/test_06c_sklearngeneratortest.py)
-  
-   bash '''
+   
+   ```bash
     pytest -v --capture=no tests/Scikitlearn_tests/test_06c_sklearngeneratortest.py
-   ''''
+    ```
+ 
   
 *  The below pytest tests the methods generated .
    
    [Pytestcode](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/Scikitlearn-tests/test_06d_sklearngeneratortest.py)
     
-    bash '''
+    ```bash
     pytest -v --capture=no tests/Scikitlearn_tests/test_06d_sklearngeneratortest.py
-   ''''
+    ```
    
 
   
