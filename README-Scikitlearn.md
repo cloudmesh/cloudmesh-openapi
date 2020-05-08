@@ -94,7 +94,7 @@ We can interact with the Scikit-learn library using either CURL commands or thro
 6. Utilize the generate command to generate OpenAPI spec with upload functionality enabled
      
     ```bash
-    cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions
+    cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions --enable_upload
     ```
 
 7. Start the server after the yaml file is generated ot the same directory as the .py file
