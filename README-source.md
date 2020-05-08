@@ -287,6 +287,133 @@ For example:
 and any other services you might be using for your specific Cloud API function. 
 
 
+To begin using the tests for any of the Google Cloud Platform AI services you must first set up a Google account 
+(set up a free tier account): [Google Account Setup](https://cloud.google.com/billing/docs/how-to/manage-billing-account)
+
+After you create your google cloud account, it is recommended to download and install Google's [Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts).
+This will enable CLI. Make sure you enable all the required services. 
+
+For example:
+
+`gcloud services enable servicemanagement.googleapis.com`
+<BR>
+`gcloud services enable servicecontrol.googleapis.com`
+<BR>
+`gcloud services enable endpoints.googleapis.com`
+
+and any other services you might be using for your specific Cloud API function. 
+
+It is also required to install the cloudmesh-cloud package, if not already installed:
+
+```bash
+cloudmesh-installer get cloud
+cloudmesh-installer install cloud
+```
+
+This will allow you automatically fill out the cloudmesh yaml file with your credentials once you generate the servcie account 
+JSON file.
+
+After you have verified your account is created you must then give your account access to the proper APIs and create a
+ project in the Google Cloud Platform(GCP) console.
+ 
+1. Go to the [project selector](console.cloud.google.com/projectselector2/home/)
+
+2. Follow directions from Google to create a project linked to your account 
+
+#### Setting up your Google account
+
+Before you generate the service account JSON file for your account you will want to enable a number of services in the GCP
+console.
+
+- Google Compute
+- Billing
+- Cloud Natural Language API
+- Translate API
+
+1. To do this you will need to click the menu icon in the Dashboard navigation bar. Ensure you are in the correct porject.
+
+2. Once that menu is open hover over the "APIs and Services" menu item and click on "Dashboard" in the submenu.
+
+3. At the dashboard click on the "+ Enable APIs and Services" button at the top of the dashboard
+
+4. Search for **cloud natural language**" to find the API in the search results and click the result
+
+5. Once the page opens click "Enable"
+
+6. Do the same for the **translate** API to enable that as well
+
+7. Do the same for the **compute engine API** to enable that as well
+
+You must now properly set up the account roles to ensure you will have access to the API. Follow the directions 
+from Google to [set up proper authentication](https://cloud.google.com/natural-language/docs/setup#auth)
+
+Make you account an owner for each of the APIs in the IAM tool as directed in the authentication steps for the natural language API.
+This makes your service account have proper access to the required APIs and once the private key is downloaded those will be stored there.
+
+It is VERY important that you create a service account and download the private key as described in the directions from Google.
+If you do not the cms google commands will not work properly.
+
+Once you have properly set up your permissions please make sure you download your JSON private key for the service account that has
+permissions set up for the required API services. These steps to download are found [here](https://cloud.google.com/natural-language/docs/setup#sa-create).
+Please take note of where you store the downloaded JSON and copy the path string to a easily accessible location.
+
+
+The client libraries for each API are included in teh requirements.txt file for the openapi proejct and should be isntalled when the
+package is installed. If not, follow directions outlined by google install each package:
+
+`google-cloud-translate`,
+`google-cloud-language`
+
+To pass the information from your service account private key file ot the cloudmesh yaml file run the following command:
+
+```bash
+cms register update --kind=google --service=compute --filename=<<google json file>>
+```
+
+#### Running the Google Natural Language and Translate REST Services
+
+1. Navigate to the `~/.cloudmesh` repo and create a cache directory for your text examples you would like to analyze.
+
+    ```bash
+    mkdir text-cache
+    ```
+
+2. Add any plain text files your would like to analyze to this directory with a name that has no special characters or spaces. 
+You can copy the files at this location, `./cloudmesh-openapi/tests/textanaysis-example-text/reviews/` into the text-cache if you want to use provided examples. 
+
+3. Navigate to the `./cloudmesh-openapi` directory on your machine
+
+4. Utilize the generate command to create the OpenAPI spec
+
+    ```bash
+    cms openapi generate TextAnalysis --filename=./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
+    ```
+
+5. Start the server after the yaml file is generated ot the same directory as the .py file
+    
+    ```bash
+    cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
+    ```
+
+6. Run a curl command against the newly running server to verify it returns a result as expected. 
+
+    * Sample text file name is only meant to be the name of the file not the full path.
+
+    ```bash
+    curl -X GET "http://127.0.0.1:8080/cloudmesh/analyze?filename=<<sample text file name>>&cloud=google"
+    ```
+    
+    * This is currently only ready to translate a single word through the API. 
+    
+    ```bash
+    curl -X GET "http://127.0.0.1:8080/cloudmesh/translate_text?cloud=google&text=<<word to translate>>&lang=<<lang code>>"
+    ```
+    
+7. Stop the server
+
+    ```bash
+    cms openapi server stop natural-lang-analysis
+    ```
 
 ### AWS
 
@@ -294,9 +421,71 @@ and any other services you might be using for your specific Cloud API function.
 
 ### Azure
 
-Using the Azure Computer Vision AI service, you can describe, analyze and/ or get tags for a locally stored image or you can read the text from an image or hand-written file.
+
+#### Setting up Azure Sentiment Analysis and Translation Services
+
+1.  Create an Azure subscription. If you don't have one, create a [free account](https://azure.microsoft.com/try/cognitive-services/)
+
+2. Create a [Text Analysis resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics)
+    * This link will require you to be logged in to the Azure portal
+    
+3. Create a [Translation Resource](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows)
+
+4. The microsoft packages are included in the openapi package requirements file so they should be installed. If they are not,
+install the following:
+
+`pip install msrest`, `pip install azure-ai-textanalytics`
+
+
+5. Navigate to the `~/.cloudmesh` repo and create a cache directory for your text examples you would like to analyze.
+
+    ```bash
+    mkdir text-cache
+    ```
+
+6. Add any plain text files your would like to analyze to this directory with a name that has no special characters or spaces. 
+You can copy the files at this location, `./cloudmesh-openapi/tests/textanaysis-example-text/reviews/` into the text-cache if you want to use provided examples. 
+
+7. Navigate to the `./cloudmesh-openapi` directory on your machine
+
+8. Utilize the generate command to create the OpenAPI spec
+
+    ```bash
+    cms openapi generate TextAnalysis --filename=./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
+    ```
+
+9. Start the server after the yaml file is generated ot the same directory as the .py file
+    
+    ```bash
+    cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
+    ```
+
+10. Run a curl command against the newly running server to verify it returns a result as expected. 
+
+    * Sample text file name is only meant to be the name of the file not the full path.
+
+    ```bash
+    curl -X GET "http://127.0.0.1:8080/cloudmesh/analyze?filename=<<sample text file name>>&cloud=azure"
+    ```
+    
+    * This is currently only ready to translate a single word through the API. 
+    * Available language tags are described in the [Azure docs](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages)
+    ```bash
+    curl -X GET "http://127.0.0.1:8080/cloudmesh/translate_text?cloud=azure&text=<<word to translate>>&lang=<<lang code>>"
+    ```
+    
+11. Stop the server
+
+    ```bash
+    cms openapi server stop natural-lang-analysis
+    ```
+
+The natural langauge analysis API can be improved by allowing for full phrase translation via the API. If you contribute to this 
+API there is room for improvement to add custom translation models as well if preferred to pre-trained APIs.
 
 #### Prerequisite for setting up Azure ComputerVision AI service
+
+Using the Azure Computer Vision AI service, you can describe, analyze and/ or get tags for a locally stored image or you can read the text from an image or hand-written file.
 
 * Azure subscription. If you don't have one, create a [free account](https://azure.microsoft.com/try/cognitive-services/) before you continue further.
 * Create a Computer Vision resource and get the COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT. Follow [instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix) to get the same.
