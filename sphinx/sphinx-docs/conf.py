@@ -10,16 +10,17 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, '/home/jebeckford/cm/cloudmesh-openapi/cloudmesh/openapi')
+import os
+import sys
+sys.path.insert(0, '../..')
 
+import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
 
-project = 'AI Project'
-copyright = '2020, sp20-516-ai'
-author = 'sp20-516-ai'
+project = 'Cloudmesh OpenAPI Service Generator'
+copyright = '2020, The Cloudmesh Team'
+author = 'The Cloudmesh Team'
 
 
 # -- General configuration ---------------------------------------------------
@@ -31,6 +32,11 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.todo',
+    "sphinx_rtd_theme",
+#    'IPython.sphinxext.ipython_console_highlighting',
+#    'IPython.sphinxext.ipython_directive',
+#    'sphinxcontrib.mermaid',
+#    'sphinxcontrib.images',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -51,16 +57,35 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # -- Options for HTML output -------------------------------------------------
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-html_theme = 'alabaster'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+html_theme_options = {
+    'canonical_url': '',
+    # 'analytics_id': 'UA-XXXXXXX-1',  #  Provided by Google in your dashboard
+    'logo_only': False,
+    'display_version': True,
+    'prev_next_buttons_location': 'bottom',
+    'style_external_links': False,
+    #'vcs_pageview_mode': '',
+    # 'style_nav_header_background': 'white',
+    # Toc options
+    'collapse_navigation': True,
+    'sticky_navigation': True,
+    'navigation_depth': 4,
+    'includehidden': True,
+    'titles_only': False
+}
+
+
+html_logo = "icons/logo3.png"
+html_favicon = 'icons/favicon.ico'
+html_theme = "sphinx_rtd_theme"
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme = "sphinx_rtd_theme"
 
 # -- Extension configuration -------------------------------------------------
 
@@ -75,6 +100,66 @@ sys.path.insert(0,os.path.abspath('.'))
 sys.path.insert(0,os.path.abspath('../../cloudmesh'))
 #sys.path.insert(0,os.path.abspath('./cloudmesh/openapi'))
 #sys.path.insert(0, '/home/jebeckford/cm/cloudmesh-openapi/cloudmesh/openapi')
+
+def skip(app, what, name, obj,would_skip, options):
+    if name in ( '__init__',):
+        return False
+    return would_skip
+
+def setup(app):
+    app.connect('autodoc-skip-member', skip)  
+ 
+
+# Custom updates for AI Project
+ 
+import os
+import sys
+sys.path.insert(0,os.path.abspath('../../cloudmesh'))
+
+def skip(app, what, name, obj,would_skip, options):
+    if name in ( '__init__',):
+        return False
+    return would_skip
+
+def setup(app):
+    app.connect('autodoc-skip-member', skip)  
+ 
+
+# Custom updates for AI Project
+ 
+import os
+import sys
+sys.path.insert(0,os.path.abspath('../../cloudmesh'))
+
+def skip(app, what, name, obj,would_skip, options):
+    if name in ( '__init__',):
+        return False
+    return would_skip
+
+def setup(app):
+    app.connect('autodoc-skip-member', skip)  
+ 
+
+# Custom updates for AI Project
+ 
+import os
+import sys
+sys.path.insert(0,os.path.abspath('../../cloudmesh'))
+
+def skip(app, what, name, obj,would_skip, options):
+    if name in ( '__init__',):
+        return False
+    return would_skip
+
+def setup(app):
+    app.connect('autodoc-skip-member', skip)  
+ 
+
+# Custom updates for AI Project
+ 
+import os
+import sys
+sys.path.insert(0,os.path.abspath('../../cloudmesh'))
 
 def skip(app, what, name, obj,would_skip, options):
     if name in ( '__init__',):

@@ -2,6 +2,12 @@ package=openapi
 UNAME=$(shell uname)
 VERSION=`head -1 VERSION`
 
+ifeq ($(UNAME),Linux)
+    OPEN=gopen
+else
+    OPEN=open
+endif
+
 define banner
 	@echo
 	@echo "############################################################"
@@ -9,6 +15,9 @@ define banner
 	@echo "############################################################"
 endef
 
+
+view:
+	$(OPEN) docs/index.html
 
 readme: readme-generate
 	-git commit -m "Upadte Readme" README.md README-source.md
@@ -19,6 +28,8 @@ readme-generate:
 
 doc:
 	mkdir -p docs
+	cd sphinx; sh gen_apidocs.sh
+	cd sphinx/sphinx-docs; make html
 	cp -r sphinx/sphinx-docs/_build/html/* docs
 	touch docs/.nojekyll
 
