@@ -91,6 +91,11 @@ Generator and file name is test_05_generator.py
 pytest -v --capture=no tests/generator/test_05_generator
 ```
 
+Natural Language Analysis Generator Tests are run from test_generator_natural_language.py
+
+```bash
+pytest -v --capture=no  ./tests/test_generator_natural_language.py::TestGenerator
+```
 
 ## TODO DESCRIBE WHAT THEY DO
 
@@ -101,7 +106,7 @@ examples
 generator
 generator-azureai
 generator-calculator
-generator-natural-lang
+generator-natural-lang - This is described in the cloudmesh-openapi/README.md
 generator-printerclass
 generator-testclass
 generator-upload
