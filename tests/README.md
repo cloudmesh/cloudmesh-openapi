@@ -91,6 +91,18 @@ Generator and file name is test_05_generator.py
 pytest -v --capture=no tests/generator/test_05_generator
 ```
 
+Azure AI Image Function is test_06_generator.py
+
+```bash
+pytest -v --capture=no tests/generator_azureai/test_06_generator
+```
+
+Azure AI Text Function is test_07_generator.py
+
+```bash
+pytest -v --capture=no tests/generator_azureai/test_07_generator
+```
+
 Natural Language Analysis Generator Tests are run from test_generator_natural_language.py
 
 ```bash
