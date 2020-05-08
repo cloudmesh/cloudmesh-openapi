@@ -337,6 +337,36 @@ The default port used for starting the service is 8080. In case you want to star
 
 * Access the REST service using [http://localhost:8080/cloudmesh/ui/](http://localhost:8080/cloudmesh/ui/)
 
+* After you have started the azure-ai-image-function or azure-ai-text-function on default port 8080, run following command to upload the image or text_image file
+```
+curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/generator-azureai/<image_name_with_extension>;type=image/jpeg"
+```
+  Keep your test image files at ```./tests/generator-azureai/``` directory
+
+* With azure-ai-text-function started on port=8080, in order to test the azure ai function for text detection in an image, run following command
+```
+curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```
+
+* With azure-ai-image-function started on port=8080, in order to test the azure ai function for describing an image, run following command
+```
+curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```
+
+* With azure-ai-image-function started on port=8080, in order to test the azure ai function for analyzing an image, run following command
+```
+curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```
+
+* With azure-ai-image-function started on port=8080, in order to test the azure ai function for identifying tags in an image, run following command
+```
+curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```
+
 * Check the running REST services using following command:
 ```
   cms openapi server ps
