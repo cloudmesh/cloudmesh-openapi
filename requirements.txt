@@ -3,4 +3,10 @@ cloudmesh-common
 cloudmesh-cmd5
 cloudmesh-sys
 docstring_parser
+cloudmesh-installer
 numpydoc
+azure-ai-textanalytics
+google-cloud
+google-cloud-translate
+google-cloud-language
+msrest
