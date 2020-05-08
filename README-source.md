@@ -426,13 +426,17 @@ checks.
 
 ## Test 
 
-Describe what the tests are and put links in 
+The following table lists the different test we have, we provide additional information for the tests in the test directory ina README file. Summaries are provided bellwo the table
 
-you can have a paragraph to each tests
 
 | Test   | Short Description  | Link  |
 | --- | --- | --- | 
 | Generator   | Bla Bla  | Link  |
+
+Generator:
+
+> This is a paragraph describing what the test is supposed to do can be short
+> another line
 
 
 {tests}
