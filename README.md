@@ -98,7 +98,9 @@ Cloudmesh uses introspection to generate an OpenAPI compliant YAML specification
 - The parameters and return values of any functions you write must use typing
 - Your functions must include docstrings
 - If a function uses or returns a class, that class must be defined as a dataclass in the same file
+
 The following function is a great example to get started. Note how x, y, and the return type are all `float`. The description in the docstring will be added to your YAML specification to help describe what the function does.
+
 ```python
 def add(x: float, y: float) -> float:
     """
@@ -116,14 +118,19 @@ def add(x: float, y: float) -> float:
 ### Generating OpenAPI specification
 
 Once you have a Python function you would like to deploy as a web service, you can generate the OpenAPI specification. Navigate to your .py file's directory and generate the YAML. This will print information to your console about the YAML file that was generated.
+
 ```
 $ cms openapi generate [function_name] --filename=[filename.py]
 ```
+
 If you would like to include more than one function in your web service, like addition and subtraction, use the `--all_functions` flag. This will ignore functions whose names start with '\_'.
+
 ```
 $ cms openapi generate --filename=[filename.py] --all_functions
 ```
+
 You can even write a class like Calculator that contains functions for addition, subtraction, etc. You can generate a specification for an entire class by using the `--import_class` flag.
+
 ```
 $ cms openapi generate [ClassName] --filename=[filename.py] --import_class
 ```
@@ -131,6 +138,7 @@ $ cms openapi generate [ClassName] --filename=[filename.py] --import_class
 ### Starting a server
 
 Once you have generated a specification, you can start the web service on your localhost by providing the path to the YAML file. This will print information to your console about the server
+
 ```
 $ cms openapi server start ./[filename.yaml]
 
@@ -145,6 +153,7 @@ $ cms openapi server start ./[filename.yaml]
 ### Sending requests to the server
 
 Now you have two options to interact with the web service. The first is to navigate the the Cloudmesh UI and click on each endpoint to test the functionality. The second is to use curl commands to submit requests.
+
 ```
 $ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text/plain"
 2.7
@@ -153,6 +162,7 @@ $ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text
 ### Stopping the server
 
 Now you can stop the server using the name of the server. If you forgot the name, use `cms openapi server ps` to get a list of server processes.
+
 ```
 $ cms openapi stop [server name]
 ```
