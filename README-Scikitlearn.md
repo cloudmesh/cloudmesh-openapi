@@ -69,6 +69,9 @@ Scikit-learn is a Machine learning library in Python.We can choose a ML algorith
 will be able to spin up OPENAPI specification for the library we choose.
 We can interact with the Scikit-learn library using either CURL commands or through GUI.
 
+This Version of Scikit-learn service accepts csv files in UTF-8 format only.It is the user responsibility to make
+sure the files are in UTF-8 format.It is the user responsiblity to split the data in to train and test datasets.
+Split data functionality is not currently supported.
 
 #### Setting up Scikit-learn service
 
