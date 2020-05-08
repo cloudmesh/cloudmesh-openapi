@@ -497,7 +497,7 @@ Using the Azure Computer Vision AI service, you can describe, analyze and/ or ge
 * Install Computer Vision client library
 
 ```bash
-pip install --upgrade azure-cognitiveservices-vision-computervision
+  pip install --upgrade azure-cognitiveservices-vision-computervision
 ```
 
 ##### Steps to implement and use Azure AI image and text *REST-services*
@@ -507,8 +507,8 @@ pip install --upgrade azure-cognitiveservices-vision-computervision
 * Run following command to generate the YAML files
 
 ```bash
-  cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload`<br>
-  cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload`
+  cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload
+  cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload
 ```
 * Verify the *YAML* files created in `./tests/generator-azureai` directory
 
