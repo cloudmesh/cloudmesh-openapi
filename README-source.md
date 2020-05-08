@@ -64,7 +64,7 @@ convenience we include the manual page later on in this document.
 
 ## Quick steps to generate,start and stop CPU sample example
 
-Navigate to ~/cm/cloudmesh-openaai folder and below commands 
+Navigate to ~/cm/cloudmesh-openapi folder and run following commands 
 
 ### Generate yaml file
 
