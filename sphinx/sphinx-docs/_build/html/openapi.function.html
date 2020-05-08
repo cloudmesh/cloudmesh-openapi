@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>openapi.function package &#8212; AI Project  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="openapi.registry package" href="openapi.registry.html" />
+    <link rel="prev" title="openapi.command package" href="openapi.command.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-openapi.function">
+<span id="openapi-function-package"></span><h1>openapi.function package<a class="headerlink" href="#module-openapi.function" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-openapi.function.conf">
+<span id="openapi-function-conf-module"></span><h2>openapi.function.conf module<a class="headerlink" href="#module-openapi.function.conf" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="openapi.function.conf.setup">
+<code class="sig-prename descclassname">openapi.function.conf.</code><code class="sig-name descname">setup</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">app</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/conf.html#setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.conf.setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="openapi.function.conf.skip">
+<code class="sig-prename descclassname">openapi.function.conf.</code><code class="sig-name descname">skip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">app</span></em>, <em class="sig-param"><span class="n">what</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">obj</span></em>, <em class="sig-param"><span class="n">would_skip</span></em>, <em class="sig-param"><span class="n">options</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/conf.html#skip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.conf.skip" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-openapi.function.executor">
+<span id="openapi-function-executor-module"></span><h2>openapi.function.executor module<a class="headerlink" href="#module-openapi.function.executor" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="openapi.function.executor.Parameter">
+<em class="property">class </em><code class="sig-prename descclassname">openapi.function.executor.</code><code class="sig-name descname">Parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arguments</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/executor.html#Parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.executor.Parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>To generate a useful output for the variables. Example:</p>
+<blockquote>
+<div><p>from cloudmesh.openapi.function.executor import Parameter
+p = Parameter(arguments)
+p.Print()</p>
+</div></blockquote>
+<p>Invocation from program</p>
+<blockquote>
+<div><p>cd cloudmesh-openapi
+cms openapi generate calculator              –filename=./tests/generator-calculator/calculator.py             –all_functions</p>
+</div></blockquote>
+<p>Returns</p>
+<blockquote>
+<div><p>Cloudmesh OpenAPI Generator:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>File Locations:</dt><dd><ul class="simple">
+<li><p>Currdir:    .</p></li>
+<li><p>Directory:  ./tests/generator-calculator</p></li>
+<li><p>Filename:   ./tests/generator-calculator/calculator.py</p></li>
+<li><p>YAML:       ./tests/generator-calculator/calculator.yaml</p></li>
+</ul>
+</dd>
+<dt>Yaml File Related:</dt><dd><ul class="simple">
+<li><p>Function:   calculator</p></li>
+<li><p>Server url: <a class="reference external" href="http://localhost:8080/cloudmesh">http://localhost:8080/cloudmesh</a></p></li>
+<li><p>Module:     calculator</p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+<dl class="py method">
+<dt id="openapi.function.executor.Parameter.Print">
+<code class="sig-name descname">Print</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/executor.html#Parameter.Print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.executor.Parameter.Print" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.executor.Parameter.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arguments</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/executor.html#Parameter.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.executor.Parameter.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.executor.Parameter.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arguments</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/executor.html#Parameter.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.executor.Parameter.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-openapi.function.generator">
+<span id="openapi-function-generator-module"></span><h2>openapi.function.generator module<a class="headerlink" href="#module-openapi.function.generator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="openapi.function.generator.Generator">
+<em class="property">class </em><code class="sig-prename descclassname">openapi.function.generator.</code><code class="sig-name descname">Generator</code><a class="reference internal" href="_modules/openapi/function/generator.html#Generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.file_get">
+<code class="sig-name descname">file_get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">service</span></em>, <em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.file_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.file_get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.file_list">
+<code class="sig-name descname">file_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.file_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.file_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.file_put">
+<code class="sig-name descname">file_put</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">service</span></em>, <em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.file_put"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.file_put" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.generate_openapi">
+<code class="sig-name descname">generate_openapi</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">serverurl</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outdir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">yamlfile</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dataclass_list</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">enable_upload</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">write</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.generate_openapi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.generate_openapi" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted
+specification for a module with one single function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – </p></li>
+<li><p><strong>filename</strong> – </p></li>
+<li><p><strong>serverurl</strong> – </p></li>
+<li><p><strong>outdir</strong> – </p></li>
+<li><p><strong>yamlfile</strong> – </p></li>
+<li><p><strong>dataclass_list</strong> – </p></li>
+<li><p><strong>write</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.generate_openapi_class">
+<code class="sig-name descname">generate_openapi_class</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">class_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">class_description</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">func_objects</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">serverurl</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outdir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">yamlfile</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dataclass_list</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">all_function</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">enable_upload</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">write</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.generate_openapi_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.generate_openapi_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted
+specification for a python class or module with multiple functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>class_name</strong> – </p></li>
+<li><p><strong>class_description</strong> – </p></li>
+<li><p><strong>filename</strong> – </p></li>
+<li><p><strong>func_objects</strong> – </p></li>
+<li><p><strong>serverurl</strong> – </p></li>
+<li><p><strong>outdir</strong> – </p></li>
+<li><p><strong>yamlfile</strong> – </p></li>
+<li><p><strong>dataclass_list</strong> – </p></li>
+<li><p><strong>all_function</strong> – </p></li>
+<li><p><strong>write</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.generate_parameter">
+<code class="sig-name descname">generate_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">_type</span></em>, <em class="sig-param"><span class="n">description</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.generate_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.generate_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to generate a single OpenApi YAML formatted parameter section</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – </p></li>
+<li><p><strong>_type</strong> – </p></li>
+<li><p><strong>description</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.generate_path">
+<code class="sig-name descname">generate_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">class_name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">description</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">long_description</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">funcname</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">responses</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">all_function</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.generate_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.generate_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that generates a single OpenApi YAML formatted operation ID section</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>class_name</strong> – </p></li>
+<li><p><strong>description</strong> – </p></li>
+<li><p><strong>long_description</strong> – </p></li>
+<li><p><strong>funcname</strong> – </p></li>
+<li><p><strong>parameters</strong> – </p></li>
+<li><p><strong>responses</strong> – </p></li>
+<li><p><strong>filename</strong> – </p></li>
+<li><p><strong>all_function</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.generate_properties">
+<code class="sig-name descname">generate_properties</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">attr</span></em>, <em class="sig-param"><span class="n">_type</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.generate_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.generate_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to generate a single OpenApi YAML formatted schema properties section</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attr</strong> – </p></li>
+<li><p><strong>_type</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.generate_response">
+<code class="sig-name descname">generate_response</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span></em>, <em class="sig-param"><span class="n">_type</span></em>, <em class="sig-param"><span class="n">description</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.generate_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.generate_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to generate a single OpenApi YAML formatted response section</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> – </p></li>
+<li><p><strong>_type</strong> – </p></li>
+<li><p><strong>description</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.generate_schema">
+<code class="sig-name descname">generate_schema</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_class</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.generate_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.generate_schema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to generate a single OpenApi YAML formatted schema section using python dataclass as input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>_class</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.function.generator.Generator.openAPITemplate">
+<code class="sig-name descname">openAPITemplate</code><em class="property"> = '\nopenapi: 3.0.0\ninfo:\n  title: {title}\n  description: &quot;{description}&quot;\n  version: &quot;{version}&quot;\nservers:\n  - url: {serverurl}\n    description: &quot;{description}&quot;\npaths:\n  /{name}:\n     get:\n      summary: &quot;{description}&quot;\n      description: Optional extended description in CommonMark or HTML.\n      operationId: {filename}.{name}\n      parameters:\n        {parameters}\n      responses:\n        {responses}\n{upload}\n{components}\n'</em><a class="headerlink" href="#openapi.function.generator.Generator.openAPITemplate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.function.generator.Generator.openAPITemplate2">
+<code class="sig-name descname">openAPITemplate2</code><em class="property"> = '\nopenapi: 3.0.0\ninfo:\n  title: {title}\n  description: &quot;{description}&quot;\n  version: &quot;{version}&quot;\nservers:\n  - url: {serverurl}\n    description: &quot;{description}&quot;\npaths:\n  {paths}\n{upload}\n{components}\n'</em><a class="headerlink" href="#openapi.function.generator.Generator.openAPITemplate2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.parse_type">
+<code class="sig-name descname">parse_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_type</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.parse_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.parse_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to lookup and output supported OpenApi data type using python data type as input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>_type</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.generator.Generator.populate_parameters">
+<code class="sig-name descname">populate_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func_obj</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/generator.html#Generator.populate_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.generator.Generator.populate_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that converts all the input parameters of a python function into a single OpenApi YAML formatted
+parameters section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func_obj</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.function.generator.Generator.uploadTemplate">
+<code class="sig-name descname">uploadTemplate</code><em class="property"> = '\n/upload:\n  post:\n    summary: upload a file\n    operationId: {filename}.upload\n    requestBody:\n      content:\n        multipart/form-data:\n          schema:\n            type: object\n            properties:\n              upload:\n                type: string\n                format: binary\n    responses:\n      \'200\':\n        description: &quot;OK&quot;\n        content:\n          text/plain:\n            schema:\n              type: string\n'</em><a class="headerlink" href="#openapi.function.generator.Generator.uploadTemplate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-openapi.function.server">
+<span id="openapi-function-server-module"></span><h2>openapi.function.server module<a class="headerlink" href="#module-openapi.function.server" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="openapi.function.server.Server">
+<em class="property">class </em><code class="sig-prename descclassname">openapi.function.server.</code><code class="sig-name descname">Server</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">spec</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">directory</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">host</span><span class="o">=</span><span class="default_value">'127.0.0.1'</span></em>, <em class="sig-param"><span class="n">server</span><span class="o">=</span><span class="default_value">'flask'</span></em>, <em class="sig-param"><span class="n">port</span><span class="o">=</span><span class="default_value">8080</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/server.html#Server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.server.Server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class manages all actions taken to interact with an OpenAPI AI server.</p>
+<dl class="py method">
+<dt id="openapi.function.server.Server.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">spec</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">directory</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">host</span><span class="o">=</span><span class="default_value">'127.0.0.1'</span></em>, <em class="sig-param"><span class="n">server</span><span class="o">=</span><span class="default_value">'flask'</span></em>, <em class="sig-param"><span class="n">port</span><span class="o">=</span><span class="default_value">8080</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/server.html#Server.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.server.Server.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.server.Server.get_name">
+<em class="property">static </em><code class="sig-name descname">get_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">spec</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/server.html#Server.get_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.server.Server.get_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the name of a server using specification</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – </p></li>
+<li><p><strong>spec</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.server.Server.list">
+<em class="property">static </em><code class="sig-name descname">list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/server.html#Server.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.server.Server.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists the servers that have been registered in Registry</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.server.Server.ps">
+<em class="property">static </em><code class="sig-name descname">ps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/server.html#Server.ps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.server.Server.ps" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all of the actively running servers or if name is provided return whether the server is running</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.server.Server.run_os">
+<code class="sig-name descname">run_os</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/server.html#Server.run_os"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.server.Server.run_os" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start an openapi server by creating a physical flask script</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.server.Server.start">
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">spec</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">foreground</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/server.html#Server.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.server.Server.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start up an OpenApi server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – </p></li>
+<li><p><strong>spec</strong> – </p></li>
+<li><p><strong>foreground</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.function.server.Server.stop">
+<em class="property">static </em><code class="sig-name descname">stop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/server.html#Server.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.server.Server.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop a running OpenApi server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="openapi.function.server.daemon">
+<code class="sig-prename descclassname">openapi.function.server.</code><code class="sig-name descname">daemon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/server.html#daemon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.server.daemon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator used to execute a Connexion flask app as a daemon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="openapi.function.server.dynamic_import">
+<code class="sig-prename descclassname">openapi.function.server.</code><code class="sig-name descname">dynamic_import</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">abs_module_path</span></em>, <em class="sig-param"><span class="n">class_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/server.html#dynamic_import"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.server.dynamic_import" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">AI Project</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="openapi.html">openapi package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="openapi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="openapi.command.html">openapi.command package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">openapi.function package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-openapi.function.conf">openapi.function.conf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-openapi.function.executor">openapi.function.executor module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-openapi.function.generator">openapi.function.generator module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-openapi.function.server">openapi.function.server module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="openapi.registry.html">openapi.registry package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="openapi.html">openapi package</a><ul>
+      <li>Previous: <a href="openapi.command.html" title="previous chapter">openapi.command package</a></li>
+      <li>Next: <a href="openapi.registry.html" title="next chapter">openapi.registry package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, sp20-516-ai.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/openapi.function.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

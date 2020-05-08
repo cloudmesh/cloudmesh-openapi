@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>openapi.command.openapi &#8212; AI Project  documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for openapi.command.openapi</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">is_dataclass</span>
+<span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">import_module</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
+
+<span class="kn">from</span> <span class="nn">cloudmesh.common.Printer</span> <span class="kn">import</span> <span class="n">Printer</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.common.console</span> <span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.common.debug</span> <span class="kn">import</span> <span class="n">VERBOSE</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.common.util</span> <span class="kn">import</span> <span class="n">path_expand</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.openapi.function</span> <span class="kn">import</span> <span class="n">generator</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.openapi.function.server</span> <span class="kn">import</span> <span class="n">Server</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.openapi.function.executor</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.openapi.registry.Registry</span> <span class="kn">import</span> <span class="n">Registry</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.openapi.scikitlearn.SklearnGenerator</span> <span class="kn">import</span> <span class="n">Sklearngenerator</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.shell.command</span> <span class="kn">import</span> <span class="n">PluginCommand</span>
+<span class="kn">from</span> <span class="nn">cloudmesh.shell.command</span> <span class="kn">import</span> <span class="n">command</span><span class="p">,</span> <span class="n">map_parameters</span>
+
+
+<span class="c1"># start-stop: osx Andrew</span>
+<span class="c1"># start_stop: windows Jonathan</span>
+<span class="c1"># start-stop: linux Prateek</span>
+
+
+<div class="viewcode-block" id="OpenapiCommand"><a class="viewcode-back" href="../../../openapi.command.html#openapi.command.openapi.OpenapiCommand">[docs]</a><span class="k">class</span> <span class="nc">OpenapiCommand</span><span class="p">(</span><span class="n">PluginCommand</span><span class="p">):</span>
+
+    <span class="c1"># noinspection PyUnusedLocal,PyPep8Naming</span>
+    <span class="nd">@command</span>
+    <span class="k">def</span> <span class="nf">do_openapi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">arguments</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        ::</span>
+
+<span class="sd">          Usage:</span>
+<span class="sd">              openapi generate [FUNCTION] --filename=FILENAME</span>
+<span class="sd">                                         [--serverurl=SERVERURL]</span>
+<span class="sd">                                         [--yamlfile=YAML]</span>
+<span class="sd">                                         [--import_class]</span>
+<span class="sd">                                         [--all_functions]</span>
+<span class="sd">                                         [--enable_upload]</span>
+<span class="sd">                                         [--verbose]</span>
+<span class="sd">              openapi server start YAML [NAME]</span>
+<span class="sd">                              [--directory=DIRECTORY]</span>
+<span class="sd">                              [--port=PORT]</span>
+<span class="sd">                              [--server=SERVER]</span>
+<span class="sd">                              [--host=HOST]</span>
+<span class="sd">                              [--verbose]</span>
+<span class="sd">                              [--debug]</span>
+<span class="sd">                              [--fg]</span>
+<span class="sd">                              [--os]</span>
+<span class="sd">              openapi server stop NAME</span>
+<span class="sd">              openapi server list [NAME] [--output=OUTPUT]</span>
+<span class="sd">              openapi server ps [NAME] [--output=OUTPUT]</span>
+<span class="sd">              openapi register add NAME ENDPOINT</span>
+<span class="sd">              openapi register filename NAME</span>
+<span class="sd">              openapi register delete NAME</span>
+<span class="sd">              openapi register list [NAME] [--output=OUTPUT]</span>
+<span class="sd">              openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]</span>
+<span class="sd">              openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]</span>
+<span class="sd">              openapi TODO doc [SERVICES...] [--dir=DIR]</span>
+<span class="sd">              openapi sklearn FUNCTION MODELTAG</span>
+<span class="sd">              openapi sklearn upload --filename=FILENAME</span>
+
+<span class="sd">          Arguments:</span>
+<span class="sd">              FUNCTION  The name for the function or class</span>
+<span class="sd">              MODELTAG  The arbirtary name choosen by the user to store the Sklearn trained model as Pickle object</span>
+<span class="sd">              FILENAME  Path to python file containing the function or class</span>
+<span class="sd">              SERVERURL OpenAPI server URL Default: https://localhost:8080/cloudmesh</span>
+<span class="sd">              YAML      Path to yaml file that will contain OpenAPI spec. Default: FILENAME with .py replaced by .yaml</span>
+<span class="sd">              DIR       The directory of the specifications</span>
+<span class="sd">              FILE      The specification</span>
+
+<span class="sd">          Options:</span>
+<span class="sd">              --import_class         FUNCTION is a required class name instead of an optional function name</span>
+<span class="sd">              --all_functions        Generate OpenAPI spec for all functions in FILENAME</span>
+<span class="sd">              --debug                Use the server in debug mode</span>
+<span class="sd">              --verbose              Specifies to run in debug mode</span>
+<span class="sd">                                     [default: False]</span>
+<span class="sd">              --port=PORT            The port for the server [default: 8080]</span>
+<span class="sd">              --directory=DIRECTORY  The directory in which the server is run</span>
+<span class="sd">              --server=SERVER        The server [default: flask]</span>
+<span class="sd">              --output=OUTPUT        The outputformat, table, csv, yaml, json</span>
+<span class="sd">                                     [default: table]</span>
+<span class="sd">              --srcdir=SRCDIR        The directory of the specifications</span>
+<span class="sd">              --destdir=DESTDIR      The directory where the generated code</span>
+<span class="sd">                                     is placed</span>
+
+<span class="sd">          Description:</span>
+<span class="sd">            This command does some useful things.</span>
+
+<span class="sd">            openapi TODO doc FILE --format=(txt|md|rst) [--indent=INDENT]</span>
+<span class="sd">                Sometimes it is useful to generate teh openaopi documentation</span>
+<span class="sd">                in another format. We provide fucntionality to generate the</span>
+<span class="sd">                documentation from the yaml file in a different formt.</span>
+
+<span class="sd">            openapi TODO doc --format=(txt|md|rst) [SERVICES...]</span>
+<span class="sd">                Creates a short documentation from services registered in the</span>
+<span class="sd">                registry.</span>
+
+<span class="sd">            openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]</span>
+<span class="sd">                Merges tow service specifications into a single servoce</span>
+<span class="sd">                TODO: do we have a prototype of this?</span>
+
+
+<span class="sd">            openapi sklearn sklearn.linear_model.LogisticRegression</span>
+<span class="sd">                Generates the</span>
+
+<span class="sd">            openapi generate [FUNCTION] --filename=FILENAME</span>
+<span class="sd">                                         [--serverurl=SERVERURL]</span>
+<span class="sd">                                         [--yamlfile=YAML]</span>
+<span class="sd">                                         [--import_class]</span>
+<span class="sd">                                         [--all_functions]</span>
+<span class="sd">                                         [--enable_upload]</span>
+<span class="sd">                                         [--verbose]</span>
+<span class="sd">                Generates an OpenAPI specification for FUNCTION in FILENAME and</span>
+<span class="sd">                writes the result to YAML. Use --import_class to import a class</span>
+<span class="sd">                with its associated class methods, or use --all_functions to </span>
+<span class="sd">                import all functions in FILENAME. These options ignore functions</span>
+<span class="sd">                whose names start with &#39;_&#39;. Use --enable_upload to add file</span>
+<span class="sd">                upload functionality to a copy of your python file and the</span>
+<span class="sd">                resulting yaml file.</span>
+
+<span class="sd">            openapi server start YAML [NAME]</span>
+<span class="sd">                              [--directory=DIRECTORY]</span>
+<span class="sd">                              [--port=PORT]</span>
+<span class="sd">                              [--server=SERVER]</span>
+<span class="sd">                              [--host=HOST]</span>
+<span class="sd">                              [--verbose]</span>
+<span class="sd">                              [--debug]</span>
+<span class="sd">                              [--fg]</span>
+<span class="sd">                              [--os]</span>
+<span class="sd">                starts an openapi web service using YAML as a specification</span>
+<span class="sd">                TODO: directory is hard coded as None, and in server.py it</span>
+<span class="sd">                  defaults to the directory where the yaml file lives. Can</span>
+<span class="sd">                  we just remove this argument?</span>
+
+<span class="sd">            openapi server stop NAME</span>
+<span class="sd">                stops the openapi service with the given name</span>
+<span class="sd">                TODO: where does this command has to be started from</span>
+
+<span class="sd">            openapi server list [NAME] [--output=OUTPUT]</span>
+<span class="sd">                Provides a list of all OpenAPI services in the registry</span>
+
+<span class="sd">            openapi server ps [NAME] [--output=OUTPUT]</span>
+<span class="sd">                list the running openapi service</span>
+
+<span class="sd">            openapi register add NAME ENDPOINT</span>
+<span class="sd">                Openapi comes with a service registry in which we can register</span>
+<span class="sd">                openapi services.</span>
+
+<span class="sd">            openapi register filename NAME</span>
+<span class="sd">                In case you have a yaml file the openapi service can also be</span>
+<span class="sd">                registerd from a yaml file</span>
+
+<span class="sd">            openapi register delete NAME</span>
+<span class="sd">                Deletes the names service from the registry</span>
+
+<span class="sd">            openapi register list [NAME] [--output=OUTPUT]</span>
+<span class="sd">                Provides a list of all registerd OpenAPI services</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#print(arguments)</span>
+        <span class="n">map_parameters</span><span class="p">(</span><span class="n">arguments</span><span class="p">,</span>
+                       <span class="s1">&#39;fg&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;os&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;output&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;verbose&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;port&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;directory&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;yamlfile&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;serverurl&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;import_class&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;all_functions&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;enable_upload&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;host&#39;</span><span class="p">)</span>
+        <span class="n">arguments</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">arguments</span><span class="o">.</span><span class="n">verbose</span>
+
+        <span class="c1">#VERBOSE(arguments)</span>
+
+        
+        <span class="k">if</span> <span class="n">arguments</span><span class="o">.</span><span class="n">generate</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">arguments</span><span class="o">.</span><span class="n">import_class</span> <span class="ow">and</span> <span class="n">arguments</span><span class="o">.</span><span class="n">all_functions</span><span class="p">:</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Cannot generate openapi with both --import_class and --all_functions&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">arguments</span><span class="o">.</span><span class="n">import_class</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">arguments</span><span class="o">.</span><span class="n">function</span><span class="p">:</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;FUNCTION paramter (class name) is required when using --import_class&#39;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">Print</span><span class="p">()</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">filename</span> <span class="c1"># ./dir/myfile.py</span>
+                <span class="n">yamlfile</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">yamlfile</span> <span class="c1"># ./dir/myfile.yaml</span>
+                <span class="n">directory</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">yamldirectory</span> <span class="c1"># ./dir</span>
+                <span class="n">function</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">function</span> <span class="c1"># myfunction</span>
+                <span class="n">serverurl</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">serverurl</span> <span class="c1"># http://localhost:8080/cloudmesh/</span>
+                <span class="n">module_name</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">module_name</span> <span class="c1"># myfile</span>
+                
+                <span class="n">enable_upload</span> <span class="o">=</span> <span class="n">arguments</span><span class="o">.</span><span class="n">enable_upload</span>
+                <span class="c1"># append the upload function to the end of a copy of the file if not already done</span>
+                <span class="k">if</span> <span class="n">enable_upload</span><span class="p">:</span>
+                    <span class="n">uploadPython</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                        from cloudmesh.openapi.registry.fileoperation import FileOperation</span>
+<span class="s2">                        </span>
+<span class="s2">                        def upload() -&gt; str:</span>
+<span class="s2">                            filename=FileOperation().file_upload()</span>
+<span class="s2">                            return filename</span>
+<span class="s2">                        </span>
+<span class="s2">                        #### upload functionality added</span>
+<span class="s2">                        &quot;&quot;&quot;</span><span class="p">)</span>
+                    <span class="n">upload_added</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="s1">&#39;#### upload functionality added&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                            <span class="n">upload_added</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">upload_added</span><span class="p">:</span>
+                        <span class="n">filename_upload</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.py&#39;</span><span class="p">,</span> <span class="s1">&#39;_upload-enabled.py&#39;</span><span class="p">)</span>
+                        <span class="n">copyfile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">filename_upload</span><span class="p">)</span>
+                        <span class="n">Console</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;copied </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="n">filename_upload</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                        <span class="n">filename</span> <span class="o">=</span> <span class="n">filename_upload</span>
+                        <span class="n">module_name</span> <span class="o">=</span> <span class="n">module_name</span> <span class="o">+</span> <span class="s1">&#39;_upload-enabled&#39;</span>
+                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">uploadPython</span><span class="p">)</span>
+                        <span class="n">Console</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;added upload functionality to </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                <span class="c1"># Parameter() takes care of putting the filename in the path</span>
+                <span class="n">imported_module</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">)</span>
+                <span class="n">dataclass_list</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">imported_module</span><span class="p">):</span>
+                    <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">imported_module</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">is_dataclass</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+                        <span class="n">dataclass_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+                <span class="c1"># not currently supporting multiple functions or all functions</span>
+                <span class="c1"># could do comma-separated function/class names</span>
+
+                <span class="k">if</span> <span class="n">enable_upload</span><span class="p">:</span>
+                    <span class="n">upload_obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">imported_module</span><span class="p">,</span> <span class="s1">&#39;upload&#39;</span><span class="p">)</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module_name</span><span class="p">],</span> <span class="s1">&#39;upload&#39;</span><span class="p">,</span> <span class="n">upload_obj</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">arguments</span><span class="o">.</span><span class="n">import_class</span><span class="p">:</span>
+                    <span class="n">class_obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">imported_module</span><span class="p">,</span> <span class="n">function</span><span class="p">)</span>
+                    <span class="c1"># do we maybe need to do this here?</span>
+                    <span class="c1"># setattr(sys.modules[module_name], function, class_obj)</span>
+                    <span class="n">class_description</span> <span class="o">=</span> <span class="n">class_obj</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">func_objects</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">class_obj</span><span class="p">):</span>
+                        <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">class_obj</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>                        
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">)</span> <span class="ow">and</span> <span class="n">attr_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;_&#39;</span><span class="p">:</span>
+                            <span class="c1"># are we sure this is right?</span>
+                            <span class="c1"># would probably create a valid openapi yaml, but not technically accurate</span>
+                            <span class="c1"># module.function may work but it should be module.Class.function</span>
+                            <span class="nb">setattr</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module_name</span><span class="p">],</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+                            <span class="n">func_objects</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr</span>
+                        <span class="k">elif</span> <span class="n">is_dataclass</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+                            <span class="n">dataclass_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+                    <span class="n">openAPI</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">Generator</span><span class="p">()</span>
+                    <span class="n">Console</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Generating openapi for class: &#39;</span> <span class="o">+</span> <span class="n">class_obj</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+                    <span class="n">openAPI</span><span class="o">.</span><span class="n">generate_openapi_class</span><span class="p">(</span><span class="n">class_name</span> <span class="o">=</span> <span class="n">class_obj</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                                                   <span class="n">class_description</span> <span class="o">=</span> <span class="n">class_description</span><span class="p">,</span>
+                                                   <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">,</span>
+                                                   <span class="n">func_objects</span> <span class="o">=</span> <span class="n">func_objects</span><span class="p">,</span> 
+                                                   <span class="n">serverurl</span> <span class="o">=</span> <span class="n">serverurl</span><span class="p">,</span>
+                                                   <span class="n">outdir</span> <span class="o">=</span> <span class="n">directory</span><span class="p">,</span>
+                                                   <span class="n">yamlfile</span> <span class="o">=</span> <span class="n">yamlfile</span><span class="p">,</span>
+                                                   <span class="n">dataclass_list</span> <span class="o">=</span> <span class="n">dataclass_list</span><span class="p">,</span> 
+                                                   <span class="n">all_function</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                                   <span class="n">enable_upload</span> <span class="o">=</span> <span class="n">enable_upload</span><span class="p">,</span>
+                                                   <span class="n">write</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">all_functions</span><span class="p">:</span>
+                    <span class="n">func_objects</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">imported_module</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">imported_module</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">))</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;function&#39;</span> <span class="ow">and</span> <span class="n">attr_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;_&#39;</span><span class="p">:</span>
+                            <span class="n">func_obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">imported_module</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+                            <span class="nb">setattr</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module_name</span><span class="p">],</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">func_obj</span><span class="p">)</span>
+                            <span class="n">func_objects</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">func_obj</span>
+                    <span class="n">openAPI</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">Generator</span><span class="p">()</span>
+                    <span class="n">Console</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Generating openapi for all functions in file: &#39;</span> <span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
+                    <span class="n">openAPI</span><span class="o">.</span><span class="n">generate_openapi_class</span><span class="p">(</span><span class="n">class_name</span> <span class="o">=</span> <span class="n">module_name</span><span class="p">,</span>
+                                                   <span class="n">class_description</span> <span class="o">=</span> <span class="s2">&quot;No description provided&quot;</span><span class="p">,</span>
+                                                   <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">,</span>
+                                                   <span class="n">func_objects</span> <span class="o">=</span> <span class="n">func_objects</span><span class="p">,</span>
+                                                   <span class="n">serverurl</span> <span class="o">=</span> <span class="n">serverurl</span><span class="p">,</span>
+                                                   <span class="n">outdir</span> <span class="o">=</span> <span class="n">directory</span><span class="p">,</span>
+                                                   <span class="n">yamlfile</span> <span class="o">=</span> <span class="n">yamlfile</span><span class="p">,</span>
+                                                   <span class="n">dataclass_list</span> <span class="o">=</span> <span class="n">dataclass_list</span><span class="p">,</span>
+                                                   <span class="n">all_function</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                                   <span class="n">enable_upload</span> <span class="o">=</span> <span class="n">enable_upload</span><span class="p">,</span>
+                                                   <span class="n">write</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+                                                   
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">func_obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">imported_module</span><span class="p">,</span> <span class="n">function</span><span class="p">)</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module_name</span><span class="p">],</span> <span class="n">function</span><span class="p">,</span> <span class="n">func_obj</span><span class="p">)</span>
+                    <span class="n">openAPI</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">Generator</span><span class="p">()</span>
+                    <span class="n">Console</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Generating openapi for function: &#39;</span> <span class="o">+</span> <span class="n">func_obj</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+                    <span class="n">openAPI</span><span class="o">.</span><span class="n">generate_openapi</span><span class="p">(</span><span class="n">f</span> <span class="o">=</span> <span class="n">func_obj</span><span class="p">,</span>
+                                             <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">,</span>
+                                             <span class="n">serverurl</span> <span class="o">=</span> <span class="n">serverurl</span><span class="p">,</span>
+                                             <span class="n">outdir</span> <span class="o">=</span> <span class="n">directory</span><span class="p">,</span>
+                                             <span class="n">yamlfile</span> <span class="o">=</span> <span class="n">yamlfile</span><span class="p">,</span>
+                                             <span class="n">dataclass_list</span> <span class="o">=</span> <span class="n">dataclass_list</span><span class="p">,</span>
+                                             <span class="n">enable_upload</span> <span class="o">=</span> <span class="n">enable_upload</span><span class="p">,</span>
+                                             <span class="n">write</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+                
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed to generate openapi yaml&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">server</span> <span class="ow">and</span> <span class="n">arguments</span><span class="o">.</span><span class="n">start</span> <span class="ow">and</span> <span class="n">arguments</span><span class="o">.</span><span class="n">os</span><span class="p">:</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">NAME</span><span class="p">,</span>
+                    <span class="n">spec</span><span class="o">=</span><span class="n">path_expand</span><span class="p">(</span><span class="n">arguments</span><span class="o">.</span><span class="n">YAML</span><span class="p">),</span>
+                    <span class="n">directory</span><span class="o">=</span><span class="n">path_expand</span><span class="p">(</span>
+                        <span class="n">arguments</span><span class="o">.</span><span class="n">directory</span><span class="p">)</span> <span class="ow">or</span> <span class="n">arguments</span><span class="o">.</span><span class="n">directory</span><span class="p">,</span>
+                    <span class="n">port</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
+                    <span class="n">server</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">wsgi</span><span class="p">,</span>
+                    <span class="n">debug</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">debug</span>
+                <span class="p">)</span>
+
+                <span class="n">pid</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">run_os</span><span class="p">()</span>
+
+                <span class="n">VERBOSE</span><span class="p">(</span><span class="n">arguments</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Server parameters&quot;</span><span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run PID: </span><span class="si">{</span><span class="n">pid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;specification file not found&quot;</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">server</span> <span class="ow">and</span> <span class="n">arguments</span><span class="o">.</span><span class="n">list</span><span class="p">:</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">Server</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">NAME</span><span class="p">)</span>
+
+                <span class="c1"># BUG: order= nt yet defined</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="n">Printer</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+
+            <span class="k">except</span> <span class="ne">ConnectionError</span><span class="p">:</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Server not running&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">server</span> <span class="ow">and</span> <span class="n">arguments</span><span class="o">.</span><span class="n">ps</span><span class="p">:</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">()</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running Cloudmesh OpenAPI Servers&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">()</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">Server</span><span class="o">.</span><span class="n">ps</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">NAME</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">Printer</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;pid&quot;</span><span class="p">,</span> <span class="s2">&quot;spec&quot;</span><span class="p">]))</span>
+
+                <span class="nb">print</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">ConnectionError</span><span class="p">:</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Server not running&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">register</span> <span class="ow">and</span> <span class="n">arguments</span><span class="o">.</span><span class="n">add</span><span class="p">:</span>
+
+            <span class="n">registry</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">NAME</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">BASEURL</span><span class="p">,</span>
+                                  <span class="n">pid</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">PID</span><span class="p">)</span>
+
+            <span class="n">registry</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">result</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">register</span> <span class="ow">and</span> <span class="n">arguments</span><span class="o">.</span><span class="n">delete</span><span class="p">:</span>
+
+            <span class="n">registry</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">NAME</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Entry could not be found&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">ok</span><span class="p">(</span><span class="s2">&quot;Ok. Entry deleted&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">register</span> <span class="ow">and</span> <span class="n">arguments</span><span class="o">.</span><span class="n">list</span><span class="p">:</span>
+
+            <span class="n">registry</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">NAME</span><span class="p">)</span>
+
+            <span class="n">registry</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">result</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">register</span> <span class="ow">and</span> <span class="n">arguments</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]:</span>
+
+            <span class="n">registry</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">registry</span><span class="o">.</span><span class="n">add_form_file</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">])]</span>
+
+            <span class="n">registry</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">result</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">server</span> <span class="ow">and</span> <span class="n">arguments</span><span class="o">.</span><span class="n">start</span><span class="p">:</span>
+
+            <span class="c1"># VERBOSE(arguments)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">NAME</span><span class="p">,</span>
+                    <span class="n">spec</span><span class="o">=</span><span class="n">path_expand</span><span class="p">(</span><span class="n">arguments</span><span class="o">.</span><span class="n">YAML</span><span class="p">),</span>
+                    <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="c1">#directory=path_expand(</span>
+                    <span class="c1">#    arguments.directory) or arguments.directory,</span>
+                    <span class="n">port</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
+                    <span class="n">host</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">host</span><span class="p">,</span>
+                    <span class="n">server</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">wsgi</span><span class="p">,</span>
+                    <span class="n">debug</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
+
+                <span class="n">pid</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">NAME</span><span class="p">,</span>
+                              <span class="n">spec</span><span class="o">=</span><span class="n">path_expand</span><span class="p">(</span><span class="n">arguments</span><span class="o">.</span><span class="n">YAML</span><span class="p">),</span>
+                              <span class="n">foreground</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">fg</span><span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run PID: </span><span class="si">{</span><span class="n">pid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;specification file not found&quot;</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">server</span> <span class="ow">and</span> <span class="n">arguments</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">()</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Stopping Cloudmesh OpenAPI Server&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">()</span>
+
+                <span class="n">Server</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">NAME</span><span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">ConnectionError</span><span class="p">:</span>
+                <span class="n">Console</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Server not running&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">sklearn</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">arguments</span><span class="o">.</span><span class="n">upload</span><span class="p">:</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">Sklearngenerator</span><span class="p">(</span><span class="n">input_sklibrary</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">FUNCTION</span><span class="p">,</span>
+                                 <span class="n">model_tag</span><span class="o">=</span><span class="n">arguments</span><span class="o">.</span><span class="n">MODELTAG</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        
+        <span class="c1">#TODO: implement this?</span>
+        <span class="k">elif</span> <span class="n">arguments</span><span class="o">.</span><span class="n">sklearn</span> <span class="ow">and</span> <span class="n">arguments</span><span class="o">.</span><span class="n">upload</span><span class="p">:</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">openAPI</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">Generator</span><span class="p">()</span>
+                <span class="n">openAPI</span><span class="o">.</span><span class="n">fileput</span><span class="p">()</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">        arguments.wsgi = arguments[&quot;--server&quot;]</span>
+
+<span class="sd">        m = Manager(debug=arguments.debug)</span>
+
+<span class="sd">        arguments.dir = path_expand(arguments[&quot;--dir&quot;] or &quot;.&quot;)</span>
+
+<span class="sd">        # pprint(arguments)</span>
+
+<span class="sd">        if arguments.list:</span>
+<span class="sd">            files = m.get(arguments.dir)</span>
+<span class="sd">            print(&quot;List of specifications&quot;)</span>
+<span class="sd">            print(79 * &quot;=&quot;)</span>
+<span class="sd">            print(&#39;\n&#39;.join(files))</span>
+
+<span class="sd">        elif arguments.merge:</span>
+<span class="sd">            d = m.merge(arguments.dir, arguments.SERVICES)</span>
+<span class="sd">            print(yaml.dump(d, default_flow_style=False))</span>
+
+<span class="sd">        elif arguments.description:</span>
+<span class="sd">            d = m.description(arguments.dir, arguments.SERVICES)</span>
+
+<span class="sd">        elif arguments.md:</span>
+
+<span class="sd">            converter = OpenAPIMarkdown()</span>
+
+<span class="sd">            if arguments[&quot;--indent&quot;] is None:</span>
+<span class="sd">                indent = 1</span>
+<span class="sd">            else:</span>
+<span class="sd">                indent = int(arguments[&quot;--indent&quot;])</span>
+<span class="sd">            filename = arguments[&quot;FILE&quot;]</span>
+
+<span class="sd">            converter.title(filename, indent=indent)</span>
+<span class="sd">            converter.convert_definitions(filename, indent=indent + 1)</span>
+<span class="sd">            converter.convert_paths(filename, indent=indent + 1)</span>
+<span class="sd">        elif arguments.codegen:</span>
+<span class="sd">            m.codegen(arguments.SERVICES, arguments.dir)</span>
+
+
+<span class="sd">        return &quot;&quot;</span>
+<span class="sd">        &#39;&#39;&#39;</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">AI Project</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../openapi.html">openapi package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, sp20-516-ai.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
