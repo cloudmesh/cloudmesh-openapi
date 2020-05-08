@@ -146,17 +146,34 @@ util.py
 
 THIS WAS HERE BEFORE
 
-test_001_registry.py
+## test_001_registry.py
 
-descript what this do
+This test has 5 test functions
+
+1. test_registry_add
+2. test_registry_list_name
+3. test_registry_list
+4. test_registry_delete
+5. test_benchmark
+
+Test 1 calls registry and adds to the registry. If successful prints 'PASSED'
+
+Test 2 calls registry and prints ONLY the server specified in filename.
+
+Test 3 calls registry and print list for ALL servers in registry.
+
+Test 4 calls registry and deletes entry for filename.
+
+Test 5 runs benchmark test on registry.
+
+### How to call this
 
 ```bash
-$ how do you call this
 cms set filename="./tests/server-cpu/cpu.yaml"
-pytest -v --capture=no tests/test_03_generator.py
-cms set filename="./tests/server-sampleFunction/sampleFunction.yaml"
-pytest -v --capture=no tests/test_03_generator.py
+pytest -v --capture=no tests/test_001_registry.py
 ```
+
+
 
 deprecated
 examples

@@ -281,12 +281,15 @@ This will enable CLI. Make sure you enable all the required services.
 
 For example:
 
-`gcloud services enable servicemanagement.googleapis.com`D
+`gcloud services enable servicemanagement.googleapis.com`
+
 `gcloud services enable endpoints.googleapis.com`
 
 and any other services you might be using for your specific Cloud API function. 
 
-
+For installing python libraries you will use `pip install google-cloud-[client library]` where [client library]
+is your specific API you are trying to work with. Visit [this page](https://cloud.google.com/python/docs/reference) 
+for a full list of Google Cloud Python libraries.
 
 ### AWS
 
