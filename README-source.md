@@ -424,6 +424,15 @@ checks.
 
 * Running Pytests for the LinearRegression.py generated from 6d pytest
 
-## Pytests
+## Test 
+
+Describe what the tests are and put links in 
+
+you can have a paragraph to each tests
+
+| Test   | Short Description  | Link  |
+| --- | --- | --- | 
+| Generator   | Bla Bla  | Link  |
+
 
 {tests}
