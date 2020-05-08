@@ -343,27 +343,27 @@ curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -
 ```
   Keep your test image files at ```./tests/generator-azureai/``` directory
 
-* With azure-ai-text-function started on port=8080, in order to test the azure ai function for text detection in an image, run following command
+* With *azure-ai-text-function* started on port=8080, in order to test the azure ai function for text detection in an image, run following command
 ```
 curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 ```
 
-* With azure-ai-image-function started on port=8080, in order to test the azure ai function for describing an image, run following command
+* With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for describing an image, run following command
 ```
 curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 ```
 
-* With azure-ai-image-function started on port=8080, in order to test the azure ai function for analyzing an image, run following command
+* With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for analyzing an image, run following command
 ```
-curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 ```
 
-* With azure-ai-image-function started on port=8080, in order to test the azure ai function for identifying tags in an image, run following command
+* With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for identifying tags in an image, run following command
 ```
-curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 ```
 
