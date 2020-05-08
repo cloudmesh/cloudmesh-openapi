@@ -142,21 +142,3 @@ We can interact with the Scikit-learn library using either CURL commands or thro
     ```
 
 
-## Pytests for Scikit learn tests.
-
-* Generate the .py for the Scikit learn module
-
-  pytest -v --capture=no tests/Scikitlearn_tests/test_06a_sklearngeneratortest.py
-
-* Running Pytests for the LinearRegression.py generated from 6a pytest
-
-  pytest -v --capture=no tests/Scikitlearn_tests/test_06b_sklearngeneratortest.py
-
- 
-## Pytests for Scikit learn tests.
-
-* Generate the .py for the Scikit learn module woth file reading capabilities
-
-  pytest -v --capture=no tests/Scikitlearn_tests/test_06c_sklearngeneratortest.py
-
-* Running Pytests for the LinearRegression.py generated from 6d pytest
