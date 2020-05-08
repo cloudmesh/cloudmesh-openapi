@@ -281,12 +281,15 @@ This will enable CLI. Make sure you enable all the required services.
 
 For example:
 
-`gcloud services enable servicemanagement.googleapis.com`D
+`gcloud services enable servicemanagement.googleapis.com`
+
 `gcloud services enable endpoints.googleapis.com`
 
 and any other services you might be using for your specific Cloud API function. 
 
-
+For installing python libraries you will use `pip install google-cloud-[client library]` where [client library]
+is your specific API you are trying to work with. Visit [this page](https://cloud.google.com/python/docs/reference) 
+for a full list of Google Cloud Python libraries.
 
 ### AWS
 
@@ -302,43 +305,48 @@ Using the Azure Computer Vision AI service, you can describe, analyze and/ or ge
 * Create a Computer Vision resource and get the COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT. Follow [instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix) to get the same.
 * Install following Python packages in your virtual environment:
   * requests
-  * PillowD
+  * Pillow
 * Install Computer Vision client library
-  * ```pip install --upgrade azure-cognitiveservices-vision-computervision```
+```
+pip install --upgrade azure-cognitiveservices-vision-computervision
+```
 
 #### Steps to implement and use Azure AI image and text *REST-services*
 
-* Go to `./cloudmesh-openapi` directory
+* Go to ```./cloudmesh-openapi``` directory
 
 * Run following command to generate the YAML files
-
-  `cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload`<br>
-  `cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload`
-
+```
+  cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload`<br>
+  cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload`
+```
 * Verify the *YAML* files created in `./tests/generator-azureai` directory
-
-  * `azure-ai-image-function.yaml`
-  * `azure-ai-text-function.yaml`
+```
+  azure-ai-image-function.yaml
+  azure-ai-text-function.yaml
+```
   
 * Start the REST service by running following command in `./cloudmesh-openapi` directory
-
-  `cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml`
-
+```
+  cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml
+```
 The default port used for starting the service is 8080. In case you want to start more than one REST service, use a different port in following command: 
-
-  `cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>`
+```
+  cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>
+```
 
 * Access the REST service using [http://localhost:8080/cloudmesh/ui/](http://localhost:8080/cloudmesh/ui/)
 
 * Check the running REST services using following command:
-
-  `cms openapi server ps`
+```
+  cms openapi server ps
+```
 
 * Stop the REST service using following command(s):
-
-  `cms openapi server stop azure-ai-image-function`<br>
-  `cms openapi server stop azure-ai-text-function`  D
-
+```
+  cms openapi server stop azure-ai-image-function <br> 
+  cms openapi server stop azure-ai-text-function
+```
 
 ## Test 
 
