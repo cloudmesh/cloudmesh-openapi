@@ -1,0 +1,166 @@
+openapi: 3.0.2
+info:
+  title: Time Series Forecasting
+  description: AI servies to provide Time Series Forecasting in AWS and Azure using OpenAPI 3.0
+  license:
+    name: Apache 2.0
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:8080/cloudmesh
+
+paths:
+  /forecast/upload:
+    post:
+      summary: upload a file
+      operationId: forecast.upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                upload:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+  /forecast/validate_data:
+    post:
+      summary: validate the data for mandatory columns, fill missing and less than 0 with 0
+      operationId: forecast.validate
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                upload:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+  /forecast:
+    get:
+      summary: Returns supported Time Series Forecasting functions of the hosting server
+      operationId: forecast.get_supported_times_series_services
+      responses:
+        '200':
+          description: AI Services info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/forecast"
+
+  /forecast/{cloudname}:
+    get:
+      summary: Returns supported Time Series Forecasting functions of the hosting server
+      operationId: forecast.init_cloud_param
+      parameters:
+        - name : cloudname
+          in : path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI Services info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/initforecast"
+
+  /forecast/split_data:
+    get:
+      summary: Split the data into test and train based on specified value
+      operationId: forecast.split_data_train_test
+      parameters:
+        - name: split_pct
+          in: query
+          required: true
+          schema:
+            type : number
+      responses:
+        '200':
+          description: AI Services info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/split_test_train"
+
+  /forecast/create_forecast:
+    get:
+      summary: Split the data into test and train based on specified value
+      operationId: forecast.generate_forecast
+      parameters:
+        - name: country
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI Services info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/split_test_train"
+
+  /forecast/lookupForecast:
+    get:
+      summary: Split the data into test and train based on specified value
+      operationId: forecast.queryGeneratedForecast
+      parameters:
+        - name: countryName
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: AI Services info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/lookupForecast"
+
+components:
+  schemas:
+    forecast:
+      type: "object"
+      required:
+        - "model"
+      properties:
+        model:
+          type: "string"
+    initforecast:
+      type: "object"
+      required:
+        - "cloudname"
+      properties:
+        cloudname:
+          type: "string"
+    split_test_train:
+      type: "object"
+      required:
+        - "split_pct"
+      properties:
+        split_pct:
+          type: "number"
+    lookupForecast:
+      type: "object"
+      required:
+        - "countryname"
+      properties:
+        countryname:
+          type: "number"
