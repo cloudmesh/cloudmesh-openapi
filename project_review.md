@@ -79,6 +79,12 @@
 6. cms image processing
 
     **Contributors:** Falconi, Ishan
+    
+7. cms text analysis
+    
+    **Contirbutor:** Andrew Goldfarb
+    
+    <https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/generator-natural-lang>
 
 -----------
 
@@ -108,7 +114,7 @@
 
    <https://github.com/cloudmesh/get/blob/master/openapi/ubuntu18.04/index.html>
 
-   **Contributors:** Jonathan Beckford
+   **Contributors:** Jonathan Beckford, Andrew Goldfarb
 
   
 ### Openapi project readme generator
