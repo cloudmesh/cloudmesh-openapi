@@ -23,11 +23,11 @@ class ResultCache:
         """
         Save model to cache
 
-        :param modelname:
-        :param type:
-        :param modelobject:
-        :param kwargs:
-        :return:
+        :param modelname:  the name of the model.  Will be used to name registry entry.
+        :param type:  the type of serialization.  Default is pickle.
+        :param modelobject:  the model object
+        :param kwargs:  any other parameters for registry
+        :return:  none
         """
 
         # create local cache directory
@@ -65,8 +65,8 @@ class ResultCache:
         """
         Load cached model
 
-        :param name:
-        :return:
+        :param name:  model name or cached file name
+        :return:  unserialized model
         """
 
         cm = CmDatabase()
@@ -97,10 +97,10 @@ class ResultCache:
         """
         Serializes a model and returns the fully qualified path and file name to pickle file
 
-        :param title:
-        :param data:
-        :param path:
-        :return:
+        :param title:  pickle file name
+        :param data:  model object
+        :param path:  path to pickle file 
+        :return:  pickle file name
         """
 
         file = Path(f"{path}/{title}.pickle")
@@ -115,8 +115,8 @@ class ResultCache:
         """
         Loads a pickle file and returns object
 
-        :param file:
-        :return:
+        :param file:  pickle file name
+        :return:  unpickled model object
         """
 
         pikd = open(file, "rb")

@@ -176,11 +176,11 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save model to cache</span>
 
-<span class="sd">        :param modelname:</span>
-<span class="sd">        :param type:</span>
-<span class="sd">        :param modelobject:</span>
-<span class="sd">        :param kwargs:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param modelname:  the name of the model.  Will be used to name registry entry.</span>
+<span class="sd">        :param type:  the type of serialization.  Default is pickle.</span>
+<span class="sd">        :param modelobject:  the model object</span>
+<span class="sd">        :param kwargs:  any other parameters for registry</span>
+<span class="sd">        :return:  none</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># create local cache directory</span>
@@ -218,8 +218,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load cached model</span>
 
-<span class="sd">        :param name:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param name:  model name or cached file name</span>
+<span class="sd">        :return:  unserialized model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">cm</span> <span class="o">=</span> <span class="n">CmDatabase</span><span class="p">()</span>
@@ -250,10 +250,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Serializes a model and returns the fully qualified path and file name to pickle file</span>
 
-<span class="sd">        :param title:</span>
-<span class="sd">        :param data:</span>
-<span class="sd">        :param path:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param title:  pickle file name</span>
+<span class="sd">        :param data:  model object</span>
+<span class="sd">        :param path:  path to pickle file </span>
+<span class="sd">        :return:  pickle file name</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">.pickle&quot;</span><span class="p">)</span>
@@ -268,8 +268,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads a pickle file and returns object</span>
 
-<span class="sd">        :param file:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param file:  pickle file name</span>
+<span class="sd">        :return:  unpickled model object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">pikd</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>

@@ -19,8 +19,8 @@ def daemon(func):
     """
     Decorator used to execute a Connexion flask app as a daemon
 
-    :param func:
-    :return:
+    :param func:  function to run as daemon
+    :return:  
     """
     def wrapper(*args, **kwargs):
         pid = os.fork()
@@ -56,6 +56,20 @@ class Server(object):
                  server="flask",
                  port=8080,
                  debug=True):
+        """
+        Default constructor to initialize Server object
+
+        :param name:  server name
+        :param spec:  openapi spec yaml file
+        :param directory:  directory for input file
+        :param host:  host ip or dns name to be used to start service.  Default is 127.0.0.1
+        :param server:  type of service to start.  Default is flask.
+        :param port:  port to use for service.  Default is 8080. 
+        :param debug:  flag to turn on debug logging.  Default is true.
+        :return:  server object
+        
+        """
+
         if spec is None:
             Console.error("No service specification file defined")
             raise FileNotFoundError
@@ -101,9 +115,9 @@ class Server(object):
         """
         Get the name of a server using specification
 
-        :param name:
-        :param spec:
-        :return:
+        :param name:  server name
+        :param spec:  spec file name with fully qualified path
+        :return:  server name
         """
         if name is None:
             return os.path.basename(spec).replace(".yaml", "")
@@ -142,10 +156,10 @@ class Server(object):
         """
         Start up an OpenApi server
 
-        :param name:
-        :param spec:
-        :param foreground:
-        :return:
+        :param name:  server name
+        :param spec:  openapi spec yaml file name
+        :param foreground:  flag to run server in foreground.  Default is False.
+        :return: started server PID
         """
         name = Server.get_name(name, spec)
         pid = ""
@@ -201,8 +215,8 @@ class Server(object):
         """
         List all of the actively running servers or if name is provided return whether the server is running
 
-        :param name:
-        :return:
+        :param name:  Optional server name.  If not provided all servers will be listed.
+        :return:  list of pids for all running servers.
         """
 
         pids = []
@@ -237,8 +251,8 @@ class Server(object):
         """
         Lists the servers that have been registered in Registry
 
-        :param name:
-        :return:
+        :param name:  Optional server name.  If not provided all servers in registry will be listed.
+        :return:  list of servers in registry
         """
         registry = Registry()
         result = registry.list(name)
@@ -250,8 +264,8 @@ class Server(object):
         """
         Stop a running OpenApi server
 
-        :param name:
-        :return:
+        :param name:  server name
+        :return: 
         """
 
         Console.ok(f"shutting down server {name}")
@@ -292,11 +306,12 @@ class Server(object):
             Console.error(
                 f"No Cloudmesh OpenAPI Server found with the name {name}")
 
+
     def run_os(self):
         """
         Start an openapi server by creating a physical flask script
 
-        :return:
+        :return:  pid for started server
         """
 
         Console.ok("starting server")
