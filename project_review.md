@@ -17,93 +17,93 @@
 
 1. cms command:
 
-<https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/command/openapi.py>
+    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/command/openapi.py>
 
-**Contributors:** all team
+    **Contributors:** all team
 
 2. cms generate - to generate server yaml
     - **executor** that parses parameters and calls generator:
          
          <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/executor.py>
          
-      **Contributors:**  Brian, Professor
+         **Contributors:**  Brian, Professor
         
     - **generator** that generates the server yaml:
          
          <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/generator.py>
          
-      **Contributors:**  Brian, Jonathan, Prateek
+        **Contributors:**  Brian, Jonathan, Prateek
     
 3. cms server - to start and stop server
 
- <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/server.py>
+    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/server.py>
  
-  - **Contributors:**  Jonathan, Andrew, Prateek, Ishan
+    - **Contributors:**  Jonathan, Andrew, Prateek, Ishan
       
 4. cms registry - register the server and cache model
 
     - **registry** - registers server 
     
-    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/Registry.py>
+        <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/Registry.py>
     
-      **Contributors:** Falconi, Praful, Professor
+        **Contributors:** Falconi, Praful, Professor
 
     - **cache** - cache serialized model locally
 
-    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/cache.py>
+        <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/cache.py>
       
-      **Contributors:** Jonathan
+        **Contributors:** Jonathan
       
     - **fileoperation** - upload input files
 
-    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/fileoperation.py>
+        <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/fileoperation.py>
     
-      **Contributors:** Prateek, Brian 
+        **Contributors:** Prateek, Brian 
   
 5. cms scikitlearn - generate sklearn functions
 
-<https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/scikitlearn/SklearnGenerator.py>
+    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/scikitlearn/SklearnGenerator.py>
     
-**Contributors:** Jagadeesh
+    **Contributors:** Jagadeesh
    
 6. cms image processing
 
-**Contributors:** Falconi, Ishan
+    **Contributors:** Falconi, Ishan
 
 
 ## Deployment steps
 
-<https://cloudmesh.github.io/cloudmesh-openapi/README.html#installation>
+   <https://cloudmesh.github.io/cloudmesh-openapi/README.html#installation>
 
 ## Quick Start
 
-<https://cloudmesh.github.io/cloudmesh-openapi/README.html#quick-steps-to-generate-start-and-stop-cpu-sample-example>
+   <https://cloudmesh.github.io/cloudmesh-openapi/README.html#quick-steps-to-generate-start-and-stop-cpu-sample-example>
 
 ## Pytests
 
-<https://cloudmesh.github.io/cloudmesh-openapi/README.html#pytests>
+   <https://cloudmesh.github.io/cloudmesh-openapi/README.html#pytests>
 
 ## Additional artifacts produced:
 
 ### Openstack VM set up script
 
-<https://github.com/cloudmesh/get/blob/master/openapi/ubuntu18.04/index.html>
+   <https://github.com/cloudmesh/get/blob/master/openapi/ubuntu18.04/index.html>
 
-**Contributors:** Jonathan Beckford
+   **Contributors:** Jonathan Beckford
 
 ### Openapi project readme generator
 
-<https://github.com/cloudmesh/cloudmesh-openapi/tree/master/sphinx>
+   <https://github.com/cloudmesh/cloudmesh-openapi/tree/master/sphinx>
 
-**Contributors:** Jonathan Beckford, Professor
+   **Contributors:** Jonathan Beckford, Professor
 
 ### Chapters
 
 ##### Kubernetes
 
-<https://github.com/cloudmesh-community/sp20-516-231/blob/master/chapter/k8s-kubernetes-scheduler.md>
+   <https://github.com/cloudmesh-community/sp20-516-231/blob/master/chapter/k8s-kubernetes-scheduler.md>
 
-**Contributors:**  Jonathan Beckford, Brian Kegerreis, Ashok Singam
+   **Contributors:**  Jonathan Beckford, Brian Kegerreis, Ashok Singam
 
 
 
