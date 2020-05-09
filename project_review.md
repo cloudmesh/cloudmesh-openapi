@@ -70,7 +70,7 @@
 
 5. cms scikitlearn - generate sklearn functions
 
-    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/scikitlearn/SklearnGenerator.py>
+    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/scikitlearn/SklearnGeneratorFile.py>
     
     **Contributors:** Jagadeesh
 
