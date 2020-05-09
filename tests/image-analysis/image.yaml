@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  title: image
+  description: "No description provided"
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/cloudmesh
+    description: "No description provided"
+paths:
+  /image/detect_text_aws:
+     get:
+      summary: "Function that detects text from image using AWS Rekognition"
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: image.detect_text_aws
+      
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /image/detect_text_google:
+     get:
+      summary: "Detects text in the file using Google Vision API."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: image.detect_text_google
+      
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /image/path_expand:
+     get:
+      summary: "returns a string with expanded variable."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: image.path_expand
+      
+      responses:
+        '204':
+          description: "This operation returns no response."
