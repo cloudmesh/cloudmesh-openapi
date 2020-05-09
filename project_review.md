@@ -11,7 +11,7 @@
 
 ## Project Documentation:
 
-<https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README.md>
+<https://cloudmesh.github.io/cloudmesh-openapi/index.html>
 
 ## Code Breakdown
 
@@ -73,43 +73,33 @@
 
 ## Deployment steps
 
-1. Install cms openapi bundle:
+<https://cloudmesh.github.io/cloudmesh-openapi/README.html#installation>
 
-<https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README.md#instalation>
+## Quick Start
 
+<https://cloudmesh.github.io/cloudmesh-openapi/README.html#quick-steps-to-generate-start-and-stop-cpu-sample-example>
 
 ## Pytests
 
-### Test documentation:
+<https://cloudmesh.github.io/cloudmesh-openapi/README.html#pytests>
 
-  <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md>
+## Additional artifacts produced:
 
-### Simple initial test:
+### Openapi VM set up script (Contributors: Jonathan Beckford)
 
-1. Manual steps for CPU:
-   - Go to main project repo directory
-      ```cd ~/cm/cloudmesh-openapi```
-      
-   - Generate yaml
-      ```cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py```
-     
-   - Start Server
-      
-      ```cms openapi server start ./tests/server-cpu/cpu.yaml```
-      
-   - Run Swagger UI
-   
-      - go to <http://127.0.0.1:8080/cloudmesh/ui>
-  
-   - Stop Server
-   
-       ```cms openapi server stop cpu```
+<https://github.com/cloudmesh/get/blob/master/openapi/ubuntu18.04/index.html>
 
-2. Automated test for CPU:
-   - Go to main project repo directory
-      ```cd ~/cm/cloudmesh-openapi```
-      
-   - Execute pytest for cpu
-      ```pytest -v -x --capture=no tests/server-cpu/test_03_generator.py```
+### Openapi project readme generator (Contributors: Jonathan Beckford, Professor)
+
+<https://github.com/cloudmesh/cloudmesh-openapi/tree/master/sphinx>
+
+### Chapters
+
+##### Kubernetes (Contributors: Jonathan Beckford, Brian Kegerreis, Ashok Singam
+
+<https://github.com/cloudmesh-community/sp20-516-231/blob/master/chapter/k8s-kubernetes-scheduler.md>
+
+
+
 
 
