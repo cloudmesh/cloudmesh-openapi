@@ -118,6 +118,45 @@ directory. If the above command is copied and pasted to run in the terminal it w
 4. Run a call against the sentiment analysis and translation endpoint for each available cloud service (Google/Azure) and verify it was successful.
 5. Stop the service
 
+**Results for Natural Language Tests**
+
+| Attribute        | Value                                                                                            |
+|------------------|--------------------------------------------------------------------------------------------------|
+| cpu_count        | 4                                                                                                |
+| mem.active       | 2.0 GiB                                                                                          |
+| mem.available    | 2.1 GiB                                                                                          |
+| mem.free         | 148.8 MiB                                                                                        |
+| mem.inactive     | 2.0 GiB                                                                                          |
+| mem.percent      | 73.2 %                                                                                           |
+| mem.total        | 8.0 GiB                                                                                          |
+| mem.used         | 4.8 GiB                                                                                          |
+| mem.wired        | 2.8 GiB                                                                                          |
+| platform.version | 10.14.1                                                                                          |
+| python           | 3.8.1 (v3.8.1:1b293b6006, Dec 18 2019, 14:08:53)                                                 |
+|                  | [Clang 6.0 (clang-600.0.57)]                                                                     |
+| python.pip       | 20.0.2                                                                                           |
+| python.version   | 3.8.1                                                                                            |
+| sys.platform     | darwin                                                                                           |
+| uname.machine    | x86_64                                                                                           |
+| uname.node       | Andrews-MacBook-Pro.local                                                                        |
+| uname.processor  | i386                                                                                             |
+| uname.release    | 18.2.0                                                                                           |
+| uname.system     | Darwin                                                                                           |
+| uname.version    | Darwin Kernel Version 18.2.0: Fri Oct  5 19:41:49 PDT 2018; root:xnu-4903.221.2~2/RELEASE_X86_64 |
+| user             | andrewgoldfarb                                                                                   |
+
+
+| Name                                                    | Status   |   Time | Start               | tag     | Node                      | User           | OS     | Version   |
+|---------------------------------------------------------|----------|--------|---------------------|---------|---------------------------|----------------|--------|-----------|
+| generator_test/copy_py_file                             | ok       |  0.003 | 2020-05-09 06:33:47 | openapi | Andrews-MacBook-Pro.local | andrewgoldfarb | Darwin | 10.14.1   |
+| generator_test/generate                                 | ok       |  2.601 | 2020-05-09 06:33:47 | openapi | Andrews-MacBook-Pro.local | andrewgoldfarb | Darwin | 10.14.1   |
+| generator_test/read_spec                                | ok       |  0.012 | 2020-05-09 06:33:49 | openapi | Andrews-MacBook-Pro.local | andrewgoldfarb | Darwin | 10.14.1   |
+| generator_test/start_service                            | ok       |  1.864 | 2020-05-09 06:33:49 | openapi | Andrews-MacBook-Pro.local | andrewgoldfarb | Darwin | 10.14.1   |
+| test_generator_natural_language/test_run_analyze_google | ok       |  0.67  | 2020-05-09 06:33:51 | openapi | Andrews-MacBook-Pro.local | andrewgoldfarb | Darwin | 10.14.1   |
+| test_generator_natural_language/test_run_analyze_azure  | ok       |  0.58  | 2020-05-09 06:33:52 | openapi | Andrews-MacBook-Pro.local | andrewgoldfarb | Darwin | 10.14.1   |
+| generator_test/stop_server                              | ok       |  2.095 | 2020-05-09 06:33:52 | openapi | Andrews-MacBook-Pro.local | andrewgoldfarb | Darwin | 10.14.1   |
+| generator_test/delete_file                              | ok       |  0.002 | 2020-05-09 06:33:54 | openapi | Andrews-MacBook-Pro.local | andrewgoldfarb | Darwin | 10.14.1   |
+
 ## TODO DESCRIBE WHAT THEY DO
 
 
@@ -127,7 +166,6 @@ examples
 generator
 generator-azureai
 generator-calculator
-generator-natural-lang - This is described in the cloudmesh-openapi/README.md
 generator-printerclass
 generator-testclass
 generator-upload
@@ -151,7 +189,6 @@ test_011_generator_cpu.py
 test_012_generator_calculator.py
 test_015_generator_azureai.py
 test_020_server_manage.py
-test_generator_natural_language.py
 test_server_cms_cpu.py
 util.py
 
