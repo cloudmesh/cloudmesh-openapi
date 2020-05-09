@@ -14,6 +14,7 @@ from cloudmesh.compute.vm.Provider import Provider
 from cloudmesh.configuration.Config import Config
 from cloudmesh.management.configuration.name import Name
 
+
 Benchmark.debug()
 
 test_dir = "./tests/generator-natural-lang/"

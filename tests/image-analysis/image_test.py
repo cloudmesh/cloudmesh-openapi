@@ -9,6 +9,7 @@ import os
 import time
 
 path = './tests/image-analysis'
+baseurl = "http://127.0.0.1:8080/cloudmesh"
 
 @pytest.mark.incremental
 class TestGeneratorTestClass():
@@ -73,21 +74,47 @@ class TestGeneratorTestClass():
 
         server_output = Shell.run("cms openapi server ps")
         assert "None" not in server_output
+        Benchmark.Stop()
 
-        baseurl = "http://127.0.0.1:8080/cloudmesh"
+    def test_google_vision(self):
+        """
+        test google vision api response
+        :return:
+        """
+        HEADING()
+        Benchmark.Start()
 
         curl = f"curl -I {baseurl}/image/detect_text_google"
 
         response = Shell.run(curl)
         assert "200" in response
+        Benchmark.Stop()
+
+    def test_aws_rekognition(self):
+        """
+        test aws rekognition api response
+        :return:
+        """
+        HEADING()
+        Benchmark.Start()
 
         curl = f"curl -I {baseurl}/image/detect_text_aws"
 
         response = Shell.run(curl)
         assert "200" in response
 
+        Benchmark.Stop()
 
+    def test_server_stop(self):
+        """
+        test server stop
+        :return:
+        """
+        HEADING()
+        Benchmark.Start()
         os.system("cms openapi server stop image")
+
+        curl = f"curl -I {baseurl}/image/detect_text_aws"
         response = Shell.run(curl)
 
         fail_message="Connection refuse"
@@ -95,4 +122,7 @@ class TestGeneratorTestClass():
 
         Benchmark.Stop()
 
+    def test_benchmark(self):
+        HEADING()
+        Benchmark.print(csv=True, sysinfo=False, tag="generator")
 

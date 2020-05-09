@@ -12,7 +12,7 @@ import tests.util as util
 from cloudmesh.common.Benchmark import Benchmark
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
-from cloudmesh.common.variable import Variables
+from cloudmesh.common.variables import Variables
 variable=Variables()
 filename= variable['filename']
 # filename = "./tests/server-cpu/cpu.yaml"

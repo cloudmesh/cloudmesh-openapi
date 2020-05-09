@@ -572,6 +572,7 @@ The following table lists the different test we have, we provide additional info
 | Test   | Short Description  | Link  |
 | --- | --- | --- | 
 | Generator   | Bla Bla  | Link  |
+| Registry
 
 Generator:
 
