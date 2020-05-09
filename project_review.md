@@ -22,13 +22,13 @@
 **Contributors:** all team
 
 2. cms generate - to generate server yaml
-    - executor that parses parameters and calls generator:
+    - **executor** that parses parameters and calls generator:
          
          <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/executor.py>
          
       **Contributors:**  Brian, Professor
         
-    - generator that generates the server yaml:
+    - **generator** that generates the server yaml:
          
          <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/generator.py>
          
@@ -42,19 +42,19 @@
       
 4. cms registry - register the server and cache model
 
-    - registry - registers server 
+    - **registry** - registers server 
     
     <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/Registry.py>
     
       **Contributors:** Falconi, Praful, Professor
 
-    - cache - cache serialized model locally
+    - **cache** - cache serialized model locally
 
     <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/cache.py>
       
       **Contributors:** Jonathan
       
-    - fileoperation - upload input files
+    - **fileoperation** - upload input files
 
     <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/fileoperation.py>
     
