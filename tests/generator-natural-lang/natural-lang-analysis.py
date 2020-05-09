@@ -1,7 +1,8 @@
 import re
 from azure.cognitiveservices.language.textanalytics import TextAnalyticsClient
+from azure.core.credentials import AzureKeyCredential
 from msrest.authentication import CognitiveServicesCredentials
-from google.cloud import language
+from google.cloud import language_v1
 from google.cloud.language import enums
 from google.cloud.language import types
 import requests, uuid, json, yaml, os
@@ -29,7 +30,7 @@ export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/service-account-file
 """
 
 
-def get_credentials():
+def _get_credentials():
     credential_file = os.environ['CLOUDMESH_CREDENTIALS_YAML']
     credentials_list = []
     with open(credential_file) as file:
@@ -41,24 +42,29 @@ def get_credentials():
     credentials_list.append(
         credentials.cloudmesh__cloud__azure__credentials__AZURE_TRANSLATOR_KEY)
     credentials_list.append(
+        credentials.cloudmesh__cloud__azure__credentials__AZURE_TRANSLATOR_ENDPOINT)
+    credentials_list.append(
         credentials.cloudmesh__cloud__azure__credentials__AZURE_TEXT_ANALYTICS_KEY)
     credentials_list.append(
         credentials.cloudmesh__cloud__azure__credentials__AZURE_TEXT_ANALYTICS_ENDPOINT)
     credentials_list.append(
         credentials.cloudmesh__cloud__google__credentials__auth__json_file)
+    credentials_list.append(
+        credentials.cloudmesh__cloud__google__credentials__auth__project_id)
 
+    print(credentials_list)
     return credentials_list
 
 
 @DatabaseUpdate()
-def add_file(fileName, **kwargs):
+def _add_file(fileName, **kwargs):
     """
     Adds the contents of a file located in the specified location to the registry
 
     :param fileName: The name of the file containing text
     :return:
     """
-    cache_path = "~/.cloudmesh/text-cache/"
+    cache_path = "/Users/andrewgoldfarb/.cloudmesh/text-cache/"
     p = Path(path_expand(cache_path))
     file_location = str(p) + "/" + fileName
     file_list = Shell.run("ls " + cache_path)
@@ -87,7 +93,7 @@ def add_file(fileName, **kwargs):
     return entry
 
 
-def load_content(fileName):
+def _load_content(fileName):
     """
     Load the content from the entry if it exists in the mongo db local-text
     collection
@@ -120,19 +126,20 @@ def analyze(filename: str, cloud: str) -> float:
 
     # get credentials for Google and Azure cloud text services listed in
     # cloudmesh yaml
-    credentials_list = get_credentials()
+    credentials_list = _get_credentials()
+
 
     # add file located in text cache directory to the registry so it can be
     # loaded and passed to services.
-    add_file(filename)
-    content = load_content(filename)
+    _add_file(filename)
+    content = _load_content(filename)
 
     if cloud == "azure":
-        credentials = CognitiveServicesCredentials(credentials_list[1])
-        endpoint = credentials_list[2]
-        text_analytics_client = TextAnalyticsClient(endpoint=endpoint,
-                                                    credentials=credentials)
-        client = text_analytics_client
+        key = credentials_list[2]
+        endpoint = credentials_list[3]
+        credentials = CognitiveServicesCredentials(key)
+        text_analytics_client = TextAnalyticsClient(
+            endpoint=endpoint, credentials=credentials)
 
         documents = []
 
@@ -143,9 +150,9 @@ def analyze(filename: str, cloud: str) -> float:
                        "language": "en",
                        "text": sentence}
             documents.append(new_doc.copy())
-        response = client.sentiment(documents=documents)
+        response = text_analytics_client.sentiment(documents=documents)
     elif cloud == "google":
-        client = language.LanguageServiceClient()
+        client = language_v1.LanguageServiceClient()
 
         document = types.Document(
             content=content,
@@ -182,40 +189,42 @@ def translate_text(cloud: str, text: str, lang: str) -> str:
         :type text: str
         :param cloud: The cloud to operate on
         :type cloud: str
+        :param lang: The language to translate to
+        :type lang: str
         :return: response
         :return type: str
         """
 
-    credentials = get_credentials()
+    credentials = _get_credentials()
 
     if cloud == "azure":
         key = credentials[0]
-
-        endpoint = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0'
+        base_url = 'https://cloudmesh-testing.cognitiveservices.azure.com'
+        path = '/translate?api-version=3.0'
         params = '&to=' + lang
+        constructed_url = base_url + path + params
 
-        full_url = endpoint + params
         headers = {
             'Ocp-Apim-Subscription-Key': key,
             'Content-type': 'application/json',
             'X-ClientTraceId': str(uuid.uuid4())
         }
 
+        # You can pass more than one object in body.
         body = [{
             'text': text
         }]
-
-        request = requests.post(full_url, headers=headers, json=body)
-
-        response = request.json()
+        response = requests.post(constructed_url, headers=headers,
+                                 json=body)
+        response = response.json()
         print(
             json.dumps(response, sort_keys=True, indent=4,
                        separators=(',', ': ')))
         return response
     elif cloud == "google":
         client = translate.TranslationServiceClient()
-
-        parent = client.location_path('project_id', 'global')
+        # project_id = credentials[5]
+        parent = client.location_path('cloudmesh-final-project', 'global')
 
         request = client.translate_text(
             parent=parent,
@@ -224,7 +233,6 @@ def translate_text(cloud: str, text: str, lang: str) -> str:
             source_language_code="en-US",
             target_language_code=lang
         )
-
         for translation in request.translations:
             print(u"Translated text: {}".format(
                 translation.translated_text))
@@ -232,3 +240,10 @@ def translate_text(cloud: str, text: str, lang: str) -> str:
         return response
     else:
         print("Cloud not supported.")
+
+
+if __name__ == "__main__":
+
+    analyze("bladerunner-neg.txt","azure")
+    translate_text("google", "testing", "it")
+

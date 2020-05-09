@@ -568,6 +568,9 @@ You can copy the files at this location, `./cloudmesh-openapi/tests/textanaysis-
     cms openapi server stop natural-lang-analysis
     ```
 
+The natural langauge analysis API can be improved by allowing for full phrase translation via the API. If you contribute to this 
+API there is room for improvement to add custom translation models as well if preferred to pre-trained APIs.
+
 #### Prerequisite for setting up Azure ComputerVision AI service
 
 * Azure subscription. If you don't have one, create a [free account](https://azure.microsoft.com/try/cognitive-services/) before you continue further.
