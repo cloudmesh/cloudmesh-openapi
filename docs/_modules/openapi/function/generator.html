@@ -86,7 +86,7 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">Cloudmesh OpenAPI Service Generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../README-Scikitlearn.html">Cloudmesh OpenAPI Merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README-Scikitlearn.html">Cloudmesh OpenAPI Scikit-learn</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../openapi.html">openapi package</a></li>
 </ul>
 
@@ -235,8 +235,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to lookup and output supported OpenApi data type using python data type as input</span>
 
-<span class="sd">        :param _type:  _type is the input data type that will be converted to an openapi compliant data type</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param _type:  the input data type that will be converted to an openapi compliant data type</span>
+<span class="sd">        :return:  Returns openapi compliant data type</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">parser</span> <span class="o">=</span> <span class="p">{</span>
@@ -264,10 +264,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to generate a single OpenApi YAML formatted parameter section</span>
 
-<span class="sd">        :param name:</span>
-<span class="sd">        :param _type:</span>
-<span class="sd">        :param description:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param name:   input python function parameter name</span>
+<span class="sd">        :param _type:  input python function parameter type</span>
+<span class="sd">        :param description:  input python function parameter description</span>
+<span class="sd">        :return:  returns parameter spec section</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Note: did not use f string approach to populate parameter values in strings due to indentation issues.</span>

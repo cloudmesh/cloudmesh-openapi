@@ -82,8 +82,8 @@ class Generator:
         """
         Function to lookup and output supported OpenApi data type using python data type as input
 
-        :param _type:  _type is the input data type that will be converted to an openapi compliant data type
-        :return:
+        :param _type:  the input data type that will be converted to an openapi compliant data type
+        :return:  Returns openapi compliant data type
         """
 
         parser = {
@@ -111,10 +111,10 @@ class Generator:
         """
         Function to generate a single OpenApi YAML formatted parameter section
 
-        :param name:
-        :param _type:
-        :param description:
-        :return:
+        :param name:   input python function parameter name
+        :param _type:  input python function parameter type
+        :param description:  input python function parameter description
+        :return:  returns parameter spec section
         """
 
         # Note: did not use f string approach to populate parameter values in strings due to indentation issues.

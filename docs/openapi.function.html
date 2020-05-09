@@ -88,7 +88,7 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="README.html">Cloudmesh OpenAPI Service Generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="README-Scikitlearn.html">Cloudmesh OpenAPI Merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README-Scikitlearn.html">Cloudmesh OpenAPI Scikit-learn</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="openapi.html">openapi package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="openapi.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="openapi.command.html">openapi.command package</a></li>
@@ -310,13 +310,13 @@ specification for a python class or module with multiple functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – </p></li>
-<li><p><strong>_type</strong> – </p></li>
-<li><p><strong>description</strong> – </p></li>
+<li><p><strong>name</strong> – input python function parameter name</p></li>
+<li><p><strong>_type</strong> – input python function parameter type</p></li>
+<li><p><strong>description</strong> – input python function parameter description</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>returns parameter spec section</p>
 </dd>
 </dl>
 </dd></dl>
@@ -409,10 +409,10 @@ specification for a python class or module with multiple functions.</p>
 <dd><p>Function to lookup and output supported OpenApi data type using python data type as input</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>_type</strong> – _type is the input data type that will be converted to an openapi compliant data type</p>
+<dd class="field-odd"><p><strong>_type</strong> – the input data type that will be converted to an openapi compliant data type</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>Returns openapi compliant data type</p>
 </dd>
 </dl>
 </dd></dl>
