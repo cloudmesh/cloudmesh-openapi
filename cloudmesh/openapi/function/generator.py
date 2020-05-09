@@ -163,10 +163,10 @@ class Generator:
         """
         Function to generate a single OpenApi YAML formatted response section
 
-        :param code:
-        :param _type:
-        :param description:
-        :return:
+        :param code:  openapi response code
+        :param _type:  openapi response type
+        :param description:  openapi response decription
+        :return:  returns openapi response section spec
         """
 
         if type(_type) == str:

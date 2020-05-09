@@ -121,15 +121,12 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#downloading-data">Downloading data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#merge-openapi-s">Merge openapi’s</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#google">Google</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#running-ai-services-in-the-cloud-using-openapi">Running AI Services in the Cloud using OpenApi</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#google">Google</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quickstart-google-python-api">Quickstart Google Python API</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#setting-up-your-google-account">Setting up your Google account</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#running-the-google-natural-language-and-translate-rest-services">Running the Google Natural Language and Translate REST Services</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#aws">AWS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#azure">Azure</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#setting-up-azure-sentiment-analysis-and-translation-services">Setting up Azure Sentiment Analysis and Translation Services</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#setting-up-azure-computervision-ai-services">Setting up Azure ComputerVision AI services</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aws">AWS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#azure">Azure</a></li>
 </ul>
 </li>
 </ul>
@@ -272,14 +269,12 @@ cms admin mongo install --froce
 </div>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>When getting started using the <code class="docutils literal notranslate"><span class="pre">openapi</span></code>, please first call</p>
-<p>cms help python -m venv ~/ENV3 source ~/ENV3/bin/activate # on windows
-ENV3:raw-latex:<cite>Scripts</cite>:raw-latex:<a href="#id1"><span class="problematic" id="id2">`</span></a>activateDD
-<a href="#id3"><span class="problematic" id="id4">`</span></a>mkdir cm cd cm pip install cloudmesh-installer cloudmesh-installer get
-openapi</p>
-<p>openapi</p>
-<p>to see the available functions and options. For your convenience we
-include the manual page later on in this document.</p>
+<p>When getting started using the <code class="docutils literal notranslate"><span class="pre">openapi</span></code>, please first call:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cms</span> <span class="n">help</span> <span class="n">openapi</span>
+</pre></div>
+</div>
+<p>This will show the available functions and options. For your convenience
+we include the manual page later on in this document.</p>
 </div>
 <div class="section" id="quick-steps-to-generate-start-and-stop-cpu-sample-example">
 <h2>Quick steps to generate,start and stop CPU sample example<a class="headerlink" href="#quick-steps-to-generate-start-and-stop-cpu-sample-example" title="Permalink to this headline">¶</a></h2>
@@ -318,8 +313,8 @@ specification that will allow your Python code to run as a web service.
 For this reason, any code you write must conform to a set of guidelines.
 - The parameters and return values of any functions you write must use
 typingpython -m venv ~/ENV3 source ~/ENV3/bin/activate # on windows
-ENV3:raw-latex:<cite>Scripts</cite>:raw-latex:<a href="#id5"><span class="problematic" id="id6">`</span></a>activate
-<a href="#id7"><span class="problematic" id="id8">`</span></a>mkdir cm cd cm pip install cloudmesh-installer cloudmesh-installer get
+ENV3:raw-latex:<cite>Scripts</cite>:raw-latex:<a href="#id1"><span class="problematic" id="id2">`</span></a>activate
+<a href="#id3"><span class="problematic" id="id4">`</span></a>mkdir cm cd cm pip install cloudmesh-installer cloudmesh-installer get
 openapi</p>
 <ul class="simple">
 <li><p>Your functions must include docstrings</p></li>
@@ -484,8 +479,10 @@ the numpy array defined by the CSV file.</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="running-ai-services-in-the-cloud-using-openapi">
+<h3>Running AI Services in the Cloud using OpenApi<a class="headerlink" href="#running-ai-services-in-the-cloud-using-openapi" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="google">
-<h3>Google<a class="headerlink" href="#google" title="Permalink to this headline">¶</a></h3>
+<h4>Google<a class="headerlink" href="#google" title="Permalink to this headline">¶</a></h4>
 <p>After you create your google cloud account, it is recommended to
 download and install Google’s <a class="reference external" href="https://cloud.google.com/sdk/docs/quickstarts">Cloud
 SDK</a>. This will enable
@@ -526,6 +523,17 @@ selector</a></p></li>
 <li><p>Follow directions from Google to create a project linked to your
 account</p></li>
 </ol>
+</div>
+<div class="section" id="quickstart-google-python-api">
+<h4>Quickstart Google Python API<a class="headerlink" href="#quickstart-google-python-api" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-buildoutcfg notranslate"><div class="highlight"><pre><span></span>pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>For quickstart in using Google API for Python visit
+<a class="reference external" href="https://developers.google.com/docs/api/quickstart/python">here</a></p></li>
+</ul>
+</div>
 <div class="section" id="setting-up-your-google-account">
 <h4>Setting up your Google account<a class="headerlink" href="#setting-up-your-google-account" title="Permalink to this headline">¶</a></h4>
 <p>Before you generate the service account JSON file for your account you
@@ -576,9 +584,8 @@ the cloudmesh yaml file run the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms register update --kind<span class="o">=</span>google --service<span class="o">=</span>compute --filename<span class="o">=</span><span class="s">&lt;&lt;goog</span>le json file&gt;&gt;
 </pre></div>
 </div>
-</div>
 <div class="section" id="running-the-google-natural-language-and-translate-rest-services">
-<h4>Running the Google Natural Language and Translate REST Services<a class="headerlink" href="#running-the-google-natural-language-and-translate-rest-services" title="Permalink to this headline">¶</a></h4>
+<h5>Running the Google Natural Language and Translate REST Services<a class="headerlink" href="#running-the-google-natural-language-and-translate-rest-services" title="Permalink to this headline">¶</a></h5>
 <ol class="arabic">
 <li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">~/.cloudmesh</span></code> repo and create a cache directory
 for your text examples you would like to analyze.</p>
@@ -629,15 +636,37 @@ the API.</p></li>
 </div>
 </div>
 <div class="section" id="aws">
-<h3>AWS<a class="headerlink" href="#aws" title="Permalink to this headline">¶</a></h3>
+<h4>AWS<a class="headerlink" href="#aws" title="Permalink to this headline">¶</a></h4>
+<p>Sign up for AWS</p>
 <ul class="simple">
-<li><p>Jonathan</p></li>
+<li><p>Go to <a class="reference external" href="https://portal.aws.amazon.com/billing/signup">https://portal.aws.amazon.com/billing/signup</a></p></li>
+<li><p>Follow online instructions</p></li>
 </ul>
+<p>Create an IAM User</p>
+<ul class="simple">
+<li><p>For instructions, see
+<a class="reference external" href="https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html">here</a></p></li>
+</ul>
+<p>Set up AWS CLI and AWS SDKs</p>
+<ul class="simple">
+<li><p>To download and instructions to install AWS CLI, see
+<a class="reference external" href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install">here</a></p></li>
+</ul>
+<p>Install Boto 3</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install boto3
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>For quickstart, vist
+<a class="reference external" href="https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html">here</a></p></li>
+</ul>
+<p>As long as you enable all the services you need for using AWS AI APIs
+you should be able to write your functions for OpenAPI</p>
 </div>
 <div class="section" id="azure">
-<h3>Azure<a class="headerlink" href="#azure" title="Permalink to this headline">¶</a></h3>
+<h4>Azure<a class="headerlink" href="#azure" title="Permalink to this headline">¶</a></h4>
 <div class="section" id="setting-up-azure-sentiment-analysis-and-translation-services">
-<h4>Setting up Azure Sentiment Analysis and Translation Services<a class="headerlink" href="#setting-up-azure-sentiment-analysis-and-translation-services" title="Permalink to this headline">¶</a></h4>
+<h5>Setting up Azure Sentiment Analysis and Translation Services<a class="headerlink" href="#setting-up-azure-sentiment-analysis-and-translation-services" title="Permalink to this headline">¶</a></h5>
 <ol class="arabic simple">
 <li><p>Create an Azure subscription. If you don’t have one, create a <a class="reference external" href="https://azure.microsoft.com/try/cognitive-services/">free
 account</a></p></li>
@@ -710,9 +739,8 @@ room for improvement to add custom translation models as well if
 preferred to pre-trained APIs.</p>
 </div>
 <div class="section" id="setting-up-azure-computervision-ai-services">
-<h4>Setting up Azure ComputerVision AI services<a class="headerlink" href="#setting-up-azure-computervision-ai-services" title="Permalink to this headline">¶</a></h4>
-<div class="section" id="prerequisite">
-<h5>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h5>
+<h5>Setting up Azure ComputerVision AI services<a class="headerlink" href="#setting-up-azure-computervision-ai-services" title="Permalink to this headline">¶</a></h5>
+<p>Prerequisite</p>
 <p>Using the Azure Computer Vision AI service, you can describe, analyze
 and/ or get tags for a locally stored image or you can read the text
 from an image or hand-written file.</p>
@@ -733,9 +761,7 @@ to get the same.</p></li>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install --upgrade azure-cognitiveservices-vision-computervision
 </pre></div>
 </div>
-</div>
-<div class="section" id="steps-to-implement-and-use-azure-ai-image-and-text-rest-services">
-<h5>Steps to implement and use Azure AI image and text <em>REST-services</em><a class="headerlink" href="#steps-to-implement-and-use-azure-ai-image-and-text-rest-services" title="Permalink to this headline">¶</a></h5>
+<p>Steps to implement and use Azure AI image and text <em>REST-services</em></p>
 <ul class="simple">
 <li><p>Go to <code class="docutils literal notranslate"><span class="pre">./cloudmesh-openapi</span></code> directory</p></li>
 <li><p>Run following command to generate the YAML files</p></li>
@@ -829,20 +855,121 @@ additional information for the tests in the test directory ina README
 file. Summaries are provided bellwo the table</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 31%" />
-<col style="width: 50%" />
-<col style="width: 19%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Test</p></th>
-<th class="head"><p>Short Description</p></th>
+<th class="head"><p>Shor
+t
+Desc
+ript
+ion</p></th>
 <th class="head"><p>Link</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Generator</p></td>
-<td><p>Bla Bla</p></td>
+<tr class="row-even"><td><p>Gene
+rato
+r</p></td>
+<td><p>Bla
+Bla</p></td>
 <td><p>Link</p></td>
+</tr>
+<tr class="row-odd"><td><p>Regi
+stry</p></td>
+<td><p>test
+_00
+1_r
+egis
+try.
+py
+-
+Runs
+test
+s
+for
+regi
+stry
+.
+Desc
+ript
+ion
+is
+in
+test
+s/RE
+ADME
+.md</p></td>
+<td><p><a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md">Lin
+k</a>
+_</p></td>
+</tr>
+<tr class="row-even"><td><p>Imag
+e-An
+alys
+is</p></td>
+<td><p>imag
+e_t
+est.
+py
+-
+Runs
+benc
+hmar
+k
+for
+text
+dete
+ctio
+n
+for
+Goog
+le
+Visi
+on
+API
+and
+AWS
+Reko
+gnit
+ion.
+Desc
+ript
+ion
+in
+imag
+e-an
+alys
+is/R
+EADM
+E.md</p></td>
+<td><p><a href="#id5"><span class="problematic" id="id6">`Lin
+k &lt;h
+ttps
+://g
+ithu
+b.co
+m/cl
+oudm
+esh/
+clou
+dmes
+h-op
+enap
+i/bl
+ob/m
+aste
+r/te
+sts/
+imag
+e-an
+alys
+is/R
+EADM
+E.md
+&gt;`__</span></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -859,7 +986,6 @@ be short another line</p>
 <li><p><a class="reference external" href="tests/test_012_generator_calculator.py">test_012_generator_calculator</a></p></li>
 <li><p><a class="reference external" href="tests/test_015_generator_azureai.py">test_015_generator_azureai</a></p></li>
 <li><p><a class="reference external" href="tests/test_020_server_manage.py">test_020_server_manage</a></p></li>
-<li><p><a class="reference external" href="tests/test_generator_natural_language.py">test_generator_natural_language</a></p></li>
 <li><p><a class="reference external" href="tests/test_server_cms_cpu.py">test_server_cms_cpu</a></p></li>
 </ul>
 </div>
