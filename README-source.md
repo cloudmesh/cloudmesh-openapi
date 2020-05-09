@@ -617,10 +617,10 @@ The following table lists the different test we have, we provide additional info
 | Server-cpu    | Test to check if cpu api is generated correctly. This is to test single function in one python file and function name is different than file name  | [test_03_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cpu/test_03_generator.py)  
 | Server-cms   | Test to check if cms api is generated correctly. This is to test multipler function in one python file. | [test_04_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cms/test_04_generator.py)  
 | Registry    | test_001_registry.py - Runs tests for registry. Description is in tests/README.md| [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
-| Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md)
+| Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [image](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md)
 
-> This is a paragraph describing what the test is supposed to do can be short
-> another line
+
+For more infromation please check [tests info](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
 
 
 {tests}
