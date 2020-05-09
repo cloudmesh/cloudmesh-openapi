@@ -2,6 +2,12 @@ package=openapi
 UNAME=$(shell uname)
 VERSION=`head -1 VERSION`
 
+ifeq ($(UNAME),Linux)
+    OPEN=gopen
+else
+    OPEN=open
+endif
+
 define banner
 	@echo
 	@echo "############################################################"
@@ -9,10 +15,31 @@ define banner
 	@echo "############################################################"
 endef
 
-readme:
-	python ../cloudmesh-common/bin/readme.py cloudmesh-$(package) cms
+
+view:
+	$(OPEN) docs/index.html
+
+readme: readme-generate
 	-git commit -m "Upadte Readme" README.md README-source.md
 	-git push
+
+readme-generate:
+	python ../cloudmesh-common/bin/readme.py cloudmesh-$(package) cms
+
+doc:
+	mkdir -p docs
+	cd sphinx; sh gen_apidocs.sh
+	pandoc README.md -o sphinx/sphinx-docs/README.rst
+	pandoc README-Scikitlearn.md -o sphinx/sphinx-docs/README-Scikitlearn.rst
+	pandoc README.md -o docs/README.rst
+	cd sphinx/sphinx-docs; make html
+	cp -r sphinx/sphinx-docs/_build/html/* docs
+	touch docs/.nojekyll
+
+doc-real:
+	mkdir -p docs
+	cd sphinx; gen_apidoc.sh
+	cp sphinx/sphinx_docs/_build/html/docs
 
 source:
 	cd ../cloudmesh-common; make source
