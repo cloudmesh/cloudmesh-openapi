@@ -86,6 +86,8 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Cloudmesh OpenAPI Service Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README-Scikitlearn.html">Cloudmesh OpenAPI Scikit-learn</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="openapi.html">openapi package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="openapi.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="openapi.command.html">openapi.command package</a></li>
@@ -343,19 +345,31 @@ types.</p>
 <em class="property">class </em><code class="sig-prename descclassname">openapi.scikitlearn.SklearnGeneratorFile.</code><code class="sig-name descname">Generator</code><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#Generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>THe below are templates are using when generating the .py function.
-importfuction : this template is used to generate the import statements based on the model which we use
-uploadfunction: This template is used to generate the uploadfunction added the model
-functiontemplateretarryXandY: This template is the used when the method has both X and y varaibles and array is
-passed as return.
-functiontemplateretarryX: This template is the used when the method has X Variable and array is
-passed as return.
-functiontemplateXandY: This template is the used when the method has both X and y varaibles and the return type is
-other than array.
-functiontemplatewithonlyX_param: This template is the used when the method has X Variable and the return type is
-other than array.
-functiontemplatereturningself:  This template is used when the method is returning self .
-functiontemplatefit: This template is used to generate the fit function in the module.
-functiontemplatesetparams: This template is used to generate the Setparams function in the module.</p>
+:param importfuction : this template is used to generate the import statements based on the model which we use
+:param  uploadfunction: This template is used to generate the uploadfunction added the model
+:param functiontemplateretarryXandY: This template is the used when the method has both X and y varaibles and array</p>
+<blockquote>
+<div><p>is passed as return.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>functiontemplateretarryXandY</strong> – This template is the used when the method has both X and y varaibles and array
+is passed as return.</p></li>
+<li><p><strong>functiontemplateretarryX</strong> – This template is the used when the method has X Variable and array is
+passed as return.</p></li>
+<li><p><strong>functiontemplateXandY</strong> – This template is the used when the method has both X and y varaibles and the return
+type is other than array.</p></li>
+<li><p><strong>functiontemplatewithonlyX_param</strong> – This template is the used when the method has X Variable and the return type
+is other than array.</p></li>
+<li><p><strong>functiontemplatewithonlyX_param</strong> – This template is the used when the method has X Variable and the return type
+is other than array.</p></li>
+<li><p><strong>functiontemplatereturningself</strong> – This template is used when the method is returning self.</p></li>
+<li><p><strong>functiontemplatefit</strong> – This template is used to generate the fit function in the module.</p></li>
+<li><p><strong>functiontemplatesetparams</strong> – This template is used to generate the Setparams function in the module.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplate">
 <code class="sig-name descname">functiontemplate</code><em class="property"> = '\n\ndef {functioname}({parameters}) -&gt; {returnparam1}:\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    model = ResultCache().load(&quot;{model_tag}&quot;)\n    {returnparam1} = model.{functioname}({param_wo_type})\n\n\n    return {returnparam1}\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplate" title="Permalink to this definition">¶</a></dt>

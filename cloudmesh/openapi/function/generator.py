@@ -82,8 +82,8 @@ class Generator:
         """
         Function to lookup and output supported OpenApi data type using python data type as input
 
-        :param _type:  _type is the input data type that will be converted to an openapi compliant data type
-        :return:
+        :param _type:  the input data type that will be converted to an openapi compliant data type
+        :return:  Returns openapi compliant data type
         """
 
         parser = {
@@ -111,10 +111,10 @@ class Generator:
         """
         Function to generate a single OpenApi YAML formatted parameter section
 
-        :param name:
-        :param _type:
-        :param description:
-        :return:
+        :param name:   input python function parameter name
+        :param _type:  input python function parameter type
+        :param description:  input python function parameter description
+        :return:  parameter spec section
         """
 
         # Note: did not use f string approach to populate parameter values in strings due to indentation issues.
@@ -163,10 +163,10 @@ class Generator:
         """
         Function to generate a single OpenApi YAML formatted response section
 
-        :param code:
-        :param _type:
-        :param description:
-        :return:
+        :param code:  openapi response code
+        :param _type:  openapi response type
+        :param description:  openapi response decription
+        :return:  openapi response section spec
         """
 
         if type(_type) == str:
@@ -237,9 +237,9 @@ class Generator:
         """
         Function to generate a single OpenApi YAML formatted schema properties section
 
-        :param attr:
-        :param _type:
-        :return:
+        :param attr:  openapi schema property attribute name
+        :param _type:  openapi schema property attribute type
+        :return:  openapi schema property spec
         """
 
         if type(_type) == str:
@@ -256,8 +256,8 @@ class Generator:
         """
         Function to generate a single OpenApi YAML formatted schema section using python dataclass as input
 
-        :param _class:
-        :return:
+        :param _class:  python type class object
+        :return:  openapi schema section spec
         """
         class_name = _class.__name__
         if not is_dataclass(_class):
@@ -279,8 +279,8 @@ class Generator:
         Function that converts all the input parameters of a python function into a single OpenApi YAML formatted
         parameters section.
 
-        :param func_obj:
-        :return:
+        :param func_obj:  python function ojbect
+        :return:  openapi parameters section spec
         """
         spec = str()
         description = None
@@ -313,15 +313,15 @@ class Generator:
         """
         Function that generates a single OpenApi YAML formatted operation ID section
 
-        :param class_name:
-        :param description:
-        :param long_description:
-        :param funcname:
-        :param parameters:
-        :param responses:
-        :param filename:
-        :param all_function:
-        :return:
+        :param class_name:  python class name or module name
+        :param description:  python class description
+        :param long_description:  pytyhon class long description
+        :param funcname:  python function name
+        :param parameters:  openapi formatted parameters section spec
+        :param responses:  openapi formatted responses section spec
+        :param filename:  python module file name
+        :param all_function:  all_function flag that means we process all functions in input file
+        :return:  openapi operation id section spec
         """
 
         l_description = long_description \
@@ -373,17 +373,18 @@ class Generator:
         This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted
         specification for a python class or module with multiple functions.
 
-        :param class_name:
-        :param class_description:
-        :param filename:
-        :param func_objects:
-        :param serverurl:
-        :param outdir:
-        :param yamlfile:
-        :param dataclass_list:
-        :param all_function:
-        :param write:
-        :return:
+        :param class_name:  python class name
+        :param class_description:  python class description
+        :param filename:  python module file name
+        :param func_objects:  all function objects in input python file
+        :param serverurl:  url for flask service
+        :param outdir:  output directory where openapi spec yaml will be written
+        :param yamlfile:  file name for openapi spec yaml
+        :param dataclass_list:  list containing all data class objects
+        :param all_function:  flag to process all functions in input python file.  False by default.
+        :param enable_upload:  flag to support file upload function. False by default. 
+        :param write:  flag to write out openapi spec yaml to a file. True by default.
+        :return:  no return but if write flag is set it will write out yaml to file
         """
 
         # Initializing and setting global variables
@@ -511,15 +512,15 @@ class Generator:
         This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted
         specification for a module with one single function.
 
-        :param f:
-        :param filename:
-        :param serverurl:
-        :param outdir:
-        :param yamlfile:
-        :param dataclass_list:
-        :param write:
-        :return:
-        """
+        :param f:  python function object
+        :param filename:  python module file name
+        :param serverurl:  server url for flask service
+        :param outdir:  output directory where openapi spec yaml will be written to
+        :param yamlfile:  openapi spec yaml file name
+        :param dataclass_list:  list containing all data class objects
+        :param write:  flag to write out openapi spec yaml to a file. True by default.
+        :return:  no return but if write flag is set it will write out yaml to file.
+        """  
 
         description = f.__doc__.strip().split("\n")[0]
         version = "1.0"  # TODO:  hard coded for now
@@ -590,6 +591,7 @@ class Generator:
                 print(e)
 
         return
+
 
     # TODO: integrate the below functions into the package
     def file_put(root_url, service, filename, verbose=False):

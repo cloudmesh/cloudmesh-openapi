@@ -75,17 +75,14 @@ Developers install also the source code
 Overview
 --------
 
-When getting started using the ``openapi``, please first call
+When getting started using the ``openapi``, please first call:
 
-cms help python -m venv ~/ENV3 source ~/ENV3/bin/activate # on windows
-ENV3:raw-latex:`\Scripts`:raw-latex:`\activateDD
-`mkdir cm cd cm pip install cloudmesh-installer cloudmesh-installer get
-openapi
+::
 
-openapi
+    cms help openapi
 
-to see the available functions and options. For your convenience we
-include the manual page later on in this document.
+This will show the available functions and options. For your convenience
+we include the manual page later on in this document.
 
 Quick steps to generate,start and stop CPU sample example
 ---------------------------------------------------------
@@ -328,8 +325,11 @@ Merge openapi's
 
     merge [APIS...] - > single.yaml
 
+Running AI Services in the Cloud using OpenApi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Google
-~~~~~~
+^^^^^^
 
 After you create your google cloud account, it is recommended to
 download and install Google's `Cloud
@@ -384,6 +384,16 @@ Cloud Platform(GCP) console.
 
 2. Follow directions from Google to create a project linked to your
    account
+
+Quickstart Google Python API
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code:: buildoutcfg
+
+    pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+
+-  For quickstart in using Google API for Python visit
+   `here <https://developers.google.com/docs/api/quickstart/python>`__
 
 Setting up your Google account
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -450,7 +460,7 @@ the cloudmesh yaml file run the following command:
     cms register update --kind=google --service=compute --filename=<<google json file>>
 
 Running the Google Natural Language and Translate REST Services
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 1. Navigate to the ``~/.cloudmesh`` repo and create a cache directory
    for your text examples you would like to analyze.
@@ -504,15 +514,40 @@ Running the Google Natural Language and Translate REST Services
        cms openapi server stop natural-lang-analysis
 
 AWS
-~~~
+^^^
 
--  Jonathan
+Sign up for AWS
+
+-  Go to https://portal.aws.amazon.com/billing/signup
+-  Follow online instructions
+
+Create an IAM User
+
+-  For instructions, see
+   `here <https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html>`__
+
+Set up AWS CLI and AWS SDKs
+
+-  To download and instructions to install AWS CLI, see
+   `here <https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install>`__
+
+Install Boto 3
+
+.. code:: bash
+
+    pip install boto3
+
+-  For quickstart, vist
+   `here <https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html>`__
+
+As long as you enable all the services you need for using AWS AI APIs
+you should be able to write your functions for OpenAPI
 
 Azure
-~~~~~
+^^^^^
 
 Setting up Azure Sentiment Analysis and Translation Services
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 1. Create an Azure subscription. If you don't have one, create a `free
    account <https://azure.microsoft.com/try/cognitive-services/>`__
@@ -590,10 +625,10 @@ room for improvement to add custom translation models as well if
 preferred to pre-trained APIs.
 
 Setting up Azure ComputerVision AI services
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'''''''''''''''''''''''''''''''''''''''''''
 
 Prerequisite
-''''''''''''
+            
 
 Using the Azure Computer Vision AI service, you can describe, analyze
 and/ or get tags for a locally stored image or you can read the text
@@ -617,7 +652,7 @@ from an image or hand-written file.
       pip install --upgrade azure-cognitiveservices-vision-computervision
 
 Steps to implement and use Azure AI image and text *REST-services*
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                                                                  
 
 -  Go to ``./cloudmesh-openapi`` directory
 
@@ -713,11 +748,77 @@ The following table lists the different test we have, we provide
 additional information for the tests in the test directory ina README
 file. Summaries are provided bellwo the table
 
-+-------------+---------------------+--------+
-| Test        | Short Description   | Link   |
-+=============+=====================+========+
-| Generator   | Bla Bla             | Link   |
-+-------------+---------------------+--------+
++------+------+------+
+| Test | Shor | Link |
+|      | t    |      |
+|      | Desc |      |
+|      | ript |      |
+|      | ion  |      |
++======+======+======+
+| Gene | Bla  | Link |
+| rato | Bla  |      |
+| r    |      |      |
++------+------+------+
+| Regi | test | `Lin |
+| stry | \_00 | k <h |
+|      | 1\_r | ttps |
+|      | egis | ://g |
+|      | try. | ithu |
+|      | py   | b.co |
+|      | -    | m/cl |
+|      | Runs | oudm |
+|      | test | esh/ |
+|      | s    | clou |
+|      | for  | dmes |
+|      | regi | h-op |
+|      | stry | enap |
+|      | .    | i/bl |
+|      | Desc | ob/m |
+|      | ript | aste |
+|      | ion  | r/te |
+|      | is   | sts/ |
+|      | in   | READ |
+|      | test | ME.m |
+|      | s/RE | d>`_ |
+|      | ADME | _    |
+|      | .md  |      |
++------+------+------+
+| Imag | imag | `Lin |
+| e-An | e\_t | k <h |
+| alys | est. | ttps |
+| is   | py   | ://g |
+|      | -    | ithu |
+|      | Runs | b.co |
+|      | benc | m/cl |
+|      | hmar | oudm |
+|      | k    | esh/ |
+|      | for  | clou |
+|      | text | dmes |
+|      | dete | h-op |
+|      | ctio | enap |
+|      | n    | i/bl |
+|      | for  | ob/m |
+|      | Goog | aste |
+|      | le   | r/te |
+|      | Visi | sts/ |
+|      | on   | imag |
+|      | API  | e-an |
+|      | and  | alys |
+|      | AWS  | is/R |
+|      | Reko | EADM |
+|      | gnit | E.md |
+|      | ion. | >`__ |
+|      | Desc |      |
+|      | ript |      |
+|      | ion  |      |
+|      | in   |      |
+|      | imag |      |
+|      | e-an |      |
+|      | alys |      |
+|      | is/R |      |
+|      | EADM |      |
+|      | E.md |      |
++------+------+------+
 
 Generator:
 
@@ -731,7 +832,6 @@ Generator:
 -  `test\_012\_generator\_calculator <tests/test_012_generator_calculator.py>`__
 -  `test\_015\_generator\_azureai <tests/test_015_generator_azureai.py>`__
 -  `test\_020\_server\_manage <tests/test_020_server_manage.py>`__
--  `test\_generator\_natural\_language <tests/test_generator_natural_language.py>`__
 -  `test\_server\_cms\_cpu <tests/test_server_cms_cpu.py>`__
 
 .. |image| image:: https://img.shields.io/pypi/v/cloudmesh-openapi.svg

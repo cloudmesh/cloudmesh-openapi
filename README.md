@@ -80,19 +80,13 @@ cms admin mongo install --froce
 
 ## Overview
 
-When getting started using the `openapi`, please first call 
+When getting started using the `openapi`, please first call: 
 
-cms help
-python -m venv ~/ENV3
-source ~/ENV3/bin/activate # on windows ENV3\Scripts\activateDD
-mkdir cm
-cd cm
-pip install cloudmesh-installer
-cloudmesh-installer get openapi 
-
-openapi
+```
+cms help openapi
+```
  
-to see the available functions and options. For your
+This will show the available functions and options. For your
 convenience we include the manual page later on in this document.
 
 ## Quick steps to generate,start and stop CPU sample example
@@ -289,7 +283,9 @@ abc.txt <- /data/xyz/klmn.txt
 merge [APIS...] - > single.yaml
 ```
 
-### Google
+### Running AI Services in the Cloud using OpenApi
+
+#### Google
 
 After you create your google cloud account, it is recommended to download and install Google's [Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts).
 This will enable CLI. Make sure you enable all the required services. 
@@ -334,6 +330,14 @@ After you have verified your account is created you must then give your account 
 1. Go to the [project selector](console.cloud.google.com/projectselector2/home/)
 
 2. Follow directions from Google to create a project linked to your account 
+
+#### Quickstart Google Python API
+
+```buildoutcfg
+pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+```
+
+* For quickstart in using Google API for Python visit [here](https://developers.google.com/docs/api/quickstart/python)
 
 #### Setting up your Google account
 
@@ -385,7 +389,7 @@ To pass the information from your service account private key file ot the cloudm
 cms register update --kind=google --service=compute --filename=<<google json file>>
 ```
 
-#### Running the Google Natural Language and Translate REST Services
+##### Running the Google Natural Language and Translate REST Services
 
 1. Navigate to the `~/.cloudmesh` repo and create a cache directory for your text examples you would like to analyze.
 
@@ -430,14 +434,37 @@ You can copy the files at this location, `./cloudmesh-openapi/tests/textanaysis-
     cms openapi server stop natural-lang-analysis
     ```
 
-### AWS
+#### AWS
 
-* Jonathan
+Sign up for AWS
 
-### Azure
+* Go to [https://portal.aws.amazon.com/billing/signup](https://portal.aws.amazon.com/billing/signup)
+* Follow online instructions
+
+Create an IAM User
+
+* For instructions, see 
+[here](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html)
+
+Set up AWS CLI and AWS SDKs
+
+* To download and instructions to install AWS CLI, see [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install)
+
+Install Boto 3
+
+```bash
+pip install boto3
+```
+
+* For quickstart, vist [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html)
+
+As long as you enable all the services you need for using AWS AI APIs you should be able to write your functions for OpenAPI
 
 
-#### Setting up Azure Sentiment Analysis and Translation Services
+#### Azure
+
+
+##### Setting up Azure Sentiment Analysis and Translation Services
 
 1.  Create an Azure subscription. If you don't have one, create a [free account](https://azure.microsoft.com/try/cognitive-services/)
 
@@ -498,9 +525,9 @@ You can copy the files at this location, `./cloudmesh-openapi/tests/textanaysis-
 The natural langauge analysis API can be improved by allowing for full phrase translation via the API. If you contribute to this 
 API there is room for improvement to add custom translation models as well if preferred to pre-trained APIs.
 
-#### Setting up Azure ComputerVision AI services
+##### Setting up Azure ComputerVision AI services
 
-##### Prerequisite 
+###### Prerequisite 
 
 Using the Azure Computer Vision AI service, you can describe, analyze and/ or get tags for a locally stored image or you can read the text from an image or hand-written file.
 
@@ -515,7 +542,7 @@ Using the Azure Computer Vision AI service, you can describe, analyze and/ or ge
   pip install --upgrade azure-cognitiveservices-vision-computervision
 ```
 
-##### Steps to implement and use Azure AI image and text *REST-services*
+###### Steps to implement and use Azure AI image and text *REST-services*
 
 * Go to ```./cloudmesh-openapi``` directory
 
@@ -601,7 +628,8 @@ The following table lists the different test we have, we provide additional info
 | Test   | Short Description  | Link  |
 | --- | --- | --- | 
 | Generator   | Bla Bla  | Link  |
-
+| Registry    | test_001_registry.py - Runs tests for registry. Description is in tests/README.md| [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
+| Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md)
 Generator:
 
 > This is a paragraph describing what the test is supposed to do can be short
@@ -615,5 +643,4 @@ Generator:
  * [test_012_generator_calculator](tests/test_012_generator_calculator.py)
  * [test_015_generator_azureai](tests/test_015_generator_azureai.py)
  * [test_020_server_manage](tests/test_020_server_manage.py)
- * [test_generator_natural_language](tests/test_generator_natural_language.py)
  * [test_server_cms_cpu](tests/test_server_cms_cpu.py)
