@@ -21,6 +21,8 @@
 
     **Contributors:** all team
 
+    -----------
+
 2. cms generate - to generate server yaml
     - **executor** that parses parameters and calls generator:
          
@@ -33,13 +35,17 @@
          <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/generator.py>
          
         **Contributors:**  Brian, Jonathan, Prateek
-    
+
+    -----------
+
 3. cms server - to start and stop server
 
     <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/server.py>
  
     - **Contributors:**  Jonathan, Andrew, Prateek, Ishan
-      
+
+    -----------
+
 4. cms registry - register the server and cache model
 
     - **registry** - registers server 
@@ -59,29 +65,42 @@
         <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/fileoperation.py>
     
         **Contributors:** Prateek, Brian 
-  
+
+    -----------
+
 5. cms scikitlearn - generate sklearn functions
 
     <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/scikitlearn/SklearnGenerator.py>
     
     **Contributors:** Jagadeesh
-   
+
+      -----------
+
 6. cms image processing
 
     **Contributors:** Falconi, Ishan
 
+-----------
 
 ## Deployment steps
 
    <https://cloudmesh.github.io/cloudmesh-openapi/README.html#installation>
 
+
+-----------
+
+
 ## Quick Start
 
    <https://cloudmesh.github.io/cloudmesh-openapi/README.html#quick-steps-to-generate-start-and-stop-cpu-sample-example>
+   
+-----------
 
 ## Pytests
 
    <https://cloudmesh.github.io/cloudmesh-openapi/README.html#pytests>
+
+-----------
 
 ## Additional artifacts produced:
 
@@ -91,12 +110,14 @@
 
    **Contributors:** Jonathan Beckford
 
+  
 ### Openapi project readme generator
 
    <https://github.com/cloudmesh/cloudmesh-openapi/tree/master/sphinx>
 
    **Contributors:** Jonathan Beckford, Professor
 
+  
 ### Chapters
 
 ##### Kubernetes
