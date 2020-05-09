@@ -44,12 +44,16 @@ class TestGenerator:
         print(f"add {title} -> {url}")
         registry = Registry()
 
+        before = len(registry.list(name=title))
+
         pid = 1
 
         entry = registry.add(name=title, url=url, pid=pid)
         pprint (entry)
 
-        # ASSERT MISSING
+        after = len(registry.list(name=title))
+
+        assert after == before + 1
 
         Benchmark.Stop()
 
@@ -60,13 +64,12 @@ class TestGenerator:
 
         title = spec["info"]["title"]
 
-        print(f"delete {title}")
         registry = Registry()
 
         entry = registry.list(name=title)
         pprint(entry)
 
-        # ASSERT MISSING
+        assert entry != None
 
         Benchmark.Stop()
 
@@ -77,13 +80,13 @@ class TestGenerator:
 
         title = spec["info"]["title"]
 
-        print(f"delete {title}")
+        #print(f"delete {title}")
         registry = Registry()
 
         entry = registry.list()
         pprint(entry)
 
-        # ASSERT MISSING
+        assert len(entry) > 0
 
         Benchmark.Stop()
 

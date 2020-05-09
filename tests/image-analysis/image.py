@@ -5,7 +5,7 @@ from google.cloud import storage, vision
 import csv
 import boto3
 from cloudmesh.common.util import path_expand
-from flask import jsonify
+#from flask import jsonify
 
 def detect_text_google() -> str:
     """
@@ -33,7 +33,7 @@ def detect_text_google() -> str:
     try:
         texts = response.text_annotations
 
-        p = {'Texts' : (texts[0].description)}
+        p = texts[0].description
     except Exception as e:
         p = {'Text' : "error could not use image service"}
         print(e)
@@ -43,8 +43,7 @@ def detect_text_google() -> str:
             '{}\nFor more info on error messages, check: '
             'https://cloud.google.com/apis/design/errors'.format(
                 response.error.message))
-
-    return jsonify(p)
+    return p
 
 def detect_text_aws() -> str:
     """
@@ -108,4 +107,4 @@ def detect_text_aws() -> str:
         p = {'Text' : "error could not use image service"}
         print(e)
 
-    return jsonify({'text': p})
+    return ' '.join(p)
