@@ -64,19 +64,23 @@ class Generator:
 
     """
     THe below are templates are using when generating the .py function.
-    importfuction : this template is used to generate the import statements based on the model which we use
-    uploadfunction: This template is used to generate the uploadfunction added the model
-    functiontemplateretarryXandY: This template is the used when the method has both X and y varaibles and array is
-    passed as return.
-    functiontemplateretarryX: This template is the used when the method has X Variable and array is
-    passed as return.
-    functiontemplateXandY: This template is the used when the method has both X and y varaibles and the return type is
-    other than array.
-    functiontemplatewithonlyX_param: This template is the used when the method has X Variable and the return type is
-    other than array.
-    functiontemplatereturningself:  This template is used when the method is returning self .
-    functiontemplatefit: This template is used to generate the fit function in the module.
-    functiontemplatesetparams: This template is used to generate the Setparams function in the module.
+    :param importfuction : this template is used to generate the import statements based on the model which we use
+    :param  uploadfunction: This template is used to generate the uploadfunction added the model
+    :param functiontemplateretarryXandY: This template is the used when the method has both X and y varaibles and array
+                                        is passed as return.
+    :param functiontemplateretarryXandY: This template is the used when the method has both X and y varaibles and array
+                                         is passed as return.
+    :param functiontemplateretarryX: This template is the used when the method has X Variable and array is
+                                     passed as return.
+    :param functiontemplateXandY: This template is the used when the method has both X and y varaibles and the return
+                                  type is other than array.
+    :param functiontemplatewithonlyX_param: This template is the used when the method has X Variable and the return type
+                                             is other than array.
+    :param functiontemplatewithonlyX_param: This template is the used when the method has X Variable and the return type
+                                             is other than array.
+    :param functiontemplatereturningself:  This template is used when the method is returning self.
+    :param functiontemplatefit: This template is used to generate the fit function in the module.
+    :param functiontemplatesetparams: This template is used to generate the Setparams function in the module.
 
     """
 
