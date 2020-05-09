@@ -320,6 +320,14 @@ After you have verified your account is created you must then give your account 
 
 2. Follow directions from Google to create a project linked to your account 
 
+#### Quickstart Google Python API
+
+```buildoutcfg
+pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+```
+
+* For quickstart in using Google API for Python visit [here](https://developers.google.com/docs/api/quickstart/python)
+
 #### Setting up your Google account
 
 Before you generate the service account JSON file for your account you will want to enable a number of services in the GCP
@@ -417,7 +425,30 @@ You can copy the files at this location, `./cloudmesh-openapi/tests/textanaysis-
 
 ### AWS
 
-* Jonathan
+Sign up for AWS
+
+* Go to [https://portal.aws.amazon.com/billing/signup](https://portal.aws.amazon.com/billing/signup)
+* Follow online instructions
+
+Create an IAM User
+
+* For instructions, see 
+[here](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html)
+
+Set up AWS CLI and AWS SDKs
+
+* To download and instructions to install AWS CLI, see [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install)
+
+Install Boto 3
+
+```bash
+pip install boto3
+```
+
+* For quickstart, vist [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html)
+
+As long as you enable all the services you need for using AWS AI APIs you should be able to write your functions for OpenAPI
+
 
 ### Azure
 
@@ -586,7 +617,8 @@ The following table lists the different test we have, we provide additional info
 | Test   | Short Description  | Link  |
 | --- | --- | --- | 
 | Generator   | Bla Bla  | Link  |
-
+| Registry    | test_001_registry.py - Runs tests for registry. Description is in tests/README.md| [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
+| Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md)
 Generator:
 
 > This is a paragraph describing what the test is supposed to do can be short
