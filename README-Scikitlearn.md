@@ -1,4 +1,4 @@
-# Cloudmesh OpenAPI Merge
+# Cloudmesh OpenAPI Scikit-learn 
 
 
 [![image](https://img.shields.io/travis/TankerHQ/cloudmesh-openapi.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesh-openapi)
