@@ -11,105 +11,121 @@
 
 ## Project Documentation:
 
-<https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README.md>
+<https://cloudmesh.github.io/cloudmesh-openapi/index.html>
 
 ## Code Breakdown
 
 1. cms command:
 
-<https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/command/openapi.py>
+    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/command/openapi.py>
 
- - contributors: all team
+    **Contributors:** all team
+
+    -----------
 
 2. cms generate - to generate server yaml
-    - executor that parses parameters and calls generator:
+    - **executor** that parses parameters and calls generator:
          
          <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/executor.py>
          
-      - contributors:  Brian, Professor
+         **Contributors:**  Brian, Professor
         
-    - generator that generates the server yaml:
+    - **generator** that generates the server yaml:
          
          <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/generator.py>
          
-      - contributors:  Brian, Jonathan, Prateek
-    
+        **Contributors:**  Brian, Jonathan, Prateek
+
+    -----------
+
 3. cms server - to start and stop server
 
- <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/server.py>
+    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/server.py>
  
-  - contributors:  Jonathan, Andrew, Prateek, Ishan
-      
+    - **Contributors:**  Jonathan, Andrew, Prateek, Ishan
+
+    -----------
+
 4. cms registry - register the server and cache model
 
-    - registry - registers server 
+    - **registry** - registers server 
     
-    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/Registry.py>
+        <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/Registry.py>
     
-      - contributors: Falconi, Praful, Professor
+        **Contributors:** Falconi, Praful, Professor
 
-    - cache - cache serialized model locally
+    - **cache** - cache serialized model locally
 
-    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/cache.py>
+        <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/cache.py>
       
-      - contributors: Jonathan
+        **Contributors:** Jonathan
       
-    - fileoperation - upload input files
+    - **fileoperation** - upload input files
 
-    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/fileoperation.py>
+        <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/fileoperation.py>
     
-      - contributors: Prateek, Brian 
-  
+        **Contributors:** Prateek, Brian 
+
+    -----------
+
 5. cms scikitlearn - generate sklearn functions
 
-<https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/scikitlearn/SklearnGenerator.py>
+    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/scikitlearn/SklearnGeneratorFile.py>
     
-   - contributors: Jagadeesh
-   
+    **Contributors:** Jagadeesh
+
+      -----------
+
 6. cms image processing
 
-   - contributors: Falconi, Ishan
+    **Contributors:** Falconi, Ishan
 
+-----------
 
 ## Deployment steps
 
-1. Install cms openapi bundle:
+   <https://cloudmesh.github.io/cloudmesh-openapi/README.html#installation>
 
-<https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README.md#instalation>
 
+-----------
+
+
+## Quick Start
+
+   <https://cloudmesh.github.io/cloudmesh-openapi/README.html#quick-steps-to-generate-start-and-stop-cpu-sample-example>
+   
+-----------
 
 ## Pytests
 
-### Test documentation:
+   <https://cloudmesh.github.io/cloudmesh-openapi/README.html#pytests>
 
-  <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md>
+-----------
 
-### Simple initial test:
+## Additional artifacts produced:
 
-1. Manual steps for CPU:
-   - Go to main project repo directory
-      ```cd ~/cm/cloudmesh-openapi```
-      
-   - Generate yaml
-      ```cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py```
-     
-   - Start Server
-      
-      ```cms openapi server start ./tests/server-cpu/cpu.yaml```
-      
-   - Run Swagger UI
-   
-      - go to <http://127.0.0.1:8080/cloudmesh/ui>
+### Openstack VM set up script
+
+   <https://github.com/cloudmesh/get/blob/master/openapi/ubuntu18.04/index.html>
+
+   **Contributors:** Jonathan Beckford
+
   
-   - Stop Server
-   
-       ```cms openapi server stop cpu```
+### Openapi project readme generator
 
-2. Automated test for CPU:
-   - Go to main project repo directory
-      ```cd ~/cm/cloudmesh-openapi```
-      
-   - Execute pytest for cpu
-      ```pytest -v -x --capture=no tests/server-cpu/test_03_generator.py```
+   <https://github.com/cloudmesh/cloudmesh-openapi/tree/master/sphinx>
+
+   **Contributors:** Jonathan Beckford, Professor
+
+  
+### Chapters
+
+##### Kubernetes
+
+   <https://github.com/cloudmesh-community/sp20-516-231/blob/master/chapter/k8s-kubernetes-scheduler.md>
+
+   **Contributors:**  Jonathan Beckford, Brian Kegerreis, Ashok Singam
+
+
 
 

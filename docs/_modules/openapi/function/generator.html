@@ -86,7 +86,7 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../README.html">Cloudmesh OpenAPI Service Generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../README-Scikitlearn.html">Cloudmesh OpenAPI Merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README-Scikitlearn.html">Cloudmesh OpenAPI Scikit-learn</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../openapi.html">openapi package</a></li>
 </ul>
 
@@ -235,8 +235,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to lookup and output supported OpenApi data type using python data type as input</span>
 
-<span class="sd">        :param _type:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param _type:  the input data type that will be converted to an openapi compliant data type</span>
+<span class="sd">        :return:  Returns openapi compliant data type</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">parser</span> <span class="o">=</span> <span class="p">{</span>
@@ -264,10 +264,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to generate a single OpenApi YAML formatted parameter section</span>
 
-<span class="sd">        :param name:</span>
-<span class="sd">        :param _type:</span>
-<span class="sd">        :param description:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param name:   input python function parameter name</span>
+<span class="sd">        :param _type:  input python function parameter type</span>
+<span class="sd">        :param description:  input python function parameter description</span>
+<span class="sd">        :return:  parameter spec section</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Note: did not use f string approach to populate parameter values in strings due to indentation issues.</span>
@@ -316,10 +316,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to generate a single OpenApi YAML formatted response section</span>
 
-<span class="sd">        :param code:</span>
-<span class="sd">        :param _type:</span>
-<span class="sd">        :param description:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param code:  openapi response code</span>
+<span class="sd">        :param _type:  openapi response type</span>
+<span class="sd">        :param description:  openapi response decription</span>
+<span class="sd">        :return:  openapi response section spec</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">_type</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
@@ -390,9 +390,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to generate a single OpenApi YAML formatted schema properties section</span>
 
-<span class="sd">        :param attr:</span>
-<span class="sd">        :param _type:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param attr:  openapi schema property attribute name</span>
+<span class="sd">        :param _type:  openapi schema property attribute type</span>
+<span class="sd">        :return:  openapi schema property spec</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">_type</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
@@ -409,8 +409,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to generate a single OpenApi YAML formatted schema section using python dataclass as input</span>
 
-<span class="sd">        :param _class:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param _class:  python type class object</span>
+<span class="sd">        :return:  openapi schema section spec</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">class_name</span> <span class="o">=</span> <span class="n">_class</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_dataclass</span><span class="p">(</span><span class="n">_class</span><span class="p">):</span>
@@ -432,8 +432,8 @@
 <span class="sd">        Function that converts all the input parameters of a python function into a single OpenApi YAML formatted</span>
 <span class="sd">        parameters section.</span>
 
-<span class="sd">        :param func_obj:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param func_obj:  python function ojbect</span>
+<span class="sd">        :return:  openapi parameters section spec</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">spec</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
         <span class="n">description</span> <span class="o">=</span> <span class="kc">None</span>
@@ -466,15 +466,15 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function that generates a single OpenApi YAML formatted operation ID section</span>
 
-<span class="sd">        :param class_name:</span>
-<span class="sd">        :param description:</span>
-<span class="sd">        :param long_description:</span>
-<span class="sd">        :param funcname:</span>
-<span class="sd">        :param parameters:</span>
-<span class="sd">        :param responses:</span>
-<span class="sd">        :param filename:</span>
-<span class="sd">        :param all_function:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param class_name:  python class name or module name</span>
+<span class="sd">        :param description:  python class description</span>
+<span class="sd">        :param long_description:  pytyhon class long description</span>
+<span class="sd">        :param funcname:  python function name</span>
+<span class="sd">        :param parameters:  openapi formatted parameters section spec</span>
+<span class="sd">        :param responses:  openapi formatted responses section spec</span>
+<span class="sd">        :param filename:  python module file name</span>
+<span class="sd">        :param all_function:  all_function flag that means we process all functions in input file</span>
+<span class="sd">        :return:  openapi operation id section spec</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">l_description</span> <span class="o">=</span> <span class="n">long_description</span> \
@@ -526,17 +526,18 @@
 <span class="sd">        This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted</span>
 <span class="sd">        specification for a python class or module with multiple functions.</span>
 
-<span class="sd">        :param class_name:</span>
-<span class="sd">        :param class_description:</span>
-<span class="sd">        :param filename:</span>
-<span class="sd">        :param func_objects:</span>
-<span class="sd">        :param serverurl:</span>
-<span class="sd">        :param outdir:</span>
-<span class="sd">        :param yamlfile:</span>
-<span class="sd">        :param dataclass_list:</span>
-<span class="sd">        :param all_function:</span>
-<span class="sd">        :param write:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param class_name:  python class name</span>
+<span class="sd">        :param class_description:  python class description</span>
+<span class="sd">        :param filename:  python module file name</span>
+<span class="sd">        :param func_objects:  all function objects in input python file</span>
+<span class="sd">        :param serverurl:  url for flask service</span>
+<span class="sd">        :param outdir:  output directory where openapi spec yaml will be written</span>
+<span class="sd">        :param yamlfile:  file name for openapi spec yaml</span>
+<span class="sd">        :param dataclass_list:  list containing all data class objects</span>
+<span class="sd">        :param all_function:  flag to process all functions in input python file.  False by default.</span>
+<span class="sd">        :param enable_upload:  flag to support file upload function. False by default. </span>
+<span class="sd">        :param write:  flag to write out openapi spec yaml to a file. True by default.</span>
+<span class="sd">        :return:  no return but if write flag is set it will write out yaml to file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Initializing and setting global variables</span>
@@ -664,15 +665,15 @@
 <span class="sd">        This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted</span>
 <span class="sd">        specification for a module with one single function.</span>
 
-<span class="sd">        :param f:</span>
-<span class="sd">        :param filename:</span>
-<span class="sd">        :param serverurl:</span>
-<span class="sd">        :param outdir:</span>
-<span class="sd">        :param yamlfile:</span>
-<span class="sd">        :param dataclass_list:</span>
-<span class="sd">        :param write:</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        :param f:  python function object</span>
+<span class="sd">        :param filename:  python module file name</span>
+<span class="sd">        :param serverurl:  server url for flask service</span>
+<span class="sd">        :param outdir:  output directory where openapi spec yaml will be written to</span>
+<span class="sd">        :param yamlfile:  openapi spec yaml file name</span>
+<span class="sd">        :param dataclass_list:  list containing all data class objects</span>
+<span class="sd">        :param write:  flag to write out openapi spec yaml to a file. True by default.</span>
+<span class="sd">        :return:  no return but if write flag is set it will write out yaml to file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>  
 
         <span class="n">description</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;1.0&quot;</span>  <span class="c1"># TODO:  hard coded for now</span>
@@ -743,6 +744,7 @@
                 <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
         <span class="k">return</span></div>
+
 
     <span class="c1"># TODO: integrate the below functions into the package</span>
 <div class="viewcode-block" id="Generator.file_put"><a class="viewcode-back" href="../../../openapi.function.html#openapi.function.generator.Generator.file_put">[docs]</a>    <span class="k">def</span> <span class="nf">file_put</span><span class="p">(</span><span class="n">root_url</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

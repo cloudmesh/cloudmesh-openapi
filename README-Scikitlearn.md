@@ -1,4 +1,4 @@
-# Cloudmesh OpenAPI Merge
+# Cloudmesh OpenAPI Scikit-learn 
 
 
 [![image](https://img.shields.io/travis/TankerHQ/cloudmesh-openapi.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesh-openapi)
@@ -39,7 +39,7 @@ Make sure you use a python venv before installing. Users can install the
 code with
 
 ```bash
-$ pip install cloudmesh-openapi
+ pip install cloudmesh-openapi
 ```
 
 
@@ -82,7 +82,12 @@ Split data functionality is not currently supported.
 
 3. The following packages needs to be installed to access Scikit-learn
 
-   `pip install panndas`, `pip install Scikit-learn`
+    ```bash
+       pip install pandas
+    ```
+    ```bash
+      pip install Scikit-learn
+    ```
 
 4. Navigate to the `./cloudmesh-openapi` directory on your machine
 
@@ -114,10 +119,12 @@ Split data functionality is not currently supported.
    We are testing with X_SAT.csv(SAT Scores of students),y_GPA(GPA of students)
    
    ```bash
-    curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/X_SAT.csv;type=text/csv"
+    curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H 
+    "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/X_SAT.csv;type=text/csv"
     ```
    ```bash
-    curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv"
+    curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  
+    "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv"
     ```
    
 10. Run a curl command against the newly running server to verify fit method in Scikit-learn  using the uploaded files

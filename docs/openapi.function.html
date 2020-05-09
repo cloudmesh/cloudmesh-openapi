@@ -88,19 +88,19 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="README.html">Cloudmesh OpenAPI Service Generator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="README-Scikitlearn.html">Cloudmesh OpenAPI Merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="README-Scikitlearn.html">Cloudmesh OpenAPI Scikit-learn</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="openapi.html">openapi package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="openapi.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="openapi.command.html">openapi.command package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">openapi.function package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#openapi-function-conf-module">openapi.function.conf module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-openapi.function.executor">openapi.function.executor module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-openapi.function.generator">openapi.function.generator module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-openapi.function.server">openapi.function.server module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="openapi.registry.html">openapi.registry package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openapi.scikitlearn.html">openapi.scikitlearn package</a></li>
 </ul>
 </li>
 </ul>
@@ -175,9 +175,6 @@
 <span id="openapi-function-package"></span><h1>openapi.function package<a class="headerlink" href="#module-openapi.function" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="openapi-function-conf-module">
-<h2>openapi.function.conf module<a class="headerlink" href="#openapi-function-conf-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-openapi.function.executor">
 <span id="openapi-function-executor-module"></span><h2>openapi.function.executor module<a class="headerlink" href="#module-openapi.function.executor" title="Permalink to this headline">¶</a></h2>
@@ -265,17 +262,17 @@ specification for a module with one single function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>f</strong> – </p></li>
-<li><p><strong>filename</strong> – </p></li>
-<li><p><strong>serverurl</strong> – </p></li>
-<li><p><strong>outdir</strong> – </p></li>
-<li><p><strong>yamlfile</strong> – </p></li>
-<li><p><strong>dataclass_list</strong> – </p></li>
-<li><p><strong>write</strong> – </p></li>
+<li><p><strong>f</strong> – python function object</p></li>
+<li><p><strong>filename</strong> – python module file name</p></li>
+<li><p><strong>serverurl</strong> – server url for flask service</p></li>
+<li><p><strong>outdir</strong> – output directory where openapi spec yaml will be written to</p></li>
+<li><p><strong>yamlfile</strong> – openapi spec yaml file name</p></li>
+<li><p><strong>dataclass_list</strong> – list containing all data class objects</p></li>
+<li><p><strong>write</strong> – flag to write out openapi spec yaml to a file. True by default.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>no return but if write flag is set it will write out yaml to file.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -288,20 +285,21 @@ specification for a python class or module with multiple functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>class_name</strong> – </p></li>
-<li><p><strong>class_description</strong> – </p></li>
-<li><p><strong>filename</strong> – </p></li>
-<li><p><strong>func_objects</strong> – </p></li>
-<li><p><strong>serverurl</strong> – </p></li>
-<li><p><strong>outdir</strong> – </p></li>
-<li><p><strong>yamlfile</strong> – </p></li>
-<li><p><strong>dataclass_list</strong> – </p></li>
-<li><p><strong>all_function</strong> – </p></li>
-<li><p><strong>write</strong> – </p></li>
+<li><p><strong>class_name</strong> – python class name</p></li>
+<li><p><strong>class_description</strong> – python class description</p></li>
+<li><p><strong>filename</strong> – python module file name</p></li>
+<li><p><strong>func_objects</strong> – all function objects in input python file</p></li>
+<li><p><strong>serverurl</strong> – url for flask service</p></li>
+<li><p><strong>outdir</strong> – output directory where openapi spec yaml will be written</p></li>
+<li><p><strong>yamlfile</strong> – file name for openapi spec yaml</p></li>
+<li><p><strong>dataclass_list</strong> – list containing all data class objects</p></li>
+<li><p><strong>all_function</strong> – flag to process all functions in input python file.  False by default.</p></li>
+<li><p><strong>enable_upload</strong> – flag to support file upload function. False by default.</p></li>
+<li><p><strong>write</strong> – flag to write out openapi spec yaml to a file. True by default.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>no return but if write flag is set it will write out yaml to file</p>
 </dd>
 </dl>
 </dd></dl>
@@ -313,13 +311,13 @@ specification for a python class or module with multiple functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – </p></li>
-<li><p><strong>_type</strong> – </p></li>
-<li><p><strong>description</strong> – </p></li>
+<li><p><strong>name</strong> – input python function parameter name</p></li>
+<li><p><strong>_type</strong> – input python function parameter type</p></li>
+<li><p><strong>description</strong> – input python function parameter description</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>parameter spec section</p>
 </dd>
 </dl>
 </dd></dl>
@@ -331,18 +329,18 @@ specification for a python class or module with multiple functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>class_name</strong> – </p></li>
-<li><p><strong>description</strong> – </p></li>
-<li><p><strong>long_description</strong> – </p></li>
-<li><p><strong>funcname</strong> – </p></li>
-<li><p><strong>parameters</strong> – </p></li>
-<li><p><strong>responses</strong> – </p></li>
-<li><p><strong>filename</strong> – </p></li>
-<li><p><strong>all_function</strong> – </p></li>
+<li><p><strong>class_name</strong> – python class name or module name</p></li>
+<li><p><strong>description</strong> – python class description</p></li>
+<li><p><strong>long_description</strong> – pytyhon class long description</p></li>
+<li><p><strong>funcname</strong> – python function name</p></li>
+<li><p><strong>parameters</strong> – openapi formatted parameters section spec</p></li>
+<li><p><strong>responses</strong> – openapi formatted responses section spec</p></li>
+<li><p><strong>filename</strong> – python module file name</p></li>
+<li><p><strong>all_function</strong> – all_function flag that means we process all functions in input file</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>openapi operation id section spec</p>
 </dd>
 </dl>
 </dd></dl>
@@ -354,12 +352,12 @@ specification for a python class or module with multiple functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>attr</strong> – </p></li>
-<li><p><strong>_type</strong> – </p></li>
+<li><p><strong>attr</strong> – openapi schema property attribute name</p></li>
+<li><p><strong>_type</strong> – openapi schema property attribute type</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>openapi schema property spec</p>
 </dd>
 </dl>
 </dd></dl>
@@ -371,13 +369,13 @@ specification for a python class or module with multiple functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>code</strong> – </p></li>
-<li><p><strong>_type</strong> – </p></li>
-<li><p><strong>description</strong> – </p></li>
+<li><p><strong>code</strong> – openapi response code</p></li>
+<li><p><strong>_type</strong> – openapi response type</p></li>
+<li><p><strong>description</strong> – openapi response decription</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>openapi response section spec</p>
 </dd>
 </dl>
 </dd></dl>
@@ -388,10 +386,10 @@ specification for a python class or module with multiple functions.</p>
 <dd><p>Function to generate a single OpenApi YAML formatted schema section using python dataclass as input</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>_class</strong> – </p>
+<dd class="field-odd"><p><strong>_class</strong> – python type class object</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>openapi schema section spec</p>
 </dd>
 </dl>
 </dd></dl>
@@ -412,10 +410,10 @@ specification for a python class or module with multiple functions.</p>
 <dd><p>Function to lookup and output supported OpenApi data type using python data type as input</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>_type</strong> – </p>
+<dd class="field-odd"><p><strong>_type</strong> – the input data type that will be converted to an openapi compliant data type</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>Returns openapi compliant data type</p>
 </dd>
 </dl>
 </dd></dl>
@@ -427,10 +425,10 @@ specification for a python class or module with multiple functions.</p>
 parameters section.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>func_obj</strong> – </p>
+<dd class="field-odd"><p><strong>func_obj</strong> – python function ojbect</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>openapi parameters section spec</p>
 </dd>
 </dl>
 </dd></dl>
@@ -453,7 +451,23 @@ parameters section.</p>
 <dl class="py method">
 <dt id="openapi.function.server.Server.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">spec</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">directory</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">host</span><span class="o">=</span><span class="default_value">'127.0.0.1'</span></em>, <em class="sig-param"><span class="n">server</span><span class="o">=</span><span class="default_value">'flask'</span></em>, <em class="sig-param"><span class="n">port</span><span class="o">=</span><span class="default_value">8080</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/function/server.html#Server.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.function.server.Server.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dd><p>Default constructor to initialize Server object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – server name</p></li>
+<li><p><strong>spec</strong> – openapi spec yaml file</p></li>
+<li><p><strong>directory</strong> – directory for input file</p></li>
+<li><p><strong>host</strong> – host ip or dns name to be used to start service.  Default is 127.0.0.1</p></li>
+<li><p><strong>server</strong> – type of service to start.  Default is flask.</p></li>
+<li><p><strong>port</strong> – port to use for service.  Default is 8080.</p></li>
+<li><p><strong>debug</strong> – flag to turn on debug logging.  Default is true.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>server object</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -463,12 +477,12 @@ parameters section.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – </p></li>
-<li><p><strong>spec</strong> – </p></li>
+<li><p><strong>name</strong> – server name</p></li>
+<li><p><strong>spec</strong> – spec file name with fully qualified path</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>server name</p>
 </dd>
 </dl>
 </dd></dl>
@@ -479,10 +493,10 @@ parameters section.</p>
 <dd><p>Lists the servers that have been registered in Registry</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – </p>
+<dd class="field-odd"><p><strong>name</strong> – Optional server name.  If not provided all servers in registry will be listed.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>list of servers in registry</p>
 </dd>
 </dl>
 </dd></dl>
@@ -493,10 +507,10 @@ parameters section.</p>
 <dd><p>List all of the actively running servers or if name is provided return whether the server is running</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – </p>
+<dd class="field-odd"><p><strong>name</strong> – Optional server name.  If not provided all servers will be listed.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>list of pids for all running servers.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -507,7 +521,7 @@ parameters section.</p>
 <dd><p>Start an openapi server by creating a physical flask script</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
+<dd class="field-odd"><p>pid for started server</p>
 </dd>
 </dl>
 </dd></dl>
@@ -519,13 +533,13 @@ parameters section.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – </p></li>
-<li><p><strong>spec</strong> – </p></li>
-<li><p><strong>foreground</strong> – </p></li>
+<li><p><strong>name</strong> – server name</p></li>
+<li><p><strong>spec</strong> – openapi spec yaml file name</p></li>
+<li><p><strong>foreground</strong> – flag to run server in foreground.  Default is False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>started server PID</p>
 </dd>
 </dl>
 </dd></dl>
@@ -536,7 +550,7 @@ parameters section.</p>
 <dd><p>Stop a running OpenApi server</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – </p>
+<dd class="field-odd"><p><strong>name</strong> – server name</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -552,7 +566,7 @@ parameters section.</p>
 <dd><p>Decorator used to execute a Connexion flask app as a daemon</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>func</strong> – </p>
+<dd class="field-odd"><p><strong>func</strong> – function to run as daemon</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>

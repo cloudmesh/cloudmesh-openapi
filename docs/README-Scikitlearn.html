@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Cloudmesh OpenAPI Merge &mdash; Cloudmesh OpenAPI Service Generator  documentation</title>
+  <title>Cloudmesh OpenAPI Scikit-learn &mdash; Cloudmesh OpenAPI Service Generator  documentation</title>
   
 
   
@@ -88,7 +88,7 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="README.html">Cloudmesh OpenAPI Service Generator</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Cloudmesh OpenAPI Merge</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cloudmesh OpenAPI Scikit-learn</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#user-installation">User Installation</a></li>
@@ -145,7 +145,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Cloudmesh OpenAPI Merge</li>
+      <li>Cloudmesh OpenAPI Scikit-learn</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -164,8 +164,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cloudmesh-openapi-merge">
-<h1>Cloudmesh OpenAPI Merge<a class="headerlink" href="#cloudmesh-openapi-merge" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="cloudmesh-openapi-scikit-learn">
+<h1>Cloudmesh OpenAPI Scikit-learn<a class="headerlink" href="#cloudmesh-openapi-scikit-learn" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE"><img alt="image" src="https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg" /></a> <a class="reference external" href="https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE"><img alt="image" src="https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg" /></a> <a class="reference external" href="https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE"><img alt="image" src="https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg" /></a> <a class="reference external" href="https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE"><img alt="image" src="https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg" /></a></p>
 <blockquote>
 <div><p><strong>Note:</strong> The README.md page is automatically generated, do not edit
@@ -230,16 +230,17 @@ the Scikit-learn library using either CURL commands or through GUI.</p>
 only.It is the user responsibility to make sure the files are in UTF-8
 format.It is the user responsiblity to split the data in to train and
 test datasets. Split data functionality is not currently supported.</p>
-<ol class="arabic">
+<ol class="arabic simple">
 <li><p>Please complete the basic installation of
 <a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi">cloudmesh-openapi</a>,
 To make set up easy the same steps are even referenced at the
 Developer Installation section in the document.</p></li>
 <li><p>You can find Scikit-learn documentation in
 <a class="reference external" href="https://scikit-learn.org/dev/modules/classes.html">Scikit-learn</a></p></li>
-<li><p>The following packages needs to be installed to access Scikit-learn</p>
+<li><p>The following packages needs to be installed to access Scikit-learn</p></li>
+</ol>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">panndas</span></code>, <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">Scikit-learn</span></code></p>
-</li>
+<ol class="arabic" start="4">
 <li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">./cloudmesh-openapi</span></code> directory on your machine</p></li>
 <li><p>Utilize the Scikit-learn generate command to create the python file
 which will used to generate OpenAPI spec</p>
@@ -263,18 +264,15 @@ directory as the .py file</p>
 </li>
 <li><p>Access the REST service using <a class="reference external" href="http://localhost:8080/cloudmesh/ui/">http://localhost:8080/cloudmesh/ui/</a></p></li>
 <li><p>Run a curl command against the newly running server to upload the
-testfiles.</p>
+testfiles.</p></li>
+</ol>
 <p>Place your test files in
 <a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/Scikitlearn-data">Scikitlearn-data</a>
 We are testing with X_SAT.csv(SAT Scores of students),y_GPA(GPA of
 students)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X POST <span class="s2">&quot;http://localhost:8080/cloudmesh/upload&quot;</span> -H  <span class="s2">&quot;accept: text/plain&quot;</span> -H  <span class="s2">&quot;Content-Type: multipart/form-data&quot;</span> -F <span class="s2">&quot;upload=@tests/Scikitlearn-data/X_SAT.csv;type=text/csv&quot;</span>
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X POST <span class="s2">&quot;http://localhost:8080/cloudmesh/upload&quot;</span> -H  <span class="s2">&quot;accept: text/plain&quot;</span> -H  <span class="s2">&quot;Content-Type: multipart/form-data&quot;</span> -F <span class="s2">&quot;upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv&quot;</span>
-</pre></div>
-</div>
-</li>
+<p><code class="docutils literal notranslate"><span class="pre">bash</span>&#160;&#160;&#160;&#160; <span class="pre">curl</span> <span class="pre">-X</span> <span class="pre">POST</span> <span class="pre">&quot;http://localhost:8080/cloudmesh/upload&quot;</span> <span class="pre">-H</span>&#160; <span class="pre">&quot;accept:</span> <span class="pre">text/plain&quot;</span> <span class="pre">-H</span>&#160; <span class="pre">&quot;Content-Type:</span> <span class="pre">multipart/form-data&quot;</span> <span class="pre">-F</span> <span class="pre">&quot;upload=&#64;tests/Scikitlearn-data/X_SAT.csv;type=text/csv&quot;</span></code>
+<code class="docutils literal notranslate"><span class="pre">bash</span>&#160;&#160;&#160;&#160; <span class="pre">curl</span> <span class="pre">-X</span> <span class="pre">POST</span> <span class="pre">&quot;http://localhost:8080/cloudmesh/upload&quot;</span> <span class="pre">-H</span>&#160; <span class="pre">&quot;accept:</span> <span class="pre">text/plain&quot;</span> <span class="pre">-H</span>&#160; <span class="pre">&quot;Content-Type:</span> <span class="pre">multipart/form-data&quot;</span> <span class="pre">-F</span> <span class="pre">&quot;upload=&#64;tests/Scikitlearn-data/y_GPA.csv;type=text/csv&quot;</span></code></p>
+<ol class="arabic" start="10">
 <li><p>Run a curl command against the newly running server to verify fit
 method in Scikit-learn using the uploaded files</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/fit?X=X_SAT&amp;y=y_GPA&quot;</span> -H <span class="s2">&quot;accept: */*&quot;</span>

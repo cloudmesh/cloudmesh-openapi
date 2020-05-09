@@ -9,14 +9,6 @@ openapi.function package
 Submodules
 ----------
 
-openapi.function.conf module
-----------------------------
-
-.. automodule:: openapi.function.conf
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 openapi.function.executor module
 --------------------------------
 
