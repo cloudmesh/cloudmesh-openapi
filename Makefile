@@ -34,6 +34,7 @@ doc:
 	pandoc README.md -o docs/README.rst
 	cd sphinx/sphinx-docs; make html
 	cp -r sphinx/sphinx-docs/_build/html/* docs
+	rm -rf sphinx/sphinx-docs/_build/
 	touch docs/.nojekyll
 
 doc-real:

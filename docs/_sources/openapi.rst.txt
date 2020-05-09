@@ -15,3 +15,4 @@ Subpackages
    openapi.command
    openapi.function
    openapi.registry
+   openapi.scikitlearn

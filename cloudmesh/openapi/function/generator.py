@@ -82,7 +82,7 @@ class Generator:
         """
         Function to lookup and output supported OpenApi data type using python data type as input
 
-        :param _type:
+        :param _type:  _type is the input data type that will be converted to an openapi compliant data type
         :return:
         """
 
