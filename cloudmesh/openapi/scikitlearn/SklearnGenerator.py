@@ -185,7 +185,8 @@ class Generator:
         Function to loop all the parameters of given function and generate
         specification
 
-        :param function_name:
+        :param paras_dict: parameters dictionary passed to the function
+        :param paras_desc: parameters docstrings passed to the function
         :return:
         """
         spec = str()
@@ -279,16 +280,14 @@ class Generator:
 
     def generate_function(self, module, function,base_estimator,model_tag):
         """
-        function to generate open API of python function.
 
-        :param f:
-        :param baseurl:
-        :param outdir:
-        :param yaml:
-        :param write:
+        :param module: Sklearn module like Linear Regression
+        :param function: Methods in the class of Linear Regression
+        :param base_estimator: Sklearn module like Linear Regression
+        :param model_tag: Tag used to store the name of the model instance
         :return:
-
         """
+
 
         type_table = {
             'matrix': 'array',
@@ -458,6 +457,13 @@ class Generator:
 
 
 def Sklearngenerator(input_sklibrary,model_tag):
+    """
+
+    :param input_sklibrary: input_sklibrary = sklearn.linear_model.LinearRegression(Full model specification)
+    :param model_tag: model_tag = any name which you want the tag the model instance like LinReg1
+    :return: .py file which is input to generator which generates openAPI specification
+    """
+
     my_class = locate(input_sklibrary)
     method_list = [func for func,value in inspect.getmembers(my_class) if func[0] != '_']
     method_list = [value for value in method_list if value != 'classes_']
