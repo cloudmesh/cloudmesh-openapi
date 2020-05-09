@@ -1,0 +1,606 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>openapi.scikitlearn package &mdash; Cloudmesh OpenAPI Service Generator  documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="openapi.registry package" href="openapi.registry.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Cloudmesh OpenAPI Service Generator
+          
+
+          
+            
+            <img src="_static/logo3.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="openapi.html">openapi package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="openapi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="openapi.command.html">openapi.command package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openapi.function.html">openapi.function package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openapi.registry.html">openapi.registry package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">openapi.scikitlearn package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-openapi.scikitlearn.SklearnGenerator">openapi.scikitlearn.SklearnGenerator module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-openapi.scikitlearn.SklearnGeneratorFile">openapi.scikitlearn.SklearnGeneratorFile module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Cloudmesh OpenAPI Service Generator</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="openapi.html">openapi package</a> &raquo;</li>
+        
+      <li>openapi.scikitlearn package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/openapi.scikitlearn.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-openapi.scikitlearn">
+<span id="openapi-scikitlearn-package"></span><h1>openapi.scikitlearn package<a class="headerlink" href="#module-openapi.scikitlearn" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-openapi.scikitlearn.SklearnGenerator">
+<span id="openapi-scikitlearn-sklearngenerator-module"></span><h2>openapi.scikitlearn.SklearnGenerator module<a class="headerlink" href="#module-openapi.scikitlearn.SklearnGenerator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator">
+<em class="property">class </em><code class="sig-prename descclassname">openapi.scikitlearn.SklearnGenerator.</code><code class="sig-name descname">Generator</code><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#Generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.functiontemplate">
+<code class="sig-name descname">functiontemplate</code><em class="property"> = '\n\ndef {functioname}({parameters}) -&gt; {returnparam1}:\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    model = ResultCache().load(&quot;{model_tag}&quot;)\n    {returnparam1} = model.{functioname}({param_wo_type})\n\n\n    return {returnparam1}\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.functiontemplate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.functiontemplatearrayandX_param">
+<code class="sig-name descname">functiontemplatearrayandX_param</code><em class="property"> = '\n\ndef {functioname}({parameters}) -&gt; {returnparam1}:\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {X_numpyconversion}\n    model = ResultCache().load(&quot;{model_tag}&quot;)\n    {returnparam1} = model.{functioname}({param_wo_type})\n    {returnparam1} = {returnparam1}.tolist()\n\n\n    return {returnparam1}\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.functiontemplatearrayandX_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.functiontemplatefit">
+<code class="sig-name descname">functiontemplatefit</code><em class="property"> = '\n\ndef {functioname}({parameters}):\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {X_numpyconversion}\n    {functioname} = {base_estimator}().{functioname}({param_wo_type})\n    ResultCache().save(&quot;{model_tag}&quot;,&quot;pickle&quot;,{functioname})\n\n\n    return \n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.functiontemplatefit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.functiontemplatereturningself">
+<code class="sig-name descname">functiontemplatereturningself</code><em class="property"> = '\n\ndef {functioname}({parameters}):\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {functioname} = {base_estimator}().{functioname}({param_wo_type})\n    ResultCache().save(&quot;{model_tag}&quot;,&quot;pickle&quot;,{functioname})\n\n\n\n    return\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.functiontemplatereturningself" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.functiontemplatesetparams">
+<code class="sig-name descname">functiontemplatesetparams</code><em class="property"> = '\n\ndef {functioname}({parameters}):\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {functioname} = {base_estimator}().{functioname}({param_wo_type})\n    ResultCache().save(&quot;{model_tag}&quot;,&quot;pickle&quot;,{functioname})\n\n\n    return\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.functiontemplatesetparams" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.functiontemplatewithX_param">
+<code class="sig-name descname">functiontemplatewithX_param</code><em class="property"> = '\n\ndef {functioname}({parameters}) -&gt; {returnparam1}:\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {X_numpyconversion}\n    model = ResultCache().load(&quot;{model_tag}&quot;)\n    {returnparam1} = model.{functioname}({param_wo_type})\n\n\n    return {returnparam1}\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.functiontemplatewithX_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.generate_function">
+<code class="sig-name descname">generate_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span></em>, <em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">base_estimator</span></em>, <em class="sig-param"><span class="n">model_tag</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#Generator.generate_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.generate_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to generate open API of python function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – </p></li>
+<li><p><strong>baseurl</strong> – </p></li>
+<li><p><strong>outdir</strong> – </p></li>
+<li><p><strong>yaml</strong> – </p></li>
+<li><p><strong>write</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.generate_import_params">
+<code class="sig-name descname">generate_import_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_params</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#Generator.generate_import_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.generate_import_params" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_params</strong> – takes the input passed from the function</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.get_docstrings">
+<code class="sig-name descname">get_docstrings</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parsing_obj</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#Generator.get_docstrings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.get_docstrings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get descriptions  from the doc of a class, function, or property object.</p>
+<p>Given the sklean docstring follows the numpy conventions, this function
+use the numpy docstring parser o read the doc of sklean.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.get_parameters">
+<code class="sig-name descname">get_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parsing_obj</span></em>, <em class="sig-param"><span class="n">type_table</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#Generator.get_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.get_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters from the doc of a class, function, or property object.</p>
+<p>Given the sklean docstring follows the numpy conventions, this function
+use the numpy docstring parser to read the doc of sklean.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.importfuction">
+<code class="sig-name descname">importfuction</code><em class="property"> = '\nfrom {library}.{module} import {class_nm}\nimport numpy as np\nimport array\nfrom cloudmesh.openapi.registry.cache import ResultCache\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.importfuction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.is_valid_para">
+<code class="sig-name descname">is_valid_para</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">para_type</span></em>, <em class="sig-param"><span class="n">type_table</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#Generator.is_valid_para"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.is_valid_para" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if it is a valid parameter type contained in the type table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGenerator.Generator.populate_parameters_function">
+<code class="sig-name descname">populate_parameters_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f</span></em>, <em class="sig-param"><span class="n">paras_dict</span></em>, <em class="sig-param"><span class="n">paras_desc</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#Generator.populate_parameters_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.populate_parameters_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to loop all the parameters of given function and generate
+specification</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>function_name</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="openapi.scikitlearn.SklearnGenerator.Sklearngenerator">
+<code class="sig-prename descclassname">openapi.scikitlearn.SklearnGenerator.</code><code class="sig-name descname">Sklearngenerator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_sklibrary</span></em>, <em class="sig-param"><span class="n">model_tag</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#Sklearngenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Sklearngenerator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="openapi.scikitlearn.SklearnGenerator.TypeScraper">
+<em class="property">class </em><code class="sig-prename descclassname">openapi.scikitlearn.SklearnGenerator.</code><code class="sig-name descname">TypeScraper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">type_table</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#TypeScraper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.TypeScraper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl>
+<dt>Scrape types from a string.</dt><dd><p>Using  the regular expression to match the keywords that imply the
+types.</p>
+<p>A type table for matching the types from the string is required</p>
+<dl>
+<dt>Examples:</dt><dd><blockquote>
+<div><p>‘boolean, optional, default True’ = bool
+‘int or None, optional (default=None)’ = int
+‘array-like or sparse matrix, shape (n_samples, n_features)’ = list</p>
+</div></blockquote>
+<p>‘numpy array of shape [n_samples]’ ‘boolean, optional’ = list</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGenerator.TypeScraper.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">type_table</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#TypeScraper.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.TypeScraper.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Constructor function</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>type_table: A dictionary indicates the matching rules</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGenerator.TypeScraper.scrap">
+<code class="sig-name descname">scrap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">literal_type</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#TypeScraper.scrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.TypeScraper.scrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Match types from the string</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>literal_type: A string that defines a type</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-openapi.scikitlearn.SklearnGeneratorFile">
+<span id="openapi-scikitlearn-sklearngeneratorfile-module"></span><h2>openapi.scikitlearn.SklearnGeneratorFile module<a class="headerlink" href="#module-openapi.scikitlearn.SklearnGeneratorFile" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator">
+<em class="property">class </em><code class="sig-prename descclassname">openapi.scikitlearn.SklearnGeneratorFile.</code><code class="sig-name descname">Generator</code><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#Generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>THe below are templates are using when generating the .py function.
+importfuction : this template is used to generate the import statements based on the model which we use
+uploadfunction: This template is used to generate the uploadfunction added the model
+functiontemplateretarryXandY: This template is the used when the method has both X and y varaibles and array is
+passed as return.
+functiontemplateretarryX: This template is the used when the method has X Variable and array is
+passed as return.
+functiontemplateXandY: This template is the used when the method has both X and y varaibles and the return type is
+other than array.
+functiontemplatewithonlyX_param: This template is the used when the method has X Variable and the return type is
+other than array.
+functiontemplatereturningself:  This template is used when the method is returning self .
+functiontemplatefit: This template is used to generate the fit function in the module.
+functiontemplatesetparams: This template is used to generate the Setparams function in the module.</p>
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplate">
+<code class="sig-name descname">functiontemplate</code><em class="property"> = '\n\ndef {functioname}({parameters}) -&gt; {returnparam1}:\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    model = ResultCache().load(&quot;{model_tag}&quot;)\n    {returnparam1} = model.{functioname}({param_wo_type})\n\n\n    return {returnparam1}\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplateXandY">
+<code class="sig-name descname">functiontemplateXandY</code><em class="property"> = '\n\ndef {functioname}({parameters}) -&gt; {returnparam1}:\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {X_input}\n    {y_input}\n    {X_upload}\n    {y_upload}\n    model = ResultCache().load(&quot;{model_tag}&quot;)\n    {returnparam1} = model.{functioname}({param_wo_type})\n\n\n    return {returnparam1}\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplateXandY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplatefit">
+<code class="sig-name descname">functiontemplatefit</code><em class="property"> = '\n\ndef {functioname}({parameters}):\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {X_input}\n    {y_input}\n    {X_upload}\n    {y_upload}\n    {functioname} = {base_estimator}().{functioname}({param_wo_type})\n    ResultCache().save(&quot;{model_tag}&quot;,&quot;pickle&quot;,{functioname})\n\n\n    return \n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplatefit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplateretarryX">
+<code class="sig-name descname">functiontemplateretarryX</code><em class="property"> = '\n\ndef {functioname}({parameters}) -&gt; {returnparam1}:\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {X_input}\n    {X_upload}\n    model = ResultCache().load(&quot;{model_tag}&quot;)\n    {returnparam1} = model.{functioname}({param_wo_type})\n    {returnparam1} = {returnparam1}.tolist()\n\n\n    return {returnparam1}\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplateretarryX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplateretarryXandY">
+<code class="sig-name descname">functiontemplateretarryXandY</code><em class="property"> = '\n\ndef {functioname}({parameters}) -&gt; {returnparam1}:\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {X_input}\n    {y_input}\n    {X_upload}\n    {y_upload}\n    model = ResultCache().load(&quot;{model_tag}&quot;)\n    {returnparam1} = model.{functioname}({param_wo_type})\n    {returnparam1} = {returnparam1}.tolist()\n\n\n    return {returnparam1}\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplateretarryXandY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplatereturningself">
+<code class="sig-name descname">functiontemplatereturningself</code><em class="property"> = '\n\ndef {functioname}({parameters}):\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {functioname} = {base_estimator}().{functioname}({param_wo_type})\n    ResultCache().save(&quot;{model_tag}&quot;,&quot;pickle&quot;,{functioname})\n\n\n\n    return\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplatereturningself" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplatesetparams">
+<code class="sig-name descname">functiontemplatesetparams</code><em class="property"> = '\n\ndef {functioname}({parameters}):\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {functioname} = {base_estimator}().{functioname}({param_wo_type})\n    ResultCache().save(&quot;{model_tag}&quot;,&quot;pickle&quot;,{functioname})\n\n\n    return\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplatesetparams" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplatewithonlyX_param">
+<code class="sig-name descname">functiontemplatewithonlyX_param</code><em class="property"> = '\n\ndef {functioname}({parameters}) -&gt; {returnparam1}:\n\n    {text1}\n    {description}\n\n\n    {docstring}\n    {text1}\n\n    {X_input}\n    {X_upload}\n    model = ResultCache().load(&quot;{model_tag}&quot;)\n    {returnparam1} = model.{functioname}({param_wo_type})\n\n\n    return {returnparam1}\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.functiontemplatewithonlyX_param" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.generate_function">
+<code class="sig-name descname">generate_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span></em>, <em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">base_estimator</span></em>, <em class="sig-param"><span class="n">model_tag</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#Generator.generate_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.generate_function" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module</strong> – Sklearn module like Linear Regression</p></li>
+<li><p><strong>function</strong> – Methods in the class of Linear Regression</p></li>
+<li><p><strong>base_estimator</strong> – Sklearn module like Linear Regression</p></li>
+<li><p><strong>model_tag</strong> – Tag used to store the name of the model instance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.generate_import_params">
+<code class="sig-name descname">generate_import_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_params</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#Generator.generate_import_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.generate_import_params" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_params</strong> – takes the input passed from the function</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.generate_upload">
+<code class="sig-name descname">generate_upload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#Generator.generate_upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.generate_upload" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_params</strong> – takes the input passed from the function</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.get_docstrings">
+<code class="sig-name descname">get_docstrings</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parsing_obj</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#Generator.get_docstrings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.get_docstrings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get descriptions  from the doc of a class, function, or property object.</p>
+<p>Given the sklean docstring follows the numpy conventions, this function
+use the numpy docstring parser o read the doc of sklean.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.get_parameters">
+<code class="sig-name descname">get_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parsing_obj</span></em>, <em class="sig-param"><span class="n">type_table</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#Generator.get_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.get_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters from the doc of a class, function, or property object.</p>
+<p>Given the sklean docstring follows the numpy conventions, this function
+use the numpy docstring parser to read the doc of sklean.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.importfuction">
+<code class="sig-name descname">importfuction</code><em class="property"> = '\nfrom {library}.{module} import {class_nm}\nimport numpy as np\nimport pandas as pd\nimport array\nfrom cloudmesh.openapi.registry.cache import ResultCache\nfrom cloudmesh.openapi.registry.fileoperation import FileOperation\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.importfuction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.is_valid_para">
+<code class="sig-name descname">is_valid_para</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">para_type</span></em>, <em class="sig-param"><span class="n">type_table</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#Generator.is_valid_para"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.is_valid_para" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if it is a valid parameter type contained in the type table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.populate_parameters_function">
+<code class="sig-name descname">populate_parameters_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f</span></em>, <em class="sig-param"><span class="n">paras_dict</span></em>, <em class="sig-param"><span class="n">paras_desc</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#Generator.populate_parameters_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.populate_parameters_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to loop all the parameters of given function and generate
+specification</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>paras_dict</strong> – parameters dictionary passed to the function</p></li>
+<li><p><strong>paras_desc</strong> – parameters docstrings passed to the function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.Generator.uploadfunction">
+<code class="sig-name descname">uploadfunction</code><em class="property"> = '\n\ndef upload() -&gt; str:\n\n  filename = FileOperation().file_upload()\n  return filename\n'</em><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.Generator.uploadfunction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.SklearngeneratorFile">
+<code class="sig-prename descclassname">openapi.scikitlearn.SklearnGeneratorFile.</code><code class="sig-name descname">SklearngeneratorFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_sklibrary</span></em>, <em class="sig-param"><span class="n">model_tag</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#SklearngeneratorFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.SklearngeneratorFile" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_sklibrary</strong> – input_sklibrary = sklearn.linear_model.LinearRegression(Full model specification)</p></li>
+<li><p><strong>model_tag</strong> – model_tag = any name which you want the tag the model instance like LinReg1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>.py file which is input to generator which generates openAPI specification</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.TypeScraper">
+<em class="property">class </em><code class="sig-prename descclassname">openapi.scikitlearn.SklearnGeneratorFile.</code><code class="sig-name descname">TypeScraper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">type_table</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#TypeScraper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.TypeScraper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl>
+<dt>Scrape types from a string.</dt><dd><p>Using  the regular expression to match the keywords that imply the
+types.</p>
+<p>A type table for matching the types from the string is required</p>
+<dl>
+<dt>Examples:</dt><dd><blockquote>
+<div><p>‘boolean, optional, default True’ = bool
+‘int or None, optional (default=None)’ = int
+‘array-like or sparse matrix, shape (n_samples, n_features)’ = list</p>
+</div></blockquote>
+<p>‘numpy array of shape [n_samples]’ ‘boolean, optional’ = list</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.TypeScraper.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">type_table</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#TypeScraper.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.TypeScraper.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Constructor function</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>type_table: A dictionary indicates the matching rules</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="openapi.scikitlearn.SklearnGeneratorFile.TypeScraper.scrap">
+<code class="sig-name descname">scrap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">literal_type</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGeneratorFile.html#TypeScraper.scrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGeneratorFile.TypeScraper.scrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Match types from the string</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>literal_type: A string that defines a type</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="openapi.registry.html" class="btn btn-neutral float-left" title="openapi.registry package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, The Cloudmesh Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

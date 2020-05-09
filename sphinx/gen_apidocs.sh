@@ -4,33 +4,12 @@
 #md_name=`basename $PWD`
 search_path="../cloudmesh/openapi"
 
-# do pip install of sphinx and sphinx-markdown-builder:  
-# pip install sphinx sphinx-markdown-builder
+# as a pre-req do pip install of below (uncomment line):  
+# pip install sphinx sphinx-markdown-builder sphinx_rtd_theme
 
 # run sphinx apidoc 
-sphinx-apidoc -o sphinx-docs ${search_path} sphinx-apidoc --full -A 'sp20-516-ai' -H 'AI Project' --module-first; cd sphinx-docs;
+sphinx-apidoc -o sphinx-docs ${search_path} sphinx-apidoc --full -A 'The Cloudmesh Team' -H 'Cloudmesh OpenAPI Service Generator' --module-first -f; cd sphinx-docs;
 
-# update conf.py to be able to find your code and support magic methods
-echo "" >> conf.py
-echo "# Custom updates for AI Project" >> conf.py
-echo " 
-import os
-import sys
-sys.path.insert(0,os.path.abspath('../../cloudmesh'))
-
-def skip(app, what, name, obj,would_skip, options):
-    if name in ( '__init__',):
-        return False
-    return would_skip
-
-def setup(app):
-    app.connect('autodoc-skip-member', skip)  
- " >> conf.py  
-
-# make markdown files
-#make markdown
-
-# copy generated markdown to permanent location and cleanup
-
-#cp _build/markdown/${md_name}.md ../
-#cd ..; rm -r sphinx-docs;
+# copy standardized conf.py and index.rst to sphinx-docs dir and overwrite auto generated ones.
+cp ../conf.py .
+cp ../index.rst .

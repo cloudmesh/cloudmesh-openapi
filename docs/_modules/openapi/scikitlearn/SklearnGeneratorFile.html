@@ -1,0 +1,829 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>openapi.scikitlearn.SklearnGeneratorFile &mdash; Cloudmesh OpenAPI Service Generator  documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Cloudmesh OpenAPI Service Generator
+          
+
+          
+            
+            <img src="../../../_static/logo3.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">Cloudmesh OpenAPI Service Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README-Scikitlearn.html">Cloudmesh OpenAPI Merge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../openapi.html">openapi package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Cloudmesh OpenAPI Service Generator</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>openapi.scikitlearn.SklearnGeneratorFile</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for openapi.scikitlearn.SklearnGeneratorFile</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">from</span> <span class="nn">pydoc</span> <span class="kn">import</span> <span class="n">locate</span>
+<span class="kn">from</span> <span class="nn">numpydoc</span> <span class="kn">import</span> <span class="n">docscrape</span>
+
+
+
+<div class="viewcode-block" id="TypeScraper"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.TypeScraper">[docs]</a><span class="k">class</span> <span class="nc">TypeScraper</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Scrape types from a string.</span>
+<span class="sd">        Using  the regular expression to match the keywords that imply the</span>
+<span class="sd">        types.</span>
+
+<span class="sd">        A type table for matching the types from the string is required</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &#39;boolean, optional, default True&#39; = bool</span>
+<span class="sd">            &#39;int or None, optional (default=None)&#39; = int</span>
+<span class="sd">            &#39;array-like or sparse matrix, shape (n_samples, n_features)&#39; = list</span>
+<span class="sd">           &#39;numpy array of shape [n_samples]&#39; &#39;boolean, optional&#39; = list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TypeScraper.__init__"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.TypeScraper.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_table</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The Constructor function</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">                type_table: A dictionary indicates the matching rules</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type_table</span> <span class="o">=</span> <span class="n">type_table</span></div>
+
+<div class="viewcode-block" id="TypeScraper.scrap"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.TypeScraper.scrap">[docs]</a>    <span class="k">def</span> <span class="nf">scrap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">literal_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Match types from the string</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">                literal_type: A string that defines a type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="c1"># Traverse all known mappings to check which key of the table</span>
+        <span class="c1"># matches the string</span>
+        <span class="k">for</span> <span class="n">table_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">type_table</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="c1">#print(literal_type)</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">table_key</span><span class="p">,</span> <span class="n">literal_type</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type_table</span><span class="p">[</span><span class="n">table_key</span><span class="p">])</span>
+
+        <span class="c1">#if literal_type[0] == &#39;{&#39;:</span>
+        <span class="c1">#    table_key = &#39;string&#39;</span>
+        <span class="c1">#    res.add(self.type_table[table_key])</span>
+        <span class="k">if</span> <span class="n">literal_type</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;dict&#39;</span><span class="p">:</span>
+            <span class="n">table_key</span> <span class="o">=</span> <span class="s1">&#39;dictionary&#39;</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type_table</span><span class="p">[</span><span class="n">table_key</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">reslist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">reslist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="Generator"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator">[docs]</a><span class="k">class</span> <span class="nc">Generator</span><span class="p">:</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    THe below are templates are using when generating the .py function.</span>
+<span class="sd">    importfuction : this template is used to generate the import statements based on the model which we use</span>
+<span class="sd">    uploadfunction: This template is used to generate the uploadfunction added the model</span>
+<span class="sd">    functiontemplateretarryXandY: This template is the used when the method has both X and y varaibles and array is</span>
+<span class="sd">    passed as return.</span>
+<span class="sd">    functiontemplateretarryX: This template is the used when the method has X Variable and array is</span>
+<span class="sd">    passed as return.</span>
+<span class="sd">    functiontemplateXandY: This template is the used when the method has both X and y varaibles and the return type is</span>
+<span class="sd">    other than array.</span>
+<span class="sd">    functiontemplatewithonlyX_param: This template is the used when the method has X Variable and the return type is</span>
+<span class="sd">    other than array.</span>
+<span class="sd">    functiontemplatereturningself:  This template is used when the method is returning self .</span>
+<span class="sd">    functiontemplatefit: This template is used to generate the fit function in the module.</span>
+<span class="sd">    functiontemplatesetparams: This template is used to generate the Setparams function in the module.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">importfuction</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        from </span><span class="si">{library}</span><span class="s2">.</span><span class="si">{module}</span><span class="s2"> import </span><span class="si">{class_nm}</span><span class="s2"></span>
+<span class="s2">        import numpy as np</span>
+<span class="s2">        import pandas as pd</span>
+<span class="s2">        import array</span>
+<span class="s2">        from cloudmesh.openapi.registry.cache import ResultCache</span>
+<span class="s2">        from cloudmesh.openapi.registry.fileoperation import FileOperation</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">uploadfunction</span> <span class="o">=</span>  <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    </span>
+<span class="s2">      def upload() -&gt; str:</span>
+
+<span class="s2">        filename = FileOperation().file_upload()</span>
+<span class="s2">        return filename</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">functiontemplateretarryXandY</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    </span>
+<span class="s2">        def </span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{parameters}</span><span class="s2">) -&gt; </span><span class="si">{returnparam1}</span><span class="s2">:</span>
+<span class="s2">        </span>
+<span class="s2">            </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{description}</span><span class="s2"></span>
+<span class="s2">            </span>
+<span class="s2">            </span>
+<span class="s2">            </span><span class="si">{docstring}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">            </span>
+<span class="s2">            </span><span class="si">{X_input}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{y_input}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{X_upload}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{y_upload}</span><span class="s2"></span>
+<span class="s2">            model = ResultCache().load(&quot;</span><span class="si">{model_tag}</span><span class="s2">&quot;)</span>
+<span class="s2">            </span><span class="si">{returnparam1}</span><span class="s2"> = model.</span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{param_wo_type}</span><span class="s2">)</span>
+<span class="s2">            </span><span class="si">{returnparam1}</span><span class="s2"> = </span><span class="si">{returnparam1}</span><span class="s2">.tolist()</span>
+<span class="s2">            </span>
+<span class="s2">            </span>
+<span class="s2">            return </span><span class="si">{returnparam1}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">functiontemplateretarryX</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s2">            def </span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{parameters}</span><span class="s2">) -&gt; </span><span class="si">{returnparam1}</span><span class="s2">:</span>
+
+<span class="s2">                </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">                </span><span class="si">{description}</span><span class="s2"></span>
+
+
+<span class="s2">                </span><span class="si">{docstring}</span><span class="s2"></span>
+<span class="s2">                </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">                </span>
+<span class="s2">                </span><span class="si">{X_input}</span><span class="s2"></span>
+<span class="s2">                </span><span class="si">{X_upload}</span><span class="s2"></span>
+<span class="s2">                model = ResultCache().load(&quot;</span><span class="si">{model_tag}</span><span class="s2">&quot;)</span>
+<span class="s2">                </span><span class="si">{returnparam1}</span><span class="s2"> = model.</span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{param_wo_type}</span><span class="s2">)</span>
+<span class="s2">                </span><span class="si">{returnparam1}</span><span class="s2"> = </span><span class="si">{returnparam1}</span><span class="s2">.tolist()</span>
+
+
+<span class="s2">                return </span><span class="si">{returnparam1}</span><span class="s2"></span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">functiontemplateXandY</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s2">            def </span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{parameters}</span><span class="s2">) -&gt; </span><span class="si">{returnparam1}</span><span class="s2">:</span>
+
+<span class="s2">                </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">                </span><span class="si">{description}</span><span class="s2"></span>
+
+
+<span class="s2">                </span><span class="si">{docstring}</span><span class="s2"></span>
+<span class="s2">                </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">                </span>
+<span class="s2">                </span><span class="si">{X_input}</span><span class="s2"></span>
+<span class="s2">                </span><span class="si">{y_input}</span><span class="s2"></span>
+<span class="s2">                </span><span class="si">{X_upload}</span><span class="s2"></span>
+<span class="s2">                </span><span class="si">{y_upload}</span><span class="s2"></span>
+<span class="s2">                model = ResultCache().load(&quot;</span><span class="si">{model_tag}</span><span class="s2">&quot;)</span>
+<span class="s2">                </span><span class="si">{returnparam1}</span><span class="s2"> = model.</span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{param_wo_type}</span><span class="s2">)</span>
+<span class="s2">                </span>
+<span class="s2">                </span>
+<span class="s2">                return </span><span class="si">{returnparam1}</span><span class="s2"></span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">functiontemplatewithonlyX_param</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s2">                def </span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{parameters}</span><span class="s2">) -&gt; </span><span class="si">{returnparam1}</span><span class="s2">:</span>
+
+<span class="s2">                    </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">                    </span><span class="si">{description}</span><span class="s2"></span>
+
+
+<span class="s2">                    </span><span class="si">{docstring}</span><span class="s2"></span>
+<span class="s2">                    </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">                    </span>
+<span class="s2">                    </span><span class="si">{X_input}</span><span class="s2"></span>
+<span class="s2">                    </span><span class="si">{X_upload}</span><span class="s2"></span>
+<span class="s2">                    model = ResultCache().load(&quot;</span><span class="si">{model_tag}</span><span class="s2">&quot;)</span>
+<span class="s2">                    </span><span class="si">{returnparam1}</span><span class="s2"> = model.</span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{param_wo_type}</span><span class="s2">)</span>
+
+
+<span class="s2">                    return </span><span class="si">{returnparam1}</span><span class="s2"></span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">functiontemplate</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s2">        def </span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{parameters}</span><span class="s2">) -&gt; </span><span class="si">{returnparam1}</span><span class="s2">:</span>
+
+<span class="s2">            </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{description}</span><span class="s2"></span>
+
+
+<span class="s2">            </span><span class="si">{docstring}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{text1}</span><span class="s2"></span>
+
+<span class="s2">            model = ResultCache().load(&quot;</span><span class="si">{model_tag}</span><span class="s2">&quot;)</span>
+<span class="s2">            </span><span class="si">{returnparam1}</span><span class="s2"> = model.</span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{param_wo_type}</span><span class="s2">)</span>
+<span class="s2">            </span>
+<span class="s2">            </span>
+<span class="s2">            return </span><span class="si">{returnparam1}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">functiontemplatereturningself</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    </span>
+<span class="s2">            def </span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{parameters}</span><span class="s2">):</span>
+
+<span class="s2">                </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">                </span><span class="si">{description}</span><span class="s2"></span>
+
+
+<span class="s2">                </span><span class="si">{docstring}</span><span class="s2"></span>
+<span class="s2">                </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">               </span>
+<span class="s2">                </span><span class="si">{functioname}</span><span class="s2"> = </span><span class="si">{base_estimator}</span><span class="s2">().</span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{param_wo_type}</span><span class="s2">)</span>
+<span class="s2">                ResultCache().save(&quot;</span><span class="si">{model_tag}</span><span class="s2">&quot;,&quot;pickle&quot;,</span><span class="si">{functioname}</span><span class="s2">)</span>
+<span class="s2">                </span>
+
+
+<span class="s2">                return</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">functiontemplatefit</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s2">                def </span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{parameters}</span><span class="s2">):</span>
+
+<span class="s2">                    </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">                    </span><span class="si">{description}</span><span class="s2"></span>
+
+
+<span class="s2">                    </span><span class="si">{docstring}</span><span class="s2"></span>
+<span class="s2">                    </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">                    </span>
+<span class="s2">                    </span><span class="si">{X_input}</span><span class="s2"></span>
+<span class="s2">                    </span><span class="si">{y_input}</span><span class="s2"></span>
+<span class="s2">                    </span><span class="si">{X_upload}</span><span class="s2"></span>
+<span class="s2">                    </span><span class="si">{y_upload}</span><span class="s2"></span>
+<span class="s2">                    </span><span class="si">{functioname}</span><span class="s2"> = </span><span class="si">{base_estimator}</span><span class="s2">().</span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{param_wo_type}</span><span class="s2">)</span>
+<span class="s2">                    ResultCache().save(&quot;</span><span class="si">{model_tag}</span><span class="s2">&quot;,&quot;pickle&quot;,</span><span class="si">{functioname}</span><span class="s2">)</span>
+
+
+<span class="s2">                    return </span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">functiontemplatesetparams</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+
+<span class="s2">                    def </span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{parameters}</span><span class="s2">):</span>
+
+<span class="s2">                        </span><span class="si">{text1}</span><span class="s2"></span>
+<span class="s2">                        </span><span class="si">{description}</span><span class="s2"></span>
+
+
+<span class="s2">                        </span><span class="si">{docstring}</span><span class="s2"></span>
+<span class="s2">                        </span><span class="si">{text1}</span><span class="s2"></span>
+
+<span class="s2">                        </span><span class="si">{functioname}</span><span class="s2"> = </span><span class="si">{base_estimator}</span><span class="s2">().</span><span class="si">{functioname}</span><span class="s2">(</span><span class="si">{param_wo_type}</span><span class="s2">)</span>
+<span class="s2">                        ResultCache().save(&quot;</span><span class="si">{model_tag}</span><span class="s2">&quot;,&quot;pickle&quot;,</span><span class="si">{functioname}</span><span class="s2">)</span>
+
+
+<span class="s2">                        return</span>
+<span class="s2">                    &quot;&quot;&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="Generator.populate_parameters_function"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.populate_parameters_function">[docs]</a>    <span class="k">def</span> <span class="nf">populate_parameters_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">paras_dict</span><span class="p">,</span> <span class="n">paras_desc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to loop all the parameters of given function and generate</span>
+<span class="sd">        specification</span>
+
+<span class="sd">        :param paras_dict: parameters dictionary passed to the function</span>
+<span class="sd">        :param paras_desc: parameters docstrings passed to the function</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="n">spec_params</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="n">docstring</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paras_dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">paras_dict</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">last_key</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="k">for</span> <span class="n">parameter_dict</span><span class="p">,</span> <span class="n">_type</span> <span class="ow">in</span> <span class="n">paras_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">parameter_desc</span><span class="p">,</span> <span class="n">desc</span> <span class="ow">in</span> <span class="n">paras_desc</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">parameter_dict</span> <span class="o">==</span> <span class="s1">&#39;return1&#39;</span><span class="p">:</span>
+                    <span class="n">docstring</span> <span class="o">=</span> <span class="n">docstring</span> <span class="o">+</span> \
+                                <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;:param </span><span class="si">{</span><span class="n">parameter_dict</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> \
+                                <span class="s2">&quot;    &quot;</span> <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;:type </span><span class="si">{</span><span class="n">parameter_dict</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">_type</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;    &quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">parameter_dict</span> <span class="o">==</span> <span class="n">parameter_desc</span><span class="p">:</span>
+                        <span class="n">docstring</span> <span class="o">=</span> <span class="n">docstring</span>  <span class="o">+</span> \
+                        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;:param </span><span class="si">{</span><span class="n">parameter_dict</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span> <span class="o">+</span>  <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> \
+                        <span class="s2">&quot;    &quot;</span><span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;:type </span><span class="si">{</span><span class="n">parameter_dict</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">_type</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;    &quot;</span>
+                        <span class="k">if</span> <span class="n">parameter_dict</span> <span class="o">==</span> <span class="n">last_key</span><span class="p">:</span>
+                            <span class="n">spec</span> <span class="o">=</span> <span class="n">spec</span> <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">parameter_dict</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">_type</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+                            <span class="n">spec_params</span> <span class="o">=</span>  <span class="n">spec_params</span> <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">parameter_dict</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">spec</span> <span class="o">=</span> <span class="n">spec</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">parameter_dict</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">_type</span><span class="si">}</span><span class="s2">,&quot;&quot;&quot;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+                            <span class="n">spec_params</span> <span class="o">=</span> <span class="n">spec_params</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">parameter_dict</span><span class="si">}</span><span class="s2">,&quot;&quot;&quot;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+
+        <span class="k">return</span> <span class="n">spec</span><span class="p">,</span><span class="n">spec_params</span><span class="p">,</span><span class="n">docstring</span></div>
+
+<div class="viewcode-block" id="Generator.is_valid_para"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.is_valid_para">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_para</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">para_type</span><span class="p">,</span> <span class="n">type_table</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if it is a valid parameter type contained in the type table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># The values of the table contain all known destination types</span>
+        <span class="k">if</span> <span class="n">para_type</span> <span class="ow">in</span> <span class="n">type_table</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Generator.get_parameters"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.get_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">get_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parsing_obj</span><span class="p">,</span> <span class="n">type_table</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get parameters from the doc of a class, function, or property object.</span>
+
+<span class="sd">        Given the sklean docstring follows the numpy conventions, this function</span>
+<span class="sd">        use the numpy docstring parser to read the doc of sklean.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">scraper</span> <span class="o">=</span> <span class="n">TypeScraper</span><span class="p">(</span><span class="n">type_table</span><span class="o">=</span><span class="n">type_table</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">parsing_obj</span>
+        <span class="n">paras</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">returnparam</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;Parameters&#39;</span><span class="p">]:</span>
+            <span class="n">para_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+            <span class="n">para_type</span> <span class="o">=</span> <span class="n">scraper</span><span class="o">.</span><span class="n">scrap</span><span class="p">(</span><span class="n">para_str</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_valid_para</span><span class="p">(</span><span class="n">para_type</span><span class="p">,</span> <span class="n">type_table</span><span class="p">):</span>
+                <span class="n">paras</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">para_type</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;Returns&#39;</span><span class="p">]:</span>
+            <span class="n">para_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+            <span class="n">para_type</span> <span class="o">=</span> <span class="n">scraper</span><span class="o">.</span><span class="n">scrap</span><span class="p">(</span><span class="n">para_str</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_valid_para</span><span class="p">(</span><span class="n">para_type</span><span class="p">,</span> <span class="n">type_table</span><span class="p">):</span>
+                <span class="c1">#returnparam[&#39;return&#39;] = para_type</span>
+                <span class="n">paras</span><span class="p">[</span><span class="s1">&#39;return&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">para_type</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;return&#39;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">paras</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">paras</span><span class="p">[</span><span class="s1">&#39;return&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;self&#39;</span>
+        <span class="k">return</span> <span class="n">paras</span></div>
+
+<div class="viewcode-block" id="Generator.get_docstrings"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.get_docstrings">[docs]</a>    <span class="k">def</span> <span class="nf">get_docstrings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parsing_obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get descriptions  from the doc of a class, function, or property object.</span>
+
+<span class="sd">        Given the sklean docstring follows the numpy conventions, this function</span>
+<span class="sd">        use the numpy docstring parser o read the doc of sklean.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#r = docscrape.NumpyDocString(doc)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">parsing_obj</span>
+        <span class="n">paras_desc</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;Parameters&#39;</span><span class="p">]:</span>
+            <span class="n">para_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">para_desc</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">                    &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">desc</span><span class="p">)</span>
+            <span class="n">paras_desc</span><span class="p">[</span><span class="n">para_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">para_desc</span>
+
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;Returns&#39;</span><span class="p">]:</span>
+            <span class="c1">#print(p.name,p.desc)</span>
+            <span class="n">para_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">para_desc</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">                    &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">desc</span><span class="p">)</span>
+            <span class="n">paras_desc</span><span class="p">[</span><span class="s1">&#39;return&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">para_desc</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;return&#39;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">paras_desc</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">paras_desc</span><span class="p">[</span><span class="s1">&#39;return&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;self&#39;</span>
+        <span class="k">return</span> <span class="n">paras_desc</span></div>
+
+<div class="viewcode-block" id="Generator.generate_function"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.generate_function">[docs]</a>    <span class="k">def</span> <span class="nf">generate_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span><span class="n">base_estimator</span><span class="p">,</span><span class="n">model_tag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param module: Sklearn module like Linear Regression</span>
+<span class="sd">        :param function: Methods in the class of Linear Regression</span>
+<span class="sd">        :param base_estimator: Sklearn module like Linear Regression</span>
+<span class="sd">        :param model_tag: Tag used to store the name of the model instance</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
+        <span class="n">type_table</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;matrix&#39;</span><span class="p">:</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;array&#39;</span><span class="p">:</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;array-like&#39;</span><span class="p">:</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;numpy array&#39;</span><span class="p">:</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;bool&#39;</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;float&#39;</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;string&#39;</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;dictionary&#39;</span><span class="p">:</span> <span class="s1">&#39;dict&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;dict&#39;</span><span class="p">:</span> <span class="s1">&#39;dict&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;object&#39;</span><span class="p">:</span> <span class="s1">&#39;self&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;self&#39;</span><span class="p">:</span> <span class="s1">&#39;self&#39;</span>
+        <span class="p">}</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">module</span>
+        <span class="n">class_name</span> <span class="o">=</span> <span class="n">function</span>
+        <span class="n">base_estimator</span> <span class="o">=</span> <span class="n">base_estimator</span>
+        <span class="n">model_tag</span> <span class="o">=</span> <span class="n">model_tag</span>
+        <span class="n">class_obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+        <span class="n">parsing_obj</span> <span class="o">=</span> <span class="n">docscrape</span><span class="o">.</span><span class="n">FunctionDoc</span><span class="p">(</span><span class="n">class_obj</span><span class="p">)</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">class_obj</span><span class="o">.</span><span class="vm">__doc__</span>
+        <span class="n">paras_dict_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">(</span><span class="n">parsing_obj</span><span class="p">,</span> <span class="n">type_table</span><span class="p">)</span>
+        <span class="n">paras_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_docstrings</span><span class="p">(</span><span class="n">parsing_obj</span><span class="p">)</span>
+
+        <span class="n">description</span> <span class="o">=</span> <span class="n">class_obj</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1">#title = class_obj.__name__</span>
+        <span class="n">parametersfunc</span><span class="p">,</span><span class="n">params</span><span class="p">,</span><span class="n">docstring</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">populate_parameters_function</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">paras_dict_func</span><span class="p">,</span> <span class="n">paras_desc</span><span class="p">)</span>
+        <span class="n">text1</span> <span class="o">=</span> <span class="s1">&#39;&quot;&quot;&quot;&#39;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;return&#39;</span>
+        <span class="n">returnparam</span> <span class="o">=</span><span class="s1">&#39;&#39;</span>
+        <span class="c1">#print(paras_dict_func)</span>
+        <span class="k">if</span>  <span class="n">key</span> <span class="ow">in</span> <span class="n">paras_dict_func</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">paras_dict_func</span><span class="p">[</span><span class="s1">&#39;return&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;self&#39;</span><span class="p">:</span>
+                <span class="n">returnparam</span> <span class="o">=</span> <span class="n">paras_dict_func</span><span class="p">[</span><span class="s1">&#39;return&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">returnparam</span>
+        <span class="n">returnparamindex</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">returnparamindex</span> <span class="o">=</span> <span class="n">parametersfunc</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;return&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">returnparamindex</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">returnparamindex</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">parametersfunc</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">parametersfunc</span> <span class="o">=</span> <span class="n">parametersfunc</span><span class="p">[:</span><span class="n">returnparamindex</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">returnparamindex1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">returnparamindex1</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;return&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">returnparamindex1</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">returnparamindex1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">params</span><span class="p">[:</span><span class="n">returnparamindex1</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">functionname</span> <span class="o">=</span> <span class="n">class_obj</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;X: array&#39;</span><span class="p">,</span> <span class="n">parametersfunc</span><span class="p">)</span>
+        <span class="n">X_param_index</span> <span class="o">=</span> <span class="n">parametersfunc</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;X: array&#39;</span><span class="p">)</span>
+        <span class="n">y_param_index</span> <span class="o">=</span> <span class="n">parametersfunc</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;y: array&#39;</span><span class="p">)</span>
+        <span class="n">sample_weight_index</span> <span class="o">=</span> <span class="n">parametersfunc</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;sample_weight: array&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sample_weight_index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">parametersfunc</span> <span class="o">=</span> <span class="n">parametersfunc</span><span class="p">[:</span><span class="n">sample_weight_index</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">sample_weight_index_params</span> <span class="o">=</span>  <span class="n">params</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;sample_weight&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sample_weight_index_params</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">params</span><span class="p">[:</span><span class="n">sample_weight_index_params</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="c1">#parametersfunc =  parametersfunc + &quot;,&quot; + &quot; X_shape_x: int,&quot; + &quot; X_shape_y: int&quot;</span>
+            <span class="n">parametersfunc</span> <span class="o">=</span> <span class="n">parametersfunc</span>
+        <span class="n">parametersfunc</span> <span class="o">=</span> <span class="n">parametersfunc</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;array&#39;</span><span class="p">,</span><span class="s1">&#39;str&#39;</span><span class="p">)</span>
+<span class="c1">#        X_upload = f&quot;X = np.array(X).reshape(X_shape_x,X_shape_y)&quot;</span>
+       <span class="c1"># &quot;~/.cloudmesh/upload-file/&quot; + f&quot;{X}&quot; + &quot;.csv&quot;</span>
+        <span class="n">X_input</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">~/.cloudmesh/upload-file/</span><span class="se">\&quot;</span><span class="s2"> + f</span><span class="se">\&quot;</span><span class="si">{X}</span><span class="se">\&quot;</span><span class="s2"> + </span><span class="se">\&quot;</span><span class="s2">.csv</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+        <span class="n">X_input</span> <span class="o">=</span> <span class="s2">&quot;X_input = &quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">X_input</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">y_input</span> <span class="o">=</span>  <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">~/.cloudmesh/upload-file/</span><span class="se">\&quot;</span><span class="s2"> + f</span><span class="se">\&quot;</span><span class="si">{y}</span><span class="se">\&quot;</span><span class="s2"> + </span><span class="se">\&quot;</span><span class="s2">.csv</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+        <span class="n">y_input</span> <span class="o">=</span> <span class="s2">&quot;y_input = &quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">y_input</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="c1">#X_upload = &quot;X = pd.read_csv(f\&quot;~/.cloudmesh/upload-file/{X}.csv\&quot;)&quot;</span>
+        <span class="n">X_upload</span> <span class="o">=</span> <span class="s2">&quot;X = pd.read_csv(X_input)&quot;</span>
+        <span class="n">y_upload</span> <span class="o">=</span> <span class="s2">&quot;y = pd.read_csv(y_input)&quot;</span>
+        <span class="c1">#sample_weight_upload = &quot;sample_weight = pd.read_csv(\&quot;~/.cloudmesh/upload-file/sample_weight.csv\&quot;)&quot;</span>
+
+
+
+
+        <span class="k">if</span> <span class="n">returnparam</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">returnparam</span> <span class="o">==</span> <span class="s1">&#39;array&#39;</span> <span class="ow">and</span>  <span class="p">(</span><span class="n">X_param_index</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y_param_index</span> <span class="o">==</span> <span class="mi">10</span> <span class="p">):</span>
+                <span class="n">returnparam</span> <span class="o">=</span> <span class="s1">&#39;list&#39;</span>
+
+                <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">functiontemplateretarryXandY</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">functioname</span><span class="o">=</span><span class="n">functionname</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">text1</span><span class="o">=</span><span class="n">text1</span><span class="p">,</span>
+                    <span class="n">model_tag</span><span class="o">=</span><span class="n">model_tag</span><span class="p">,</span>
+                    <span class="n">X_input</span> <span class="o">=</span> <span class="n">X_input</span><span class="p">,</span>
+                    <span class="n">y_input</span> <span class="o">=</span> <span class="n">y_input</span><span class="p">,</span>
+                    <span class="n">X_upload</span><span class="o">=</span><span class="n">X_upload</span><span class="p">,</span>
+                    <span class="n">y_upload</span><span class="o">=</span><span class="n">y_upload</span><span class="p">,</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="n">parametersfunc</span><span class="p">,</span>
+                    <span class="n">param_wo_type</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                    <span class="n">docstring</span><span class="o">=</span><span class="n">docstring</span><span class="p">,</span>
+                    <span class="n">returnparam1</span><span class="o">=</span><span class="n">returnparam</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">spec</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">X_param_index</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y_param_index</span> <span class="o">==</span> <span class="mi">10</span><span class="p">):</span>
+                <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">functiontemplateXandY</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">functioname</span><span class="o">=</span><span class="n">functionname</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">text1</span><span class="o">=</span><span class="n">text1</span><span class="p">,</span>
+                    <span class="n">model_tag</span><span class="o">=</span><span class="n">model_tag</span><span class="p">,</span>
+                    <span class="n">X_input</span><span class="o">=</span><span class="n">X_input</span><span class="p">,</span>
+                    <span class="n">y_input</span><span class="o">=</span><span class="n">y_input</span><span class="p">,</span>
+                    <span class="n">X_upload</span><span class="o">=</span><span class="n">X_upload</span><span class="p">,</span>
+                    <span class="n">y_upload</span><span class="o">=</span><span class="n">y_upload</span><span class="p">,</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="n">parametersfunc</span><span class="p">,</span>
+                    <span class="n">param_wo_type</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                    <span class="n">docstring</span><span class="o">=</span><span class="n">docstring</span><span class="p">,</span>
+                    <span class="n">returnparam1</span><span class="o">=</span><span class="n">returnparam</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">spec</span>
+
+            <span class="k">elif</span> <span class="p">(</span><span class="n">returnparam</span> <span class="o">==</span> <span class="s1">&#39;array&#39;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">X_param_index</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y_param_index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
+                <span class="n">returnparam</span> <span class="o">=</span> <span class="s1">&#39;list&#39;</span>
+
+                <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">functiontemplateretarryX</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">functioname</span><span class="o">=</span><span class="n">functionname</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">text1</span><span class="o">=</span><span class="n">text1</span><span class="p">,</span>
+                    <span class="n">model_tag</span><span class="o">=</span><span class="n">model_tag</span><span class="p">,</span>
+                    <span class="n">X_input</span><span class="o">=</span><span class="n">X_input</span><span class="p">,</span>
+                    <span class="n">X_upload</span><span class="o">=</span><span class="n">X_upload</span><span class="p">,</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="n">parametersfunc</span><span class="p">,</span>
+                    <span class="n">param_wo_type</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                    <span class="n">docstring</span><span class="o">=</span><span class="n">docstring</span><span class="p">,</span>
+                    <span class="n">returnparam1</span><span class="o">=</span><span class="n">returnparam</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">spec</span>
+
+            <span class="k">elif</span> <span class="p">(</span><span class="n">X_param_index</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y_param_index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+
+                <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">functiontemplatewithonlyX_param</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">functioname</span><span class="o">=</span><span class="n">functionname</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">text1</span><span class="o">=</span><span class="n">text1</span><span class="p">,</span>
+                    <span class="n">model_tag</span><span class="o">=</span><span class="n">model_tag</span><span class="p">,</span>
+                    <span class="n">X_input</span><span class="o">=</span><span class="n">X_input</span><span class="p">,</span>
+                    <span class="n">X_upload</span><span class="o">=</span><span class="n">X_upload</span><span class="p">,</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="n">parametersfunc</span><span class="p">,</span>
+                    <span class="n">param_wo_type</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                    <span class="n">docstring</span><span class="o">=</span><span class="n">docstring</span><span class="p">,</span>
+                    <span class="n">returnparam1</span><span class="o">=</span><span class="n">returnparam</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">spec</span>
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">functiontemplate</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">functioname</span><span class="o">=</span><span class="n">functionname</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">text1</span> <span class="o">=</span> <span class="n">text1</span><span class="p">,</span>
+                    <span class="n">model_tag</span><span class="o">=</span><span class="n">model_tag</span><span class="p">,</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="n">parametersfunc</span><span class="p">,</span>
+                    <span class="n">param_wo_type</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                    <span class="n">docstring</span><span class="o">=</span><span class="n">docstring</span><span class="p">,</span>
+                    <span class="n">returnparam1</span><span class="o">=</span><span class="n">returnparam</span>
+                <span class="p">)</span>
+
+                <span class="k">return</span> <span class="n">spec</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">functionname</span> <span class="o">==</span> <span class="s1">&#39;fit&#39;</span><span class="p">:</span>
+                <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">functiontemplatefit</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">functioname</span><span class="o">=</span><span class="n">functionname</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">base_estimator</span><span class="o">=</span><span class="n">base_estimator</span><span class="p">,</span>
+                    <span class="n">X_input</span><span class="o">=</span><span class="n">X_input</span><span class="p">,</span>
+                    <span class="n">y_input</span><span class="o">=</span><span class="n">y_input</span><span class="p">,</span>
+                    <span class="n">X_upload</span><span class="o">=</span><span class="n">X_upload</span><span class="p">,</span>
+                    <span class="n">y_upload</span><span class="o">=</span><span class="n">y_upload</span><span class="p">,</span>
+                    <span class="n">model_tag</span><span class="o">=</span><span class="n">model_tag</span><span class="p">,</span>
+                    <span class="n">text1</span><span class="o">=</span><span class="n">text1</span><span class="p">,</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="n">parametersfunc</span><span class="p">,</span>
+                    <span class="n">param_wo_type</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                    <span class="n">docstring</span><span class="o">=</span><span class="n">docstring</span><span class="p">,</span>
+                    <span class="n">returnparam1</span><span class="o">=</span><span class="n">returnparam</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">spec</span>
+            <span class="k">elif</span> <span class="n">functionname</span> <span class="o">==</span><span class="s1">&#39;set_params&#39;</span><span class="p">:</span>
+                <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">functiontemplatesetparams</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">functioname</span><span class="o">=</span><span class="n">functionname</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">base_estimator</span><span class="o">=</span><span class="n">base_estimator</span><span class="p">,</span>
+                    <span class="n">model_tag</span><span class="o">=</span><span class="n">model_tag</span><span class="p">,</span>
+                    <span class="n">text1</span><span class="o">=</span><span class="n">text1</span><span class="p">,</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="n">parametersfunc</span><span class="p">,</span>
+                    <span class="n">param_wo_type</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                    <span class="n">docstring</span><span class="o">=</span><span class="n">docstring</span><span class="p">,</span>
+                    <span class="n">returnparam1</span><span class="o">=</span><span class="n">returnparam</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">spec</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">functiontemplatereturningself</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">functioname</span><span class="o">=</span><span class="n">functionname</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">text1</span><span class="o">=</span><span class="n">text1</span><span class="p">,</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="n">parametersfunc</span><span class="p">,</span>
+                    <span class="n">base_estimator</span><span class="o">=</span><span class="n">base_estimator</span><span class="p">,</span>
+                    <span class="n">model_tag</span><span class="o">=</span><span class="n">model_tag</span><span class="p">,</span>
+                    <span class="n">param_wo_type</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                    <span class="n">docstring</span><span class="o">=</span><span class="n">docstring</span><span class="p">,</span>
+                    <span class="n">returnparam1</span><span class="o">=</span><span class="n">returnparam</span>
+                <span class="p">)</span>
+
+                <span class="k">return</span> <span class="n">spec</span></div>
+
+<div class="viewcode-block" id="Generator.generate_import_params"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.generate_import_params">[docs]</a>    <span class="k">def</span> <span class="nf">generate_import_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">input_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param input_params: takes the input passed from the function</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">input_params</span> <span class="o">=</span> <span class="n">input_params</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">importfuction</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">library</span><span class="o">=</span><span class="n">input_params</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">module</span><span class="o">=</span><span class="n">input_params</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">class_nm</span><span class="o">=</span><span class="n">input_params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">spec</span></div>
+
+<div class="viewcode-block" id="Generator.generate_upload"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.generate_upload">[docs]</a>    <span class="k">def</span> <span class="nf">generate_upload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param input_params: takes the input passed from the function</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uploadfunction</span><span class="o">.</span><span class="n">format</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">spec</span></div></div>
+
+<div class="viewcode-block" id="SklearngeneratorFile"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.SklearngeneratorFile">[docs]</a><span class="k">def</span> <span class="nf">SklearngeneratorFile</span><span class="p">(</span><span class="n">input_sklibrary</span><span class="p">,</span><span class="n">model_tag</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param input_sklibrary: input_sklibrary = sklearn.linear_model.LinearRegression(Full model specification)</span>
+<span class="sd">    :param model_tag: model_tag = any name which you want the tag the model instance like LinReg1</span>
+<span class="sd">    :return: .py file which is input to generator which generates openAPI specification</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">my_class</span> <span class="o">=</span> <span class="n">locate</span><span class="p">(</span><span class="n">input_sklibrary</span><span class="p">)</span>
+    <span class="n">method_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span> <span class="k">for</span> <span class="n">func</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">my_class</span><span class="p">)</span> <span class="k">if</span> <span class="n">func</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;_&#39;</span><span class="p">]</span>
+    <span class="n">method_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">method_list</span> <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="s1">&#39;classes_&#39;</span><span class="p">]</span>
+    <span class="n">input_params</span> <span class="o">=</span> <span class="n">input_sklibrary</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="n">input_module</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">input_params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">input_params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">base_estimator</span> <span class="o">=</span> <span class="n">input_params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="n">locate</span><span class="p">(</span><span class="n">input_module</span><span class="p">)</span>
+    <span class="n">class_name</span> <span class="o">=</span> <span class="n">input_params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">openAPI</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">()</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">openAPI</span><span class="o">.</span><span class="n">generate_import_params</span><span class="p">(</span><span class="n">input_params</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Writing python code to file: </span><span class="si">{</span><span class="n">input_params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.py&quot;</span><span class="p">)</span>
+    <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./tests/generator/</span><span class="si">{</span><span class="n">input_params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.py&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">method_list</span><span class="p">)):</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">my_class</span>
+        <span class="n">function</span> <span class="o">=</span> <span class="n">method_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">openAPI</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">()</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">openAPI</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">module</span><span class="p">,</span><span class="n">function</span><span class="p">,</span><span class="n">base_estimator</span><span class="p">,</span><span class="n">model_tag</span><span class="p">)</span>
+        <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./tests/generator/</span><span class="si">{</span><span class="n">input_params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.py&quot;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">SklearngeneratorFile</span><span class="p">(</span><span class="n">input_sklibrary</span><span class="p">,</span><span class="n">model_tag</span><span class="p">)</span>
+
+
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, The Cloudmesh Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
