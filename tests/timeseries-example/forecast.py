@@ -89,7 +89,7 @@ def validate() -> str:
         import os
         path = f"~/.cloudmesh/upload-file"
         file_path = os.path.join(path, filename)
-        df = pd.read_csv(file_path,)
+        df = pd.read_csv(file_path)
 
         numerics = ['int16', 'int32', 'int64']
         for c in [c for c in df.columns if df[c].dtype in numerics]:
