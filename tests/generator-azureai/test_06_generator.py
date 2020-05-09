@@ -13,17 +13,19 @@ import pytest
 from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import HEADING
-#import pycurl
-#import requests
-import subprocess
-#from io import BytesIO
-#import json
+import requests
 
 
-filename="./tests/generator-azureai/azure-ai-image-function.py"
+
+filename="./tests/generator-azureai/azure-ai-image-function.yaml"
+test_image="./tests/generator-azureai/test_image1.jpg"
 all_functions= True
 import_class=False
-function_name="get_image_desc"
+function_1="get_image_desc"
+function_2="get_image_analysis"
+function_3="get_image_tags"
+test_file_name = "test_image1.jpg"
+upload_dir = "~/.cloudmesh/upload-file"
 
 from cloudmesh.common.Benchmark import Benchmark
 
@@ -62,29 +64,57 @@ class TestGeneratorTestClass():
     def test_start_service(self,serverBaseTestFixture):
         serverBaseTestFixture.start_service()
 
-    def test_azureai(self):
+    def test_upload(self):
         HEADING()
-        #url = f"http://localhost:8080/cloudmesh/azure-ai-image-function_upload_enabled/get_image_desc"
         Benchmark.Start()
-        #result = requests.get(url=url, params=payload,headers=headers)
-        #results = curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=landmark.jpg" -H "accept: text/plain"
-        curlURL = "curl -X GET 'http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=landmark.jpg' -H 'accept: text/plain'"
-        p = subprocess.Popen(curlURL, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output, err = p.communicate()
 
-        #if p.returncode != 0:
-        #    print(err)
+        Shell.run(
+            f"cp {test_image} {upload_dir}")
 
-        #print(output.decode('utf-8'))
+        file_list = Shell.run(f"ls {upload_dir}")
 
-        #result = crl.getinfo()
-        assert p.returncode == 0, "Return code value should be 0"
-        #assert result.status_code == 200, "Status code value should be 200"
-        #assert result.reason == 'OK'
-        #assert result.headers['content-type'] == 'text/plain; charset=utf-8'
-        #assert result.json().get('test') is not None
+        assert test_file_name in file_list
+
         Benchmark.Stop()
-        VERBOSE(output.decode('utf-8'))
+
+    def test_get_image_desc(self):
+        HEADING()
+        url = f"http://localhost:8080/cloudmesh/azure-ai-image-function_upload_enabled/{function_1}"
+        Benchmark.Start()
+        payload = {'image_name':{test_file_name}}
+        result = requests.get(url, params=payload)
+        assert result.status_code == 200, "Status code value should be 200"
+        assert result.reason == 'OK'
+        assert result.headers['content-type'] == 'text/plain; charset=utf-8'
+        assert result.json().get('test') is not None
+        Benchmark.Stop()
+        VERBOSE(result)
+
+    def test_get_image_analysis(self):
+        HEADING()
+        url = f"http://localhost:8080/cloudmesh/azure-ai-image-function_upload_enabled/{function_2}"
+        Benchmark.Start()
+        payload = {'image_name':{test_file_name}}
+        result = requests.get(url, params=payload)
+        assert result.status_code == 200, "Status code value should be 200"
+        assert result.reason == 'OK'
+        assert result.headers['content-type'] == 'text/plain; charset=utf-8'
+        assert result.json().get('test') is not None
+        Benchmark.Stop()
+        VERBOSE(result)
+
+    def test_get_image_tags(self):
+        HEADING()
+        url = f"http://localhost:8080/cloudmesh/azure-ai-image-function_upload_enabled/{function_3}"
+        Benchmark.Start()
+        payload = {'image_name':{test_file_name}}
+        result = requests.get(url, params=payload)
+        assert result.status_code == 200, "Status code value should be 200"
+        assert result.reason == 'OK'
+        assert result.headers['content-type'] == 'text/plain; charset=utf-8'
+        assert result.json().get('test') is not None
+        Benchmark.Stop()
+        VERBOSE(result)
 
 
     def test_stop_server(self, serverBaseTestFixture):

@@ -320,6 +320,14 @@ After you have verified your account is created you must then give your account 
 
 2. Follow directions from Google to create a project linked to your account 
 
+#### Quickstart Google Python API
+
+```buildoutcfg
+pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+```
+
+* For quickstart in using Google API for Python visit [here](https://developers.google.com/docs/api/quickstart/python)
+
 #### Setting up your Google account
 
 Before you generate the service account JSON file for your account you will want to enable a number of services in the GCP
@@ -417,7 +425,30 @@ You can copy the files at this location, `./cloudmesh-openapi/tests/textanaysis-
 
 ### AWS
 
-* Jonathan
+Sign up for AWS
+
+* Go to [https://portal.aws.amazon.com/billing/signup](https://portal.aws.amazon.com/billing/signup)
+* Follow online instructions
+
+Create an IAM User
+
+* For instructions, see 
+[here](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html)
+
+Set up AWS CLI and AWS SDKs
+
+* To download and instructions to install AWS CLI, see [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install)
+
+Install Boto 3
+
+```bash
+pip install boto3
+```
+
+* For quickstart, vist [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html)
+
+As long as you enable all the services you need for using AWS AI APIs you should be able to write your functions for OpenAPI
+
 
 ### Azure
 
@@ -483,7 +514,9 @@ You can copy the files at this location, `./cloudmesh-openapi/tests/textanaysis-
 The natural langauge analysis API can be improved by allowing for full phrase translation via the API. If you contribute to this 
 API there is room for improvement to add custom translation models as well if preferred to pre-trained APIs.
 
-#### Prerequisite for setting up Azure ComputerVision AI service
+#### Setting up Azure ComputerVision AI services
+
+##### Prerequisite 
 
 Using the Azure Computer Vision AI service, you can describe, analyze and/ or get tags for a locally stored image or you can read the text from an image or hand-written file.
 
@@ -493,74 +526,86 @@ Using the Azure Computer Vision AI service, you can describe, analyze and/ or ge
   * requests
   * Pillow
 * Install Computer Vision client library
-```
-pip install --upgrade azure-cognitiveservices-vision-computervision
+
+```bash
+  pip install --upgrade azure-cognitiveservices-vision-computervision
 ```
 
-#### Steps to implement and use Azure AI image and text *REST-services*
+##### Steps to implement and use Azure AI image and text *REST-services*
 
 * Go to ```./cloudmesh-openapi``` directory
 
 * Run following command to generate the YAML files
-```
-  cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload`<br>
-  cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload`
+
+```bash
+  cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload
+  cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload
 ```
 * Verify the *YAML* files created in `./tests/generator-azureai` directory
-```
+
+```bash
   azure-ai-image-function.yaml
   azure-ai-text-function.yaml
 ```
   
 * Start the REST service by running following command in `./cloudmesh-openapi` directory
-```
+
+```bash
   cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml
 ```
+
 The default port used for starting the service is 8080. In case you want to start more than one REST service, use a different port in following command: 
-```
+
+```bash
   cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>
 ```
 
 * Access the REST service using [http://localhost:8080/cloudmesh/ui/](http://localhost:8080/cloudmesh/ui/)
 
 * After you have started the azure-ai-image-function or azure-ai-text-function on default port 8080, run following command to upload the image or text_image file
+
+```bash
+  curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/generator-azureai/<image_name_with_extension>;type=image/jpeg"
 ```
-curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/generator-azureai/<image_name_with_extension>;type=image/jpeg"
-```
+  
   Keep your test image files at ```./tests/generator-azureai/``` directory
 
 * With *azure-ai-text-function* started on port=8080, in order to test the azure ai function for text detection in an image, run following command
-```
-curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```bash
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 ```
 
 * With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for describing an image, run following command
-```
-curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+
+```bash
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 ```
 
 * With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for analyzing an image, run following command
-```
-curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
+```bash
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 ```
 
 * With *azure-ai-image-function* started on port=8080, in order to test the azure ai function for identifying tags in an image, run following command
-```
-curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
+```bash
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 ```
 
 * Check the running REST services using following command:
-```
+
+```bash
   cms openapi server ps
 ```
 
 * Stop the REST service using following command(s):
-```
-  cms openapi server stop azure-ai-image-function <br> 
+
+```bash
+  cms openapi server stop azure-ai-image-function
   cms openapi server stop azure-ai-text-function
 ```
 
@@ -572,7 +617,8 @@ The following table lists the different test we have, we provide additional info
 | Test   | Short Description  | Link  |
 | --- | --- | --- | 
 | Generator   | Bla Bla  | Link  |
-
+| Registry    | test_001_registry.py - Runs tests for registry. Description is in tests/README.md| [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
+| Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md)
 Generator:
 
 > This is a paragraph describing what the test is supposed to do can be short

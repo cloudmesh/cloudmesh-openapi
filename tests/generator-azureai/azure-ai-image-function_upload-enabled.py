@@ -87,7 +87,7 @@ def get_image_analysis(image_name: str) -> str:
 
     p = Path(path_expand(file_path))
 
-    image_path = p + image_name  # set image path
+    image_path = p/image_name  # set image path
 
     # Read the image into a byte array
     image_data = open(image_path, "rb").read()
@@ -122,7 +122,7 @@ def get_image_tags(image_name: str) -> str:
 
     p = Path(path_expand(file_path))
 
-    image_path = p + image_name  # set image path
+    image_path = p/image_name  # set image path
 
     # Read the image into a byte array
     image_data = open(image_path, "rb").read()
