@@ -22,10 +22,13 @@ filename="./tests/generator-natural-lang/natural-lang-analysis.py"
 all_functions=True
 import_class=False
 
+#Replace test_dir with location of your cloudmesh install
 test_dir = "/Users/andrewgoldfarb/e516-spring/cm/cloudmesh-openapi/tests/generator-natural-lang/"
 func_filename = "natural-lang-analysis.py"
 yaml_filename = "natural-lang-analysis.yaml"
 sample_text_file = "bladerunner-neg.txt"
+example_text_directory="/Users/andrewgoldfarb/.cloudmesh/text-cache/"
+ssh_keys = "/Users/andrewgoldfarb/Desktop/project-keys.txt"
 
 func_path = test_dir + func_filename
 yaml_path = test_dir + yaml_filename
@@ -38,6 +41,7 @@ VERBOSE(variables.dict())
 
 pub_key = variables['pub_key']
 priv_key = variables['priv_key']
+google_sa = variables['google_sa_path']
 
 cloud = variables.parameter('cloud')
 
@@ -190,27 +194,20 @@ class TestVM:
         vm_instance = data[0]['name']
         #
         #
-        # command = f'scp -i {priv_key} {startup_script} {username}@{external_IP}:.'
-        # # add all ssh keys to the project
-        # command = f'scp -r -i {priv_key} {example-text directory} {username}@{external_IP}:.'
-        # #key setupgcloud compute project-info add-metadata --metadata-from-file ssh-keys=/Users/andrewgoldfarb/Desktop/project-keys.txt
-        # # command_2 = f'ssh -i {priv_key} {username}@{external_IP} ls'
-        # command1 = push text-cahce folder to vm
-        # command1 = sudo apt-get install gcc
-        # command2 = sudo apt-get install python3-venv
-        # command3 = sudo apt-get install python3-pip
-        # command4= cloudmesh-installer get openapi
-        # command5 = cloudmesh-installer get google
-        # upload the json file to the vm
-        # command6= cms register update --kind=google --service=compute --filename=<<google json file>>
-        # print(command)
-        # Shell.run(command)
-        # print(command_2)
-        # r = Shell.run(command_2).split('\n')
-        # print(r)
-        # print("Running Startup Script")
-        # t = Shell.run(vm_location_script)
-        # print(t)
+        command = f'scp -r -i {priv_key} {example_text_directory} {username}@{external_IP}:./.cloudmesh/'
+        upload_service_account = f'scp -i {priv_key} {google_sa} {username}@{external_IP}:.'
+
+        google_sa_vm = "./cloudmesh-final-project-53d3e59c4d15.json"
+        add_ssh_keys = f'gcloud compute project-info add-metadata --metadata-from-file ssh-keys={ssh_keys}'
+        register_google =f"cms register update --kind=google --service=compute --filename={google_sa_vm}"
+
+        Shell.run(command)
+        Shell.run(upload_service_account)
+        Shell.run(add_ssh_keys)
+
+        command_2 = f'ssh -i {priv_key} {username}@{external_IP} | {register_google}'
+
+        Shell.run(command_2)
 
 
 
