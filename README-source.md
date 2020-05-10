@@ -115,7 +115,7 @@ Cloudmesh uses introspection to generate an OpenAPI compliant YAML specification
 - Your functions must include docstrings
 - If a function uses or returns a class, that class must be defined as a dataclass in the same file
 
-The following function is a great example to get started. Note how x, y, and the return type are all `float`. The description in the docstring will be added to your YAML specification to help describe what the function does.
+The following function is a great example to get started. Note how x, y, and the return value are all typed. In this case they are all `float`, but other types are supported. The description in the docstring will be added to your YAML specification to help describe what the function does.
 
 ```python
 def add(x: float, y: float) -> float:
@@ -126,7 +126,7 @@ def add(x: float, y: float) -> float:
     :param y: y value
     :type y: float
     :return: result
-    :return type: floatD
+    :return type: float
     """
     return x + y
 ```
