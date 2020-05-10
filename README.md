@@ -32,7 +32,6 @@ We have not checked if it works on older versions.
 Make sure that `cloudmesh` is properly installed on your machine and you
 have mongodb setup to work with cloudmesh.
 
-D
 More details to setting up `mongo` can be found in the
 
 * [Cloudmesh Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html)
@@ -50,9 +49,9 @@ cd cm
 pip installl cloudmesh-installer get openapi 
 cms help
 cms gui quick
-# fill out mongo variables we should have a `cms gui openapi`
+# fill out mongo variables
 # make sure autinstall is True
-cms admin mongo install --froce
+cms admin mongo install --force
 ```
 
 ```bash
@@ -73,9 +72,9 @@ pip install cloudmesh-installer
 cloudmesh-installer get openapi 
 cms help
 cms gui quick
-# fill out mongo variables we should have a `cms gui openapi`
+# fill out mongo variables
 # make sure autinstall is True
-cms admin mongo install --froce
+cms admin mongo install --force
 ```
 
 ## Overview
@@ -287,9 +286,13 @@ This will enable CLI. Make sure you enable all the required services.
 
 For example:
 
-`gcloud services enable servicemanagement.googleapis.com`
+```
+gcloud services enable servicemanagement.googleapis.com
+```
 
-`gcloud services enable endpoints.googleapis.com`
+```
+gcloud services enable endpoints.googleapis.com
+```
 
 and any other services you might be using for your specific Cloud API function. 
 
@@ -301,11 +304,17 @@ This will enable CLI. Make sure you enable all the required services.
 
 For example:
 
-`gcloud services enable servicemanagement.googleapis.com`
+```
+gcloud services enable servicemanagement.googleapis.com
+```
 <BR>
-`gcloud services enable servicecontrol.googleapis.com`
+```
+gcloud services enable servicecontrol.googleapis.com
+```
 <BR>
-`gcloud services enable endpoints.googleapis.com`
+```
+gcloud services enable endpoints.googleapis.com
+```
 
 and any other services you might be using for your specific Cloud API function. 
 
@@ -375,8 +384,10 @@ Please take note of where you store the downloaded JSON and copy the path string
 The client libraries for each API are included in teh requirements.txt file for the openapi proejct and should be isntalled when the
 package is installed. If not, follow directions outlined by google install each package:
 
-`google-cloud-translate`,
-`google-cloud-language`
+```
+google-cloud-translate
+google-cloud-language
+```
 
 To pass the information from your service account private key file ot the cloudmesh yaml file run the following command:
 
@@ -471,8 +482,10 @@ As long as you enable all the services you need for using AWS AI APIs you should
 4. The microsoft packages are included in the openapi package requirements file so they should be installed. If they are not,
 install the following:
 
-`pip install msrest`, `pip install azure-ai-textanalytics`
-
+```
+pip install msrest
+pip install azure-ai-textanalytics
+```
 
 5. Navigate to the `~/.cloudmesh` repo and create a cache directory for your text examples you would like to analyze.
 
@@ -539,7 +552,7 @@ Using the Azure Computer Vision AI service, you can describe, analyze and/ or ge
 
 ###### Steps to implement and use Azure AI image and text *REST-services*
 
-* Go to ```./cloudmesh-openapi``` directory
+* Go to `./cloudmesh-openapi` directory
 
 * Run following command to generate the YAML files
 
@@ -574,7 +587,7 @@ The default port used for starting the service is 8080. In case you want to star
   curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/generator-azureai/<image_name_with_extension>;type=image/jpeg"
 ```
   
-  Keep your test image files at ```./tests/generator-azureai/``` directory
+  Keep your test image files at `./tests/generator-azureai/` directory
 
 * With *azure-ai-text-function* started on port=8080, in order to test the azure ai function for text detection in an image, run following command
 
@@ -622,10 +635,10 @@ The following table lists the different test we have, we provide additional info
 
 | Test   | Short Description  | Link  |
 | --- | --- | --- | 
-| Generator-calculator   | Test to check if calculator api is generated correctly. This is to test multipler function in one python file   | [test_01_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/generator-calculator/test_01_generator.py)  
-| Generator-testclass   |Test to check if calculator api is generated correctly. This is to test multipler function in one python class file  | [test_02_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/generator-testclass/test_02_generator.py)  
+| Generator-calculator   | Test to check if calculator api is generated correctly. This is to test multiple function in one python file   | [test_01_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/generator-calculator/test_01_generator.py)  
+| Generator-testclass   |Test to check if calculator api is generated correctly. This is to test multiple function in one python class file  | [test_02_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/generator-testclass/test_02_generator.py)  
 | Server-cpu    | Test to check if cpu api is generated correctly. This is to test single function in one python file and function name is different than file name  | [test_03_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cpu/test_03_generator.py)  
-| Server-cms   | Test to check if cms api is generated correctly. This is to test multipler function in one python file. | [test_04_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cms/test_04_generator.py)  
+| Server-cms   | Test to check if cms api is generated correctly. This is to test multiple function in one python file. | [test_04_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cms/test_04_generator.py)  
 | Registry    | test_001_registry.py - Runs tests for registry. Description is in tests/README.md| [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
 | Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [image](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md)
 
