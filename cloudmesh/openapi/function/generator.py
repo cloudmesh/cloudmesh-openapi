@@ -9,11 +9,8 @@ from cloudmesh.common.debug import VERBOSE
 from docstring_parser import parse
 
 
-# TODO: docstrings comments missing
-# TODO: description missing
-# TODO: why are we not using the latest version of openapi?
-# TODO: why are we not using Inspect code from pyCharm?
-# TODO: why are we not using Code Format from pyCharm?
+# TODO: Use latest version of openapi
+# TODO: Use a dynamic way to derive the version of module/class being generated
 
 class Generator:
 
@@ -594,6 +591,7 @@ class Generator:
 
 
     # TODO: integrate the below functions into the package
+    """
     def file_put(root_url, service, filename, verbose=False):
 
         url = f'http://{root_url}/cloudmesh/{service}/file/put'
@@ -614,3 +612,4 @@ class Generator:
 
         r = requests.get(url)
         return r.text
+    """"
