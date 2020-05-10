@@ -607,7 +607,7 @@ The default port used for starting the service is 8080. In case you want to star
 
 ## Test 
 
-The following table lists the different test we have, we provide additional information for the tests in the test directory ina README file. Summaries are provided bellwo the table
+The following table lists the different test we have, we provide additional information for the tests in the test directory in a README file. Summaries are provided below the table
 
 
 | Test   | Short Description  | Link  |
@@ -620,7 +620,7 @@ The following table lists the different test we have, we provide additional info
 | Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [image](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md)
 
 
-For more infromation please check [tests info](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
+For more infromation about test cases ,please check [tests info](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
 
 
 {tests}
