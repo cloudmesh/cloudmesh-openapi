@@ -344,7 +344,7 @@ console.
 
 3. At the dashboard click on the "+ Enable APIs and Services" button at the top of the dashboard
 
-4. Search for **cloud natural language**" to find the API in the search results and click the result
+4. Search for **cloud natural language** to find the API in the search results and click the result
 
 5. Once the page opens click "Enable"
 
@@ -467,10 +467,10 @@ As long as you enable all the services you need for using AWS AI APIs you should
 4. The microsoft packages are included in the openapi package requirements file so they should be installed. If they are not,
 install the following:
 
-```
-pip install msrest
-pip install azure-ai-textanalytics
-```
+    ```
+    pip install msrest
+    pip install azure-ai-textanalytics
+    ```
 
 5. Navigate to the `~/.cloudmesh` repo and create a cache directory for your text examples you would like to analyze.
 
