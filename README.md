@@ -122,17 +122,12 @@ cms openapi server stop cpu
 ### Writing Python
 
 Cloudmesh uses introspection to generate an OpenAPI compliant YAML specification that will allow your Python code to run as a web service. For this reason, any code you write must conform to a set of guidelines.
-- The parameters and return values of any functions you write must use typingpython -m venv ~/ENV3
-source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
-mkdir cm
-cd cm
-pip install cloudmesh-installer
-cloudmesh-installer get openapi 
 
+- The parameters and return values of any functions you write must use typing
 - Your functions must include docstrings
 - If a function uses or returns a class, that class must be defined as a dataclass in the same file
 
-The following function is a great example to get started. Note how x, y, and the return type are all `float`. The description in the docstring will be added to your YAML specification to help describe what the function does.
+The following function is a great example to get started. Note how x, y, and the return value are all typed. In this case they are all `float`, but other types are supported. The description in the docstring will be added to your YAML specification to help describe what the function does.
 
 ```python
 def add(x: float, y: float) -> float:
@@ -143,7 +138,7 @@ def add(x: float, y: float) -> float:
     :param y: y value
     :type y: float
     :return: result
-    :return type: floatD
+    :return type: float
     """
     return x + y
 ```
@@ -191,9 +186,9 @@ Now you have two options to interact with the web service. The first is to navig
 $ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text/plain"
 2.7
 ```
-D
+
 ### Stopping the server
-D
+
 Now you can stop the server using the name of the server. If you forgot the name, use `cms openapi server ps` to get a list of server processes.
 
 ```
@@ -267,9 +262,9 @@ cms openapi generate print_csv2np --filename=./tests/generator-upload/csv_reader
 cms openapi server start ./tests/generator-upload/csv_reader.yaml
 ```
 
-Next, navigate to localhost:8080/cloudmesh/ui. Click to open the /upload endpoint, then click 'Try it out.' Click to choose a file to upload, then upload tests/generator-upload/np_test.csv. Click 'Execute' to complete the upload.
+Next, navigate to localhost:8080/cloudmesh/ui. Click to open the /upload endpoint, then click 'Try it out.' Click to choose a file to upload, then upload `tests/generator-upload/np_test.csv`. Click 'Execute' to complete the upload.
 
-To access what was in the uploaded file, click to open the /print_csv2np endpoint, then click 'Try it out.' Enter np_test.csv in the field that prompts for a filename, and then click Execute to view the numpy array defined by the CSV file.
+The uploaded file will be located at `~/.cloudmesh/upload-file/[filename]`. `tests/generator-upload/csv_reader.py` contains some example code to retrieve the array in the uploaded file. To see this in action, click to open the /print_csv2np endpoint, then click 'Try it out.' Enter "np_test.csv" in the field that prompts for a filename, and then click Execute to view the numpy array defined by the CSV file.
 
 ### Downloading data
 
@@ -622,18 +617,20 @@ The default port used for starting the service is 8080. In case you want to star
 
 ## Test 
 
-The following table lists the different test we have, we provide additional information for the tests in the test directory ina README file. Summaries are provided bellwo the table
+The following table lists the different test we have, we provide additional information for the tests in the test directory in a README file. Summaries are provided below the table
 
 
 | Test   | Short Description  | Link  |
 | --- | --- | --- | 
-| Generator   | Bla Bla  | Link  |
+| Generator-calculator   | Test to check if calculator api is generated correctly. This is to test multipler function in one python file   | [test_01_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/generator-calculator/test_01_generator.py)  
+| Generator-testclass   |Test to check if calculator api is generated correctly. This is to test multipler function in one python class file  | [test_02_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/generator-testclass/test_02_generator.py)  
+| Server-cpu    | Test to check if cpu api is generated correctly. This is to test single function in one python file and function name is different than file name  | [test_03_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cpu/test_03_generator.py)  
+| Server-cms   | Test to check if cms api is generated correctly. This is to test multipler function in one python file. | [test_04_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cms/test_04_generator.py)  
 | Registry    | test_001_registry.py - Runs tests for registry. Description is in tests/README.md| [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
-| Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md)
-Generator:
+| Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [image](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md)
 
-> This is a paragraph describing what the test is supposed to do can be short
-> another line
+
+For more infromation about test cases ,please check [tests info](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
 
 
  * [test_001_registry](tests/test_001_registry.py)
