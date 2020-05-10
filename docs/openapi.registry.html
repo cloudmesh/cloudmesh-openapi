@@ -187,16 +187,16 @@ which later use to stop server.</p>
 <dl class="py method">
 <dt id="openapi.registry.Registry.Registry.Print">
 <code class="sig-name descname">Print</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">output</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/registry/Registry.html#Registry.Print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.registry.Registry.Registry.Print" title="Permalink to this definition">¶</a></dt>
-<dd><p>print registry</p>
+<dd><p>print output in a structured format</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – </p></li>
-<li><p><strong>output</strong> – </p></li>
+<li><p><strong>data</strong> – input data to be printed out</p></li>
+<li><p><strong>output</strong> – type of structured output</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>structured output</p>
 </dd>
 </dl>
 </dd></dl>
@@ -218,10 +218,10 @@ which later use to stop server.</p>
 <dd><p>add to registry from file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> – path and file name</p>
+<dd class="field-odd"><p><strong>filename</strong> – file name including path</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>entry to be inserted into Registry</p>
 </dd>
 </dl>
 </dd></dl>
@@ -253,13 +253,13 @@ which later use to stop server.</p>
 <dl class="py method">
 <dt id="openapi.registry.Registry.Registry.list">
 <code class="sig-name descname">list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/registry/Registry.html#Registry.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.registry.Registry.Registry.list" title="Permalink to this definition">¶</a></dt>
-<dd><p>list the registry</p>
+<dd><p>list entries in the registry</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – if none all</p>
+<dd class="field-odd"><p><strong>name</strong> – name of registered server.  If not passed will list all registered servers.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>list of registered server(s)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -268,31 +268,6 @@ which later use to stop server.</p>
 <dt id="openapi.registry.Registry.Registry.output">
 <code class="sig-name descname">output</code><em class="property"> = {'register': {'header': ['Name', 'Status', 'Url', 'Pid'], 'order': ['cm.name', 'status', 'url', 'pid'], 'sort_keys': ['cm.name']}}</em><a class="headerlink" href="#openapi.registry.Registry.Registry.output" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="py method">
-<dt id="openapi.registry.Registry.Registry.start">
-<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/registry/Registry.html#Registry.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.registry.Registry.Registry.start" title="Permalink to this definition">¶</a></dt>
-<dd><p>start the registry</p>
-<p>possibly not needed as we have cms start</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="openapi.registry.Registry.Registry.stop">
-<code class="sig-name descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/registry/Registry.html#Registry.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.registry.Registry.Registry.stop" title="Permalink to this definition">¶</a></dt>
-<dd><p>stop the registry</p>
-<p>possibly not needed as we have cms start
-this will not just sto the registry but mongo</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
-</dd>
-</dl>
-</dd></dl>
 
 </dd></dl>
 
@@ -303,7 +278,7 @@ this will not just sto the registry but mongo</p>
 <dt id="openapi.registry.cache.ResultCache">
 <em class="property">class </em><code class="sig-prename descclassname">openapi.registry.cache.</code><code class="sig-name descname">ResultCache</code><a class="reference internal" href="_modules/openapi/registry/cache.html#ResultCache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.registry.cache.ResultCache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Saves serialized model to local cache and saves metadata to local db</p>
+<p>Saves serialized model to local cache and saves metadata about the model to local db</p>
 <dl class="py method">
 <dt id="openapi.registry.cache.ResultCache.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/registry/cache.html#ResultCache.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.registry.cache.ResultCache.__init__" title="Permalink to this definition">¶</a></dt>

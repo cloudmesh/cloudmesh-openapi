@@ -591,7 +591,7 @@ class Generator:
 
 
     # TODO: integrate the below functions into the package
-    """
+    '''
     def file_put(root_url, service, filename, verbose=False):
 
         url = f'http://{root_url}/cloudmesh/{service}/file/put'
@@ -612,4 +612,4 @@ class Generator:
 
         r = requests.get(url)
         return r.text
-    """"
+    '''
