@@ -137,7 +137,9 @@
 
 ### Openstack VM set up script
 
-   <https://github.com/cloudmesh/get/blob/master/openapi/ubuntu18.04/index.html>
+   - [OPENSTACK](https://github.com/cloudmesh/get/blob/master/openapi/ubuntu18.04/index.html)
+   
+   - [GOOGLE](https://github.com/cloudmesh/get/blob/master/openapi/google/index.html)
 
    **Contributors:** Jonathan Beckford, Andrew Goldfarb
 
