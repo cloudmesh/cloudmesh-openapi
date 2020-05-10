@@ -273,21 +273,20 @@ directory as the .py file</p>
 </li>
 <li><p>Access the REST service using <a class="reference external" href="http://localhost:8080/cloudmesh/ui/">http://localhost:8080/cloudmesh/ui/</a></p></li>
 <li><p>Run a curl command against the newly running server to upload the
-testfiles.</p></li>
-</ol>
+testfiles.</p>
 <p>Place your test files in
 <a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/Scikitlearn-data">Scikitlearn-data</a>
 We are testing with X_SAT.csv(SAT Scores of students),y_GPA(GPA of
 students)</p>
-<p>```bash curl -X POST “<a class="reference external" href="http://localhost:8080/cloudmesh/upload">http://localhost:8080/cloudmesh/upload</a>” -H
-“accept: text/plain” -H “Content-Type: multipart/form-data” -F
-“<a class="reference external" href="mailto:upload=&#37;&#52;&#48;tests/Scikitlearn-data/X_SAT&#46;csv">upload=<span>&#64;</span>tests/Scikitlearn-data/X_SAT<span>&#46;</span>csv</a>;type=text/csv”</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>curl -X POST &quot;http://localhost:8080/cloudmesh/upload&quot; -H  &quot;accept: text/plain&quot; -H
-&quot;Content-Type: multipart/form-data&quot; -F &quot;upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv&quot;
-```
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X POST <span class="s2">&quot;http://localhost:8080/cloudmesh/upload&quot;</span> -H  <span class="s2">&quot;accept: text/plain&quot;</span> -H
+<span class="s2">&quot;Content-Type: multipart/form-data&quot;</span> -F <span class="s2">&quot;upload=@tests/Scikitlearn-data/X_SAT.csv;type=text/csv&quot;</span>
 </pre></div>
 </div>
-<ol class="arabic" start="10">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X POST <span class="s2">&quot;http://localhost:8080/cloudmesh/upload&quot;</span> -H  <span class="s2">&quot;accept: text/plain&quot;</span> -H
+<span class="s2">&quot;Content-Type: multipart/form-data&quot;</span> -F <span class="s2">&quot;upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv&quot;</span>
+</pre></div>
+</div>
+</li>
 <li><p>Run a curl command against the newly running server to verify fit
 method in Scikit-learn using the uploaded files</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/fit?X=X_SAT&amp;y=y_GPA&quot;</span> -H <span class="s2">&quot;accept: */*&quot;</span>

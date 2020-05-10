@@ -115,13 +115,15 @@ Split data functionality is not currently supported.
 
 9. Run a curl command against the newly running server to upload the testfiles.
 
-   Place your test files in [Scikitlearn-data](https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/Scikitlearn-data)
-   We are testing with X_SAT.csv(SAT Scores of students),y_GPA(GPA of students)
+    Place your test files in [Scikitlearn-data](https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/Scikitlearn-data)
+    We are testing with X_SAT.csv(SAT Scores of students),y_GPA(GPA of students)
    
-   ```bash
+    ```bash
     curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H 
     "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/X_SAT.csv;type=text/csv"
+    ```
 
+    ```bash
     curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  
     "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv"
     ```

@@ -431,7 +431,7 @@ will want to enable a number of services in the GCP console.
 3. At the dashboard click on the "+ Enable APIs and Services" button at
    the top of the dashboard
 
-4. Search for **cloud natural language**" to find the API in the search
+4. Search for **cloud natural language** to find the API in the search
    results and click the result
 
 5. Once the page opens click "Enable"
@@ -568,25 +568,25 @@ Azure
 Setting up Azure Sentiment Analysis and Translation Services
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-1. Create an Azure subscription. If you don't have one, create a `free
-   account <https://azure.microsoft.com/try/cognitive-services/>`__
+1.  Create an Azure subscription. If you don't have one, create a `free
+    account <https://azure.microsoft.com/try/cognitive-services/>`__
 
-2. Create a `Text Analysis
-   resource <https://portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics>`__
+2.  Create a `Text Analysis
+    resource <https://portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics>`__
 
-   -  This link will require you to be logged in to the Azure portal
+    -  This link will require you to be logged in to the Azure portal
 
-3. Create a `Translation
-   Resource <https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows>`__
+3.  Create a `Translation
+    Resource <https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows>`__
 
-4. The microsoft packages are included in the openapi package
-   requirements file so they should be installed. If they are not,
-   install the following:
+4.  The microsoft packages are included in the openapi package
+    requirements file so they should be installed. If they are not,
+    install the following:
 
-::
+    ::
 
-    pip install msrest
-    pip install azure-ai-textanalytics
+        pip install msrest
+        pip install azure-ai-textanalytics
 
 5.  Navigate to the ``~/.cloudmesh`` repo and create a cache directory
     for your text examples you would like to analyze.

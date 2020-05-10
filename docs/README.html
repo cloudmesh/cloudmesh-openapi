@@ -566,7 +566,7 @@ navigation bar. Ensure you are in the correct porject.</p></li>
 and click on “Dashboard” in the submenu.</p></li>
 <li><p>At the dashboard click on the “+ Enable APIs and Services” button at
 the top of the dashboard</p></li>
-<li><p>Search for <strong>cloud natural language</strong>” to find the API in the search
+<li><p>Search for <strong>cloud natural language</strong> to find the API in the search
 results and click the result</p></li>
 <li><p>Once the page opens click “Enable”</p></li>
 <li><p>Do the same for the <strong>translate</strong> API to enable that as well</p></li>
@@ -685,7 +685,7 @@ you should be able to write your functions for OpenAPI</p>
 <h4>Azure<a class="headerlink" href="#azure" title="Permalink to this headline">¶</a></h4>
 <div class="section" id="setting-up-azure-sentiment-analysis-and-translation-services">
 <h5>Setting up Azure Sentiment Analysis and Translation Services<a class="headerlink" href="#setting-up-azure-sentiment-analysis-and-translation-services" title="Permalink to this headline">¶</a></h5>
-<ol class="arabic simple">
+<ol class="arabic">
 <li><p>Create an Azure subscription. If you don’t have one, create a <a class="reference external" href="https://azure.microsoft.com/try/cognitive-services/">free
 account</a></p></li>
 <li><p>Create a <a class="reference external" href="https://portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics">Text Analysis
@@ -698,13 +698,12 @@ resource</a></p>
 Resource</a></p></li>
 <li><p>The microsoft packages are included in the openapi package
 requirements file so they should be installed. If they are not,
-install the following:</p></li>
-</ol>
+install the following:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">msrest</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="n">azure</span><span class="o">-</span><span class="n">ai</span><span class="o">-</span><span class="n">textanalytics</span>
 </pre></div>
 </div>
-<ol class="arabic" start="5">
+</li>
 <li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">~/.cloudmesh</span></code> repo and create a cache directory
 for your text examples you would like to analyze.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir text-cache
