@@ -30,11 +30,11 @@ class Registry:
     # noinspection PyPep8Naming
     def Print(self, data, output=None):
         """
-        print registry
+        print output in a structured format
 
-        :param data:
-        :param output:
-        :return:
+        :param data:  input data to be printed out
+        :param output:  type of structured output
+        :return:  structured output
         """
 
         if output == "table":
@@ -62,9 +62,9 @@ class Registry:
         """
         add to registry
 
-        :param name: name to be used for registry
-        :param kwargs:
-        :return:
+        :param name: name to be used for registry entry
+        :param kwargs:  other optional fields to populate in registry
+        :return:  
         """
         entry = {
             "cm": {
@@ -86,8 +86,8 @@ class Registry:
         """
         add to registry from file
 
-        :param filename: path and file name
-        :return:
+        :param filename: file name including path
+        :return:  entry to be inserted into Registry
         """
 
         spec = filename
@@ -104,7 +104,7 @@ class Registry:
         delete item from registry
 
         :param name: name of the item in registry
-        :return:
+        :return:  
         """
         cm = CmDatabase()
 
@@ -119,10 +119,10 @@ class Registry:
 
     def list(self, name=None):
         """
-        list the registry
+        list entries in the registry
 
-        :param name:  if none all
-        :return:
+        :param name:  name of registered server.  If not passed will list all registered servers.
+        :return:  list of registered server(s)
         """
 
         cm = CmDatabase()
@@ -133,6 +133,9 @@ class Registry:
 
         return entries
 
+
+    # TODO: determine if these are still needed as these functions are handled by cms already
+    '''
     def start(self):
         """
         start the registry
@@ -153,3 +156,4 @@ class Registry:
         :return:
         """
         r = Shell.cms("stop")
+    '''

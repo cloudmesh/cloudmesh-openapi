@@ -12,7 +12,7 @@ import os
 
 class ResultCache:
     """
-    Saves serialized model to local cache and saves metadata to local db
+    Saves serialized model to local cache and saves metadata about the model to local db
     """
 
     def __init__(self):
