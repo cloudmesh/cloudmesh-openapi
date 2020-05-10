@@ -126,20 +126,18 @@ Writing Python
 Cloudmesh uses introspection to generate an OpenAPI compliant YAML
 specification that will allow your Python code to run as a web service.
 For this reason, any code you write must conform to a set of guidelines.
-- The parameters and return values of any functions you write must use
-typingpython -m venv ~/ENV3 source ~/ENV3/bin/activate # on windows
-ENV3:raw-latex:`\Scripts`:raw-latex:`\activate
-`mkdir cm cd cm pip install cloudmesh-installer cloudmesh-installer get
-openapi
 
+-  The parameters and return values of any functions you write must use
+   typing
 -  Your functions must include docstrings
 -  If a function uses or returns a class, that class must be defined as
    a dataclass in the same file
 
 The following function is a great example to get started. Note how x, y,
-and the return type are all ``float``. The description in the docstring
-will be added to your YAML specification to help describe what the
-function does.
+and the return value are all typed. In this case they are all ``float``,
+but other types are supported. The description in the docstring will be
+added to your YAML specification to help describe what the function
+does.
 
 .. code:: python
 
@@ -151,7 +149,7 @@ function does.
         :param y: y value
         :type y: float
         :return: result
-        :return type: floatD
+        :return type: float
         """
         return x + y
 
@@ -213,9 +211,12 @@ functionality. The second is to use curl commands to submit requests.
     $ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text/plain"
     2.7
 
-D ### Stopping the server D Now you can stop the server using the name
-of the server. If you forgot the name, use ``cms openapi server ps`` to
-get a list of server processes.
+Stopping the server
+~~~~~~~~~~~~~~~~~~~
+
+Now you can stop the server using the name of the server. If you forgot
+the name, use ``cms openapi server ps`` to get a list of server
+processes.
 
 ::
 
@@ -303,13 +304,16 @@ First, generate the OpenAPI specification and start the server
 
 Next, navigate to localhost:8080/cloudmesh/ui. Click to open the /upload
 endpoint, then click 'Try it out.' Click to choose a file to upload,
-then upload tests/generator-upload/np\_test.csv. Click 'Execute' to
+then upload ``tests/generator-upload/np_test.csv``. Click 'Execute' to
 complete the upload.
 
-To access what was in the uploaded file, click to open the
-/print\_csv2np endpoint, then click 'Try it out.' Enter np\_test.csv in
-the field that prompts for a filename, and then click Execute to view
-the numpy array defined by the CSV file.
+The uploaded file will be located at
+``~/.cloudmesh/upload-file/[filename]``.
+``tests/generator-upload/csv_reader.py`` contains some example code to
+retrieve the array in the uploaded file. To see this in action, click to
+open the /print\_csv2np endpoint, then click 'Try it out.' Enter
+"np\_test.csv" in the field that prompts for a filename, and then click
+Execute to view the numpy array defined by the CSV file.
 
 Downloading data
 ~~~~~~~~~~~~~~~~
@@ -745,8 +749,8 @@ Test
 ----
 
 The following table lists the different test we have, we provide
-additional information for the tests in the test directory ina README
-file. Summaries are provided bellwo the table
+additional information for the tests in the test directory in a README
+file. Summaries are provided below the table
 
 +------+------+------+
 | Test | Shor | Link |
@@ -755,9 +759,147 @@ file. Summaries are provided bellwo the table
 |      | ript |      |
 |      | ion  |      |
 +======+======+======+
-| Gene | Bla  | Link |
-| rato | Bla  |      |
-| r    |      |      |
+| Gene | Test | `tes |
+| rato | to   | t\_0 |
+| r-ca | chec | 1\_g |
+| lcul | k    | ener |
+| ator | if   | ator |
+|      | calc | .py  |
+|      | ulat | <htt |
+|      | or   | ps:/ |
+|      | api  | /git |
+|      | is   | hub. |
+|      | gene | com/ |
+|      | rate | clou |
+|      | d    | dmes |
+|      | corr | h/cl |
+|      | ectl | oudm |
+|      | y.   | esh- |
+|      | This | open |
+|      | is   | api/ |
+|      | to   | blob |
+|      | test | /mas |
+|      | mult | ter/ |
+|      | iple | test |
+|      | r    | s/ge |
+|      | func | nera |
+|      | tion | tor- |
+|      | in   | calc |
+|      | one  | ulat |
+|      | pyth | or/t |
+|      | on   | est_ |
+|      | file | 01_g |
+|      |      | ener |
+|      |      | ator |
+|      |      | .py> |
+|      |      | `__  |
++------+------+------+
+| Gene | Test | `tes |
+| rato | to   | t\_0 |
+| r-te | chec | 2\_g |
+| stcl | k    | ener |
+| ass  | if   | ator |
+|      | calc | .py  |
+|      | ulat | <htt |
+|      | or   | ps:/ |
+|      | api  | /git |
+|      | is   | hub. |
+|      | gene | com/ |
+|      | rate | clou |
+|      | d    | dmes |
+|      | corr | h/cl |
+|      | ectl | oudm |
+|      | y.   | esh- |
+|      | This | open |
+|      | is   | api/ |
+|      | to   | blob |
+|      | test | /mas |
+|      | mult | ter/ |
+|      | iple | test |
+|      | r    | s/ge |
+|      | func | nera |
+|      | tion | tor- |
+|      | in   | test |
+|      | one  | clas |
+|      | pyth | s/te |
+|      | on   | st_0 |
+|      | clas | 2_ge |
+|      | s    | nera |
+|      | file | tor. |
+|      |      | py>` |
+|      |      | __   |
++------+------+------+
+| Serv | Test | `tes |
+| er-c | to   | t\_0 |
+| pu   | chec | 3\_g |
+|      | k    | ener |
+|      | if   | ator |
+|      | cpu  | .py  |
+|      | api  | <htt |
+|      | is   | ps:/ |
+|      | gene | /git |
+|      | rate | hub. |
+|      | d    | com/ |
+|      | corr | clou |
+|      | ectl | dmes |
+|      | y.   | h/cl |
+|      | This | oudm |
+|      | is   | esh- |
+|      | to   | open |
+|      | test | api/ |
+|      | sing | blob |
+|      | le   | /mas |
+|      | func | ter/ |
+|      | tion | test |
+|      | in   | s/se |
+|      | one  | rver |
+|      | pyth | -cpu |
+|      | on   | /tes |
+|      | file | t_03 |
+|      | and  | _gen |
+|      | func | erat |
+|      | tion | or.p |
+|      | name | y>`_ |
+|      | is   | _    |
+|      | diff |      |
+|      | eren |      |
+|      | t    |      |
+|      | than |      |
+|      | file |      |
+|      | name |      |
++------+------+------+
+| Serv | Test | `tes |
+| er-c | to   | t\_0 |
+| ms   | chec | 4\_g |
+|      | k    | ener |
+|      | if   | ator |
+|      | cms  | .py  |
+|      | api  | <htt |
+|      | is   | ps:/ |
+|      | gene | /git |
+|      | rate | hub. |
+|      | d    | com/ |
+|      | corr | clou |
+|      | ectl | dmes |
+|      | y.   | h/cl |
+|      | This | oudm |
+|      | is   | esh- |
+|      | to   | open |
+|      | test | api/ |
+|      | mult | blob |
+|      | iple | /mas |
+|      | r    | ter/ |
+|      | func | test |
+|      | tion | s/se |
+|      | in   | rver |
+|      | one  | -cms |
+|      | pyth | /tes |
+|      | on   | t_04 |
+|      | file | _gen |
+|      | .    | erat |
+|      |      | or.p |
+|      |      | y>`_ |
+|      |      | _    |
 +------+------+------+
 | Regi | test | `Lin |
 | stry | \_00 | k <h |
@@ -783,32 +925,32 @@ file. Summaries are provided bellwo the table
 |      | ADME | _    |
 |      | .md  |      |
 +------+------+------+
-| Imag | imag | `Lin |
-| e-An | e\_t | k <h |
-| alys | est. | ttps |
-| is   | py   | ://g |
-|      | -    | ithu |
-|      | Runs | b.co |
-|      | benc | m/cl |
-|      | hmar | oudm |
-|      | k    | esh/ |
-|      | for  | clou |
-|      | text | dmes |
-|      | dete | h-op |
-|      | ctio | enap |
-|      | n    | i/bl |
-|      | for  | ob/m |
-|      | Goog | aste |
-|      | le   | r/te |
-|      | Visi | sts/ |
-|      | on   | imag |
-|      | API  | e-an |
-|      | and  | alys |
-|      | AWS  | is/R |
-|      | Reko | EADM |
-|      | gnit | E.md |
-|      | ion. | >`__ |
-|      | Desc |      |
+| Imag | imag | `ima |
+| e-An | e\_t | ge < |
+| alys | est. | http |
+| is   | py   | s:// |
+|      | -    | gith |
+|      | Runs | ub.c |
+|      | benc | om/c |
+|      | hmar | loud |
+|      | k    | mesh |
+|      | for  | /clo |
+|      | text | udme |
+|      | dete | sh-o |
+|      | ctio | pena |
+|      | n    | pi/b |
+|      | for  | lob/ |
+|      | Goog | mast |
+|      | le   | er/t |
+|      | Visi | ests |
+|      | on   | /ima |
+|      | API  | ge-a |
+|      | and  | naly |
+|      | AWS  | sis/ |
+|      | Reko | READ |
+|      | gnit | ME.m |
+|      | ion. | d>`_ |
+|      | Desc | _    |
 |      | ript |      |
 |      | ion  |      |
 |      | in   |      |
@@ -820,10 +962,8 @@ file. Summaries are provided bellwo the table
 |      | E.md |      |
 +------+------+------+
 
-Generator:
-
-    This is a paragraph describing what the test is supposed to do can
-    be short another line
+For more infromation about test cases ,please check `tests
+info <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md>`__
 
 -  `test\_001\_registry <tests/test_001_registry.py>`__
 -  `test\_003\_server\_manage\_cpu <tests/test_003_server_manage_cpu.py>`__

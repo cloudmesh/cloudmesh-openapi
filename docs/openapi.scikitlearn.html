@@ -213,15 +213,13 @@
 <dl class="py method">
 <dt id="openapi.scikitlearn.SklearnGenerator.Generator.generate_function">
 <code class="sig-name descname">generate_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span></em>, <em class="sig-param"><span class="n">function</span></em>, <em class="sig-param"><span class="n">base_estimator</span></em>, <em class="sig-param"><span class="n">model_tag</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#Generator.generate_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Generator.generate_function" title="Permalink to this definition">¶</a></dt>
-<dd><p>function to generate open API of python function.</p>
-<dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>f</strong> – </p></li>
-<li><p><strong>baseurl</strong> – </p></li>
-<li><p><strong>outdir</strong> – </p></li>
-<li><p><strong>yaml</strong> – </p></li>
-<li><p><strong>write</strong> – </p></li>
+<li><p><strong>module</strong> – Sklearn module like Linear Regression</p></li>
+<li><p><strong>function</strong> – Methods in the class of Linear Regression</p></li>
+<li><p><strong>base_estimator</strong> – Sklearn module like Linear Regression</p></li>
+<li><p><strong>model_tag</strong> – Tag used to store the name of the model instance</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -277,7 +275,10 @@ use the numpy docstring parser to read the doc of sklean.</p>
 specification</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>function_name</strong> – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>paras_dict</strong> – parameters dictionary passed to the function</p></li>
+<li><p><strong>paras_desc</strong> – parameters docstrings passed to the function</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p></p>
@@ -290,7 +291,18 @@ specification</p>
 <dl class="py function">
 <dt id="openapi.scikitlearn.SklearnGenerator.Sklearngenerator">
 <code class="sig-prename descclassname">openapi.scikitlearn.SklearnGenerator.</code><code class="sig-name descname">Sklearngenerator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_sklibrary</span></em>, <em class="sig-param"><span class="n">model_tag</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/openapi/scikitlearn/SklearnGenerator.html#Sklearngenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#openapi.scikitlearn.SklearnGenerator.Sklearngenerator" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_sklibrary</strong> – input_sklibrary = sklearn.linear_model.LinearRegression(Full model specification)</p></li>
+<li><p><strong>model_tag</strong> – model_tag = any name which you want the tag the model instance like LinReg1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>.py file which is input to generator which generates openAPI specification</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py class">
 <dt id="openapi.scikitlearn.SklearnGenerator.TypeScraper">

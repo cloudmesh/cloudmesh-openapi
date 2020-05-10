@@ -107,6 +107,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#generating-openapi-specification">Generating OpenAPI specification</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#starting-a-server">Starting a server</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sending-requests-to-the-server">Sending requests to the server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stopping-the-server">Stopping the server</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#manual">Manual</a></li>
@@ -310,21 +311,19 @@ we include the manual page later on in this document.</p>
 <h3>Writing Python<a class="headerlink" href="#writing-python" title="Permalink to this headline">¶</a></h3>
 <p>Cloudmesh uses introspection to generate an OpenAPI compliant YAML
 specification that will allow your Python code to run as a web service.
-For this reason, any code you write must conform to a set of guidelines.
-- The parameters and return values of any functions you write must use
-typingpython -m venv ~/ENV3 source ~/ENV3/bin/activate # on windows
-ENV3:raw-latex:<cite>Scripts</cite>:raw-latex:<a href="#id1"><span class="problematic" id="id2">`</span></a>activate
-<a href="#id3"><span class="problematic" id="id4">`</span></a>mkdir cm cd cm pip install cloudmesh-installer cloudmesh-installer get
-openapi</p>
+For this reason, any code you write must conform to a set of guidelines.</p>
 <ul class="simple">
+<li><p>The parameters and return values of any functions you write must use
+typing</p></li>
 <li><p>Your functions must include docstrings</p></li>
 <li><p>If a function uses or returns a class, that class must be defined as
 a dataclass in the same file</p></li>
 </ul>
 <p>The following function is a great example to get started. Note how x, y,
-and the return type are all <code class="docutils literal notranslate"><span class="pre">float</span></code>. The description in the docstring
-will be added to your YAML specification to help describe what the
-function does.</p>
+and the return value are all typed. In this case they are all <code class="docutils literal notranslate"><span class="pre">float</span></code>,
+but other types are supported. The description in the docstring will be
+added to your YAML specification to help describe what the function
+does.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    adding float and float.</span>
@@ -333,7 +332,7 @@ function does.</p>
 <span class="sd">    :param y: y value</span>
 <span class="sd">    :type y: float</span>
 <span class="sd">    :return: result</span>
-<span class="sd">    :return type: floatD</span>
+<span class="sd">    :return type: float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </pre></div>
@@ -385,9 +384,12 @@ functionality. The second is to use curl commands to submit requests.</p>
 2.7
 </pre></div>
 </div>
-<p>D ### Stopping the server D Now you can stop the server using the name
-of the server. If you forgot the name, use <code class="docutils literal notranslate"><span class="pre">cms</span> <span class="pre">openapi</span> <span class="pre">server</span> <span class="pre">ps</span></code> to
-get a list of server processes.</p>
+</div>
+<div class="section" id="stopping-the-server">
+<h3>Stopping the server<a class="headerlink" href="#stopping-the-server" title="Permalink to this headline">¶</a></h3>
+<p>Now you can stop the server using the name of the server. If you forgot
+the name, use <code class="docutils literal notranslate"><span class="pre">cms</span> <span class="pre">openapi</span> <span class="pre">server</span> <span class="pre">ps</span></code> to get a list of server
+processes.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cms openapi stop [server name]
 </pre></div>
 </div>
@@ -460,12 +462,15 @@ retrieve it.</p>
 </div>
 <p>Next, navigate to localhost:8080/cloudmesh/ui. Click to open the /upload
 endpoint, then click ‘Try it out.’ Click to choose a file to upload,
-then upload tests/generator-upload/np_test.csv. Click ‘Execute’ to
+then upload <code class="docutils literal notranslate"><span class="pre">tests/generator-upload/np_test.csv</span></code>. Click ‘Execute’ to
 complete the upload.</p>
-<p>To access what was in the uploaded file, click to open the
-/print_csv2np endpoint, then click ‘Try it out.’ Enter np_test.csv in
-the field that prompts for a filename, and then click Execute to view
-the numpy array defined by the CSV file.</p>
+<p>The uploaded file will be located at
+<code class="docutils literal notranslate"><span class="pre">~/.cloudmesh/upload-file/[filename]</span></code>.
+<code class="docutils literal notranslate"><span class="pre">tests/generator-upload/csv_reader.py</span></code> contains some example code to
+retrieve the array in the uploaded file. To see this in action, click to
+open the /print_csv2np endpoint, then click ‘Try it out.’ Enter
+“np_test.csv” in the field that prompts for a filename, and then click
+Execute to view the numpy array defined by the CSV file.</p>
 </div>
 </div>
 <div class="section" id="downloading-data">
@@ -851,8 +856,8 @@ cms openapi server stop azure-ai-text-function
 <div class="section" id="test">
 <h2>Test<a class="headerlink" href="#test" title="Permalink to this headline">¶</a></h2>
 <p>The following table lists the different test we have, we provide
-additional information for the tests in the test directory ina README
-file. Summaries are provided bellwo the table</p>
+additional information for the tests in the test directory in a README
+file. Summaries are provided below the table</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 33%" />
@@ -872,12 +877,236 @@ ion</p></th>
 <tbody>
 <tr class="row-even"><td><p>Gene
 rato
-r</p></td>
-<td><p>Bla
-Bla</p></td>
-<td><p>Link</p></td>
+r-ca
+lcul
+ator</p></td>
+<td><p>Test
+to
+chec
+k
+if
+calc
+ulat
+or
+api
+is
+gene
+rate
+d
+corr
+ectl
+y.
+This
+is
+to
+test
+mult
+iple
+r
+func
+tion
+in
+one
+pyth
+on
+file</p></td>
+<td><p><a href="#id1"><span class="problematic" id="id2">`</span></a>tes
+t_0
+1_g
+ener
+ator
+.py
+&lt;htt
+ps:/
+/git
+hub.
+com/
+clou
+dmes
+h/cl
+oudm
+esh-
+open
+api/
+blob
+/mas
+ter/
+test
+s/ge
+nera
+tor-
+calc
+ulat
+or/t
+<a href="#id5"><span class="problematic" id="id6">est_</span></a>
+01_g
+ener
+ator
+.py&gt;
+<a href="#id3"><span class="problematic" id="id4">`</span></a>__</p></td>
 </tr>
-<tr class="row-odd"><td><p>Regi
+<tr class="row-odd"><td><p>Gene
+rato
+r-te
+stcl
+ass</p></td>
+<td><p>Test
+to
+chec
+k
+if
+calc
+ulat
+or
+api
+is
+gene
+rate
+d
+corr
+ectl
+y.
+This
+is
+to
+test
+mult
+iple
+r
+func
+tion
+in
+one
+pyth
+on
+clas
+s
+file</p></td>
+<td><p><cite>tes
+t_0
+2_g
+ener
+ator
+.py
+&lt;htt
+ps:/
+/git
+hub.
+com/
+clou
+dmes
+h/cl
+oudm
+esh-
+open
+api/
+blob
+/mas
+ter/
+test
+s/ge
+nera
+tor-
+test
+clas
+s/te
+st_0
+2_ge
+nera
+tor.
+py&gt;</cite>
+__</p></td>
+</tr>
+<tr class="row-even"><td><p>Serv
+er-c
+pu</p></td>
+<td><p>Test
+to
+chec
+k
+if
+cpu
+api
+is
+gene
+rate
+d
+corr
+ectl
+y.
+This
+is
+to
+test
+sing
+le
+func
+tion
+in
+one
+pyth
+on
+file
+and
+func
+tion
+name
+is
+diff
+eren
+t
+than
+file
+name</p></td>
+<td><p><a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cpu/test_03_generator.py">tes
+t_0
+3_g
+ener
+ator
+.py</a>
+_</p></td>
+</tr>
+<tr class="row-odd"><td><p>Serv
+er-c
+ms</p></td>
+<td><p>Test
+to
+chec
+k
+if
+cms
+api
+is
+gene
+rate
+d
+corr
+ectl
+y.
+This
+is
+to
+test
+mult
+iple
+r
+func
+tion
+in
+one
+pyth
+on
+file
+.</p></td>
+<td><p><a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cms/test_04_generator.py">tes
+t_0
+4_g
+ener
+ator
+.py</a>
+_</p></td>
+</tr>
+<tr class="row-even"><td><p>Regi
 stry</p></td>
 <td><p>test
 _00
@@ -906,7 +1135,7 @@ ADME
 k</a>
 _</p></td>
 </tr>
-<tr class="row-even"><td><p>Imag
+<tr class="row-odd"><td><p>Imag
 e-An
 alys
 is</p></td>
@@ -945,39 +1174,37 @@ alys
 is/R
 EADM
 E.md</p></td>
-<td><p><a href="#id5"><span class="problematic" id="id6">`Lin
-k &lt;h
-ttps
-://g
-ithu
-b.co
-m/cl
-oudm
-esh/
-clou
-dmes
-h-op
-enap
-i/bl
-ob/m
-aste
-r/te
-sts/
-imag
-e-an
-alys
-is/R
-EADM
-E.md
-&gt;`__</span></a></p></td>
+<td><p><a href="#id7"><span class="problematic" id="id8">`ima
+ge &lt;
+http
+s://
+gith
+ub.c
+om/c
+loud
+mesh
+/clo
+udme
+sh-o
+pena
+pi/b
+lob/
+mast
+er/t
+ests
+/ima
+ge-a
+naly
+sis/
+READ
+ME.m
+d&gt;`_</span></a>
+_</p></td>
 </tr>
 </tbody>
 </table>
-<p>Generator:</p>
-<blockquote>
-<div><p>This is a paragraph describing what the test is supposed to do can
-be short another line</p>
-</div></blockquote>
+<p>For more infromation about test cases ,please check <a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md">tests
+info</a></p>
 <ul class="simple">
 <li><p><a class="reference external" href="tests/test_001_registry.py">test_001_registry</a></p></li>
 <li><p><a class="reference external" href="tests/test_003_server_manage_cpu.py">test_003_server_manage_cpu</a></p></li>

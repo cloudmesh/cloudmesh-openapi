@@ -338,7 +338,8 @@
 <span class="sd">        Function to loop all the parameters of given function and generate</span>
 <span class="sd">        specification</span>
 
-<span class="sd">        :param function_name:</span>
+<span class="sd">        :param paras_dict: parameters dictionary passed to the function</span>
+<span class="sd">        :param paras_desc: parameters docstrings passed to the function</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">spec</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
@@ -432,16 +433,14 @@
 
 <div class="viewcode-block" id="Generator.generate_function"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGenerator.Generator.generate_function">[docs]</a>    <span class="k">def</span> <span class="nf">generate_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span><span class="n">base_estimator</span><span class="p">,</span><span class="n">model_tag</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        function to generate open API of python function.</span>
 
-<span class="sd">        :param f:</span>
-<span class="sd">        :param baseurl:</span>
-<span class="sd">        :param outdir:</span>
-<span class="sd">        :param yaml:</span>
-<span class="sd">        :param write:</span>
+<span class="sd">        :param module: Sklearn module like Linear Regression</span>
+<span class="sd">        :param function: Methods in the class of Linear Regression</span>
+<span class="sd">        :param base_estimator: Sklearn module like Linear Regression</span>
+<span class="sd">        :param model_tag: Tag used to store the name of the model instance</span>
 <span class="sd">        :return:</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
+
 
         <span class="n">type_table</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;matrix&#39;</span><span class="p">:</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span>
@@ -611,6 +610,13 @@
 
 
 <div class="viewcode-block" id="Sklearngenerator"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGenerator.Sklearngenerator">[docs]</a><span class="k">def</span> <span class="nf">Sklearngenerator</span><span class="p">(</span><span class="n">input_sklibrary</span><span class="p">,</span><span class="n">model_tag</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param input_sklibrary: input_sklibrary = sklearn.linear_model.LinearRegression(Full model specification)</span>
+<span class="sd">    :param model_tag: model_tag = any name which you want the tag the model instance like LinReg1</span>
+<span class="sd">    :return: .py file which is input to generator which generates openAPI specification</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">my_class</span> <span class="o">=</span> <span class="n">locate</span><span class="p">(</span><span class="n">input_sklibrary</span><span class="p">)</span>
     <span class="n">method_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span> <span class="k">for</span> <span class="n">func</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">my_class</span><span class="p">)</span> <span class="k">if</span> <span class="n">func</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;_&#39;</span><span class="p">]</span>
     <span class="n">method_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">method_list</span> <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="s1">&#39;classes_&#39;</span><span class="p">]</span>
