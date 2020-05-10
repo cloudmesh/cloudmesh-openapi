@@ -108,6 +108,21 @@
 
 -----------
 
+## Limitations
+
+1. Integration of openapi with cms allows for running locally only.  Cloud integration was not fully completed although team did create a way to setup openapi in a VM using a remote script for [openstack](https://github.com/cloudmesh/get/blob/master/openapi/ubuntu18.04/index.html) and [google](https://github.com/cloudmesh/get/blob/master/openapi/google/index.html)  
+
+2. The generator only supports creating arrays of number data type.  This limitation is due to the bug documented below in ***Bugs*** section.  So manual changes are required to the output yaml to allow for other data types until another work around is found or the bug is resolved.
+
+-----------
+
+## Bugs
+
+1. reported a bug to Connexion and documented it in github for future reference:
+  <https://github.com/cloudmesh/cloudmesh-openapi/issues/60>
+
+-----------
+
 ## Additional artifacts produced:
 
 ### Openstack VM set up script
