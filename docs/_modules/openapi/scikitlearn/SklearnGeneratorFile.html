@@ -158,20 +158,19 @@
 <span class="kn">from</span> <span class="nn">numpydoc</span> <span class="kn">import</span> <span class="n">docscrape</span>
 
 
-
 <div class="viewcode-block" id="TypeScraper"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.TypeScraper">[docs]</a><span class="k">class</span> <span class="nc">TypeScraper</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Scrape types from a string.</span>
-<span class="sd">        Using  the regular expression to match the keywords that imply the</span>
-<span class="sd">        types.</span>
+<span class="sd">    Using  the regular expression to match the keywords that imply the</span>
+<span class="sd">    types.</span>
 
-<span class="sd">        A type table for matching the types from the string is required</span>
+<span class="sd">    A type table for matching the types from the string is required</span>
 
-<span class="sd">        Examples:</span>
-<span class="sd">            &#39;boolean, optional, default True&#39; = bool</span>
-<span class="sd">            &#39;int or None, optional (default=None)&#39; = int</span>
-<span class="sd">            &#39;array-like or sparse matrix, shape (n_samples, n_features)&#39; = list</span>
-<span class="sd">           &#39;numpy array of shape [n_samples]&#39; &#39;boolean, optional&#39; = list</span>
+<span class="sd">    Examples:</span>
+<span class="sd">         &#39;boolean, optional, default True&#39; = bool</span>
+<span class="sd">         &#39;int or None, optional (default=None)&#39; = int</span>
+<span class="sd">         &#39;array-like or sparse matrix, shape (n_samples, n_features)&#39; = list</span>
+<span class="sd">         &#39;numpy array of shape [n_samples]&#39; &#39;boolean, optional&#39; = list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="TypeScraper.__init__"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.TypeScraper.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_table</span><span class="p">):</span>

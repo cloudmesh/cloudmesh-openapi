@@ -75,7 +75,7 @@ format.It is the user responsiblity to split the data in to train and
 test datasets. Split data functionality is not currently supported.
 
 Setting up Scikit-learn service
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. Please complete the basic installation of
    `cloudmesh-openapi <https://github.com/cloudmesh/cloudmesh-openapi>`__,
@@ -131,8 +131,15 @@ Place your test files in
 We are testing with X\_SAT.csv(SAT Scores of students),y\_GPA(GPA of
 students)
 
-``bash     curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H      "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/X_SAT.csv;type=text/csv"``
-``bash     curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H       "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv"``
+\`\`\`bash curl -X POST "http://localhost:8080/cloudmesh/upload" -H
+"accept: text/plain" -H "Content-Type: multipart/form-data" -F
+"upload=@tests/Scikitlearn-data/X\_SAT.csv;type=text/csv"
+
+::
+
+    curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  
+    "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv"
+    ```
 
 10. Run a curl command against the newly running server to verify fit
     method in Scikit-learn using the uploaded files

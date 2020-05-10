@@ -96,7 +96,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#scikit-learn-documentation">Scikit-learn Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scikit-learn-documentation">Scikit-learn Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-scikit-learn-service">Setting up Scikit-learn service</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="openapi.html">openapi package</a></li>
@@ -230,6 +233,8 @@ the Scikit-learn library using either CURL commands or through GUI.</p>
 only.It is the user responsibility to make sure the files are in UTF-8
 format.It is the user responsiblity to split the data in to train and
 test datasets. Split data functionality is not currently supported.</p>
+<div class="section" id="setting-up-scikit-learn-service">
+<h3>Setting up Scikit-learn service<a class="headerlink" href="#setting-up-scikit-learn-service" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
 <li><p>Please complete the basic installation of
 <a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi">cloudmesh-openapi</a>,
@@ -274,8 +279,14 @@ testfiles.</p></li>
 <a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/Scikitlearn-data">Scikitlearn-data</a>
 We are testing with X_SAT.csv(SAT Scores of students),y_GPA(GPA of
 students)</p>
-<p><code class="docutils literal notranslate"><span class="pre">bash</span>&#160;&#160;&#160;&#160; <span class="pre">curl</span> <span class="pre">-X</span> <span class="pre">POST</span> <span class="pre">&quot;http://localhost:8080/cloudmesh/upload&quot;</span> <span class="pre">-H</span>&#160; <span class="pre">&quot;accept:</span> <span class="pre">text/plain&quot;</span> <span class="pre">-H</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;Content-Type:</span> <span class="pre">multipart/form-data&quot;</span> <span class="pre">-F</span> <span class="pre">&quot;upload=&#64;tests/Scikitlearn-data/X_SAT.csv;type=text/csv&quot;</span></code>
-<code class="docutils literal notranslate"><span class="pre">bash</span>&#160;&#160;&#160;&#160; <span class="pre">curl</span> <span class="pre">-X</span> <span class="pre">POST</span> <span class="pre">&quot;http://localhost:8080/cloudmesh/upload&quot;</span> <span class="pre">-H</span>&#160; <span class="pre">&quot;accept:</span> <span class="pre">text/plain&quot;</span> <span class="pre">-H</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;Content-Type:</span> <span class="pre">multipart/form-data&quot;</span> <span class="pre">-F</span> <span class="pre">&quot;upload=&#64;tests/Scikitlearn-data/y_GPA.csv;type=text/csv&quot;</span></code></p>
+<p>```bash curl -X POST “<a class="reference external" href="http://localhost:8080/cloudmesh/upload">http://localhost:8080/cloudmesh/upload</a>” -H
+“accept: text/plain” -H “Content-Type: multipart/form-data” -F
+“<a class="reference external" href="mailto:upload=&#37;&#52;&#48;tests/Scikitlearn-data/X_SAT&#46;csv">upload=<span>&#64;</span>tests/Scikitlearn-data/X_SAT<span>&#46;</span>csv</a>;type=text/csv”</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>curl -X POST &quot;http://localhost:8080/cloudmesh/upload&quot; -H  &quot;accept: text/plain&quot; -H
+&quot;Content-Type: multipart/form-data&quot; -F &quot;upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv&quot;
+```
+</pre></div>
+</div>
 <ol class="arabic" start="10">
 <li><p>Run a curl command against the newly running server to verify fit
 method in Scikit-learn using the uploaded files</p>
@@ -301,6 +312,7 @@ method.</p>
 </div>
 </li>
 </ol>
+</div>
 </div>
 </div>
 

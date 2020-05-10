@@ -5,20 +5,19 @@ from pydoc import locate
 from numpydoc import docscrape
 
 
-
 class TypeScraper:
     """
     Scrape types from a string.
-        Using  the regular expression to match the keywords that imply the
-        types.
+    Using  the regular expression to match the keywords that imply the
+    types.
 
-        A type table for matching the types from the string is required
+    A type table for matching the types from the string is required
 
-        Examples:
-            'boolean, optional, default True' = bool
-            'int or None, optional (default=None)' = int
-            'array-like or sparse matrix, shape (n_samples, n_features)' = list
-           'numpy array of shape [n_samples]' 'boolean, optional' = list
+    Examples:
+         'boolean, optional, default True' = bool
+         'int or None, optional (default=None)' = int
+         'array-like or sparse matrix, shape (n_samples, n_features)' = list
+         'numpy array of shape [n_samples]' 'boolean, optional' = list
     """
 
     def __init__(self, type_table):

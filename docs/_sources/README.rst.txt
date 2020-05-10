@@ -25,7 +25,7 @@ Installation
 Make sure that ``cloudmesh`` is properly installed on your machine and
 you have mongodb setup to work with cloudmesh.
 
-D More details to setting up ``mongo`` can be found in the
+More details to setting up ``mongo`` can be found in the
 
 -  `Cloudmesh
    Manual <https://cloudmesh.github.io/cloudmesh-manual/installation/install.html>`__
@@ -45,9 +45,9 @@ code with
     pip installl cloudmesh-installer get openapi 
     cms help
     cms gui quick
-    # fill out mongo variables we should have a `cms gui openapi`
+    # fill out mongo variables
     # make sure autinstall is True
-    cms admin mongo install --froce
+    cms admin mongo install --force
 
 .. code:: bash
 
@@ -68,9 +68,9 @@ Developers install also the source code
     cloudmesh-installer get openapi 
     cms help
     cms gui quick
-    # fill out mongo variables we should have a `cms gui openapi`
+    # fill out mongo variables
     # make sure autinstall is True
-    cms admin mongo install --froce
+    cms admin mongo install --force
 
 Overview
 --------
@@ -342,9 +342,13 @@ CLI. Make sure you enable all the required services.
 
 For example:
 
-``gcloud services enable servicemanagement.googleapis.com``
+::
 
-``gcloud services enable endpoints.googleapis.com``
+    gcloud services enable servicemanagement.googleapis.com
+
+::
+
+    gcloud services enable endpoints.googleapis.com
 
 and any other services you might be using for your specific Cloud API
 function.
@@ -361,9 +365,17 @@ CLI. Make sure you enable all the required services.
 
 For example:
 
-``gcloud services enable servicemanagement.googleapis.com``
-``gcloud services enable servicecontrol.googleapis.com``
-``gcloud services enable endpoints.googleapis.com``
+::
+
+    gcloud services enable servicemanagement.googleapis.com
+
+::
+
+    gcloud services enable servicecontrol.googleapis.com
+
+::
+
+    gcloud services enable endpoints.googleapis.com
 
 and any other services you might be using for your specific Cloud API
 function.
@@ -392,7 +404,7 @@ Cloud Platform(GCP) console.
 Quickstart Google Python API
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code:: buildoutcfg
+::
 
     pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
@@ -454,7 +466,10 @@ file for the openapi proejct and should be isntalled when the package is
 installed. If not, follow directions outlined by google install each
 package:
 
-``google-cloud-translate``, ``google-cloud-language``
+::
+
+    google-cloud-translate
+    google-cloud-language
 
 To pass the information from your service account private key file ot
 the cloudmesh yaml file run the following command:
@@ -568,7 +583,10 @@ Setting up Azure Sentiment Analysis and Translation Services
    requirements file so they should be installed. If they are not,
    install the following:
 
-``pip install msrest``, ``pip install azure-ai-textanalytics``
+::
+
+    pip install msrest
+    pip install azure-ai-textanalytics
 
 5.  Navigate to the ``~/.cloudmesh`` repo and create a cache directory
     for your text examples you would like to analyze.
@@ -781,14 +799,14 @@ file. Summaries are provided below the table
 |      | test | /mas |
 |      | mult | ter/ |
 |      | iple | test |
-|      | r    | s/ge |
-|      | func | nera |
-|      | tion | tor- |
-|      | in   | calc |
-|      | one  | ulat |
-|      | pyth | or/t |
-|      | on   | est_ |
-|      | file | 01_g |
+|      | func | s/ge |
+|      | tion | nera |
+|      | in   | tor- |
+|      | one  | calc |
+|      | pyth | ulat |
+|      | on   | or/t |
+|      | file | est_ |
+|      |      | 01_g |
 |      |      | ener |
 |      |      | ator |
 |      |      | .py> |
@@ -816,16 +834,16 @@ file. Summaries are provided below the table
 |      | test | /mas |
 |      | mult | ter/ |
 |      | iple | test |
-|      | r    | s/ge |
-|      | func | nera |
-|      | tion | tor- |
-|      | in   | test |
-|      | one  | clas |
-|      | pyth | s/te |
-|      | on   | st_0 |
-|      | clas | 2_ge |
-|      | s    | nera |
-|      | file | tor. |
+|      | func | s/ge |
+|      | tion | nera |
+|      | in   | tor- |
+|      | one  | test |
+|      | pyth | clas |
+|      | on   | s/te |
+|      | clas | st_0 |
+|      | s    | 2_ge |
+|      | file | nera |
+|      |      | tor. |
 |      |      | py>` |
 |      |      | __   |
 +------+------+------+
@@ -888,15 +906,15 @@ file. Summaries are provided below the table
 |      | test | api/ |
 |      | mult | blob |
 |      | iple | /mas |
-|      | r    | ter/ |
-|      | func | test |
-|      | tion | s/se |
-|      | in   | rver |
-|      | one  | -cms |
-|      | pyth | /tes |
-|      | on   | t_04 |
-|      | file | _gen |
-|      | .    | erat |
+|      | func | ter/ |
+|      | tion | test |
+|      | in   | s/se |
+|      | one  | rver |
+|      | pyth | -cms |
+|      | on   | /tes |
+|      | file | t_04 |
+|      | .    | _gen |
+|      |      | erat |
 |      |      | or.p |
 |      |      | y>`_ |
 |      |      | _    |

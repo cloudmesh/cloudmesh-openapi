@@ -225,7 +225,7 @@ Curley brackets must use two in README-source.md</p>
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Make sure that <code class="docutils literal notranslate"><span class="pre">cloudmesh</span></code> is properly installed on your machine and
 you have mongodb setup to work with cloudmesh.</p>
-<p>D More details to setting up <code class="docutils literal notranslate"><span class="pre">mongo</span></code> can be found in the</p>
+<p>More details to setting up <code class="docutils literal notranslate"><span class="pre">mongo</span></code> can be found in the</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://cloudmesh.github.io/cloudmesh-manual/installation/install.html">Cloudmesh
 Manual</a></p></li>
@@ -241,9 +241,9 @@ mkdir cm
 pip installl cloudmesh-installer get openapi
 cms <span class="nb">help</span>
 cms gui quick
-<span class="c1"># fill out mongo variables we should have a `cms gui openapi`</span>
+<span class="c1"># fill out mongo variables</span>
 <span class="c1"># make sure autinstall is True</span>
-cms admin mongo install --froce
+cms admin mongo install --force
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install cloudmesh-openapi
@@ -261,9 +261,9 @@ pip install cloudmesh-installer
 cloudmesh-installer get openapi
 cms <span class="nb">help</span>
 cms gui quick
-<span class="c1"># fill out mongo variables we should have a `cms gui openapi`</span>
+<span class="c1"># fill out mongo variables</span>
 <span class="c1"># make sure autinstall is True</span>
-cms admin mongo install --froce
+cms admin mongo install --force
 </pre></div>
 </div>
 </div>
@@ -493,8 +493,12 @@ download and install Google’s <a class="reference external" href="https://clou
 SDK</a>. This will enable
 CLI. Make sure you enable all the required services.</p>
 <p>For example:</p>
-<p><code class="docutils literal notranslate"><span class="pre">gcloud</span> <span class="pre">services</span> <span class="pre">enable</span> <span class="pre">servicemanagement.googleapis.com</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">gcloud</span> <span class="pre">services</span> <span class="pre">enable</span> <span class="pre">endpoints.googleapis.com</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">services</span> <span class="n">enable</span> <span class="n">servicemanagement</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">services</span> <span class="n">enable</span> <span class="n">endpoints</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
 <p>and any other services you might be using for your specific Cloud API
 function.</p>
 <p>To begin using the tests for any of the Google Cloud Platform AI
@@ -506,9 +510,15 @@ download and install Google’s <a class="reference external" href="https://clou
 SDK</a>. This will enable
 CLI. Make sure you enable all the required services.</p>
 <p>For example:</p>
-<p><code class="docutils literal notranslate"><span class="pre">gcloud</span> <span class="pre">services</span> <span class="pre">enable</span> <span class="pre">servicemanagement.googleapis.com</span></code>
-<code class="docutils literal notranslate"><span class="pre">gcloud</span> <span class="pre">services</span> <span class="pre">enable</span> <span class="pre">servicecontrol.googleapis.com</span></code>
-<code class="docutils literal notranslate"><span class="pre">gcloud</span> <span class="pre">services</span> <span class="pre">enable</span> <span class="pre">endpoints.googleapis.com</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">services</span> <span class="n">enable</span> <span class="n">servicemanagement</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">services</span> <span class="n">enable</span> <span class="n">servicecontrol</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcloud</span> <span class="n">services</span> <span class="n">enable</span> <span class="n">endpoints</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
 <p>and any other services you might be using for your specific Cloud API
 function.</p>
 <p>It is also required to install the cloudmesh-cloud package, if not
@@ -531,7 +541,7 @@ account</p></li>
 </div>
 <div class="section" id="quickstart-google-python-api">
 <h4>Quickstart Google Python API<a class="headerlink" href="#quickstart-google-python-api" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-buildoutcfg notranslate"><div class="highlight"><pre><span></span>pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">google</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">client</span> <span class="n">google</span><span class="o">-</span><span class="n">auth</span><span class="o">-</span><span class="n">httplib2</span> <span class="n">google</span><span class="o">-</span><span class="n">auth</span><span class="o">-</span><span class="n">oauthlib</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -583,7 +593,10 @@ path string to a easily accessible location.</p>
 file for the openapi proejct and should be isntalled when the package is
 installed. If not, follow directions outlined by google install each
 package:</p>
-<p><code class="docutils literal notranslate"><span class="pre">google-cloud-translate</span></code>, <code class="docutils literal notranslate"><span class="pre">google-cloud-language</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">google</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">translate</span>
+<span class="n">google</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">language</span>
+</pre></div>
+</div>
 <p>To pass the information from your service account private key file ot
 the cloudmesh yaml file run the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms register update --kind<span class="o">=</span>google --service<span class="o">=</span>compute --filename<span class="o">=</span><span class="s">&lt;&lt;goog</span>le json file&gt;&gt;
@@ -687,7 +700,10 @@ Resource</a></p></li>
 requirements file so they should be installed. If they are not,
 install the following:</p></li>
 </ol>
-<p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">msrest</span></code>, <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">azure-ai-textanalytics</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">msrest</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">azure</span><span class="o">-</span><span class="n">ai</span><span class="o">-</span><span class="n">textanalytics</span>
+</pre></div>
+</div>
 <ol class="arabic" start="5">
 <li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">~/.cloudmesh</span></code> repo and create a cache directory
 for your text examples you would like to analyze.</p>
@@ -902,7 +918,6 @@ to
 test
 mult
 iple
-r
 func
 tion
 in
@@ -972,7 +987,6 @@ to
 test
 mult
 iple
-r
 func
 tion
 in
@@ -1089,7 +1103,6 @@ to
 test
 mult
 iple
-r
 func
 tion
 in
