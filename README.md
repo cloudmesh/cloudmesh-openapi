@@ -337,7 +337,7 @@ After you have verified your account is created you must then give your account 
 
 #### Quickstart Google Python API
 
-```buildoutcfg
+```
 pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 ```
 
