@@ -1,13 +1,6 @@
 Cloudmesh OpenAPI Scikit-learn
 ==============================
 
-|image| |image| |image| |image|
-
-   **Note:** The README.md page is automatically generated, do not edit
-   it. To modify change the content in
-   https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md
-   curly brackets must use two in README-source.md
-
 Prerequisites
 -------------
 
@@ -167,12 +160,3 @@ Setting up Scikit-learn service
     .. code:: bash
 
        cms openapi server stop LinearRegression
-
-.. |image| image:: https://img.shields.io/travis/TankerHQ/cloudmesh-openapi.svg?branch=master
-   :target: https://travis-ci.org/TankerHQ/cloudmesh-openapi
-.. |image| image:: https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg
-   :target: https://pypi.org/project/cloudmesh-openapi
-.. |image| image:: https://img.shields.io/pypi/v/cloudmesh-openapi.svg
-   :target: https://pypi.org/project/cloudmesh-openapi/
-.. |image| image:: https://img.shields.io/github/license/TankerHQ/python-cloudmesh-openapi.svg
-   :target: https://github.com/TankerHQ/python-cloudmesh-openapi/blob/master/LICENSE

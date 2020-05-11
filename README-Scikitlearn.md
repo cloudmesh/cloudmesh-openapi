@@ -24,23 +24,24 @@ More details to setting up mongo can be found in the
 Make sure you use a python venv before installing. Users can install the
 code with
 
-```bash
- pip install cloudmesh-openapi
-```
+.. code:: bash
+
+    pip install cloudmesh-openapi
+
 
 
 ### Developer Installation
 
 Developers install also the source code
 
-```
-python -m venv ~/ENV3
-source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
-mkdir cm
-cd cm
-pip install cloudmesh-installer
-cloudmesh-installer get openapi 
-```
+.. code:: bash
+
+    python -m venv ~/ENV3
+    source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
+    mkdir cm
+    cd cm
+    pip install cloudmesh-installer
+    cloudmesh-installer get openapi 
 
 ## Overview
 
@@ -68,35 +69,33 @@ Split data functionality is not currently supported.
 
 3. The following packages needs to be installed to access Scikit-learn
 
-    ```bash
-       pip install pandas
-    ```
-    ```bash
+   .. code:: bash
+     
+      pip install pandas
       pip install Scikit-learn
-    ```
-
+   
 4. Navigate to the `./cloudmesh-openapi` directory on your machine
 
 5. Utilize the Scikit-learn generate command to create the python file which will used to generate OpenAPI spec
 
-    ```bash
-    cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregpytest
-    ```
+    .. code:: bash
+    
+       cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregpytest
      
     The sample generated file can be viewed at [tests/generator](https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/generator)
     
 6. Utilize the generate command to generate OpenAPI spec with upload functionality enabled
      
-    ```bash
-    cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions --enable_upload
-    ```
-
+    .. code:: bash
+    
+       cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions --enable_upload
+    
 7. Start the server after the yaml file is generated ot the same directory as the .py file
     
-    ```bash
-    cms openapi server start ./tests/generator/LinearRegression.yaml
-    ```
-   
+    .. code:: bash
+
+       cms openapi server start ./tests/generator/LinearRegression.yaml
+    
 8. Access the REST service using [http://localhost:8080/cloudmesh/ui/](http://localhost:8080/cloudmesh/ui/)
 
 9. Run a curl command against the newly running server to upload the testfiles.
@@ -104,38 +103,41 @@ Split data functionality is not currently supported.
     Place your test files in [Scikitlearn-data](https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/Scikitlearn-data)
     We are testing with X_SAT.csv(SAT Scores of students),y_GPA(GPA of students)
    
-    ```bash
-    curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H 
-    "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/X_SAT.csv;type=text/csv"
-    ```
+    .. code:: bash
+    
+       curl -X POST "http://localhost:8080/cloudmesh/upload" \
+            -H "accept: text/plain" \
+            -H "Content-Type: multipart/form-data" \
+            -F "upload=@tests/Scikitlearn-data/X_SAT.csv;type=text/csv"
+    
 
-    ```bash
-    curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  
-    "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv"
-    ```
+       curl -X POST "http://localhost:8080/cloudmesh/upload" \
+            -H "accept: text/plain" \
+            -H "Content-Type: multipart/form-data" \
+            -F "upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv"
    
 10. Run a curl command against the newly running server to verify fit method in Scikit-learn  using the uploaded files
 
-    ```bash
-    curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/fit?X=X_SAT&y=y_GPA" -H "accept: */*"
-    ```
- 
+    .. code:: bash
+       
+       curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/fit?X=X_SAT&y=y_GPA" -H "accept: */*"
+    
 11. Run a curl command against the newly running server to run the Predict method.
     
-    ```bash
-    curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/predict?X=X_SAT" -H "accept: text/plain"
-    ```
+    .. code:: bash
+    
+       curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/predict?X=X_SAT" -H "accept: text/plain"
     
 12. Run a curl command against the newly running server to run the Score method.
 
-    ```bash
-    curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/score?X=X_SAT&y=y_GPA" -H "accept: text/plain"   
-    ```
+    .. code:: bash
+    
+       curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/score?X=X_SAT&y=y_GPA" -H "accept: text/plain"   
     
 13. Stop the server
 
-    ```bash
-    cms openapi server stop LinearRegression
-    ```
-
+    .. code:: bash
+    
+       cms openapi server stop LinearRegression
+    
 
