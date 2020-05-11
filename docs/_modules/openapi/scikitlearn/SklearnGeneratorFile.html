@@ -177,8 +177,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The Constructor function</span>
 
-<span class="sd">            Parameters:</span>
-<span class="sd">                type_table: A dictionary indicates the matching rules</span>
+<span class="sd">        :param type_table: A dictionary indicates the matching rules</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">type_table</span> <span class="o">=</span> <span class="n">type_table</span></div>
 
@@ -186,10 +185,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Match types from the string</span>
 
-<span class="sd">            Parameters:</span>
-<span class="sd">                literal_type: A string that defines a type</span>
+<span class="sd">        :param literal_type: A string that defines a type</span>
+<span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">res</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
         <span class="c1"># Traverse all known mappings to check which key of the table</span>
@@ -216,6 +214,7 @@
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    THe below are templates are using when generating the .py function.</span>
+
 <span class="sd">    :param importfuction : this template is used to generate the import statements based on the model which we use</span>
 <span class="sd">    :param  uploadfunction: This template is used to generate the uploadfunction added the model</span>
 <span class="sd">    :param functiontemplateretarryXandY: This template is the used when the method has both X and y varaibles and array</span>
@@ -414,6 +413,7 @@
 
 <span class="s2">                        return</span>
 <span class="s2">                    &quot;&quot;&quot;</span><span class="p">)</span>
+
 <div class="viewcode-block" id="Generator.populate_parameters_function"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.populate_parameters_function">[docs]</a>    <span class="k">def</span> <span class="nf">populate_parameters_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">paras_dict</span><span class="p">,</span> <span class="n">paras_desc</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to loop all the parameters of given function and generate</span>
@@ -450,7 +450,8 @@
         <span class="k">return</span> <span class="n">spec</span><span class="p">,</span><span class="n">spec_params</span><span class="p">,</span><span class="n">docstring</span></div>
 
 <div class="viewcode-block" id="Generator.is_valid_para"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.is_valid_para">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_para</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">para_type</span><span class="p">,</span> <span class="n">type_table</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Check if it is a valid parameter type contained in the type table.</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if it is a valid parameter type contained in the type table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># The values of the table contain all known destination types</span>
         <span class="k">if</span> <span class="n">para_type</span> <span class="ow">in</span> <span class="n">type_table</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
@@ -489,7 +490,8 @@
         <span class="k">return</span> <span class="n">paras</span></div>
 
 <div class="viewcode-block" id="Generator.get_docstrings"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.get_docstrings">[docs]</a>    <span class="k">def</span> <span class="nf">get_docstrings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parsing_obj</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get descriptions  from the doc of a class, function, or property object.</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get descriptions  from the doc of a class, function, or property object.</span>
 
 <span class="sd">        Given the sklean docstring follows the numpy conventions, this function</span>
 <span class="sd">        use the numpy docstring parser o read the doc of sklean.</span>
@@ -734,6 +736,7 @@
 
 <div class="viewcode-block" id="Generator.generate_import_params"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.generate_import_params">[docs]</a>    <span class="k">def</span> <span class="nf">generate_import_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">input_params</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="sd">        :param input_params: takes the input passed from the function</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -748,6 +751,7 @@
 
 <div class="viewcode-block" id="Generator.generate_upload"><a class="viewcode-back" href="../../../openapi.scikitlearn.html#openapi.scikitlearn.SklearnGeneratorFile.Generator.generate_upload">[docs]</a>    <span class="k">def</span> <span class="nf">generate_upload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="sd">        :param input_params: takes the input passed from the function</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>

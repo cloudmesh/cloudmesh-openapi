@@ -24,8 +24,7 @@ class TypeScraper:
         """
         The Constructor function
 
-            Parameters:
-                type_table: A dictionary indicates the matching rules
+        :param type_table: A dictionary indicates the matching rules
         """
         self.type_table = type_table
 
@@ -33,10 +32,9 @@ class TypeScraper:
         """
         Match types from the string
 
-            Parameters:
-                literal_type: A string that defines a type
+        :param literal_type: A string that defines a type
+        :return:
         """
-
         res = set()
 
         # Traverse all known mappings to check which key of the table
@@ -63,6 +61,7 @@ class Generator:
 
     """
     THe below are templates are using when generating the .py function.
+
     :param importfuction : this template is used to generate the import statements based on the model which we use
     :param  uploadfunction: This template is used to generate the uploadfunction added the model
     :param functiontemplateretarryXandY: This template is the used when the method has both X and y varaibles and array
@@ -261,6 +260,7 @@ class Generator:
 
                         return
                     """)
+
     def populate_parameters_function(self, f, paras_dict, paras_desc):
         """
         Function to loop all the parameters of given function and generate
@@ -297,7 +297,8 @@ class Generator:
         return spec,spec_params,docstring
 
     def is_valid_para(self, para_type, type_table):
-        """Check if it is a valid parameter type contained in the type table.
+        """
+        Check if it is a valid parameter type contained in the type table.
         """
         # The values of the table contain all known destination types
         if para_type in type_table.values():
@@ -336,7 +337,8 @@ class Generator:
         return paras
 
     def get_docstrings(self, parsing_obj):
-        """Get descriptions  from the doc of a class, function, or property object.
+        """
+        Get descriptions  from the doc of a class, function, or property object.
 
         Given the sklean docstring follows the numpy conventions, this function
         use the numpy docstring parser o read the doc of sklean.
@@ -581,6 +583,7 @@ class Generator:
 
     def generate_import_params(self,input_params):
         """
+
         :param input_params: takes the input passed from the function
         :return:
         """
@@ -595,6 +598,7 @@ class Generator:
 
     def generate_upload(self):
         """
+
         :param input_params: takes the input passed from the function
         :return:
         """

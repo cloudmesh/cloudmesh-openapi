@@ -31,12 +31,16 @@ code with
 
 .. code:: bash
 
-    pip install cloudmesh-openapi
+::
+
+   pip install cloudmesh-openapi
 
 Developer Installation
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Developers install also the source code
+
+.. code:: bash
 
 ::
 
@@ -82,11 +86,7 @@ Setting up Scikit-learn service
 
     .. code:: bash
 
-          pip install pandas
-
-    .. code:: bash
-
-         pip install Scikit-learn
+    pip install pandas pip install Scikit-learn
 
 4.  Navigate to the ``./cloudmesh-openapi`` directory on your machine
 
@@ -94,6 +94,8 @@ Setting up Scikit-learn service
     which will used to generate OpenAPI spec
 
     .. code:: bash
+
+    ::
 
        cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregpytest
 
@@ -105,12 +107,16 @@ Setting up Scikit-learn service
 
     .. code:: bash
 
+    ::
+
        cms openapi generate --filename=./tests/generator/LinearRegression.py --all_functions --enable_upload
 
 7.  Start the server after the yaml file is generated ot the same
     directory as the .py file
 
     .. code:: bash
+
+    ::
 
        cms openapi server start ./tests/generator/LinearRegression.yaml
 
@@ -126,37 +132,48 @@ Setting up Scikit-learn service
 
     .. code:: bash
 
-       curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H 
-       "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/X_SAT.csv;type=text/csv"
+    ::
 
-    .. code:: bash
+       curl -X POST "http://localhost:8080/cloudmesh/upload" \
+            -H "accept: text/plain" \
+            -H "Content-Type: multipart/form-data" \
+            -F "upload=@tests/Scikitlearn-data/X_SAT.csv;type=text/csv"
 
-       curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  
-       "Content-Type: multipart/form-data" -F "upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv"
+
+       curl -X POST "http://localhost:8080/cloudmesh/upload" \
+            -H "accept: text/plain" \
+            -H "Content-Type: multipart/form-data" \
+            -F "upload=@tests/Scikitlearn-data/y_GPA.csv;type=text/csv"
 
 10. Run a curl command against the newly running server to verify fit
     method in Scikit-learn using the uploaded files
 
     .. code:: bash
 
-       curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/fit?X=X_SAT&y=y_GPA" -H "accept: */*"
+    curl -X GET
+    “http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/fit?X=X_SAT&y=y_GPA”
+    -H “accept: */*”
 
 11. Run a curl command against the newly running server to run the
     Predict method.
 
     .. code:: bash
 
-       curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/predict?X=X_SAT" -H "accept: text/plain"
+    curl -X GET
+    “http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/predict?X=X_SAT”
+    -H “accept: text/plain”
 
 12. Run a curl command against the newly running server to run the Score
     method.
 
     .. code:: bash
 
-       curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/score?X=X_SAT&y=y_GPA" -H "accept: text/plain"   
+    curl -X GET
+    “http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/score?X=X_SAT&y=y_GPA”
+    -H “accept: text/plain”
 
 13. Stop the server
 
     .. code:: bash
 
-       cms openapi server stop LinearRegression
+    cms openapi server stop LinearRegression
