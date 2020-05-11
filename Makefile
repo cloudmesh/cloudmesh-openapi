@@ -29,6 +29,7 @@ readme-generate:
 doc:
 	pip install sphinx_rtd_theme
 	mkdir -p docs
+	rm -rf sphinx/sphinx-docs/_build/
 	cd sphinx; sh gen_apidocs.sh
 	pandoc README.md -o sphinx/sphinx-docs/README.rst
 	pandoc README-Scikitlearn.md -o sphinx/sphinx-docs/README-Scikitlearn.rst

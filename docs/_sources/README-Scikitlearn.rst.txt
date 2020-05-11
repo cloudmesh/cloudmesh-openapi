@@ -15,41 +15,7 @@ We have not checked if it works on older versions.
 Installation
 ------------
 
-Make sure that cloudmesh is properly installed on your machine and you
-have mongodb setup to work with cloudmesh.
-
-More details to setting up mongo can be found in the
-
--  `Cloudmesh
-   Manual <https://cloudmesh.github.io/cloudmesh-manual/installation/install.html>`__
-
-User Installation
-~~~~~~~~~~~~~~~~~
-
-Make sure you use a python venv before installing. Users can install the
-code with
-
-.. code:: bash
-
-::
-
-   pip install cloudmesh-openapi
-
-Developer Installation
-~~~~~~~~~~~~~~~~~~~~~~
-
-Developers install also the source code
-
-.. code:: bash
-
-::
-
-   python -m venv ~/ENV3
-   source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
-   mkdir cm
-   cd cm
-   pip install cloudmesh-installer
-   cloudmesh-installer get openapi 
+Make sure to follow the instruction for ``cms openapi``
 
 Overview
 --------
@@ -150,30 +116,32 @@ Setting up Scikit-learn service
 
     .. code:: bash
 
-    curl -X GET
-    “http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/fit?X=X_SAT&y=y_GPA”
-    -H “accept: */*”
+    ::
+
+       curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/fit?X=X_SAT&y=y_GPA" -H "accept: */*"
 
 11. Run a curl command against the newly running server to run the
     Predict method.
 
     .. code:: bash
 
-    curl -X GET
-    “http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/predict?X=X_SAT”
-    -H “accept: text/plain”
+    ::
+
+       curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/predict?X=X_SAT" -H "accept: text/plain"
 
 12. Run a curl command against the newly running server to run the Score
     method.
 
     .. code:: bash
 
-    curl -X GET
-    “http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/score?X=X_SAT&y=y_GPA”
-    -H “accept: text/plain”
+    ::
+
+       curl -X GET "http://localhost:8080/cloudmesh/LinearRegression_upload-enabled/score?X=X_SAT&y=y_GPA" -H "accept: text/plain"   
 
 13. Stop the server
 
     .. code:: bash
 
-    cms openapi server stop LinearRegression
+    ::
+
+       cms openapi server stop LinearRegression
