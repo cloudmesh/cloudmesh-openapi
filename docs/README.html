@@ -121,7 +121,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#downloading-data">Downloading data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#merge-openapi-s">Merge openapi’s</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#merge-openapis">Merge openapi’s</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running-ai-services-in-the-cloud-using-openapi">Running AI Services in the Cloud using OpenApi</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#google">Google</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#quickstart-google-python-api">Quickstart Google Python API</a></li>
@@ -478,8 +478,8 @@ Execute to view the numpy array defined by the CSV file.</p>
 <p>Always the same</p>
 <p>abc.txt &lt;- /data/xyz/klmn.txt</p>
 </div>
-<div class="section" id="merge-openapi-s">
-<h3>Merge openapi’s<a class="headerlink" href="#merge-openapi-s" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="merge-openapis">
+<h3>Merge openapi’s<a class="headerlink" href="#merge-openapis" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">merge</span> <span class="p">[</span><span class="n">APIS</span><span class="o">...</span><span class="p">]</span> <span class="o">-</span> <span class="o">&gt;</span> <span class="n">single</span><span class="o">.</span><span class="n">yaml</span>
 </pre></div>
 </div>
@@ -736,16 +736,15 @@ not the full path.</p></li>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://127.0.0.1:8080/cloudmesh/analyze?filename=&lt;&lt;sample text file name&gt;&gt;&amp;cloud=azure&quot;</span>
 </pre></div>
 </div>
-<ul>
+<ul class="simple">
 <li><p>This is currently only ready to translate a single word through
 the API.</p></li>
 <li><p>Available language tags are described in the <a class="reference external" href="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages">Azure
-docs</a></p>
+docs</a></p></li>
+</ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X GET <span class="s2">&quot;http://127.0.0.1:8080/cloudmesh/translate_text?cloud=azure&amp;text=&lt;&lt;word to translate&gt;&gt;&amp;lang=&lt;&lt;lang code&gt;&gt;&quot;</span>
 </pre></div>
 </div>
-</li>
-</ul>
 </li>
 <li><p>Stop the server</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cms openapi server stop natural-lang-analysis
@@ -769,13 +768,15 @@ from an image or hand-written file.</p>
 account</a>
 before you continue further.</p></li>
 <li><p>Create a Computer Vision resource and get the
-COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT.
-Follow
+COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT. Follow
 <a class="reference external" href="https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix">instructions</a>
 to get the same.</p></li>
-<li><p>Install following Python packages in your virtual environment:</p></li>
+<li><p>Install following Python packages in your virtual environment:</p>
+<ul>
 <li><p>requests</p></li>
 <li><p>Pillow</p></li>
+</ul>
+</li>
 <li><p>Install Computer Vision client library</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install --upgrade azure-cognitiveservices-vision-computervision
@@ -881,337 +882,101 @@ file. Summaries are provided below the table</p>
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Test</p></th>
-<th class="head"><p>Shor
-t
-Desc
-ript
-ion</p></th>
+<th class="head"><p>Short Description</p></th>
 <th class="head"><p>Link</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Gene
-rato
-r-ca
-lcul
-ator</p></td>
-<td><p>Test
-to
-chec
-k
-if
-calc
-ulat
-or
-api
-is
-gene
-rate
-d
-corr
-ectl
-y.
-This
-is
-to
-test
-mult
-iple
-func
-tion
-in
-one
-pyth
-on
-file</p></td>
-<td><p><a href="#id1"><span class="problematic" id="id2">`</span></a>tes
-t_0
-1_g
-ener
-ator
-.py
-&lt;htt
-ps:/
-/git
-hub.
-com/
-clou
-dmes
-h/cl
-oudm
-esh-
-open
-api/
-blob
-/mas
-ter/
-test
-s/ge
-nera
-tor-
-calc
-ulat
-or/t
-<a href="#id5"><span class="problematic" id="id6">est_</span></a>
-01_g
-ener
-ator
-.py&gt;
-<a href="#id3"><span class="problematic" id="id4">`</span></a>__</p></td>
+<tr class="row-even"><td><p>Generator-calculator</p></td>
+<td><p>Test to check if
+calculator api is
+generated correctly.
+This is to test
+multiple function in
+one python file</p></td>
+<td><dl class="simple">
+<dt><a href="#id1"><span class="problematic" id="id2">`</span></a>test_01_generator.py</dt><dd><p>&lt;<a class="reference external" href="https://github.com/">https://github.com/</a></p>
+</dd>
+</dl>
+<p>cloudmesh/cloudmesh-o
+penapi/blob/master/te
+sts/generator-calcula
+tor/test_01_generator
+.py&gt;`__</p>
+</td>
 </tr>
-<tr class="row-odd"><td><p>Gene
-rato
-r-te
-stcl
-ass</p></td>
-<td><p>Test
-to
-chec
-k
-if
-calc
-ulat
-or
-api
-is
-gene
-rate
-d
-corr
-ectl
-y.
-This
-is
-to
-test
-mult
-iple
-func
-tion
-in
-one
-pyth
-on
-clas
-s
-file</p></td>
-<td><p><cite>tes
-t_0
-2_g
-ener
-ator
-.py
-&lt;htt
-ps:/
-/git
-hub.
-com/
-clou
-dmes
-h/cl
-oudm
-esh-
-open
-api/
-blob
-/mas
-ter/
-test
-s/ge
-nera
-tor-
-test
-clas
-s/te
-st_0
-2_ge
-nera
-tor.
-py&gt;</cite>
-__</p></td>
+<tr class="row-odd"><td><p>Generator-testclass</p></td>
+<td><p>Test to check if
+calculator api is
+generated correctly.
+This is to test
+multiple function in
+one python class file</p></td>
+<td><dl class="simple">
+<dt><a href="#id3"><span class="problematic" id="id4">`</span></a>test_02_generator.py</dt><dd><p>&lt;<a class="reference external" href="https://github.com/">https://github.com/</a></p>
+</dd>
+</dl>
+<p>cloudmesh/cloudmesh-o
+penapi/blob/master/te
+sts/generator-testcla
+ss/test_02_generator.
+py&gt;`__</p>
+</td>
 </tr>
-<tr class="row-even"><td><p>Serv
-er-c
-pu</p></td>
-<td><p>Test
-to
-chec
-k
-if
-cpu
-api
-is
-gene
-rate
-d
-corr
-ectl
-y.
-This
-is
-to
-test
-sing
-le
-func
-tion
-in
-one
-pyth
-on
-file
-and
-func
-tion
-name
-is
-diff
-eren
-t
-than
-file
+<tr class="row-even"><td><p>Server-cpu</p></td>
+<td><p>Test to check if cpu
+api is generated
+correctly. This is to
+test single function
+in one python file
+and function name is
+different than file
 name</p></td>
-<td><p><a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cpu/test_03_generator.py">tes
-t_0
-3_g
-ener
-ator
-.py</a>
+<td><dl class="simple">
+<dt><a href="#id5"><span class="problematic" id="id6">`</span></a>test_03_generator.py</dt><dd><p>&lt;<a class="reference external" href="https://github.com/">https://github.com/</a></p>
+</dd>
+</dl>
+<p>cloudmesh/cloudmesh-o
+penapi/blob/master/te
+sts/server-cpu/test_0
+3_generator.py&gt;`__</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Server-cms</p></td>
+<td><p>Test to check if cms
+api is generated
+correctly. This is to
+test multiple
+function in one
+python file.</p></td>
+<td><dl class="simple">
+<dt><a href="#id7"><span class="problematic" id="id8">`</span></a>test_04_generator.py</dt><dd><p>&lt;<a class="reference external" href="https://github.com/">https://github.com/</a></p>
+</dd>
+</dl>
+<p>cloudmesh/cloudmesh-o
+penapi/blob/master/te
+sts/server-cms/test_0
+4_generator.py&gt;`__</p>
+</td>
+</tr>
+<tr class="row-even"><td><p>Registry</p></td>
+<td><p>test_001_registry.py
+- Runs tests for
+registry. Description
+is in tests/README.md</p></td>
+<td><p><a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md">Link</a>
 _</p></td>
 </tr>
-<tr class="row-odd"><td><p>Serv
-er-c
-ms</p></td>
-<td><p>Test
-to
-chec
-k
-if
-cms
-api
-is
-gene
-rate
-d
-corr
-ectl
-y.
-This
-is
-to
-test
-mult
-iple
-func
-tion
-in
-one
-pyth
-on
-file
-.</p></td>
-<td><p><a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cms/test_04_generator.py">tes
-t_0
-4_g
-ener
-ator
-.py</a>
-_</p></td>
-</tr>
-<tr class="row-even"><td><p>Regi
-stry</p></td>
-<td><p>test
-_00
-1_r
-egis
-try.
-py
--
-Runs
-test
-s
-for
-regi
-stry
-.
-Desc
-ript
-ion
-is
-in
-test
-s/RE
-ADME
+<tr class="row-odd"><td><p>Image-Analysis</p></td>
+<td><p>image_test.py - Runs
+benchmark for text
+detection for Google
+Vision API and AWS
+Rekognition.
+Description in
+image-analysis/README
 .md</p></td>
-<td><p><a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md">Lin
-k</a>
-_</p></td>
-</tr>
-<tr class="row-odd"><td><p>Imag
-e-An
-alys
-is</p></td>
-<td><p>imag
-e_t
-est.
-py
--
-Runs
-benc
-hmar
-k
-for
-text
-dete
-ctio
-n
-for
-Goog
-le
-Visi
-on
-API
-and
-AWS
-Reko
-gnit
-ion.
-Desc
-ript
-ion
-in
-imag
-e-an
-alys
-is/R
-EADM
-E.md</p></td>
-<td><p><a href="#id7"><span class="problematic" id="id8">`ima
-ge &lt;
-http
-s://
-gith
-ub.c
-om/c
-loud
-mesh
-/clo
-udme
-sh-o
-pena
-pi/b
-lob/
-mast
-er/t
-ests
-/ima
-ge-a
-naly
-sis/
-READ
-ME.m
-d&gt;`_</span></a>
-_</p></td>
+<td><p><a class="reference external" href="https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md">image</a></p></td>
 </tr>
 </tbody>
 </table>

@@ -1,10 +1,10 @@
 Cloudmesh OpenAPI Service Generator
 ===================================
 
-    **Note:** The README.md page is outomatically generated, do not edit
-    it. To modify change the content in
-    https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md
-    Curley brackets must use two in README-source.md
+   **Note:** The README.md page is outomatically generated, do not edit
+   it. To modify change the content in
+   https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md
+   Curley brackets must use two in README-source.md
 
 |image| |Python| |License| |Format| |Status| |Travis|
 
@@ -38,20 +38,20 @@ code with
 
 .. code:: bash
 
-    python -m venv ~/ENV3
-    source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
-    mkdir cm
-    cd cm
-    pip installl cloudmesh-installer get openapi 
-    cms help
-    cms gui quick
-    # fill out mongo variables
-    # make sure autinstall is True
-    cms admin mongo install --force
+   python -m venv ~/ENV3
+   source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
+   mkdir cm
+   cd cm
+   pip installl cloudmesh-installer get openapi 
+   cms help
+   cms gui quick
+   # fill out mongo variables
+   # make sure autinstall is True
+   cms admin mongo install --force
 
 .. code:: bash
 
-    $ pip install cloudmesh-openapi
+   $ pip install cloudmesh-openapi
 
 Developer Installation
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -60,17 +60,17 @@ Developers install also the source code
 
 .. code:: bash
 
-    python -m venv ~/ENV3
-    source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
-    mkdir cm
-    cd cm
-    pip install cloudmesh-installer
-    cloudmesh-installer get openapi 
-    cms help
-    cms gui quick
-    # fill out mongo variables
-    # make sure autinstall is True
-    cms admin mongo install --force
+   python -m venv ~/ENV3
+   source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
+   mkdir cm
+   cd cm
+   pip install cloudmesh-installer
+   cloudmesh-installer get openapi 
+   cms help
+   cms gui quick
+   # fill out mongo variables
+   # make sure autinstall is True
+   cms admin mongo install --force
 
 Overview
 --------
@@ -79,7 +79,7 @@ When getting started using the ``openapi``, please first call:
 
 ::
 
-    cms help openapi
+   cms help openapi
 
 This will show the available functions and options. For your convenience
 we include the manual page later on in this document.
@@ -94,28 +94,28 @@ Generate yaml file
 
 ::
 
-    cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
+   cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
 
 Start server
 ~~~~~~~~~~~~
 
 ::
 
-    cms openapi server start ./tests/server-cpu/cpu.yaml
+   cms openapi server start ./tests/server-cpu/cpu.yaml
 
 Issue a Request
 ~~~~~~~~~~~~~~~
 
 ::
 
-    curl -X GET "http://localhost:8080/cloudmesh/get_processor_name" -H "accept: text/plain"
+   curl -X GET "http://localhost:8080/cloudmesh/get_processor_name" -H "accept: text/plain"
 
 Stop server
 ~~~~~~~~~~~
 
 ::
 
-    cms openapi server stop cpu
+   cms openapi server stop cpu
 
 End-to-end walkthrough
 ----------------------
@@ -141,37 +141,37 @@ does.
 
 .. code:: python
 
-    def add(x: float, y: float) -> float:
-        """
-        adding float and float.
-        :param x: x value
-        :type x: float
-        :param y: y value
-        :type y: float
-        :return: result
-        :return type: float
-        """
-        return x + y
+   def add(x: float, y: float) -> float:
+       """
+       adding float and float.
+       :param x: x value
+       :type x: float
+       :param y: y value
+       :type y: float
+       :return: result
+       :return type: float
+       """
+       return x + y
 
 Generating OpenAPI specification
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Once you have a Python function you would like to deploy as a web
 service, you can generate the OpenAPI specification. Navigate to your
-.py file's directory and generate the YAML. This will print information
+.py file’s directory and generate the YAML. This will print information
 to your console about the YAML file that was generated.
 
 ::
 
-    $ cms openapi generate [function_name] --filename=[filename.py]
+   $ cms openapi generate [function_name] --filename=[filename.py]
 
 If you would like to include more than one function in your web service,
 like addition and subtraction, use the ``--all_functions`` flag. This
-will ignore functions whose names start with '\_'.
+will ignore functions whose names start with ‘\_’.
 
 .. code:: bash
 
-    $ cms openapi generate --filename=[filename.py] --all_functions
+   $ cms openapi generate --filename=[filename.py] --all_functions
 
 You can even write a class like Calculator that contains functions for
 addition, subtraction, etc. You can generate a specification for an
@@ -179,7 +179,7 @@ entire class by using the ``--import_class`` flag.
 
 .. code:: bash
 
-    $ cms openapi generate [ClassName] --filename=[filename.py] --import_class
+   $ cms openapi generate [ClassName] --filename=[filename.py] --import_class
 
 Starting a server
 ~~~~~~~~~~~~~~~~~
@@ -190,14 +190,14 @@ print information to your console about the server
 
 ::
 
-    $ cms openapi server start ./[filename.yaml]
+   $ cms openapi server start ./[filename.yaml]
 
-      Starting: [server name]
-      PID:      [PID]
-      Spec:     ./[filename.py]
-      URL:      http://localhost:8080/cloudmesh
-      Cloudmesh UI:      http://localhost:8080/cloudmesh/ui
-      
+     Starting: [server name]
+     PID:      [PID]
+     Spec:     ./[filename.py]
+     URL:      http://localhost:8080/cloudmesh
+     Cloudmesh UI:      http://localhost:8080/cloudmesh/ui
+     
 
 Sending requests to the server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -208,8 +208,8 @@ functionality. The second is to use curl commands to submit requests.
 
 ::
 
-    $ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text/plain"
-    2.7
+   $ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text/plain"
+   2.7
 
 Stopping the server
 ~~~~~~~~~~~~~~~~~~~
@@ -220,7 +220,7 @@ processes.
 
 ::
 
-    $ cms openapi stop [server name]
+   $ cms openapi stop [server name]
 
 Manual
 ------
@@ -245,7 +245,7 @@ One function in python file
 
 ::
 
-    cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
+   cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
 
 Multiple functions in python file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -257,11 +257,11 @@ Multiple functions in python file
 
 ::
 
-    cms openapi generate --filename=./tests/generator-calculator/calculator.py --all_functions
+   cms openapi generate --filename=./tests/generator-calculator/calculator.py --all_functions
 
 ::
 
-    cms openapi generate server start ./tests/generator-calculator/calculator.py
+   cms openapi generate server start ./tests/generator-calculator/calculator.py
 
 Function(s) in python class file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -273,11 +273,11 @@ Function(s) in python class file
 
 ::
 
-    cms openapi generate --filename=./tests/generator-testclass/calculator.py --import_class"
+   cms openapi generate --filename=./tests/generator-testclass/calculator.py --import_class"
 
 ::
 
-    cms openapi generate server start ./tests/generator-testclass/calculator.py
+   cms openapi generate server start ./tests/generator-testclass/calculator.py
 
 Uploading data
 ~~~~~~~~~~~~~~
@@ -299,20 +299,20 @@ First, generate the OpenAPI specification and start the server
 
 ::
 
-    cms openapi generate print_csv2np --filename=./tests/generator-upload/csv_reader.py --enable_upload
-    cms openapi server start ./tests/generator-upload/csv_reader.yaml
+   cms openapi generate print_csv2np --filename=./tests/generator-upload/csv_reader.py --enable_upload
+   cms openapi server start ./tests/generator-upload/csv_reader.yaml
 
 Next, navigate to localhost:8080/cloudmesh/ui. Click to open the /upload
-endpoint, then click 'Try it out.' Click to choose a file to upload,
-then upload ``tests/generator-upload/np_test.csv``. Click 'Execute' to
+endpoint, then click ‘Try it out.’ Click to choose a file to upload,
+then upload ``tests/generator-upload/np_test.csv``. Click ‘Execute’ to
 complete the upload.
 
 The uploaded file will be located at
 ``~/.cloudmesh/upload-file/[filename]``.
 ``tests/generator-upload/csv_reader.py`` contains some example code to
 retrieve the array in the uploaded file. To see this in action, click to
-open the /print\_csv2np endpoint, then click 'Try it out.' Enter
-"np\_test.csv" in the field that prompts for a filename, and then click
+open the /print_csv2np endpoint, then click ‘Try it out.’ Enter
+“np_test.csv” in the field that prompts for a filename, and then click
 Execute to view the numpy array defined by the CSV file.
 
 Downloading data
@@ -322,12 +322,12 @@ Always the same
 
 abc.txt <- /data/xyz/klmn.txt
 
-Merge openapi's
+Merge openapi’s
 ~~~~~~~~~~~~~~~
 
 ::
 
-    merge [APIS...] - > single.yaml
+   merge [APIS...] - > single.yaml
 
 Running AI Services in the Cloud using OpenApi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -336,7 +336,7 @@ Google
 ^^^^^^
 
 After you create your google cloud account, it is recommended to
-download and install Google's `Cloud
+download and install Google’s `Cloud
 SDK <https://cloud.google.com/sdk/docs/quickstarts>`__. This will enable
 CLI. Make sure you enable all the required services.
 
@@ -344,11 +344,11 @@ For example:
 
 ::
 
-    gcloud services enable servicemanagement.googleapis.com
+   gcloud services enable servicemanagement.googleapis.com
 
 ::
 
-    gcloud services enable endpoints.googleapis.com
+   gcloud services enable endpoints.googleapis.com
 
 and any other services you might be using for your specific Cloud API
 function.
@@ -359,7 +359,7 @@ account): `Google Account
 Setup <https://cloud.google.com/billing/docs/how-to/manage-billing-account>`__
 
 After you create your google cloud account, it is recommended to
-download and install Google's `Cloud
+download and install Google’s `Cloud
 SDK <https://cloud.google.com/sdk/docs/quickstarts>`__. This will enable
 CLI. Make sure you enable all the required services.
 
@@ -367,15 +367,15 @@ For example:
 
 ::
 
-    gcloud services enable servicemanagement.googleapis.com
+   gcloud services enable servicemanagement.googleapis.com
 
 ::
 
-    gcloud services enable servicecontrol.googleapis.com
+   gcloud services enable servicecontrol.googleapis.com
 
 ::
 
-    gcloud services enable endpoints.googleapis.com
+   gcloud services enable endpoints.googleapis.com
 
 and any other services you might be using for your specific Cloud API
 function.
@@ -385,8 +385,8 @@ already installed:
 
 .. code:: bash
 
-    cloudmesh-installer get cloud
-    cloudmesh-installer install cloud
+   cloudmesh-installer get cloud
+   cloudmesh-installer install cloud
 
 This will allow you automatically fill out the cloudmesh yaml file with
 your credentials once you generate the servcie account JSON file.
@@ -406,7 +406,7 @@ Quickstart Google Python API
 
 ::
 
-    pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+   pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
 -  For quickstart in using Google API for Python visit
    `here <https://developers.google.com/docs/api/quickstart/python>`__
@@ -425,16 +425,16 @@ will want to enable a number of services in the GCP console.
 1. To do this you will need to click the menu icon in the Dashboard
    navigation bar. Ensure you are in the correct porject.
 
-2. Once that menu is open hover over the "APIs and Services" menu item
-   and click on "Dashboard" in the submenu.
+2. Once that menu is open hover over the “APIs and Services” menu item
+   and click on “Dashboard” in the submenu.
 
-3. At the dashboard click on the "+ Enable APIs and Services" button at
+3. At the dashboard click on the “+ Enable APIs and Services” button at
    the top of the dashboard
 
 4. Search for **cloud natural language** to find the API in the search
    results and click the result
 
-5. Once the page opens click "Enable"
+5. Once the page opens click “Enable”
 
 6. Do the same for the **translate** API to enable that as well
 
@@ -468,15 +468,15 @@ package:
 
 ::
 
-    google-cloud-translate
-    google-cloud-language
+   google-cloud-translate
+   google-cloud-language
 
 To pass the information from your service account private key file ot
 the cloudmesh yaml file run the following command:
 
 .. code:: bash
 
-    cms register update --kind=google --service=compute --filename=<<google json file>>
+   cms register update --kind=google --service=compute --filename=<<google json file>>
 
 Running the Google Natural Language and Translate REST Services
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -486,7 +486,7 @@ Running the Google Natural Language and Translate REST Services
 
    .. code:: bash
 
-       mkdir text-cache
+      mkdir text-cache
 
 2. Add any plain text files your would like to analyze to this directory
    with a name that has no special characters or spaces. You can copy
@@ -500,14 +500,14 @@ Running the Google Natural Language and Translate REST Services
 
    .. code:: bash
 
-       cms openapi generate TextAnalysis --filename=./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
+      cms openapi generate TextAnalysis --filename=./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
 
 5. Start the server after the yaml file is generated ot the same
    directory as the .py file
 
    .. code:: bash
 
-       cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
+      cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
 
 6. Run a curl command against the newly running server to verify it
    returns a result as expected.
@@ -517,20 +517,20 @@ Running the Google Natural Language and Translate REST Services
 
    .. code:: bash
 
-       curl -X GET "http://127.0.0.1:8080/cloudmesh/analyze?filename=<<sample text file name>>&cloud=google"
+      curl -X GET "http://127.0.0.1:8080/cloudmesh/analyze?filename=<<sample text file name>>&cloud=google"
 
    -  This is currently only ready to translate a single word through
       the API.
 
    .. code:: bash
 
-       curl -X GET "http://127.0.0.1:8080/cloudmesh/translate_text?cloud=google&text=<<word to translate>>&lang=<<lang code>>"
+      curl -X GET "http://127.0.0.1:8080/cloudmesh/translate_text?cloud=google&text=<<word to translate>>&lang=<<lang code>>"
 
 7. Stop the server
 
    .. code:: bash
 
-       cms openapi server stop natural-lang-analysis
+      cms openapi server stop natural-lang-analysis
 
 AWS
 ^^^
@@ -554,7 +554,7 @@ Install Boto 3
 
 .. code:: bash
 
-    pip install boto3
+   pip install boto3
 
 -  For quickstart, vist
    `here <https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html>`__
@@ -568,7 +568,7 @@ Azure
 Setting up Azure Sentiment Analysis and Translation Services
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-1.  Create an Azure subscription. If you don't have one, create a `free
+1.  Create an Azure subscription. If you don’t have one, create a `free
     account <https://azure.microsoft.com/try/cognitive-services/>`__
 
 2.  Create a `Text Analysis
@@ -585,15 +585,15 @@ Setting up Azure Sentiment Analysis and Translation Services
 
     ::
 
-        pip install msrest
-        pip install azure-ai-textanalytics
+       pip install msrest
+       pip install azure-ai-textanalytics
 
 5.  Navigate to the ``~/.cloudmesh`` repo and create a cache directory
     for your text examples you would like to analyze.
 
     .. code:: bash
 
-        mkdir text-cache
+       mkdir text-cache
 
 6.  Add any plain text files your would like to analyze to this
     directory with a name that has no special characters or spaces. You
@@ -607,14 +607,14 @@ Setting up Azure Sentiment Analysis and Translation Services
 
     .. code:: bash
 
-        cms openapi generate TextAnalysis --filename=./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
+       cms openapi generate TextAnalysis --filename=./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
 
 9.  Start the server after the yaml file is generated ot the same
     directory as the .py file
 
     .. code:: bash
 
-        cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
+       cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
 
 10. Run a curl command against the newly running server to verify it
     returns a result as expected.
@@ -624,22 +624,22 @@ Setting up Azure Sentiment Analysis and Translation Services
 
     .. code:: bash
 
-        curl -X GET "http://127.0.0.1:8080/cloudmesh/analyze?filename=<<sample text file name>>&cloud=azure"
+       curl -X GET "http://127.0.0.1:8080/cloudmesh/analyze?filename=<<sample text file name>>&cloud=azure"
 
     -  This is currently only ready to translate a single word through
        the API.
     -  Available language tags are described in the `Azure
        docs <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages>`__
 
-       .. code:: bash
+    .. code:: bash
 
-           curl -X GET "http://127.0.0.1:8080/cloudmesh/translate_text?cloud=azure&text=<<word to translate>>&lang=<<lang code>>"
+       curl -X GET "http://127.0.0.1:8080/cloudmesh/translate_text?cloud=azure&text=<<word to translate>>&lang=<<lang code>>"
 
 11. Stop the server
 
     .. code:: bash
 
-        cms openapi server stop natural-lang-analysis
+       cms openapi server stop natural-lang-analysis
 
 The natural langauge analysis API can be improved by allowing for full
 phrase translation via the API. If you contribute to this API there is
@@ -656,22 +656,23 @@ Using the Azure Computer Vision AI service, you can describe, analyze
 and/ or get tags for a locally stored image or you can read the text
 from an image or hand-written file.
 
--  Azure subscription. If you don't have one, create a `free
+-  Azure subscription. If you don’t have one, create a `free
    account <https://azure.microsoft.com/try/cognitive-services/>`__
    before you continue further.
 -  Create a Computer Vision resource and get the
-   COMPUTER\_VISION\_SUBSCRIPTION\_KEY and COMPUTER\_VISION\_ENDPOINT.
-   Follow
+   COMPUTER_VISION_SUBSCRIPTION_KEY and COMPUTER_VISION_ENDPOINT. Follow
    `instructions <https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix>`__
    to get the same.
 -  Install following Python packages in your virtual environment:
--  requests
--  Pillow
+
+   -  requests
+   -  Pillow
+
 -  Install Computer Vision client library
 
 .. code:: bash
 
-      pip install --upgrade azure-cognitiveservices-vision-computervision
+     pip install --upgrade azure-cognitiveservices-vision-computervision
 
 Steps to implement and use Azure AI image and text *REST-services*
                                                                   
@@ -682,23 +683,23 @@ Steps to implement and use Azure AI image and text *REST-services*
 
 .. code:: bash
 
-      cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload
-      cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload
+     cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload
+     cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload
 
 -  Verify the *YAML* files created in ``./tests/generator-azureai``
    directory
 
 .. code:: bash
 
-      azure-ai-image-function.yaml
-      azure-ai-text-function.yaml
+     azure-ai-image-function.yaml
+     azure-ai-text-function.yaml
 
 -  Start the REST service by running following command in
    ``./cloudmesh-openapi`` directory
 
 .. code:: bash
 
-      cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml
+     cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml
 
 The default port used for starting the service is 8080. In case you want
 to start more than one REST service, use a different port in following
@@ -706,17 +707,17 @@ command:
 
 .. code:: bash
 
-      cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>
+     cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>
 
 -  Access the REST service using http://localhost:8080/cloudmesh/ui/
 
 -  After you have started the azure-ai-image-function or
    azure-ai-text-function on default port 8080, run following command to
-   upload the image or text\_image file
+   upload the image or text_image file
 
 .. code:: bash
 
-      curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/generator-azureai/<image_name_with_extension>;type=image/jpeg"
+     curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/generator-azureai/<image_name_with_extension>;type=image/jpeg"
 
 Keep your test image files at ``./tests/generator-azureai/`` directory
 
@@ -726,21 +727,21 @@ Keep your test image files at ``./tests/generator-azureai/`` directory
 
 .. code:: bash
 
-      curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+     curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 -  With *azure-ai-image-function* started on port=8080, in order to test
    the azure ai function for describing an image, run following command
 
 .. code:: bash
 
-      curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+     curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 -  With *azure-ai-image-function* started on port=8080, in order to test
    the azure ai function for analyzing an image, run following command
 
 .. code:: bash
 
-      curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+     curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 -  With *azure-ai-image-function* started on port=8080, in order to test
    the azure ai function for identifying tags in an image, run following
@@ -748,20 +749,20 @@ Keep your test image files at ``./tests/generator-azureai/`` directory
 
 .. code:: bash
 
-      curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+     curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
 
 -  Check the running REST services using following command:
 
 .. code:: bash
 
-      cms openapi server ps
+     cms openapi server ps
 
 -  Stop the REST service using following command(s):
 
 .. code:: bash
 
-      cms openapi server stop azure-ai-image-function
-      cms openapi server stop azure-ai-text-function
+     cms openapi server stop azure-ai-image-function
+     cms openapi server stop azure-ai-text-function
 
 Test
 ----
@@ -770,227 +771,68 @@ The following table lists the different test we have, we provide
 additional information for the tests in the test directory in a README
 file. Summaries are provided below the table
 
-+------+------+------+
-| Test | Shor | Link |
-|      | t    |      |
-|      | Desc |      |
-|      | ript |      |
-|      | ion  |      |
-+======+======+======+
-| Gene | Test | `tes |
-| rato | to   | t\_0 |
-| r-ca | chec | 1\_g |
-| lcul | k    | ener |
-| ator | if   | ator |
-|      | calc | .py  |
-|      | ulat | <htt |
-|      | or   | ps:/ |
-|      | api  | /git |
-|      | is   | hub. |
-|      | gene | com/ |
-|      | rate | clou |
-|      | d    | dmes |
-|      | corr | h/cl |
-|      | ectl | oudm |
-|      | y.   | esh- |
-|      | This | open |
-|      | is   | api/ |
-|      | to   | blob |
-|      | test | /mas |
-|      | mult | ter/ |
-|      | iple | test |
-|      | func | s/ge |
-|      | tion | nera |
-|      | in   | tor- |
-|      | one  | calc |
-|      | pyth | ulat |
-|      | on   | or/t |
-|      | file | est_ |
-|      |      | 01_g |
-|      |      | ener |
-|      |      | ator |
-|      |      | .py> |
-|      |      | `__  |
-+------+------+------+
-| Gene | Test | `tes |
-| rato | to   | t\_0 |
-| r-te | chec | 2\_g |
-| stcl | k    | ener |
-| ass  | if   | ator |
-|      | calc | .py  |
-|      | ulat | <htt |
-|      | or   | ps:/ |
-|      | api  | /git |
-|      | is   | hub. |
-|      | gene | com/ |
-|      | rate | clou |
-|      | d    | dmes |
-|      | corr | h/cl |
-|      | ectl | oudm |
-|      | y.   | esh- |
-|      | This | open |
-|      | is   | api/ |
-|      | to   | blob |
-|      | test | /mas |
-|      | mult | ter/ |
-|      | iple | test |
-|      | func | s/ge |
-|      | tion | nera |
-|      | in   | tor- |
-|      | one  | test |
-|      | pyth | clas |
-|      | on   | s/te |
-|      | clas | st_0 |
-|      | s    | 2_ge |
-|      | file | nera |
-|      |      | tor. |
-|      |      | py>` |
-|      |      | __   |
-+------+------+------+
-| Serv | Test | `tes |
-| er-c | to   | t\_0 |
-| pu   | chec | 3\_g |
-|      | k    | ener |
-|      | if   | ator |
-|      | cpu  | .py  |
-|      | api  | <htt |
-|      | is   | ps:/ |
-|      | gene | /git |
-|      | rate | hub. |
-|      | d    | com/ |
-|      | corr | clou |
-|      | ectl | dmes |
-|      | y.   | h/cl |
-|      | This | oudm |
-|      | is   | esh- |
-|      | to   | open |
-|      | test | api/ |
-|      | sing | blob |
-|      | le   | /mas |
-|      | func | ter/ |
-|      | tion | test |
-|      | in   | s/se |
-|      | one  | rver |
-|      | pyth | -cpu |
-|      | on   | /tes |
-|      | file | t_03 |
-|      | and  | _gen |
-|      | func | erat |
-|      | tion | or.p |
-|      | name | y>`_ |
-|      | is   | _    |
-|      | diff |      |
-|      | eren |      |
-|      | t    |      |
-|      | than |      |
-|      | file |      |
-|      | name |      |
-+------+------+------+
-| Serv | Test | `tes |
-| er-c | to   | t\_0 |
-| ms   | chec | 4\_g |
-|      | k    | ener |
-|      | if   | ator |
-|      | cms  | .py  |
-|      | api  | <htt |
-|      | is   | ps:/ |
-|      | gene | /git |
-|      | rate | hub. |
-|      | d    | com/ |
-|      | corr | clou |
-|      | ectl | dmes |
-|      | y.   | h/cl |
-|      | This | oudm |
-|      | is   | esh- |
-|      | to   | open |
-|      | test | api/ |
-|      | mult | blob |
-|      | iple | /mas |
-|      | func | ter/ |
-|      | tion | test |
-|      | in   | s/se |
-|      | one  | rver |
-|      | pyth | -cms |
-|      | on   | /tes |
-|      | file | t_04 |
-|      | .    | _gen |
-|      |      | erat |
-|      |      | or.p |
-|      |      | y>`_ |
-|      |      | _    |
-+------+------+------+
-| Regi | test | `Lin |
-| stry | \_00 | k <h |
-|      | 1\_r | ttps |
-|      | egis | ://g |
-|      | try. | ithu |
-|      | py   | b.co |
-|      | -    | m/cl |
-|      | Runs | oudm |
-|      | test | esh/ |
-|      | s    | clou |
-|      | for  | dmes |
-|      | regi | h-op |
-|      | stry | enap |
-|      | .    | i/bl |
-|      | Desc | ob/m |
-|      | ript | aste |
-|      | ion  | r/te |
-|      | is   | sts/ |
-|      | in   | READ |
-|      | test | ME.m |
-|      | s/RE | d>`_ |
-|      | ADME | _    |
-|      | .md  |      |
-+------+------+------+
-| Imag | imag | `ima |
-| e-An | e\_t | ge < |
-| alys | est. | http |
-| is   | py   | s:// |
-|      | -    | gith |
-|      | Runs | ub.c |
-|      | benc | om/c |
-|      | hmar | loud |
-|      | k    | mesh |
-|      | for  | /clo |
-|      | text | udme |
-|      | dete | sh-o |
-|      | ctio | pena |
-|      | n    | pi/b |
-|      | for  | lob/ |
-|      | Goog | mast |
-|      | le   | er/t |
-|      | Visi | ests |
-|      | on   | /ima |
-|      | API  | ge-a |
-|      | and  | naly |
-|      | AWS  | sis/ |
-|      | Reko | READ |
-|      | gnit | ME.m |
-|      | ion. | d>`_ |
-|      | Desc | _    |
-|      | ript |      |
-|      | ion  |      |
-|      | in   |      |
-|      | imag |      |
-|      | e-an |      |
-|      | alys |      |
-|      | is/R |      |
-|      | EADM |      |
-|      | E.md |      |
-+------+------+------+
++-----------------------+-----------------------+-----------------------+
+| Test                  | Short Description     | Link                  |
++=======================+=======================+=======================+
+| Generator-calculator  | Test to check if      | `test_01_generator.py |
+|                       | calculator api is     |  <https://github.com/ |
+|                       | generated correctly.  | cloudmesh/cloudmesh-o |
+|                       | This is to test       | penapi/blob/master/te |
+|                       | multiple function in  | sts/generator-calcula |
+|                       | one python file       | tor/test_01_generator |
+|                       |                       | .py>`__               |
++-----------------------+-----------------------+-----------------------+
+| Generator-testclass   | Test to check if      | `test_02_generator.py |
+|                       | calculator api is     |  <https://github.com/ |
+|                       | generated correctly.  | cloudmesh/cloudmesh-o |
+|                       | This is to test       | penapi/blob/master/te |
+|                       | multiple function in  | sts/generator-testcla |
+|                       | one python class file | ss/test_02_generator. |
+|                       |                       | py>`__                |
++-----------------------+-----------------------+-----------------------+
+| Server-cpu            | Test to check if cpu  | `test_03_generator.py |
+|                       | api is generated      |  <https://github.com/ |
+|                       | correctly. This is to | cloudmesh/cloudmesh-o |
+|                       | test single function  | penapi/blob/master/te |
+|                       | in one python file    | sts/server-cpu/test_0 |
+|                       | and function name is  | 3_generator.py>`__    |
+|                       | different than file   |                       |
+|                       | name                  |                       |
++-----------------------+-----------------------+-----------------------+
+| Server-cms            | Test to check if cms  | `test_04_generator.py |
+|                       | api is generated      |  <https://github.com/ |
+|                       | correctly. This is to | cloudmesh/cloudmesh-o |
+|                       | test multiple         | penapi/blob/master/te |
+|                       | function in one       | sts/server-cms/test_0 |
+|                       | python file.          | 4_generator.py>`__    |
++-----------------------+-----------------------+-----------------------+
+| Registry              | test_001_registry.py  | `Link <https://github |
+|                       | - Runs tests for      | .com/cloudmesh/cloudm |
+|                       | registry. Description | esh-openapi/blob/mast |
+|                       | is in tests/README.md | er/tests/README.md>`_ |
+|                       |                       | _                     |
++-----------------------+-----------------------+-----------------------+
+| Image-Analysis        | image_test.py - Runs  | `image <https://githu |
+|                       | benchmark for text    | b.com/cloudmesh/cloud |
+|                       | detection for Google  | mesh-openapi/blob/mas |
+|                       | Vision API and AWS    | ter/tests/image-analy |
+|                       | Rekognition.          | sis/README.md>`__     |
+|                       | Description in        |                       |
+|                       | image-analysis/README |                       |
+|                       | .md                   |                       |
++-----------------------+-----------------------+-----------------------+
 
 For more infromation about test cases ,please check `tests
 info <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md>`__
 
--  `test\_001\_registry <tests/test_001_registry.py>`__
--  `test\_003\_server\_manage\_cpu <tests/test_003_server_manage_cpu.py>`__
--  `test\_010\_generator <tests/test_010_generator.py>`__
--  `test\_011\_generator\_cpu <tests/test_011_generator_cpu.py>`__
--  `test\_012\_generator\_calculator <tests/test_012_generator_calculator.py>`__
--  `test\_015\_generator\_azureai <tests/test_015_generator_azureai.py>`__
--  `test\_020\_server\_manage <tests/test_020_server_manage.py>`__
--  `test\_server\_cms\_cpu <tests/test_server_cms_cpu.py>`__
+-  `test_001_registry <tests/test_001_registry.py>`__
+-  `test_003_server_manage_cpu <tests/test_003_server_manage_cpu.py>`__
+-  `test_010_generator <tests/test_010_generator.py>`__
+-  `test_011_generator_cpu <tests/test_011_generator_cpu.py>`__
+-  `test_012_generator_calculator <tests/test_012_generator_calculator.py>`__
+-  `test_015_generator_azureai <tests/test_015_generator_azureai.py>`__
+-  `test_020_server_manage <tests/test_020_server_manage.py>`__
+-  `test_server_cms_cpu <tests/test_server_cms_cpu.py>`__
 
 .. |image| image:: https://img.shields.io/pypi/v/cloudmesh-openapi.svg
    :target: https://pypi.org/project/cloudmesh-openapi/

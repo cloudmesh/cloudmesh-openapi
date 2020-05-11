@@ -27,6 +27,7 @@ readme-generate:
 	python ../cloudmesh-common/bin/readme.py cloudmesh-$(package) cms
 
 doc:
+	pip install sphinx_rtd_theme
 	mkdir -p docs
 	cd sphinx; sh gen_apidocs.sh
 	pandoc README.md -o sphinx/sphinx-docs/README.rst
