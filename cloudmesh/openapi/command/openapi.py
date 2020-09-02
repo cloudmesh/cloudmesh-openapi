@@ -191,8 +191,8 @@ class OpenapiCommand(PluginCommand):
         if arguments.generate:
             if arguments.import_class and arguments.all_functions:
                 Console.error('Cannot generate openapi with both --import_class and --all_functions')
-            if arguments.import_class and not arguments.function:
-                Console.error('FUNCTION paramter (class name) is required when using --import_class')
+            if arguments.import_class and not arguments.FUNCTION:
+                Console.error('FUNCTION parameter (class name) is required when using --import_class')
             try:
                 p = Parameter(arguments)
                 p.Print()

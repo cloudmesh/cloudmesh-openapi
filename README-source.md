@@ -202,7 +202,7 @@ processes.
 
 .. code:: bash
 
-    $ cms openapi stop [server name]
+    $ cms openapi server stop [server name]
 
 ## Manual
 
@@ -245,8 +245,10 @@ pytests related information
 
 .. code:: bash
 
-    cms openapi generate --filename=./tests/generator-testclass/calculator.py --import_class"
-    cms openapi generate server start ./tests/generator-testclass/calculator.py
+    cms openapi generate Calculator --filename=./tests/generator-testclass/calculator.py --import_class"
+    cms openapi server start ./tests/generator-testclass/calculator.yaml
+    curl -X GET "http://localhost:8080/cloudmesh/Calculator/multiplyint?x=1&y=5"
+    cms openapi server stop Calculator
 
 ### Uploading data
 
