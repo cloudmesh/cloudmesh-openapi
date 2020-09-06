@@ -284,6 +284,65 @@ then click 'Try it out.' Enter "np_test.csv" in the field that prompts
 for a filename, and then click Execute to view the numpy array defined
 by the CSV file.
 
+### Pipeline Anova SVM Example
+This example is based on the sklearn example [here](https://scikit-learn.org/stable/auto_examples/feature_selection/plot_feature_selection_pipeline.html#sphx-glr-auto-examples-feature-selection-plot-feature-selection-pipeline-py)
+
+In this example, we will upload a data set to the server, tell the server to train the model, and utilize said model for
+predictions. 
+
+Firstly, ensure we are in the correct directory.
+```
+> pwd
+~/cm/cloudmesh-openapi
+```
+
+Let's generate the yaml file from our python file to generate the proper specs for our service.
+```
+> cms openapi generate PipelineAnovaSVM --filename=./tests/Scikitlearn-experimental/sklearn_svm.py --import_class --enable_upload
+```
+
+Now let's start the server
+```
+> cms openapi server start ./tests/Scikitlearn-experimental/sklearn_svm.yaml
+```
+
+The server should now be active. Navigate to `http://localhost:8080/cloudmesh/ui`. We now have a nice user inteface to interact
+with our newly generated API. Let's upload the data set. We are going to use the iris data set in this example. We have provided it
+for you to use. Simply navigate to the `/upload` endpoint by clicking on it, then click `Try it out`. 
+
+We can now upload the file. Click on `Choose File` and upload the data set located at `~./tests/Scikitlearn-experimental/iris.data`.
+Simply hit `Execute` after the file is uploaded. We should then get a return code of 200 (telling us that everything went ok).
+
+The server now has our dataset. Let us now navigate to the `/train` endpoint by, again, clicking on it. Similarly, click `Try it out`.
+The parameter being asked for is the filename. The filename we are interested in is `iris.data`. Then click `execute`.
+We should get another 200 return code with a Classification Report in the Response Body.
+```
+CLASSIFICATION_REPORT: 
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         8
+           1       0.85      1.00      0.92        11
+           2       1.00      0.89      0.94        19
+
+    accuracy                           0.95        38
+   macro avg       0.95      0.96      0.95        38
+weighted avg       0.96      0.95      0.95        38
+```
+
+Our model is now trained and stored on the server. Let's make a prediction now. As we have done, navigate to the `/make_prediction` endpoint.
+The information we need to provide is the name of the model we have trained as well as some test data. The name of the model will be the same
+as the name of the data-file (ie. iris). So type in `iris` into the `model_name` field. Finally for params, let's use the example `5.1, 3.5, 1.4, 0.2`
+as the model expects 4 values (attributes). After clicking execute, we should received a response with the classification the model has made given the parameters. 
+
+The response received should be as follows:
+```
+"Classification: ['Iris-setosa']"
+```
+
+We can make as many predictions as we like. When finished, we can shut down the server.
+```
+> cms openapi server stop sklearn_svm
+```
 ### Downloading data
 
 Always the same

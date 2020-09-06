@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  title: PipelineAnovaSVM
+  description: "A Pipeline Anova SVM model that can train on data and make predictions"
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/cloudmesh
+    description: "A Pipeline Anova SVM model that can train on data and make predictions"
+paths:
+  /PipelineAnovaSVM/make_prediction:
+     get:
+      summary: "Make a prediction based on training configuration"
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: sklearn_svm_upload-enabled.PipelineAnovaSVM.make_prediction
+      parameters:
+        - in: query
+          name: model_name
+          description: "no description provided in docstring"
+          schema:
+            type: string
+        - in: query
+          name: params
+          description: "no description provided in docstring"
+          schema:
+            type: string
+      responses:
+        '204':
+          description: "This operation returns no response."
+
+  /PipelineAnovaSVM/train:
+     get:
+      summary: "Given the filename of an uploaded file, train a PipelineAnovaSVM model from the data."
+      description: "Assumption of data is the classifications are in the last column of the data.
+
+                   Returns the classification report of the test split"
+      operationId: sklearn_svm_upload-enabled.PipelineAnovaSVM.train
+      parameters:
+        - in: query
+          name: filename
+          description: "no description provided in docstring"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /upload:
+    post:
+      summary: upload a file
+      operationId: sklearn_svm_upload-enabled.upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                upload:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
