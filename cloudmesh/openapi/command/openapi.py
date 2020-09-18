@@ -12,6 +12,7 @@ from cloudmesh.common.Printer import Printer
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
 from cloudmesh.common.util import path_expand
+from cloudmesh.openapi.authentication.basic import BasicAuth
 from cloudmesh.openapi.function import generator
 from cloudmesh.openapi.function.server import Server
 from cloudmesh.openapi.function.executor import Parameter
@@ -43,6 +44,7 @@ class OpenapiCommand(PluginCommand):
                                          [--all_functions]
                                          [--enable_upload]
                                          [--verbose]
+                                         [--basic_auth=CREDENTIALS]
               openapi server start YAML [NAME]
                               [--directory=DIRECTORY]
                               [--port=PORT]
@@ -120,6 +122,7 @@ class OpenapiCommand(PluginCommand):
                                          [--all_functions]
                                          [--enable_upload]
                                          [--verbose]
+                                         [--basic_auth=CREDENTIALS]
                 Generates an OpenAPI specification for FUNCTION in FILENAME and
                 writes the result to YAML. Use --import_class to import a class
                 with its associated class methods, or use --all_functions to 
@@ -127,6 +130,13 @@ class OpenapiCommand(PluginCommand):
                 whose names start with '_'. Use --enable_upload to add file
                 upload functionality to a copy of your python file and the
                 resulting yaml file.
+
+                For optional basic authorization, we support (temporarily) a single user
+                credential. CREDENTIALS should be formatted as follows:
+
+                user:password
+
+                Example: --basic_auth=admin:secret
 
             openapi server start YAML [NAME]
                               [--directory=DIRECTORY]
@@ -182,12 +192,12 @@ class OpenapiCommand(PluginCommand):
                        'import_class',
                        'all_functions',
                        'enable_upload',
-                       'host')
+                       'host',
+                       'basic_auth')
         arguments.debug = arguments.verbose
 
         #VERBOSE(arguments)
 
-        
         if arguments.generate:
             if arguments.import_class and arguments.all_functions:
                 Console.error('Cannot generate openapi with both --import_class and --all_functions')
@@ -202,7 +212,10 @@ class OpenapiCommand(PluginCommand):
                 function = p.function # myfunction
                 serverurl = p.serverurl # http://localhost:8080/cloudmesh/
                 module_name = p.module_name # myfile
-                
+                basic_auth = p.basic_auth # user:password
+
+                # If statement here for mode with basic_auth
+
                 enable_upload = arguments.enable_upload
                 # append the upload function to the end of a copy of the file if not already done
                 if enable_upload:
@@ -229,6 +242,14 @@ class OpenapiCommand(PluginCommand):
                             f.write('\n')
                             f.write(uploadPython)
                         Console.info(f'added upload functionality to {filename}')
+
+                if basic_auth:
+                    user, password = basic_auth.split(':')
+                    BasicAuth.reset_users
+                    BasicAuth.add_user(user, password)
+                    module_name, filename = BasicAuth.write_basic_auth(
+                        filename=filename,
+                         module_name=module_name)
 
                 # Parameter() takes care of putting the filename in the path
                 imported_module = import_module(module_name)
@@ -261,17 +282,18 @@ class OpenapiCommand(PluginCommand):
                         elif is_dataclass(attr):
                             dataclass_list.append(attr)
                     openAPI = generator.Generator()
-                    Console.info('Generating openapi for class: ' + class_obj.__name__)
-                    openAPI.generate_openapi_class(class_name = class_obj.__name__,
-                                                   class_description = class_description,
-                                                   filename = filename,
-                                                   func_objects = func_objects, 
-                                                   serverurl = serverurl,
-                                                   outdir = directory,
-                                                   yamlfile = yamlfile,
-                                                   dataclass_list = dataclass_list, 
-                                                   all_function = False,
-                                                   enable_upload = enable_upload,
+                    Console.info(
+                        'Generating openapi for class: ' + class_obj.__name__)
+                    openAPI.generate_openapi_class(class_name=class_obj.__name__,
+                                                   class_description=class_description,
+                                                   filename=filename,
+                                                   func_objects=func_objects,
+                                                   serverurl=serverurl,
+                                                   outdir=directory,
+                                                   yamlfile=yamlfile,
+                                                   dataclass_list=dataclass_list,
+                                                   all_function=False,
+                                                   enable_upload=enable_upload,
                                                    write=True)
                 elif arguments.all_functions:
                     func_objects = {}
@@ -281,33 +303,36 @@ class OpenapiCommand(PluginCommand):
                             setattr(sys.modules[module_name], attr_name, func_obj)
                             func_objects[attr_name] = func_obj
                     openAPI = generator.Generator()
-                    Console.info('Generating openapi for all functions in file: ' + filename)
-                    openAPI.generate_openapi_class(class_name = module_name,
-                                                   class_description = "No description provided",
-                                                   filename = filename,
-                                                   func_objects = func_objects,
-                                                   serverurl = serverurl,
-                                                   outdir = directory,
-                                                   yamlfile = yamlfile,
-                                                   dataclass_list = dataclass_list,
-                                                   all_function = True,
-                                                   enable_upload = enable_upload,
-                                                   write = True)
-                                                   
+                    Console.info(
+                        'Generating openapi for all functions in file: ' + filename)
+                    openAPI.generate_openapi_class(class_name=module_name,
+                                                   class_description="No description provided",
+                                                   filename=filename,
+                                                   func_objects=func_objects,
+                                                   serverurl=serverurl,
+                                                   outdir=directory,
+                                                   yamlfile=yamlfile,
+                                                   dataclass_list=dataclass_list,
+                                                   all_function=True,
+                                                   enable_upload=enable_upload,
+                                                   write=True)
+
                 else:
                     func_obj = getattr(imported_module, function)
                     setattr(sys.modules[module_name], function, func_obj)
                     openAPI = generator.Generator()
-                    Console.info('Generating openapi for function: ' + func_obj.__name__)
-                    openAPI.generate_openapi(f = func_obj,
-                                             filename = filename,
-                                             serverurl = serverurl,
-                                             outdir = directory,
-                                             yamlfile = yamlfile,
-                                             dataclass_list = dataclass_list,
-                                             enable_upload = enable_upload,
-                                             write = True)
-                
+                    Console.info(
+                        'Generating openapi for function: ' + func_obj.__name__)
+                    openAPI.generate_openapi(f=func_obj,
+                                             filename=filename,
+                                             serverurl=serverurl,
+                                             outdir=directory,
+                                             yamlfile=yamlfile,
+                                             dataclass_list=dataclass_list,
+                                             enable_upload=enable_upload,
+                                             basic_auth_enabled=basic_auth,
+                                             write=True)
+
             except Exception as e:
                 Console.error("Failed to generate openapi yaml")
                 print(e)
