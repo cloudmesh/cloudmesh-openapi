@@ -1,0 +1,22 @@
+openapi: 3.0.0
+info:
+  title: RestrictedBoltzmann
+  description: "Reads in digits from built in sklearn datasets"
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/cloudmesh
+    description: "Reads in digits from built in sklearn datasets"
+paths:
+  /RestrictedBoltzmann/train:
+     get:
+      summary: "Returns classification results"
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: boltzmann.RestrictedBoltzmann.train
+      
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: string
