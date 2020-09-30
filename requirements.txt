@@ -10,3 +10,6 @@ google-cloud
 google-cloud-translate
 google-cloud-language
 msrest
+pandas
+joblib
+sklearn
