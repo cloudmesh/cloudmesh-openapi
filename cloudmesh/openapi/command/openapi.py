@@ -294,6 +294,7 @@ class OpenapiCommand(PluginCommand):
                                                    dataclass_list=dataclass_list,
                                                    all_function=False,
                                                    enable_upload=enable_upload,
+                                                   basic_auth_enabled=basic_auth,
                                                    write=True)
                 elif arguments.all_functions:
                     func_objects = {}

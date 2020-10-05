@@ -63,6 +63,7 @@ class Generator:
           {paths}
         {upload}
         {components}
+        {basic_auth}
         """)
 
     uploadTemplate = textwrap.dedent("""
@@ -378,6 +379,7 @@ class Generator:
                                dataclass_list=None,
                                all_function=False,
                                enable_upload=False,
+                               basic_auth_enabled=False,
                                write=True):
         """
         This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted
@@ -483,6 +485,10 @@ class Generator:
             upload = self.uploadTemplate.format(filename=filename)
             upload = textwrap.indent(upload, ' ' * 2)
 
+        basic_auth = ''
+        if basic_auth_enabled:
+            basic_auth = self.basicAuthTemplate.format(filename=filename)
+
         # Update openapi template to create final version of openapi yaml
         spec = self.openAPITemplate2.format(
             title=class_name,
@@ -492,7 +498,8 @@ class Generator:
             serverurl=serverurl,
             filename=filename,
             upload=upload,
-            components=components.strip()
+            components=components.strip(),
+            basic_auth=basic_auth
         )
 
         # Write openapi yaml to file
