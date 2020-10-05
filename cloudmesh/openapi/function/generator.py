@@ -15,7 +15,6 @@ from docstring_parser import parse
 class Generator:
 
     basicAuthTemplate = textwrap.dedent("""
-        components:
           securitySchemes:
             basicAuth: # <-- arbitrary name for the security scheme
               type: http
@@ -47,7 +46,6 @@ class Generator:
                 {responses}
         {upload}
         {components}
-        {basic_auth}
         """)
 
     openAPITemplate2 = textwrap.dedent("""
@@ -63,7 +61,6 @@ class Generator:
           {paths}
         {upload}
         {components}
-        {basic_auth}
         """)
 
     uploadTemplate = textwrap.dedent("""
@@ -485,9 +482,10 @@ class Generator:
             upload = self.uploadTemplate.format(filename=filename)
             upload = textwrap.indent(upload, ' ' * 2)
 
-        basic_auth = ''
-        if basic_auth_enabled:
-            basic_auth = self.basicAuthTemplate.format(filename=filename)
+        if basic_auth_enabled and len(dataclass_list) == 0:
+          components = "components:" + self.basicAuthTemplate.format(filename=filename)
+        elif basic_auth_enabled:
+          components = components + self.basicAuthTemplate.format(filename=filename)
 
         # Update openapi template to create final version of openapi yaml
         spec = self.openAPITemplate2.format(
@@ -498,8 +496,7 @@ class Generator:
             serverurl=serverurl,
             filename=filename,
             upload=upload,
-            components=components.strip(),
-            basic_auth=basic_auth
+            components=components.strip()
         )
 
         # Write openapi yaml to file
@@ -581,9 +578,10 @@ class Generator:
             upload = self.uploadTemplate.format(filename=filename)
             upload = textwrap.indent(upload, ' ' * 2)
 
-        basic_auth = ''
-        if basic_auth_enabled:
-            basic_auth = self.basicAuthTemplate.format(filename=filename)
+        if basic_auth_enabled and len(dataclass_list) == 0:
+          components = "components:" + self.basicAuthTemplate.format(filename=filename)
+        elif basic_auth_enabled:
+          components = components + self.basicAuthTemplate.format(filename=filename)
 
         spec = self.openAPITemplate.format(
             title=title,
@@ -595,8 +593,7 @@ class Generator:
             serverurl=serverurl,
             filename=filename,
             upload=upload,
-            components=components,
-            basic_auth=basic_auth
+            components=components
         )
 
         # remove 'parameters:' section if empty
