@@ -12,7 +12,7 @@ paths:
      get:
       summary: "The name of the processor"
       description: Optional extended description in CommonMark or HTML.
-      operationId: cpu_basic_auth_enabled.get_processor_name
+      operationId: cpu.get_processor_name
         
       responses:
         '200':
@@ -21,16 +21,4 @@ paths:
             text/plain:
               schema:
                 type: string
-
-
-
-components:
-  securitySchemes:
-    basicAuth: # <-- arbitrary name for the security scheme
-      type: http
-      scheme: basic
-      x-basicInfoFunc: cpu_basic_auth_enabled.basic_auth
-
-security:
-  - basicAuth: [] # <-- use the same name here
 

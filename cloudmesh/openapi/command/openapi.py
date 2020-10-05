@@ -316,6 +316,7 @@ class OpenapiCommand(PluginCommand):
                                                    dataclass_list=dataclass_list,
                                                    all_function=True,
                                                    enable_upload=enable_upload,
+                                                   basic_auth_enabled=basic_auth,
                                                    write=True)
 
                 else:
