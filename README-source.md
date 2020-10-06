@@ -204,6 +204,20 @@ processes.
 
     $ cms openapi server stop [server name]
 
+
+### Basic Auth
+To use basic http authentication with a user password for the generated API, add the following flag at the end of a `cms openapi generate` command:
+
+```
+--basic_auth=<username>:<password>
+```
+We plan on supporting more users in the future.
+
+Example:
+```
+cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py --basic_auth=admin:secret
+```
+
 ## Manual
 
 {manual}

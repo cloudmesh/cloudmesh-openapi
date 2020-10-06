@@ -49,6 +49,7 @@ class Parameter:
         self.serverurl = None
         self.import_class = None
         self.all_functions = None
+        self.basic_auth = None
         self.get(arguments)
         pass
 
@@ -72,6 +73,7 @@ class Parameter:
         self.serverurl = arguments.serverurl or "http://localhost:8080/cloudmesh"
         self.import_class = arguments.import_class or False
         self.all_functions =arguments.all_functions or False
+        self.basic_auth = arguments.basic_auth
 
         
     def Print(self):

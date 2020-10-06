@@ -14,6 +14,17 @@ from docstring_parser import parse
 
 class Generator:
 
+    basicAuthTemplate = textwrap.dedent("""
+          securitySchemes:
+            basicAuth: # <-- arbitrary name for the security scheme
+              type: http
+              scheme: basic
+              x-basicInfoFunc: {filename}.basic_auth
+        
+        security:
+          - basicAuth: [] # <-- use the same name here
+        """)
+
     openAPITemplate = textwrap.dedent("""
         openapi: 3.0.0
         info:
@@ -365,6 +376,7 @@ class Generator:
                                dataclass_list=None,
                                all_function=False,
                                enable_upload=False,
+                               basic_auth_enabled=False,
                                write=True):
         """
         This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted
@@ -470,6 +482,11 @@ class Generator:
             upload = self.uploadTemplate.format(filename=filename)
             upload = textwrap.indent(upload, ' ' * 2)
 
+        if basic_auth_enabled and len(dataclass_list) == 0:
+          components = "components:" + self.basicAuthTemplate.format(filename=filename)
+        elif basic_auth_enabled:
+          components = components + self.basicAuthTemplate.format(filename=filename)
+
         # Update openapi template to create final version of openapi yaml
         spec = self.openAPITemplate2.format(
             title=class_name,
@@ -504,6 +521,7 @@ class Generator:
                          yamlfile=None,
                          dataclass_list=None,
                          enable_upload=False,
+                         basic_auth_enabled=False,
                          write=True):
         """
         This is a main entry point into the module.  This function will generate the full OpenApi YAML formatted
@@ -559,6 +577,11 @@ class Generator:
         if enable_upload:
             upload = self.uploadTemplate.format(filename=filename)
             upload = textwrap.indent(upload, ' ' * 2)
+
+        if basic_auth_enabled and len(dataclass_list) == 0:
+          components = "components:" + self.basicAuthTemplate.format(filename=filename)
+        elif basic_auth_enabled:
+          components = components + self.basicAuthTemplate.format(filename=filename)
 
         spec = self.openAPITemplate.format(
             title=title,
