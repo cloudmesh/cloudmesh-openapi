@@ -245,7 +245,7 @@ class OpenapiCommand(PluginCommand):
 
                 if basic_auth:
                     user, password = basic_auth.split(':')
-                    BasicAuth.reset_users
+                    BasicAuth.reset_users()
                     BasicAuth.add_user(user, password)
                     module_name, filename = BasicAuth.write_basic_auth(
                         filename=filename,

@@ -25,6 +25,8 @@ class BasicAuth:
 
     def basic_auth(username, password, required_scopes=None):
         return BasicAuth.basic_auth(username, password)
+    
+    {halt_flag}
     """)
 
     @classmethod
@@ -74,7 +76,7 @@ class BasicAuth:
             module_name = module_name + '_basic_auth_enabled'
             with open(filename, 'a') as f:
                 f.write('\n')
-                f.write(cls.AUTH_FUNC_TEMPLATE)
+                f.write(cls.AUTH_FUNC_TEMPLATE.format(halt_flag=cls.HALT_FLAG))
                 f.close()
             Console.info(f'added basic auth functionality to {filename}')
 
