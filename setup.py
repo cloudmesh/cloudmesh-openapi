@@ -34,6 +34,7 @@ connexion[swagger-ui]
 cloudmesh-common
 cloudmesh-cmd5
 cloudmesh-sys
+cloudmesh-admin
 docstring_parser
 numpydoc
 """.split("\n")

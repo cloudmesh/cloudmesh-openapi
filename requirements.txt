@@ -2,8 +2,9 @@ connexion[swagger-ui]
 cloudmesh-common
 cloudmesh-cmd5
 cloudmesh-sys
-docstring_parser
 cloudmesh-installer
+cloudmesh-admin
+docstring_parser
 numpydoc
 azure-ai-textanalytics
 google-cloud
