@@ -15,6 +15,10 @@
 
 We have not checked if it works on older versions.
 
+Note: On windows you can use gitbash so you can use bash and can use
+the same commands as on Linux or macOS. Otherwise, please use
+the appropriate backslashes to access the path.
+
 ## Installation
 
 Make sure that `cloudmesh` is properly installed on your machine and
@@ -25,10 +29,13 @@ More details to setting up `mongo` can be found in the
 * [Cloudmesh
   Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html)
 
+
 ###  User Installation
 
 Make sure you use a python venv before installing. Users can install
 the code with
+
+
 
 .. code:: bash
 
