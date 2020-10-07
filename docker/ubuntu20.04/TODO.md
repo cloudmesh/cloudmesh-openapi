@@ -1,3 +1,5 @@
+* THIS IS JUST THE SKELETON AND HAS NOT BEEN RUN ONCE IT HAS BUGS
+
 * make clean: only delete the artifacts created here, the clean wipes
   currently everything
 * when using this in consecutive order, would cms init not wipe out the data
