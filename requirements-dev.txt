@@ -1,3 +1,4 @@
+wheel
 pytest
 coverage
 flake8
