@@ -19,56 +19,26 @@
 
 ## Prerequisites
 
-* We use recommend Python 3.8.2 Python or newer.
+* We recommend Python 3.8.2 Python or newer.
 * We recommend pip version 20.0.2 or newer
 * We recommend that you use a venv (see developer install)
-* MongoDB installed as regular program not as service
-* Please run cim init command to start mongodb server
+* MongoDB installed as regular program not as service, which can
+  easily be done with cloudmesh on macOS, Linux, and Windows.
+* Please run `cms gui quick` to initialize the password for the mongodb
+  server
 
-We have not checked if it works on older versions.
-
-Note: On windows you can use gitbash so you can use bash and can use
-the same commands as on Linux or macOS. Otherwise, please use
-the appropriate backslashes to access the path.
+> Note: On windows you can use [gitbash](https://gitforwindows.org/)
+> so you can use bash and can use the same commands as on Linux or
+> macOS. Otherwise, please use the appropriate backslashes to access
+> the path.
 
 ## Installation
 
-Make sure that `cloudmesh` is properly installed on your machine and
-you have mongodb setup to work with cloudmesh.
-
-More details to setting up `mongo` can be found in the
-
-* [Cloudmesh
-  Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html)
-
-
-###  User Installation
-
-Make sure you use a python venv before installing. Users can install
-the code with
+The installation is rather simple  and is documented next.
 
 ```
 python -m venv ~/ENV3
-source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
-mkdir cm
-cd cm
-pip installl cloudmesh-installer get openapi 
-cms help
-cms gui quick
-# fill out mongo variables
-# make sure autinstall is True
-cms admin mongo install --force
-
-pip install cloudmesh-openapi
-```
-
-### Developer Installation
-
-Developers install also the source code
-
-```
-python -m venv ~/ENV3
-source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
+source ~/ENV3/bin/activate 
 mkdir cm
 cd cm
 pip install cloudmesh-installer
@@ -80,46 +50,63 @@ cms gui quick
 cms admin mongo install --force
 ```
 
-## Overview
+If you like to know more about the installation of cloudmesh, please
+visit the [Cloudmesh
+Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html).
 
-When getting started using the `openapi`, please first call: 
+## Command Overview
+
+When getting started using cloudmes `openapi`, please first call to
+get familiar with the options you have:
 
 ```
 cms help openapi
 ```
 
-This will show the available functions and options. For your
-convenience we include the manual page later on in this document.
+We include the manual page later on in this document.
 
-## Quick steps to generate,start and stop CPU sample example
+## Quick Start
 
-Navigate to `~/cm/cloudmesh-openapi` folder and run following commands
+Next we provide a very simple quickstart guide to steps to generate a
+simple microservice that returns the CPU information of your computer.
+We demonstrate how to generate, start, and stop the servive.
 
-### Generate yaml file
+Navigate to `~/cm/cloudmesh-openapi` folder. In this folder you will
+have a file called `cpu.py` from which we will generate the server.
+
+First, generate an OpenAPI YAML file with the convenient command
 
 ```
 cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
 ```
 
-### Start server 
+This will create the file `cpu.yaml` that contains the OpenAPI
+specification. To start the service from this specification simply use
+the command
 
 ```
 cms openapi server start ./tests/server-cpu/cpu.yaml
 ```
 
-### Issue a Request
+Now that the service is up and running, you can issue a request for
+example via the commandline with
 
 ```
 curl -X GET "http://localhost:8080/cloudmesh/get_processor_name" -H "accept: text/plain"
 ```
 
-### Stop server 
+To view the automatically generated documentation, you can go to your bwoser and open the link
+
+* <http://localhost:8080/cloudmesh/ui>
+
+Once yo no longer need the service, you can stop it with 
 
 ```
 cms openapi server stop cpu
 ```
 
-### Writing Python
+
+## Creating your own Microservice
 
 Cloudmesh uses introspection to generate an OpenAPI compliant YAML
 specification that will allow your Python code to run as a web
