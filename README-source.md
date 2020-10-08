@@ -38,6 +38,7 @@ cms gui quick
 cms config set cloudmesh.data.mongo.MONGO_AUTOINSTALL=True
 cms admin mongo install --force
 # Restart a new terminal to make sure mongod is in your path
+cms init
 ```
 
 If you like to know more about the installation of cloudmesh, please
