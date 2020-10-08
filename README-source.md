@@ -90,11 +90,24 @@ To view the automatically generated documentation, you can go to your browser an
 
 * <http://localhost:8080/cloudmesh/ui>
 
+![](images/openapi-ui.png)
+
+You can also look at the status of the server with the command
+
+```
+cms openapi server list
+```
+
+![](images/openapi-info.png)
+
+
 Once yo no longer need the service, you can stop it with 
 
 ```
 cms openapi server stop cpu
 ```
+
+
 
 
 ## Creating your own Microservice
