@@ -35,7 +35,9 @@ cms help
 cms gui quick
 # fill out mongo variables
 # make sure autinstall is True
+cms config set cloudmesh.data.mongo.MONGO_AUTOINSTALL=True
 cms admin mongo install --force
+# Restart a new terminal to make sure mongod is in your path
 ```
 
 If you like to know more about the installation of cloudmesh, please
@@ -83,7 +85,7 @@ example via the commandline with
 curl -X GET "http://localhost:8080/cloudmesh/get_processor_name" -H "accept: text/plain"
 ```
 
-To view the automatically generated documentation, you can go to your bwoser and open the link
+To view the automatically generated documentation, you can go to your browser and open the link
 
 * <http://localhost:8080/cloudmesh/ui>
 
