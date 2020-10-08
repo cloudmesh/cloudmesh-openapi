@@ -245,37 +245,37 @@ pytests related information
 
 1. Please check [Python file](tests/server-cpu/cpu.py).
 
-1. Run below command to generate yaml file and start server
+2. Run below command to generate yaml file and start server
 
-```
-cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
-```
+   ```
+   cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
+   ```
 
 ### Multiple functions in python file
 
 1. Please check [Python file](tests/generator-calculator/calculator.py)
 
-1. Run below command to generate yaml file and start server
+2. Run below command to generate yaml file and start server
 
-```
-cms openapi generate --filename=./tests/generator-calculator/calculator.py --all_functions
-cms openapi generate server start ./tests/generator-calculator/calculator.py
-```
+   ```
+   cms openapi generate --filename=./tests/generator-calculator/calculator.py --all_functions
+   cms openapi generate server start ./tests/generator-calculator/calculator.py
+   ```
 
 ### Function(s) in python class file
 
 1. Please check [Python file](tests/generator-testclass/calculator.py)
 
-1. Run below command to generate yaml file and start server
+2. Run below command to generate yaml file and start server
 
-```
-cms openapi generate Calculator \
-    --filename=./tests/generator-testclass/calculator.py \
-    --import_class"
-cms openapi server start ./tests/generator-testclass/calculator.yaml
-curl -X GET "http://localhost:8080/cloudmesh/Calculator/multiplyint?x=1&y=5"
-cms openapi server stop Calculator
-```
+   ```
+   cms openapi generate Calculator \
+       --filename=./tests/generator-testclass/calculator.py \
+       --import_class"
+   cms openapi server start ./tests/generator-testclass/calculator.yaml
+   curl -X GET "http://localhost:8080/cloudmesh/Calculator/multiplyint?x=1&y=5"
+   cms openapi server stop Calculator
+   ```
 
 ### Uploading data
 
@@ -359,7 +359,9 @@ endpoint by, again, clicking on it. Similarly, click `Try it out`.
 The parameter being asked for is the filename. The filename we are
 interested in is `iris.data`. Then click `execute`.  We should get
 another 200 return code with a Classification Report in the Response
-Body.  ``` CLASSIFICATION_REPORT: precision recall f1-score support
+Body.  
+
+``` CLASSIFICATION_REPORT: precision recall f1-score support
 
            0       1.00      1.00      1.00         8
            1       0.85      1.00      0.92        11
@@ -394,6 +396,7 @@ $ cms openapi server stop sklearn_svm
 ### Downloading data
 
 Always the same
+
 ```
 abc.txt <- /data/xyz/klmn.txt
 ```
