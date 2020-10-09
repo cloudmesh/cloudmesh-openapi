@@ -122,7 +122,7 @@ Once yo no longer need the service, you can stop it with
 cms openapi server stop cpu
 ```
 
-## Creating your own Microservice
+## Quickstart to Creating your own Microservice
 
 Cloudmesh uses introspection to generate an OpenAPI compliant YAML
 specification that will allow your Python code to run as a web
@@ -176,8 +176,10 @@ curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plai
 cms openapi server stop add
 ```
 
-Often we like to wrapp the return value into a json string object, whch can easily be done by modifying 
-the previous example as showcased next.
+### Returning a Json Object
+
+Often we like to wrap the return value into a json string object, which can easily be 
+done by modifying the previous example as showcased next.
 
 ```
 from flask import jsonify
@@ -196,9 +198,9 @@ def add(x: float, y: float) -> str:
 
     return jsonify(result)
 ```
+
 To generate, start, retrieve a result, and stop the service you can use the 
 following command sequence:
-
 
 ```
 cms openapi generate add --filename=./tests/add-json/add.py
@@ -211,6 +213,9 @@ cms openapi server stop add
 
 As usual in both cases the web browser can be used to inspect the documentation as well as to test running the 
 example, by filling out the form. 
+
+
+
 
 ### Generating OpenAPI specification
 
