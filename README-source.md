@@ -180,10 +180,12 @@ def add(x: float, y: float) -> str:
     :return: result
     :return type: float
     """
-    result = {"result": x + y}
+    result = "result": x + y
 
     return jsonify(result)
 ```
+To generate, start, retrieve a result, and stop the service you can use the 
+following command sequence:
 
 
 ```
@@ -191,7 +193,7 @@ cms openapi generate add --filename=./tests/add-json/add.py
 cms openapi server start ./tests/add-json/add.yaml 
 curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plain"
 # This command returns
-> {"result":3.0}
+> "result":3.0
 cms openapi server stop add
 ``` 
 

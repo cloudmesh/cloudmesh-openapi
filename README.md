@@ -122,9 +122,6 @@ Once yo no longer need the service, you can stop it with
 cms openapi server stop cpu
 ```
 
-
-
-
 ## Creating your own Microservice
 
 Cloudmesh uses introspection to generate an OpenAPI compliant YAML
@@ -133,12 +130,19 @@ service. For this reason, any code you write must conform to a set of
 guidelines.
 
 - The parameters and return values of any functions you write must use
-  typing
+  python typing
 - Your functions must include docstrings
 - If a function uses or returns a class, that class must be defined as
   a dataclass in the same file
 
-The following function is a great example to get started. Note how x,
+Next we demonstrate how to create your own microservice. 
+We provide two examples. One in which we return a float, 
+te other one in which the return value is wrapped in a 
+json object.
+
+### Returning a Float
+
+We define a function that adds tow values.  Note how x,
 y, and the return value are all typed. In this case they are all
 `float`, but other types are supported. The description in the
 docstring will be added to your YAML specification to help describe
@@ -155,8 +159,58 @@ def add(x: float, y: float) -> float:
     :return: result
     :return type: float
     """
-    return x + y
+    result = x + y
+
+    return result
 ```
+
+To generate, start, retrieve a result, and stop the service you can use the 
+following command sequence:
+
+```
+cms openapi generate add --filename=./tests/add-float/add.py
+cms openapi server start ./tests/add-float/add.yaml 
+curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plain"
+# This command returns
+> 3.0
+cms openapi server stop add
+```
+
+Often we like to wrapp the return value into a json string object, whch can easily be done by modifying 
+the previous example as showcased next.
+
+```
+from flask import jsonify
+
+def add(x: float, y: float) -> str:
+    """
+    adding float and float.
+    :param x: x value
+    :type x: float
+    :param y: y value
+    :type y: float
+    :return: result
+    :return type: float
+    """
+    result = "result": x + y
+
+    return jsonify(result)
+```
+To generate, start, retrieve a result, and stop the service you can use the 
+following command sequence:
+
+
+```
+cms openapi generate add --filename=./tests/add-json/add.py
+cms openapi server start ./tests/add-json/add.yaml 
+curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plain"
+# This command returns
+> "result":3.0
+cms openapi server stop add
+``` 
+
+As usual in both cases the web browser can be used to inspect the documentation as well as to test running the 
+example, by filling out the form. 
 
 ### Generating OpenAPI specification
 
