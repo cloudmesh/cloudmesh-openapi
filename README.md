@@ -214,8 +214,9 @@ cms openapi server stop add
 As usual in both cases the web browser can be used to inspect the documentation as well as to test running the 
 example, by filling out the form. 
 
+## Details of the `cms openapi` command
 
-
+The gaol as stated earlier is to transform a simple python function as a service
 
 ### Generating OpenAPI specification
 
@@ -266,6 +267,9 @@ Now you have two options to interact with the web service. The first
 is to navigate the the Cloudmesh UI and click on each endpoint to test
 the functionality. The second is to use curl commands to submit
 requests.
+
+We have already shown you earlier in our quickstart how to apply this to a 
+service such as our add service
 
 ```
 $ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text/plain"
@@ -444,15 +448,14 @@ openapi register list [NAME] [--output=OUTPUT]
 ```
 
 
-
-## Pytests
+## Basic Examples
 
 Please follow [Pytest Information](tests/README.md) document for
 pytests related information
 
-## Examples
+We have included a significant number of tests that aso serve as examples
 
-### One function in python file
+### Example: One function in a python file
 
 1. Please check [Python file](tests/server-cpu/cpu.py).
 
@@ -462,7 +465,7 @@ pytests related information
    cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
    ```
 
-### Multiple functions in python file
+### Example: Multiple functions in python file
 
 1. Please check [Python file](tests/generator-calculator/calculator.py)
 
@@ -473,7 +476,7 @@ pytests related information
    cms openapi generate server start ./tests/generator-calculator/calculator.py
    ```
 
-### Function(s) in python class file
+### Example: Function(s) in python class file
 
 1. Please check [Python file](tests/generator-testclass/calculator.py)
 
@@ -488,7 +491,7 @@ pytests related information
    cms openapi server stop Calculator
    ```
 
-### Uploading data
+### Example: Uploading data
 
 Code to handle uploads is located in
 `cloudmesh-openapi/tests/generator-upload`. The code snippet in
@@ -524,7 +527,7 @@ to open the /print_csv2np endpoint, then click 'Try it out.' Enter
 "np_test.csv" in the field that prompts for a filename, and then click
 Execute to view the numpy array defined by the CSV file.
 
-### Pipeline Anova SVM Example
+### Example: Pipeline Anova SVM Example
 
 This example is based on the sklearn example
 [here](https://scikit-learn.org/stable/auto_examples/feature_selection/plot_feature_selection_pipeline.html#sphx-glr-auto-examples-feature-selection-plot-feature-selection-pipeline-py)
@@ -604,24 +607,11 @@ We can make as many predictions as we like. When finished, we can shut down the 
 ```
 $ cms openapi server stop sklearn_svm
 ```
-### Downloading data
-
-Always the same
-
-```
-abc.txt <- /data/xyz/klmn.txt
-```
-
-### Merge openapi's
 
 
-```
-merge [APIS...] - > single.yaml
-```
+## Example to Run AI Services in the Cloud 
 
-### Running AI Services in the Cloud using OpenApi
-
-#### Google
+### Google
 
 After you create your google cloud account, it is recommended to
 download and install Google's [Cloud
@@ -679,7 +669,7 @@ After you have verified your account is created you must then give your account 
 2. Follow directions from Google to create a project linked to your
    account
 
-#### Quickstart Google Python API
+### Quickstart Google Python API
 
 ```
 pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
@@ -687,7 +677,7 @@ pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-
 
 * For quickstart in using Google API for Python visit [here](https://developers.google.com/docs/api/quickstart/python)
 
-#### Setting up your Google account
+### Setting up your Google account
 
 Before you generate the service account JSON file for your account you
 will want to enable a number of services in the GCP console.
@@ -753,7 +743,7 @@ the cloudmesh yaml file run the following command:
 cms register update --kind=google --service=compute --filename=GOOGLE_JSON_FILE
 ```
 
-##### Running the Google Natural Language and Translate REST Services
+#### Running the Google Natural Language and Translate REST Services
 
 1. Navigate to the `~/.cloudmesh` repo and create a cache directory
    for your text examples you would like to analyze.
@@ -804,7 +794,7 @@ cms register update --kind=google --service=compute --filename=GOOGLE_JSON_FILE
    ```    
    cms openapi server stop natural-lang-analysis
    ```
-#### AWS
+### Example using AWS
 
 Sign up for AWS
 
@@ -832,10 +822,10 @@ pip install boto3
 As long as you enable all the services you need for using AWS AI APIs you should be able to write your functions for OpenAPI
 
 
-#### Azure
+### Example using Azure
 
 
-##### Setting up Azure Sentiment Analysis and Translation Services
+#### Setting up Azure Sentiment Analysis and Translation Services
 
 1.  Create an Azure subscription. If you do not have one, create a
     [free account](https://azure.microsoft.com/try/cognitive-services/)
@@ -909,9 +899,9 @@ phrase translation via the API. If you contribute to this API there is
 room for improvement to add custom translation models as well if
 preferred to pre-trained APIs.
 
-##### Setting up Azure ComputerVision AI services
+#### Setting up Azure ComputerVision AI services
 
-###### Prerequisite 
+##### Prerequisite 
 
 Using the Azure Computer Vision AI service, you can describe, analyze
 and/ or get tags for a locally stored image or you can read the text
@@ -938,7 +928,7 @@ from an image or hand-written file.
    pip install --upgrade azure-cognitiveservices-vision-computervision
    ```
   
-###### Steps to implement and use Azure AI image and text *REST-services*
+##### Steps to implement and use Azure AI image and text *REST-services*
 
 * Go to `./cloudmesh-openapi` directory
 
@@ -1023,9 +1013,11 @@ cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml -
   cms openapi server stop azure-ai-text-function
   ```
   
-## Test 
+## List of Tests 
 
-The following table lists the different test we have, we provide additional information for the tests in the test directory in a README file. Summaries are provided below the table
+The following table lists the different test we have, we provide additional 
+information for the tests in the test directory in a README file. Summaries 
+are provided below the table
 
 
 | Test   | Short Description  | Link  |
@@ -1049,3 +1041,5 @@ For more information about test cases ,please check [tests info](https://github.
  * [test_015_generator_azureai](tests/test_015_generator_azureai.py)
  * [test_020_server_manage](tests/test_020_server_manage.py)
  * [test_server_cms_cpu](tests/test_server_cms_cpu.py)
+
+Note that there a many more tests that you can explore.
