@@ -19,13 +19,6 @@ endef
 view:
 	$(OPEN) docs/index.html
 
-readme: readme-generate
-	-git commit -m "Upadte Readme" README.md README-source.md
-	-git push
-
-readme-generate:
-	python ../cloudmesh-common/bin/readme.py cloudmesh-$(package) cms
-
 doc:
 	pip install sphinx_rtd_theme
 	mkdir -p docs
