@@ -1,4 +1,4 @@
-# Automated Multicloud AI service Generation
+# Automated Multicloud AI Service Generation
 
 [Gregor von Laszewski](https://laszewski.github.io/), 
 Richard Otten (github: ???), 
