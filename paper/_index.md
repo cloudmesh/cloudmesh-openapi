@@ -12,8 +12,8 @@ Corresponding author: laszewski@gmail.com
 
 This is temporary and will in final be moved elsewhere. Its conveniently for now placed on top so we can easier locate it
 
-github: 
-
+* github: <https://github.com/cloudmesh/cloudmesh-openapi>
+* branch: benchmark (not yet created)
 
 ## Abstract
 
