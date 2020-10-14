@@ -1,10 +1,10 @@
 # Automated Multicloud AI service Generation
 
-Gregor von Laszewski, 
-Richard Otten, 
-Caleb Wilson (hid?), 
-Anthony Orlowski (hid?),
-Vishwanadh M??? (hid?) (your name does not shwo in slack)
+[Gregor von Laszewski](https://laszewski.github.io/), 
+Richard Otten (github: ???), 
+Caleb Wilson (hid?, github: ???), 
+Anthony Orlowski (hid?, github: ???),
+Vishwanadh M??? (hid?, github: ???) (your name does not shwo in slack)
 
 Corresponding author: laszewski@gmail.com
 
@@ -33,6 +33,8 @@ Corresponding author: laszewski@gmail.com
 ### OpenStack
 
 ### Oracle
+
+### Raspberry Pi Cluster
 
 ### Result Comparision
 
