@@ -3,10 +3,17 @@
 [Gregor von Laszewski](https://laszewski.github.io/), 
 Richard Otten (github: ???), 
 Caleb Wilson (hid?, github: ???), 
-Anthony Orlowski (hid?, github: ???),
+[Anthony Orlowski](https://github.com/aporlowski) (hid?),
 Vishwanadh M??? (hid?, github: ???) (your name does not shwo in slack)
 
 Corresponding author: laszewski@gmail.com
+
+## Code Location
+
+This is temporary and will in final be moved elsewhere. Its conveniently for now placed on top so we can easier locate it
+
+github: 
+
 
 ## Abstract
 
