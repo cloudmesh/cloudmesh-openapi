@@ -12,7 +12,7 @@ Corresponding author: laszewski@gmail.com
 
 This is temporary and will in final be moved elsewhere. Its conveniently for now placed on top so we can easier locate it
 
-* github: <https://github.com/cloudmesh/cloudmesh-openapi>
+* github: <https://github.com/cloudmesh/cloudmesh-openapi>[^cloudmesh-openapi]
 * branch: benchmark (not yet created)
 
 ## Abstract
@@ -49,13 +49,17 @@ This is temporary and will in final be moved elsewhere. Its conveniently for now
 
 ## Acknowledgements
 
-## References
-
-We will use bibtex, but start with footnotes. All http or links must also be in refernces. No exception.
 
 ## Appendix
 
 ### Setup 
 
 ### Benchmark Source code
+
+## References
+
+We will use bibtex, but start with footnotes. All http or links must also be in refernces. No exception.
+
+[^cloudmesh-openapi]: Cloudmesh Openapi Web page <https://github.com/cloudmesh/cloudmesh-openapi>
+
 
