@@ -1,3 +1,4 @@
+import base64
 import textwrap
 
 from shutil import copyfile
@@ -5,18 +6,21 @@ from shutil import copyfile
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.Shell import Shell
-
-# Basic auth
-# https://swagger.io/docs/specification/2-0/authentication/basic-authentication/
-
+from cloudmesh.configuration.Config import Config
 
 class BasicAuth:
     """
     This class handles writing the components for basic authentication. 
-    This class writes a file to ~/.cloudmesh/.auth_users
+    It will write to cloudmesh.yaml config file with the user and encoded password
 
     Each row of .auth_users is username:password formatted. 
+
+    https://swagger.io/docs/specification/2-0/authentication/basic-authentication/
     """
+    CONFIG_ATTRIBUTE_AUTH = 'cloudmesh.openapi.authentication'
+    CONFIG_VALUE_AUTH = 'basic'
+    CONFIG_ATTRIBUTE_USER = 'cloudmesh.openapi.username'
+    CONFIG_ATTRIBUTE_PASSWORD = 'cloudmesh.openapi.password'
     HALT_FLAG = '#### basic_auth functionality added'
     USERS_FILE = path_expand('~/.cloudmesh/.auth_users')
 
@@ -31,14 +35,12 @@ class BasicAuth:
 
     @classmethod
     def basic_auth(cls, username, password, required_scopes=None):
-        # Scan ~/.cloudmesh/.auth_users for username and password
-        users = {}
-        with open(cls.USERS_FILE, 'r') as f:
-            for row in f:
-                user, passwd = row.strip().split(':')
-                users[user] = passwd
-        if username in users:
-            if users[username] == password:
+        """
+        basic_auth function to be listed as x-basicInfoFunc in generated openapi yaml
+        """
+        config = Config()
+        if username == config[cls.CONFIG_ATTRIBUTE_USER]:
+            if cls._decode(config[cls.CONFIG_ATTRIBUTE_PASSWORD]) == password:
                 if username == 'admin':
                     return {'sub': 'admin', 'scope': 'secret'}
                 else:
@@ -48,13 +50,32 @@ class BasicAuth:
 
     @classmethod
     def reset_users(cls):
-        open(cls.USERS_FILE, 'w').close()
+        """
+        DEPRECATED
+        """
+        pass
 
     @classmethod
     def add_user(cls, user, password):
-        with open(cls.USERS_FILE, 'a') as f:
-            f.write(f'{user}:{password}\n')
-            f.close()
+        config = Config()
+        config[cls.CONFIG_ATTRIBUTE_AUTH] = cls.CONFIG_VALUE_AUTH
+        config[cls.CONFIG_ATTRIBUTE_USER] = user
+        config[cls.CONFIG_ATTRIBUTE_PASSWORD] = cls._encode(password)
+        config.save()
+
+    @classmethod
+    def _decode(cls, b64text):
+        """
+        Decode some string with base64 and return the decoded string
+        """
+        return base64.b64decode(b64text.encode('ascii')).decode('ascii')
+        
+    @classmethod
+    def _encode(cls, text):
+        """
+        Encode some string with base64 and return the string representation
+        """
+        return base64.b64encode(text.encode('ascii')).decode('ascii')
 
     @classmethod
     def write_basic_auth(cls, filename, module_name):
