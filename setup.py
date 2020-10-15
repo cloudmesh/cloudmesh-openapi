@@ -35,6 +35,7 @@ cloudmesh-common
 cloudmesh-cmd5
 cloudmesh-sys
 cloudmesh-admin
+cloudmesh-gui
 docstring_parser
 numpydoc
 """.split("\n")

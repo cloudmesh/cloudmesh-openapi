@@ -4,6 +4,7 @@ cloudmesh-cmd5
 cloudmesh-sys
 cloudmesh-installer
 cloudmesh-admin
+cloudmesh-gui
 docstring_parser
 numpydoc
 azure-ai-textanalytics
