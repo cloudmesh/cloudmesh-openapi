@@ -19,13 +19,6 @@ endef
 view:
 	$(OPEN) docs/index.html
 
-readme: readme-generate
-	-git commit -m "Upadte Readme" README.md README-source.md
-	-git push
-
-readme-generate:
-	python ../cloudmesh-common/bin/readme.py cloudmesh-$(package) cms
-
 doc:
 	pip install sphinx_rtd_theme
 	mkdir -p docs
@@ -67,8 +60,7 @@ clean:
 	rm -rf *.eggs
 	rm -rf docs/build
 	rm -rf build
-	find . -type d -name __pycache__ -delete
-	find . -name '*.pyc' -delete
+	find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 	rm -rf .tox
 	rm -f *.whl
 
@@ -84,7 +76,7 @@ dist:
 	python setup.py sdist bdist_wheel
 	twine check dist/*
 
-patch: clean readme
+patch: clean
 	$(call banner, "patch")
 	bump2version --allow-dirty patch
 	python setup.py sdist bdist_wheel

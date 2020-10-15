@@ -19,112 +19,110 @@
 
 ## Prerequisites
 
-* We use recommend Python 3.8.2 Python or newer.
+* We recommend Python 3.8.2 Python or newer.
 * We recommend pip version 20.0.2 or newer
 * We recommend that you use a venv (see developer install)
-* MongoDB installed as regular program not as service
-* Please run cim init command to start mongodb server
+* MongoDB installed as regular program not as service, which can
+  easily be done with cloudmesh on macOS, Linux, and Windows.
+* Please run `cms gui quick` to initialize the password for the mongodb
+  server
 
-We have not checked if it works on older versions.
-
-Note: On windows you can use gitbash so you can use bash and can use
-the same commands as on Linux or macOS. Otherwise, please use
-the appropriate backslashes to access the path.
+> Note: On windows you can use [gitbash](https://gitforwindows.org/)
+> so you can use bash and can use the same commands as on Linux or
+> macOS. Otherwise, please use the appropriate backslashes to access
+> the path.
 
 ## Installation
 
-Make sure that `cloudmesh` is properly installed on your machine and
-you have mongodb setup to work with cloudmesh.
+The installation is rather simple  and is documented next.
 
-More details to setting up `mongo` can be found in the
+```
+python -m venv ~/ENV3
+source ~/ENV3/bin/activate 
+mkdir cm
+cd cm
+pip install cloudmesh-installer
+cloudmesh-installer get openapi 
+cms help
+cms gui quick
+# fill out mongo variables
+# make sure autinstall is True
+cms config set cloudmesh.data.mongo.MONGO_AUTOINSTALL=True
+cms admin mongo install --force
+# Restart a new terminal to make sure mongod is in your path
+cms init
+```
 
-* [Cloudmesh
-  Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html)
+If you like to know more about the installation of cloudmesh, please
+visit the [Cloudmesh
+Manual](https://cloudmesh.github.io/cloudmesh-manual/installation/install.html).
+
+## Command Overview
+
+When getting started using cloudmes `openapi`, please first call to
+get familiar with the options you have:
+
+```
+cms help openapi
+```
+
+We include the manual page later on in this document.
+
+## Quick Start
+
+Next we provide a very simple quickstart guide to steps to generate a
+simple microservice that returns the CPU information of your computer.
+We demonstrate how to generate, start, and stop the servive.
+
+Navigate to `~/cm/cloudmesh-openapi` folder. In this folder you will
+have a file called `cpu.py` from which we will generate the server.
+
+First, generate an OpenAPI YAML file with the convenient command
+
+```
+cms openapi generate get_processor_name \
+    --filename=./tests/server-cpu/cpu.py
+```
+
+This will create the file `cpu.yaml` that contains the OpenAPI
+specification. To start the service from this specification simply use
+the command
+
+```
+cms openapi server start ./tests/server-cpu/cpu.yaml
+```
+
+Now that the service is up and running, you can issue a request for
+example via the commandline with
+
+```
+curl -X GET "http://localhost:8080/cloudmesh/get_processor_name" \
+     -H "accept: text/plain"
+```
+
+To view the automatically generated documentation, you can go to your
+browser and open the link
+
+* <http://localhost:8080/cloudmesh/ui>
+
+![](images/openapi-ui.png)
+
+You can also look at the status of the server with the command
+
+```
+cms openapi server list
+```
+
+![](images/openapi-info.png)
 
 
-###  User Installation
+Once yo no longer need the service, you can stop it with 
 
-Make sure you use a python venv before installing. Users can install
-the code with
+```
+cms openapi server stop cpu
+```
 
-
-
-.. code:: bash
-
-    python -m venv ~/ENV3
-    source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
-    mkdir cm
-    cd cm
-    pip installl cloudmesh-installer get openapi 
-    cms help
-    cms gui quick
-    # fill out mongo variables
-    # make sure autinstall is True
-    cms admin mongo install --force
-
-    pip install cloudmesh-openapi
-
-
-### Developer Installation
-
-Developers install also the source code
-
-.. code:: bash
-
-    python -m venv ~/ENV3
-    source ~/ENV3/bin/activate # on windows ENV3\Scripts\activate
-    mkdir cm
-    cd cm
-    pip install cloudmesh-installer
-    cloudmesh-installer get openapi 
-    cms help
-    cms gui quick
-    # fill out mongo variables
-    # make sure autinstall is True
-    cms admin mongo install --force
-
-## Overview
-
-When getting started using the `openapi`, please first call: 
-
-.. code:: bash
-
-    cms help openapi
- 
-This will show the available functions and options. For your
-convenience we include the manual page later on in this document.
-
-## Quick steps to generate,start and stop CPU sample example
-
-Navigate to `~/cm/cloudmesh-openapi` folder and run following commands
-
-### Generate yaml file
-
-.. code:: bash
-
-    cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
-
-### Start server 
-
-.. code:: bash
-
-    cms openapi server start ./tests/server-cpu/cpu.yaml
-
-### Issue a Request
-
-.. code:: bash
-
-    curl -X GET "http://localhost:8080/cloudmesh/get_processor_name" -H "accept: text/plain"
-
-### Stop server 
-
-.. code:: bash
-
-    cms openapi server stop cpu
-
-## End-to-end walkthrough
-
-### Writing Python
+## Quickstart to Creating your own Microservice
 
 Cloudmesh uses introspection to generate an OpenAPI compliant YAML
 specification that will allow your Python code to run as a web
@@ -132,30 +130,93 @@ service. For this reason, any code you write must conform to a set of
 guidelines.
 
 - The parameters and return values of any functions you write must use
-  typing
+  python typing
 - Your functions must include docstrings
 - If a function uses or returns a class, that class must be defined as
   a dataclass in the same file
 
-The following function is a great example to get started. Note how x,
+Next we demonstrate how to create your own microservice. 
+We provide two examples. One in which we return a float, 
+te other one in which the return value is wrapped in a 
+json object.
+
+### Returning a Float
+
+We define a function that adds tow values.  Note how x,
 y, and the return value are all typed. In this case they are all
 `float`, but other types are supported. The description in the
 docstring will be added to your YAML specification to help describe
 what the function does.
 
-.. code:: python
+```
+def add(x: float, y: float) -> float:
+    """
+    adding float and float.
+    :param x: x value
+    :type x: float
+    :param y: y value
+    :type y: float
+    :return: result
+    :return type: float
+    """
+    result = x + y
 
-    def add(x: float, y: float) -> float:
-        """
-        adding float and float.
-        :param x: x value
-        :type x: float
-        :param y: y value
-        :type y: float
-        :return: result
-        :return type: float
-        """
-        return x + y
+    return result
+```
+
+To generate, start, retrieve a result, and stop the service you can use the 
+following command sequence:
+
+```
+cms openapi generate add --filename=./tests/add-float/add.py
+cms openapi server start ./tests/add-float/add.yaml 
+curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plain"
+# This command returns
+> 3.0
+cms openapi server stop add
+```
+
+### Returning a Json Object
+
+Often we like to wrap the return value into a json string object, which can easily be 
+done by modifying the previous example as showcased next.
+
+```
+from flask import jsonify
+
+def add(x: float, y: float) -> str:
+    """
+    adding float and float.
+    :param x: x value
+    :type x: float
+    :param y: y value
+    :type y: float
+    :return: result
+    :return type: float
+    """
+    result = {"result": x + y}
+
+    return jsonify(result)
+```
+
+To generate, start, retrieve a result, and stop the service you can use the 
+following command sequence:
+
+```
+cms openapi generate add --filename=./tests/add-json/add.py
+cms openapi server start ./tests/add-json/add.yaml 
+curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plain"
+# This command returns
+> {"result":3.0}
+cms openapi server stop add
+``` 
+
+As usual in both cases the web browser can be used to inspect the documentation as well as to test running the 
+example, by filling out the form. 
+
+## Details of the `cms openapi` command
+
+The gaol as stated earlier is to transform a simple python function as a service
 
 ### Generating OpenAPI specification
 
@@ -164,25 +225,25 @@ service, you can generate the OpenAPI specification. Navigate to your
 .py file's directory and generate the YAML. This will print
 information to your console about the YAML file that was generated.
 
-.. code:: bash
-
-   cms openapi generate [function_name] --filename=[filename.py]
+```
+cms openapi generate [function_name] --filename=[filename.py]
+```
 
 If you would like to include more than one function in your web
 service, like addition and subtraction, use the `--all_functions`
 flag. This will ignore functions whose names start with '\_'.
 
-.. code:: bash
-
-    cms openapi generate --filename=[filename.py] --all_functions
+```
+cms openapi generate --filename=[filename.py] --all_functions
+```
 
 You can even write a class like Calculator that contains functions for
 addition, subtraction, etc. You can generate a specification for an
 entire class by using the `--import_class` flag.
 
-.. code:: bash
-
-    $ cms openapi generate [ClassName] --filename=[filename.py] --import_class
+```
+cms openapi generate [ClassName] --filename=[filename.py] --import_class
+```
 
 ### Starting a server
 
@@ -190,16 +251,15 @@ Once you have generated a specification, you can start the web service
 on your localhost by providing the path to the YAML file. This will
 print information to your console about the server
 
-.. code:: bash
+```
+cms openapi server start ./[filename.yaml]
 
-    $ cms openapi server start ./[filename.yaml]
-    
-      Starting: [server name]
-      PID:      [PID]
-      Spec:     ./[filename.py]
-      URL:      http://localhost:8080/cloudmesh
-      Cloudmesh UI:      http://localhost:8080/cloudmesh/ui
-      
+  Starting: [server name]
+  PID:      [PID]
+  Spec:     ./[filename.py]
+  URL:      http://localhost:8080/cloudmesh
+  Cloudmesh UI:      http://localhost:8080/cloudmesh/ui
+```      
 
 ### Sending requests to the server
 
@@ -208,10 +268,13 @@ is to navigate the the Cloudmesh UI and click on each endpoint to test
 the functionality. The second is to use curl commands to submit
 requests.
 
-.. code:: bash
+We have already shown you earlier in our quickstart how to apply this to a 
+service such as our add service
 
-    $ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text/plain"
-    2.7
+```
+$ curl -X GET "http://localhost:8080/cloudmesh/add?x=1.2&y=1.5" -H "accept: text/plain"
+>   2.7
+```
 
 ### Stopping the server
 
@@ -219,74 +282,216 @@ Now you can stop the server using the name of the server. If you
 forgot the name, use `cms openapi server ps` to get a list of server
 processes.
 
-.. code:: bash
-
-    $ cms openapi server stop [server name]
-
+```
+$ cms openapi server stop [server name]
+```
 
 ### Basic Auth
-To use basic http authentication with a user password for the generated API, add the following flag at the end of a `cms openapi generate` command:
+
+To use basic http authentication with a user password for the
+generated API, add the following flag at the end of a `cms openapi
+generate` command:
 
 ```
 --basic_auth=<username>:<password>
 ```
-We plan on supporting more users in the future.
 
-Example:
-```
-cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py --basic_auth=admin:secret
-```
-
-## Manual
-
-```bash
+We plan on supporting more security features in the future. Example:
 
 ```
+cms openapi generate get_processor_name \
+    --filename=./tests/server-cpu/cpu.py \
+    --basic_auth=admin:secret
+```
+
+## Manual Page
+
+```
+openapi generate [FUNCTION] --filename=FILENAME
+                         [--serverurl=SERVERURL]
+                         [--yamlfile=YAML]
+                         [--import_class]
+                         [--all_functions]
+                         [--enable_upload]
+                         [--verbose]
+                         [--basic_auth=CREDENTIALS]
+openapi server start YAML [NAME]
+              [--directory=DIRECTORY]
+              [--port=PORT]
+              [--server=SERVER]
+              [--host=HOST]
+              [--verbose]
+              [--debug]
+              [--fg]
+              [--os]
+openapi server stop NAME
+openapi server list [NAME] [--output=OUTPUT]
+openapi server ps [NAME] [--output=OUTPUT]
+openapi register add NAME ENDPOINT
+openapi register filename NAME
+openapi register delete NAME
+openapi register list [NAME] [--output=OUTPUT]
+openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
+openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
+openapi TODO doc [SERVICES...] [--dir=DIR]
+openapi sklearn FUNCTION MODELTAG
+openapi sklearnreadfile FUNCTION MODELTAG
+openapi sklearn upload --filename=FILENAME
+
+Arguments:
+  FUNCTION  The name for the function or class
+  MODELTAG  The arbirtary name choosen by the user to store the Sklearn trained model as Pickle object
+  FILENAME  Path to python file containing the function or class
+  SERVERURL OpenAPI server URL Default: https://localhost:8080/cloudmesh
+  YAML      Path to yaml file that will contain OpenAPI spec. Default: FILENAME with .py replaced by .yaml
+  DIR       The directory of the specifications
+  FILE      The specification
+
+Options:
+  --import_class         FUNCTION is a required class name instead of an optional function name
+  --all_functions        Generate OpenAPI spec for all functions in FILENAME
+  --debug                Use the server in debug mode
+  --verbose              Specifies to run in debug mode
+                         [default: False]
+  --port=PORT            The port for the server [default: 8080]
+  --directory=DIRECTORY  The directory in which the server is run
+  --server=SERVER        The server [default: flask]
+  --output=OUTPUT        The outputformat, table, csv, yaml, json
+                         [default: table]
+  --srcdir=SRCDIR        The directory of the specifications
+  --destdir=DESTDIR      The directory where the generated code
+                         is placed
+
+Description:
+This command does some useful things.
+
+openapi TODO doc FILE --format=(txt|md|rst) [--indent=INDENT]
+    Sometimes it is useful to generate teh openaopi documentation
+    in another format. We provide fucntionality to generate the
+    documentation from the yaml file in a different formt.
+
+openapi TODO doc --format=(txt|md|rst) [SERVICES...]
+    Creates a short documentation from services registered in the
+    registry.
+
+openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
+    Merges tow service specifications into a single servoce
+    TODO: do we have a prototype of this?
 
 
+openapi sklearn sklearn.linear_model.LogisticRegression
+    Generates the .py file for the Model given for the generator
 
-## Pytests
+openapi sklearnreadfile sklearn.linear_model.LogisticRegression
+Generates the .py file for the Model given for the generator which supports reading files
+
+openapi generate [FUNCTION] --filename=FILENAME
+                             [--serverurl=SERVERURL]
+                             [--yamlfile=YAML]
+                             [--import_class]
+                             [--all_functions]
+                             [--enable_upload]
+                             [--verbose]
+                             [--basic_auth=CREDENTIALS]
+    Generates an OpenAPI specification for FUNCTION in FILENAME and
+    writes the result to YAML. Use --import_class to import a class
+    with its associated class methods, or use --all_functions to 
+    import all functions in FILENAME. These options ignore functions
+    whose names start with '_'. Use --enable_upload to add file
+    upload functionality to a copy of your python file and the
+    resulting yaml file.
+
+    For optional basic authorization, we support (temporarily) a single user
+    credential. CREDENTIALS should be formatted as follows:
+
+    user:password
+
+    Example: --basic_auth=admin:secret
+
+openapi server start YAML [NAME]
+                  [--directory=DIRECTORY]
+                  [--port=PORT]
+                  [--server=SERVER]
+                  [--host=HOST]
+                  [--verbose]
+                  [--debug]
+                  [--fg]
+                  [--os]
+    starts an openapi web service using YAML as a specification
+    TODO: directory is hard coded as None, and in server.py it
+      defaults to the directory where the yaml file lives. Can
+      we just remove this argument?
+
+openapi server stop NAME
+    stops the openapi service with the given name
+    TODO: where does this command has to be started from
+
+openapi server list [NAME] [--output=OUTPUT]
+    Provides a list of all OpenAPI services in the registry
+
+openapi server ps [NAME] [--output=OUTPUT]
+    list the running openapi service
+
+openapi register add NAME ENDPOINT
+    Openapi comes with a service registry in which we can register
+    openapi services.
+
+openapi register filename NAME
+    In case you have a yaml file the openapi service can also be
+    registerd from a yaml file
+
+openapi register delete NAME
+    Deletes the names service from the registry
+
+openapi register list [NAME] [--output=OUTPUT]
+    Provides a list of all registerd OpenAPI services
+```
+
+
+## Basic Examples
 
 Please follow [Pytest Information](tests/README.md) document for
 pytests related information
 
-## Examples
+We have included a significant number of tests that aso serve as examples
 
-### One function in python file
+### Example: One function in a python file
 
 1. Please check [Python file](tests/server-cpu/cpu.py).
 
-1. Run below command to generate yaml file and start server
+2. Run below command to generate yaml file and start server
 
-.. code:: bash
+   ```
+   cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
+   ```
 
-    cms openapi generate get_processor_name --filename=./tests/server-cpu/cpu.py
-
-### Multiple functions in python file
+### Example: Multiple functions in python file
 
 1. Please check [Python file](tests/generator-calculator/calculator.py)
 
-1. Run below command to generate yaml file and start server
+2. Run below command to generate yaml file and start server
 
-.. code:: bash
+   ```
+   cms openapi generate --filename=./tests/generator-calculator/calculator.py --all_functions
+   cms openapi generate server start ./tests/generator-calculator/calculator.py
+   ```
 
-    cms openapi generate --filename=./tests/generator-calculator/calculator.py --all_functions
-    cms openapi generate server start ./tests/generator-calculator/calculator.py
-
-### Function(s) in python class file
+### Example: Function(s) in python class file
 
 1. Please check [Python file](tests/generator-testclass/calculator.py)
 
-1. Run below command to generate yaml file and start server
+2. Run below command to generate yaml file and start server
 
-.. code:: bash
+   ```
+   cms openapi generate Calculator \
+       --filename=./tests/generator-testclass/calculator.py \
+       --import_class"
+   cms openapi server start ./tests/generator-testclass/calculator.yaml
+   curl -X GET "http://localhost:8080/cloudmesh/Calculator/multiplyint?x=1&y=5"
+   cms openapi server stop Calculator
+   ```
 
-    cms openapi generate Calculator --filename=./tests/generator-testclass/calculator.py --import_class"
-    cms openapi server start ./tests/generator-testclass/calculator.yaml
-    curl -X GET "http://localhost:8080/cloudmesh/Calculator/multiplyint?x=1&y=5"
-    cms openapi server stop Calculator
-
-### Uploading data
+### Example: Uploading data
 
 Code to handle uploads is located in
 `cloudmesh-openapi/tests/generator-upload`. The code snippet in
@@ -302,10 +507,12 @@ can retrieve it.
 
 First, generate the OpenAPI specification and start the server
 
-.. code:: bash
-
-    cms openapi generate print_csv2np --filename=./tests/generator-upload/csv_reader.py --enable_upload
-    cms openapi server start ./tests/generator-upload/csv_reader.yaml
+```
+cms openapi generate print_csv2np \
+    --filename=./tests/generator-upload/csv_reader.py \
+    --enable_upload
+cms openapi server start ./tests/generator-upload/csv_reader.yaml
+```
 
 Next, navigate to localhost:8080/cloudmesh/ui. Click to open
 the /upload endpoint, then click 'Try it out.' Click to choose a file
@@ -313,48 +520,62 @@ to upload, then upload `tests/generator-upload/np_test.csv`. Click
 'Execute' to complete the upload.
 
 The uploaded file will be located at
-`~/.cloudmesh/upload-file/[filename]`. `tests/generator-upload/csv_reader.py`
-contains some example code to retrieve the array in the uploaded
-file. To see this in action, click to open the /print_csv2np endpoint,
-then click 'Try it out.' Enter "np_test.csv" in the field that prompts
-for a filename, and then click Execute to view the numpy array defined
-by the CSV file.
+`~/.cloudmesh/upload-file/[filename]`. The file
+`tests/generator-upload/csv_reader.py` contains some example code to
+retrieve the array in the uploaded file. To see this in action, click
+to open the /print_csv2np endpoint, then click 'Try it out.' Enter
+"np_test.csv" in the field that prompts for a filename, and then click
+Execute to view the numpy array defined by the CSV file.
 
-### Pipeline Anova SVM Example
-This example is based on the sklearn example [here](https://scikit-learn.org/stable/auto_examples/feature_selection/plot_feature_selection_pipeline.html#sphx-glr-auto-examples-feature-selection-plot-feature-selection-pipeline-py)
+### Example: Pipeline Anova SVM Example
 
-In this example, we will upload a data set to the server, tell the server to train the model, and utilize said model for
-predictions. 
+This example is based on the sklearn example
+[here](https://scikit-learn.org/stable/auto_examples/feature_selection/plot_feature_selection_pipeline.html#sphx-glr-auto-examples-feature-selection-plot-feature-selection-pipeline-py)
+
+In this example, we will upload a data set to the server, tell the
+server to train the model, and utilize said model for predictions.
 
 Firstly, ensure we are in the correct directory.
+
 ```
-> pwd
+$ pwd
 ~/cm/cloudmesh-openapi
 ```
 
-Let's generate the yaml file from our python file to generate the proper specs for our service.
+Let us generate the yaml file from our python file to generate the proper specs for our service.
+
 ```
-> cms openapi generate PipelineAnovaSVM --filename=./tests/Scikitlearn-experimental/sklearn_svm.py --import_class --enable_upload
+$ cms openapi generate PipelineAnovaSVM \
+      --filename=./tests/Scikitlearn-experimental/sklearn_svm.py \
+      --import_class --enable_upload
 ```
 
-Now let's start the server
+Now let us start the server
+
 ```
-> cms openapi server start ./tests/Scikitlearn-experimental/sklearn_svm.yaml
+$ cms openapi server start ./tests/Scikitlearn-experimental/sklearn_svm.yaml
 ```
 
-The server should now be active. Navigate to `http://localhost:8080/cloudmesh/ui`. We now have a nice user inteface to interact
-with our newly generated API. Let's upload the data set. We are going to use the iris data set in this example. We have provided it
-for you to use. Simply navigate to the `/upload` endpoint by clicking on it, then click `Try it out`. 
+The server should now be active. Navigate to
+`http://localhost:8080/cloudmesh/ui`. We now have a nice user inteface
+to interact with our newly generated API. Let us upload the data
+set. We are going to use the iris data set in this example. We have
+provided it for you to use. Simply navigate to the `/upload` endpoint
+by clicking on it, then click `Try it out`.
 
-We can now upload the file. Click on `Choose File` and upload the data set located at `~./tests/Scikitlearn-experimental/iris.data`.
-Simply hit `Execute` after the file is uploaded. We should then get a return code of 200 (telling us that everything went ok).
+We can now upload the file. Click on `Choose File` and upload the data
+set located at `~./tests/Scikitlearn-experimental/iris.data`.  Simply
+hit `Execute` after the file is uploaded. We should then get a return
+code of 200 (telling us that everything went ok).
 
-The server now has our dataset. Let us now navigate to the `/train` endpoint by, again, clicking on it. Similarly, click `Try it out`.
-The parameter being asked for is the filename. The filename we are interested in is `iris.data`. Then click `execute`.
-We should get another 200 return code with a Classification Report in the Response Body.
-```
-CLASSIFICATION_REPORT: 
-              precision    recall  f1-score   support
+The server now has our dataset. Let us now navigate to the `/train`
+endpoint by, again, clicking on it. Similarly, click `Try it out`.
+The parameter being asked for is the filename. The filename we are
+interested in is `iris.data`. Then click `execute`.  We should get
+another 200 return code with a Classification Report in the Response
+Body.  
+
+``` CLASSIFICATION_REPORT: precision recall f1-score support
 
            0       1.00      1.00      1.00         8
            1       0.85      1.00      0.92        11
@@ -365,36 +586,32 @@ CLASSIFICATION_REPORT:
 weighted avg       0.96      0.95      0.95        38
 ```
 
-Our model is now trained and stored on the server. Let's make a prediction now. As we have done, navigate to the `/make_prediction` endpoint.
-The information we need to provide is the name of the model we have trained as well as some test data. The name of the model will be the same
-as the name of the data-file (ie. iris). So type in `iris` into the `model_name` field. Finally for params, let's use the example `5.1, 3.5, 1.4, 0.2`
-as the model expects 4 values (attributes). After clicking execute, we should received a response with the classification the model has made given the parameters. 
+Our model is now trained and stored on the server. Let us make a
+prediction now. As we have done, navigate to the `/make_prediction`
+endpoint.  The information we need to provide is the name of the model
+we have trained as well as some test data. The name of the model will
+be the same as the name of the data-file (ie. iris). So type in `iris`
+into the `model_name` field. Finally for params, let us use the
+example `5.1, 3.5, 1.4, 0.2` as the model expects 4 values
+(attributes). After clicking execute, we should received a response
+with the classification the model has made given the parameters.
 
 The response received should be as follows:
+
 ```
 "Classification: ['Iris-setosa']"
 ```
 
 We can make as many predictions as we like. When finished, we can shut down the server.
+
 ```
-> cms openapi server stop sklearn_svm
+$ cms openapi server stop sklearn_svm
 ```
-### Downloading data
-
-Always the same
-
-abc.txt <- /data/xyz/klmn.txt
-
-### Merge openapi's
 
 
-.. code:: bash
+## Example to Run AI Services in the Cloud 
 
-    merge [APIS...] - > single.yaml
-
-### Running AI Services in the Cloud using OpenApi
-
-#### Google
+### Google
 
 After you create your google cloud account, it is recommended to
 download and install Google's [Cloud
@@ -403,10 +620,10 @@ enable CLI. Make sure you enable all the required services.
 
 For example:
 
-.. code:: bash
-
-    gcloud services enable servicemanagement.googleapis.com
-    gcloud services enable endpoints.googleapis.com
+```
+gcloud services enable servicemanagement.googleapis.com
+gcloud services enable endpoints.googleapis.com
+```
 
 and any other services you might be using for your specific Cloud API
 function.
@@ -423,13 +640,11 @@ enable CLI. Make sure you enable all the required services.
 
 For example:
 
-.. code:: bash
-
-    gcloud services enable servicemanagement.googleapis.com
-
-    gcloud services enable servicecontrol.googleapis.com
-
-    gcloud services enable endpoints.googleapis.com
+```
+gcloud services enable servicemanagement.googleapis.com
+gcloud services enable servicecontrol.googleapis.com
+gcloud services enable endpoints.googleapis.com
+```
 
 and any other services you might be using for your specific Cloud API
 function.
@@ -437,10 +652,10 @@ function.
 It is also required to install the cloudmesh-cloud package, if not
 already installed:
 
-.. code:: bash
-
-    cloudmesh-installer get cloud
-    cloudmesh-installer install cloud
+```
+cloudmesh-installer get cloud
+cloudmesh-installer install cloud
+```
 
 This will allow you automatically fill out the cloudmesh yaml file
 with your credentials once you generate the servcie account JSON file.
@@ -454,15 +669,15 @@ After you have verified your account is created you must then give your account 
 2. Follow directions from Google to create a project linked to your
    account
 
-#### Quickstart Google Python API
+### Quickstart Google Python API
 
-.. code:: bash
-
-    pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+```
+pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+```
 
 * For quickstart in using Google API for Python visit [here](https://developers.google.com/docs/api/quickstart/python)
 
-#### Setting up your Google account
+### Setting up your Google account
 
 Before you generate the service account JSON file for your account you
 will want to enable a number of services in the GCP console.
@@ -516,27 +731,27 @@ path string to a easily accessible location.
 The client libraries for each API are included in teh requirements.txt file for the openapi proejct and should be isntalled when the
 package is installed. If not, follow directions outlined by google install each package:
 
-.. code:: bash
-
-    google-cloud-translate
-    google-cloud-language
+```
+google-cloud-translate
+google-cloud-language
+```
 
 To pass the information from your service account private key file ot
 the cloudmesh yaml file run the following command:
 
-.. code:: bash
+```
+cms register update --kind=google --service=compute --filename=GOOGLE_JSON_FILE
+```
 
-    cms register update --kind=google --service=compute --filename=<<google json file>>
-
-##### Running the Google Natural Language and Translate REST Services
+#### Running the Google Natural Language and Translate REST Services
 
 1. Navigate to the `~/.cloudmesh` repo and create a cache directory
    for your text examples you would like to analyze.
 
-.. code:: bash
-    
-    mkdir text-cache
-    
+   ```    
+   mkdir text-cache
+   ```    
+
 2. Add any plain text files your would like to analyze to this
    directory with a name that has no special characters or spaces.
    You can copy the files at this location,
@@ -547,41 +762,39 @@ the cloudmesh yaml file run the following command:
 
 4. Utilize the generate command to create the OpenAPI spec
 
-    .. code:: bash
-    
-        cms openapi generate TextAnalysis --filename=./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
-    
+   ```    
+   cms openapi generate TextAnalysis --filename=./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
+   ```
+     
 5. Start the server after the yaml file is generated ot the same
    directory as the .py file
     
-    .. code:: bash
-    
-        cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
-    
+   ```    
+   cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
+   ```
+   
 6. Run a curl command against the newly running server to verify it
    returns a result as expected.
 
     * Sample text file name is only meant to be the name of the file
       not the full path.
 
-    .. code:: bash
-    
-        curl -X GET "http://127.0.0.1:8080/cloudmesh/analyze?filename=<<sample text file name>>&cloud=google"
-    
+      ```    
+      curl -X GET "http://127.0.0.1:8080/cloudmesh/analyze?filename=SAMPLE_TEXT_FILENAME&cloud=google"
+      ```
+   
     * This is currently only ready to translate a single word through
       the API.
     
-    .. code:: bash
-    
-        curl -X GET "http://127.0.0.1:8080/cloudmesh/translate_text?cloud=google&text=<<word to translate>>&lang=<<lang code>>"
-    
+      ```    
+      curl -X GET "http://127.0.0.1:8080/cloudmesh/translate_text?cloud=google&text=WORD_TO_TRANSLATE&lang=LANG_CODE"
+      ``` 
 7. Stop the server
 
-    .. code:: bash
-    
-        cms openapi server stop natural-lang-analysis
-    
-#### AWS
+   ```    
+   cms openapi server stop natural-lang-analysis
+   ```
+### Example using AWS
 
 Sign up for AWS
 
@@ -600,21 +813,21 @@ Set up AWS CLI and AWS SDKs
 
 Install Boto 3
 
-.. code:: bash
-
-    pip install boto3
+```
+pip install boto3
+```
 
 * For quickstart, vist [here](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html)
 
 As long as you enable all the services you need for using AWS AI APIs you should be able to write your functions for OpenAPI
 
 
-#### Azure
+### Example using Azure
 
 
-##### Setting up Azure Sentiment Analysis and Translation Services
+#### Setting up Azure Sentiment Analysis and Translation Services
 
-1.  Create an Azure subscription. If you don't have one, create a
+1.  Create an Azure subscription. If you do not have one, create a
     [free account](https://azure.microsoft.com/try/cognitive-services/)
 
 2. Create a [Text Analysis resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics)
@@ -627,16 +840,17 @@ As long as you enable all the services you need for using AWS AI APIs you should
    requirements file so they should be installed. If they are not,
    install the following:
 
-   .. code:: bash    pip install msrest
-    
-       pip install azure-ai-textanalytics
-    
+   ```
+   pip install msrest 
+   pip install azure-ai-textanalytics
+   ```
+   
 5. Navigate to the `~/.cloudmesh` repo and create a cache directory for your text examples you would like to analyze.
 
-    .. code:: bash
-    
-        mkdir text-cache
-    
+   ```    
+   mkdir text-cache
+   ```
+      
 6. Add any plain text files your would like to analyze to this
    directory with a name that has no special characters or spaces.
    You can copy the files at this location,
@@ -647,53 +861,53 @@ As long as you enable all the services you need for using AWS AI APIs you should
 
 8. Utilize the generate command to create the OpenAPI spec
 
-    .. code:: bash
-
-        cms openapi generate TextAnalysis --filename=./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
+   ```
+   cms openapi generate TextAnalysis --filename=./tests/generator-natural-lang/natural-lang-analysis.py --all_functions
+   ```
     
 9. Start the server after the yaml file is generated ot the same
    directory as the .py file
     
-    .. code:: bash
-    
-        cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
-    
+   ```    
+   cms openapie start server ./tests/generator-natural-lang/natural-lang-analysis.yaml
+   ```
+     
 10. Run a curl command against the newly running server to verify it
     returns a result as expected.
 
     * Sample text file name is only meant to be the name of the file not the full path.
 
-    .. code:: bash
-    
-        curl -X GET "http://127.0.0.1:8080/cloudmesh/analyze?filename=<<sample text file name>>&cloud=azure"
-    
+      ```    
+      curl -X GET "http://127.0.0.1:8080/cloudmesh/analyze?filename=<<sample text file name>>&cloud=azure"
+      ```
+      
     * This is currently only ready to translate a single word through the API. 
     * Available language tags are described in the [Azure docs](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages)
 
-    .. code:: bash
-    
-        curl -X GET "http://127.0.0.1:8080/cloudmesh/translate_text?cloud=azure&text=<<word to translate>>&lang=<<lang code>>"
-    
+      ```    
+      curl -X GET "http://127.0.0.1:8080/cloudmesh/translate_text?cloud=azure&text=<<word to translate>>&lang=<<lang code>>"
+      ```
+      
 11. Stop the server
 
-    .. code:: bash
-    
-        cms openapi server stop natural-lang-analysis
+    ```    
+    cms openapi server stop natural-lang-analysis
+    ```
     
 The natural langauge analysis API can be improved by allowing for full
 phrase translation via the API. If you contribute to this API there is
 room for improvement to add custom translation models as well if
 preferred to pre-trained APIs.
 
-##### Setting up Azure ComputerVision AI services
+#### Setting up Azure ComputerVision AI services
 
-###### Prerequisite 
+##### Prerequisite 
 
 Using the Azure Computer Vision AI service, you can describe, analyze
 and/ or get tags for a locally stored image or you can read the text
 from an image or hand-written file.
 
-* Azure subscription. If you don't have one, create a [free
+* Azure subscription. If you do not have one, create a [free
   account](https://azure.microsoft.com/try/cognitive-services/) before
   you continue further.
 * Create a Computer Vision resource and get the
@@ -702,102 +916,108 @@ from an image or hand-written file.
   [instructions](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=singleservice%2Cunix)
   to get the same.
 * Install following Python packages in your virtual environment:
-  * requests
-  * Pillow
+
+  ```
+  pip install requests
+  pip install Pillow
+  ```
+
 * Install Computer Vision client library
 
-.. code:: bash
-
-    pip install --upgrade azure-cognitiveservices-vision-computervision
-
-###### Steps to implement and use Azure AI image and text *REST-services*
+   ```
+   pip install --upgrade azure-cognitiveservices-vision-computervision
+   ```
+  
+##### Steps to implement and use Azure AI image and text *REST-services*
 
 * Go to `./cloudmesh-openapi` directory
 
 * Run following command to generate the YAML files
 
-.. code:: bash
+  ```  
+  cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload
+  cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload
+  ```
   
-    cms openapi generate AzureAiImage --filename=./tests/generator-azureai/azure-ai-image-function.py --all_functions --enable_upload
-    cms openapi generate AzureAiText --filename=./tests/generator-azureai/azure-ai-text-function.py --all_functions --enable_upload
-
 * Verify the *YAML* files created in `./tests/generator-azureai` directory
 
-.. code:: bash
-  
-    azure-ai-image-function.yaml
-    azure-ai-text-function.yaml
+  ```  
+  azure-ai-image-function.yaml
+  azure-ai-text-function.yaml
+  ```
   
 * Start the REST service by running following command in `./cloudmesh-openapi` directory
 
-.. code:: bash
+  ```  
+  cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml
+  ```
   
-    cms openapi server start ./tests/generator-azureai/azure-ai-image-function.yaml
-
 The default port used for starting the service is 8080. In case you
 want to start more than one REST service, use a different port in
 following command:
 
-.. code:: bash
-  
-    cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>
+```  
+cms openapi server start ./tests/generator-azureai/azure-ai-text-function.yaml --port=<**Use a different port than 8080**>
+```
 
 * Access the REST service using [http://localhost:8080/cloudmesh/ui/](http://localhost:8080/cloudmesh/ui/)
 
 * After you have started the azure-ai-image-function or azure-ai-text-function on default port 8080, run following command to upload the image or text_image file
 
-.. code:: bash
-  
-    curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/generator-azureai/<image_name_with_extension>;type=image/jpeg"
+  ```  
+  curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@tests/generator-azureai/<image_name_with_extension>;type=image/jpeg"
+  ```
   
   Keep your test image files at `./tests/generator-azureai/` directory
 
 * With *azure-ai-text-function* started on port=8080, in order to test the azure ai function for text detection in an image, run following command
 
-.. code:: bash
+  ```  
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+  ```
   
-    curl -X GET "http://localhost:8080/cloudmesh/azure-ai-text-function_upload-enabled/get_text_results?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
-
 * With *azure-ai-image-function* started on port=8080, in order to
   test the azure ai function for describing an image, run following
   command
 
-.. code:: bash
+  ```  
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+  ```
   
-    curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_desc?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
-
 * With *azure-ai-image-function* started on port=8080, in order to
   test the azure ai function for analyzing an image, run following
   command
 
-.. code:: bash
+  ```  
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+  ```
   
-    curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_analysis?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
-
 * With *azure-ai-image-function* started on port=8080, in order to
   test the azure ai function for identifying tags in an image, run
   following command
 
-.. code:: bash
-
-    curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
-
+  ```
+  curl -X GET "http://localhost:8080/cloudmesh/azure-ai-image-function_upload-enabled/get_image_tags?image_name=<image_name_with_extension_uploaded_earlier>" -H "accept: text/plain"
+  ```
+  
 * Check the running REST services using following command:
 
-.. code:: bash
-
-    cms openapi server ps
-
+  ```
+  cms openapi server ps
+  ```
+  
 * Stop the REST service using following command(s):
 
-.. code:: bash
+  ```  
+  cms openapi server stop azure-ai-image-function
+  cms openapi server stop azure-ai-text-function
+  ```
   
-    cms openapi server stop azure-ai-image-function
-    cms openapi server stop azure-ai-text-function
+## List of Tests 
 
-## Test 
-
-The following table lists the different test we have, we provide additional information for the tests in the test directory in a README file. Summaries are provided below the table
+The following table lists the different test we have, we provide additional 
+information for the tests in the test directory in a README file. Summaries 
+are provided below the table
 
 
 | Test   | Short Description  | Link  |
@@ -810,7 +1030,7 @@ The following table lists the different test we have, we provide additional info
 | Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [image](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md)
 
 
-For more infromation about test cases ,please check [tests info](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
+For more information about test cases ,please check [tests info](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
 
 
  * [test_001_registry](tests/test_001_registry.py)
@@ -821,3 +1041,5 @@ For more infromation about test cases ,please check [tests info](https://github.
  * [test_015_generator_azureai](tests/test_015_generator_azureai.py)
  * [test_020_server_manage](tests/test_020_server_manage.py)
  * [test_server_cms_cpu](tests/test_server_cms_cpu.py)
+
+Note that there a many more tests that you can explore.
