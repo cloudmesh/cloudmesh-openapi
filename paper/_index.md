@@ -67,14 +67,14 @@ DELETE
 
 	Delete the item in the collection. 
 	
-	
+\\	
 	
 	
 	
 Because REST has a defined structure, there are tools that manage programming to REST specifications. 
 Here are different categories [^Cloud-Computing]: 
 
-
+\\
 
 
 REST Specification Frameworks: 
@@ -84,7 +84,7 @@ Frameworks to define REST service specifications for generating REST services in
 Swagger 2.0 [^Swagger2.0], OpenAPI 3.0 [^OpenAPI3.0], and RAML [^RAML]. 
 
 
-
+\\
 
 REST programming language support: 
 
@@ -92,7 +92,7 @@ Tools and services for targeting specific programming languages, include:
 Flask Rest [^Flask-Rest], Django Rest Services [^Django-Rest-Services]
 
 
-
+\\
 
 REST documentation-based tools:
 
