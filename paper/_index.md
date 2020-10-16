@@ -26,9 +26,7 @@ REST is an acronym for representational state transfer. REST often uses the HTTP
 
 Collection of resources [^Cloud-Computing]:
 
-Assume the URI, http://.../resources/, identifies a collection of resources.
-
-The following CRUD functions would be implemented:
+	Assume the URI, http://.../resources/, identifies a collection of resources. The following CRUD functions would be implemented:
 
 GET
 
