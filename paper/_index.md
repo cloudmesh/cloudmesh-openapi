@@ -45,6 +45,8 @@ DELETE
 	Lastly, delete the collection. 
 	
 	
+	
+	
 Single Resource [^Cloud-Computing]:
 
 	Assume the URI, http://.../resources/item58, identifies a single resource in a collection. The following CRUD functions would be implemented:
@@ -66,8 +68,12 @@ DELETE
 	Delete the item in the collection. 
 	
 	
+	
+	
+	
 Because REST has a defined structure, there are tools that manage programming to REST specifications. 
 Here are different categories [^Cloud-Computing]: 
+
 
 
 
@@ -79,10 +85,12 @@ Swagger 2.0 [^Swagger2.0], OpenAPI 3.0 [^OpenAPI3.0], and RAML [^RAML].
 
 
 
+
 REST programming language support: 
 
 Tools and services for targeting specific programming languages, include:
 Flask Rest [^Flask-Rest], Django Rest Services [^Django-Rest-Services]
+
 
 
 
@@ -92,10 +100,13 @@ These tools document REST specifications. One such tool is Swagger [^Swagger]
 
 
 
+
 REST design support tools: 
 
 These tools support the design process in developing REST services while extracting on top of the programming languages. 
 These tools also define reusable to create clients and servers for particular targets.These tools include Swagger [^Swagger] , additional swagger tools are available at OpenAPI Tools [^OpenAPI-Tools] to generate code from OpenAPI specifications [^OpenAPI-Specifications]
+
+
 
 
 ### VM Cloud providers 
