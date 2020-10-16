@@ -51,7 +51,12 @@ Customers can take advantage of cloud computing to reduce overhead expenses, inc
 
 ## Acknowledgements
 
+##Plan
+Thus far in the project we have familiarized ourselves with Cloudmesh-Openapi by recreating example services on our local machines, setup a git branch of the source project on which we will collaborate, contributed to the paper’s background section, and started looking for example AI analytics, like those provided at SciKitLearn’s website.
+  
+  Moving forward, we will obtain cloud service accounts from AWS, Azure, GCP, and Chameleon Cloud. We will verify Cloudmesh documentation while applying for cloud accounts. We will develop benchmark tests in the form of pytests that replicate the AI analytic examples.  We will each use Cloudmesh to deploy these tests as an Openapi based REST service and benchmark their performance on various cloud providers. Our benchmarks will measure various components such as data transfer time, model train time, model prediction time, etc. We will then consolidate and report on our findings. Our final project will include a script that utilizes the Cloudmesh shell to automate our benchmark tests so others can replicate our work. 
 
+For an AI analytic benchmark test, one intesresting example to replicate may be the faces recognition example using eigenfaces and SVMs  <https://scikit-learn.org/stable/auto_examples/applications/plot_face_recognition.html#sphx-glr-auto-examples-applications-plot-face-recognition-py>. 
 ## Appendix
 
 ### Setup 
