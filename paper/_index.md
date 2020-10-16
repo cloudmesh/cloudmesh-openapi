@@ -22,7 +22,9 @@ This is temporary and will in final be moved elsewhere. Its conveniently for now
 ## Background and Related Research
 
 ### REST
-REST is an acronym for representational state transfer. REST often uses the HTTP protocol for the CRUD functions which create, read, update, and delete resources. It is important to note that REST is not a standard, but it is a software architectural style for building network services. When a part of the HTTP protocol, REST has the methods of GET, PUT, POST, and DELETE. These methods are used to implement the CRUD functions on collections and items that REST introduces. [^Cloud-Computing]\
+REST is an acronym for representational state transfer. REST often uses the HTTP protocol for the CRUD functions which create, read, update, and delete resources. It is important to note that REST is not a standard, but it is a software architectural style for building network services. When a part of the HTTP protocol, REST has the methods of GET, PUT, POST, and DELETE. These methods are used to implement the CRUD functions on collections and items that REST introduces. [^Cloud-Computing]
+
+
 
 Collection of resources [^Cloud-Computing]:
 
@@ -44,6 +46,7 @@ DELETE
 
 	Lastly, delete the collection. 
 		
+
 
 
 	
