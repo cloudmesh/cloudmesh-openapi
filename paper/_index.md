@@ -27,15 +27,23 @@ REST is an acronym for representational state transfer. REST often uses the HTTP
 Collection of resources [^Cloud-Computing]:
 
 Assume the URI, http://.../resources/, identifies a collection of resources.
+
 The following CRUD functions would be implemented:
 
 GET
+
 	List the URIs and details about the collection’s items. 
+	
 PUT
+
 	Replace the collection with a different collection.
+	
 POST
+
 	Make a new entry in the collection. The operation returns new entry’s URI and assigns it automatically.  
+	
 DELETE
+
 	Lastly, delete the collection. 
 	
 	
@@ -44,18 +52,28 @@ Single Resource [^Cloud-Computing]:
 	Assume the URI, http://.../resources/item58, identifies a single resource in a collection. The following CRUD functions would be implemented:
 	
 GET
+
 	Fetch a representation of the item in the collection, extracted in the appropriate media type.
+	
 PUT
+
 	Replace the item in the collection. If the item does not exist, then create the item. 
+	
 POST 
+
 	Typically, not used. Treat the item as a collection and make a new entry in it. 
+	
 DELETE
+
 	Delete the item in the collection. 
+	
 	
 Because REST has a defined structure, there are tools that manage programming to REST specifications. 
 Here are different categories [^Cloud-Computing]: 
 
+
 REST Specification Frameworks: 
+
 
 Frameworks to define REST service specifications for generating REST services in a language and framework independently, include: 
 Swagger 2.0 [^Swagger2.0], OpenAPI 3.0 [^OpenAPI3.0], and RAML [^RAML]. 
