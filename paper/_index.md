@@ -72,7 +72,7 @@ DELETE
 	
 	
 Because REST has a defined structure, there are tools that manage programming to REST specifications. 
-Here are different categories [^Cloud-Computing]: \
+Here are different categories [^Cloud-Computing]: 
 
 
 
@@ -80,7 +80,7 @@ Here are different categories [^Cloud-Computing]: \
 REST Specification Frameworks: 
 
 Frameworks to define REST service specifications for generating REST services in a language and framework independently, include: 
-Swagger 2.0 [^Swagger2.0], OpenAPI 3.0 [^OpenAPI3.0], and RAML [^RAML]. \
+Swagger 2.0 [^Swagger2.0], OpenAPI 3.0 [^OpenAPI3.0], and RAML [^RAML]. 
 
 
 
@@ -88,14 +88,14 @@ Swagger 2.0 [^Swagger2.0], OpenAPI 3.0 [^OpenAPI3.0], and RAML [^RAML]. \
 REST programming language support: 
 
 Tools and services for targeting specific programming languages, include:
-Flask Rest [^Flask-Rest], Django Rest Services [^Django-Rest-Services]\
+Flask Rest [^Flask-Rest], Django Rest Services [^Django-Rest-Services]
 
 
 
 
 REST documentation-based tools:
 
-These tools document REST specifications. One such tool is Swagger [^Swagger]\
+These tools document REST specifications. One such tool is Swagger [^Swagger]
 
 
 
@@ -103,7 +103,7 @@ These tools document REST specifications. One such tool is Swagger [^Swagger]\
 REST design support tools: 
 
 These tools support the design process in developing REST services while extracting on top of the programming languages. 
-These tools also define reusable to create clients and servers for particular targets.These tools include Swagger [^Swagger] , additional swagger tools are available at OpenAPI Tools [^OpenAPI-Tools] to generate code from OpenAPI specifications [^OpenAPI-Specifications]\
+These tools also define reusable to create clients and servers for particular targets.These tools include Swagger [^Swagger] , additional swagger tools are available at OpenAPI Tools [^OpenAPI-Tools] to generate code from OpenAPI specifications [^OpenAPI-Specifications]
 
 
 
