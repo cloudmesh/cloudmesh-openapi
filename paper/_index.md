@@ -2,7 +2,7 @@
 
 [Gregor von Laszewski](https://laszewski.github.io/), 
 Richard Otten (github: ???), 
-[Caleb Wilson] (https://github.com/calewils), 
+[Caleb Wilson](https://github.com/calewils), 
 [Anthony Orlowski](https://github.com/aporlowski) (aporlows),
 Vishwanadh M??? (hid?, github: ???) (your name does not shwo in slack)
 
