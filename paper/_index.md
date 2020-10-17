@@ -461,25 +461,25 @@ SVMs
 
 [^cloudmesh-openapi]: Cloudmesh Openapi Web page <https://github.com/cloudmesh/cloudmesh-openapi>
 
-[^Cloud-Computing] G. von Laszewski, “Cloud Computing.” Web Page, Sep-2020 [Online]. Available: <https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf>
+[^Cloud-Computing]: G. von Laszewski, “Cloud Computing.” Web Page, Sep-2020 [Online]. Available: <https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf>
 
-[^Swagger2.0] OpenAPI Initiative, “The openapi specification.” Web Page [Online]. Available: <https://github.com/OAI/OpenAPI- Specification/blob/master/versions/2.0.md>
+[^Swagger2.0]: OpenAPI Initiative, “The openapi specification.” Web Page [Online]. Available: <https://github.com/OAI/OpenAPI- Specification/blob/master/versions/2.0.md>
 
-[^OpenAPI3.0] OpenAPI Initiative, “The openapi specification.” Web Page [Online]. Available: <https://github.com/OAI/OpenAPI-Specification> 
+[^OpenAPI3.0]: OpenAPI Initiative, “The openapi specification.” Web Page [Online]. Available: <https://github.com/OAI/OpenAPI-Specification> 
 
-[^RAML] RAML, “RAML version 1.0: RESTful api modeling language.” Web Page [Online]. Available: <https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md>
+[^RAML]: RAML, “RAML version 1.0: RESTful api modeling language.” Web Page [Online]. Available: <https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md>
 
-[^Flask-Rest] R. H. Kevin Burke Kyle Conroy, “Flask-restful.” Web Page [Online]. Available: <https://flask-restful.readthedocs.io/en/latest/>
+[^Flask-Rest]: R. H. Kevin Burke Kyle Conroy, “Flask-restful.” Web Page [Online]. Available: <https://flask-restful.readthedocs.io/en/latest/>
 
-[^Django-Rest-Services] E. O. Ltd, “Django rest framework.” Web Page [Online]. Available: 
+[^Django-Rest-Services]: E. O. Ltd, “Django rest framework.” Web Page [Online]. Available: 
 <https://www.django-rest-framework.org/>
 
-[^Swagger] S. Software, “API development for everyone.” Web Page [Online]. Available: <https://swagger.io>
+[^Swagger]: S. Software, “API development for everyone.” Web Page [Online]. Available: <https://swagger.io>
 
-[^OpenAPI-Tools] A. Y. W. Hate, “OpenAPI.Tools.” Web Page [Online]. Available: 
+[^OpenAPI-Tools]: A. Y. W. Hate, “OpenAPI.Tools.” Web Page [Online]. Available: 
 <https://openapi.tools/>
 
-[^OpenAPI-Specifications] S. Software, “Swagger codegen documentation.” Web Page [Online]. Available: https://swagger.io/docs/open-source-tools/swagger-codegen/ 
+[^OpenAPI-Specifications]: S. Software, “Swagger codegen documentation.” Web Page [Online]. Available: https://swagger.io/docs/open-source-tools/swagger-codegen/ 
 
 [^NIST-SP-800-145]: NIST SP 800-145 Webpage < https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf>
 
