@@ -421,11 +421,11 @@ Cloudmesh-Openapi by recreating example services on our local
 machines, setup a git branch of the source project on which we will
 collaborate, contributed to the paper’s background section, and
 started looking for example AI analytics, like those provided at
-SciKitLearn’s website.
+SciKitLearn’s website. We obtained cloud service accounts from AWS, Azure,
+GCP, and Chameleon Cloud, and verified Cloudmesh documentation while
+applying for the cloud accounts. We registered our accounts with the Cloudmesh shell and executed VM operations using Cloudmesh.
   
-Moving forward, we will obtain cloud service accounts from AWS, Azure,
-GCP, and Chameleon Cloud. We will verify Cloudmesh documentation while
-applying for cloud accounts. We will develop benchmark tests in the
+Moving forward, we will develop benchmark tests in the
 form of pytests that replicate the AI analytic examples.  We will each
 use Cloudmesh to deploy these tests as an Openapi based REST service
 and benchmark their performance on various cloud providers. Our
@@ -440,6 +440,7 @@ replicate may be the faces recognition example using eigenfaces and
 SVMs
 <https://scikit-learn.org/stable/auto_examples/applications/plot_face_recognition.html#sphx-glr-auto-examples-applications-plot-face-recognition-py>.
 
+One of our goals for next week is to replicate this example as a OpenAPI service.
 
 ## References
 
