@@ -27,7 +27,7 @@
 1. Edited the stop function to take process PID and use os.kill to
    stop the process based on the name of the python file. However,
    according to Ishan this is still not working.
-2. Resolved conflicts between master and our working branch 
+2. Resolved conflicts between main and our working branch 
 3. Began work on assigning a default name if the user does not provide
    one for server start. Potetially, a function to assign an alias
    name to the whole process to amke it easier to reference.
@@ -54,7 +54,7 @@ explain how to set up and use upstream sync
 
 #### Prateek Shaw -  code link.
 
-<https://github.com/cloudmesh-community/sp20-516-229/tree/master/cloudmesh-openapi>
+<https://github.com/cloudmesh-community/sp20-516-229/tree/main/cloudmesh-openapi>
 
 * created a basic function that will return the OpenAPI YAML file
   of given python function including parameters.
@@ -69,14 +69,14 @@ sample function for testing purposes. I also included the parameters
 as was requested. I also ran my output yaml through the swagger
 validator (https://editor.swagger.io/) to make sure it was compliant
 and it was.  
-[Link](https://github.com/cloudmesh-community/sp20-516-237/tree/master/projectAI/generateOpenAPI)
+[Link](https://github.com/cloudmesh-community/sp20-516-237/tree/main/projectAI/generateOpenAPI)
 
 #### sp20-516-231 - Brian Kegerreis
 
 I created a function to generate an OpenAPI spec including a rough
 attempt at response types (only supports text/plain media types at
 this point)
-<https://github.com/cloudmesh-community/sp20-516-231/blob/master/openapi-exercises/example_echo.py>
+<https://github.com/cloudmesh-community/sp20-516-231/blob/main/openapi-exercises/example_echo.py>
 
 
 ### Server Start

@@ -29,7 +29,7 @@
 
 *  The below pytest generates the .py file used by generator to do a OPENAPI specification.
   
-   [Pytestcode](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/Scikitlearn-tests/test_06c_sklearngeneratortest.py)
+   [Pytestcode](https://github.com/cloudmesh/cloudmesh-openapi/blob/main/tests/Scikitlearn-tests/test_06c_sklearngeneratortest.py)
    
    ```bash
     pytest -v --capture=no tests/Scikitlearn_tests/test_06c_sklearngeneratortest.py
@@ -38,7 +38,7 @@
   
 *  The below pytest tests the methods generated .
    
-   [Pytestcode](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/Scikitlearn-tests/test_06d_sklearngeneratortest.py)
+   [Pytestcode](https://github.com/cloudmesh/cloudmesh-openapi/blob/main/tests/Scikitlearn-tests/test_06d_sklearngeneratortest.py)
     
     ```bash
     pytest -v --capture=no tests/Scikitlearn_tests/test_06d_sklearngeneratortest.py

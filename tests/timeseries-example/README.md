@@ -1,10 +1,10 @@
 # Time Series Forecast using Multi Cloud AI Services
 
-Prafull Porwal, [sp20-516-255](https://github.com/cloudmesh-community/sp20-516-255/blob/master/Cloudmesh-OpenAPI/Readme.md)
+Prafull Porwal, [sp20-516-255](https://github.com/cloudmesh-community/sp20-516-255/blob/main/Cloudmesh-OpenAPI/Readme.md)
 
 * [Contributors](https://github.com/cloudmesh-community/sp20-516-255/graphs/contributors)
 * [Insights](https://github.com/cloudmesh-community/fa19-516-147/pulse)
-* [Project Code](https://github.com/cloudmesh-community/sp20-516-255/tree/master/Cloudmesh-OpenAPI/AWSForecast)
+* [Project Code](https://github.com/cloudmesh-community/sp20-516-255/tree/main/Cloudmesh-OpenAPI/AWSForecast)
 
 ## Objective
 
@@ -137,7 +137,7 @@ output: "Forecast generated successfully"
 curl http://localhost:8080/cloudmesh/forecast/lookupForecast?countryName=Austrailia
 ```
 output :
-shows [ouput](https://github.com/cloudmesh-community/sp20-516-255/blob/master/Cloudmesh-OpenAPI/AWSForecast/sampleOutput)
+shows [ouput](https://github.com/cloudmesh-community/sp20-516-255/blob/main/Cloudmesh-OpenAPI/AWSForecast/sampleOutput)
 
 * Delete Data Stack for the current project
 This API should be executed at the end of the session to delete all the resources created for the analysis

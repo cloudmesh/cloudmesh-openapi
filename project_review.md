@@ -27,7 +27,7 @@
 
 1. cms command:
 
-    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/command/openapi.py>
+    <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/cloudmesh/openapi/command/openapi.py>
 
     **Contributors:** all team
 
@@ -36,13 +36,13 @@
 2. cms generate - to generate server yaml
     - **executor** that parses parameters and calls generator:
          
-         <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/executor.py>
+         <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/cloudmesh/openapi/function/executor.py>
          
          **Contributors:**  Brian, Professor
         
     - **generator** that generates the server yaml:
          
-         <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/generator.py>
+         <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/cloudmesh/openapi/function/generator.py>
          
         **Contributors:**  Brian, Jonathan, Prateek
 
@@ -50,7 +50,7 @@
 
 3. cms server - to start and stop server
 
-    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/function/server.py>
+    <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/cloudmesh/openapi/function/server.py>
  
     - **Contributors:**  Jonathan, Andrew, Prateek, Ishan
 
@@ -60,19 +60,19 @@
 
     - **registry** - registers server 
     
-        <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/Registry.py>
+        <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/cloudmesh/openapi/registry/Registry.py>
     
         **Contributors:** Falconi, Praful, Professor
 
     - **cache** - cache serialized model locally
 
-        <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/cache.py>
+        <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/cloudmesh/openapi/registry/cache.py>
       
         **Contributors:** Jonathan
       
     - **fileoperation** - upload input files
 
-        <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/registry/fileoperation.py>
+        <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/cloudmesh/openapi/registry/fileoperation.py>
     
         **Contributors:** Prateek, Brian 
 
@@ -80,7 +80,7 @@
 
 5. cms scikitlearn - generate sklearn functions
 
-    <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/cloudmesh/openapi/scikitlearn/SklearnGeneratorFile.py>
+    <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/cloudmesh/openapi/scikitlearn/SklearnGeneratorFile.py>
     
     **Contributors:** Jagadeesh
 
@@ -94,7 +94,7 @@
     
     **Contirbutor:** Andrew Goldfarb
     
-    <https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/generator-natural-lang>
+    <https://github.com/cloudmesh/cloudmesh-openapi/tree/main/tests/generator-natural-lang>
 
 -----------
 
@@ -120,7 +120,7 @@
 
 ## Limitations
 
-1. Integration of openapi with cms allows for running locally only.  Cloud integration was not fully completed although team did create a way to setup openapi in a VM using a remote script for [openstack](https://github.com/cloudmesh/get/blob/master/openapi/ubuntu18.04/index.html) and [google](https://github.com/cloudmesh/get/blob/master/openapi/google/index.html)  
+1. Integration of openapi with cms allows for running locally only.  Cloud integration was not fully completed although team did create a way to setup openapi in a VM using a remote script for [openstack](https://github.com/cloudmesh/get/blob/main/openapi/ubuntu18.04/index.html) and [google](https://github.com/cloudmesh/get/blob/main/openapi/google/index.html)  
 
 2. The generator only supports creating arrays of number data type.  This limitation is due to the bug documented below in ***Bugs*** section.  So manual changes are required to the output yaml to allow for other data types until another work around is found or the bug is resolved.
 
@@ -137,16 +137,16 @@
 
 ### Openstack VM set up script
 
-   - [OPENSTACK](https://github.com/cloudmesh/get/blob/master/openapi/ubuntu18.04/index.html)
+   - [OPENSTACK](https://github.com/cloudmesh/get/blob/main/openapi/ubuntu18.04/index.html)
    
-   - [GOOGLE](https://github.com/cloudmesh/get/blob/master/openapi/google/index.html)
+   - [GOOGLE](https://github.com/cloudmesh/get/blob/main/openapi/google/index.html)
 
    **Contributors:** Jonathan Beckford, Andrew Goldfarb
 
   
 ### Openapi project readme generator
 
-   <https://github.com/cloudmesh/cloudmesh-openapi/tree/master/sphinx>
+   <https://github.com/cloudmesh/cloudmesh-openapi/tree/main/sphinx>
 
    **Contributors:** Jonathan Beckford, Professor
 
@@ -155,7 +155,7 @@
 
 ##### Kubernetes
 
-   <https://github.com/cloudmesh-community/sp20-516-231/blob/master/chapter/k8s-kubernetes-scheduler.md>
+   <https://github.com/cloudmesh-community/sp20-516-231/blob/main/chapter/k8s-kubernetes-scheduler.md>
 
    **Contributors:**  Jonathan Beckford, Brian Kegerreis, Ashok Singam
 

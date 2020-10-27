@@ -61,7 +61,7 @@ test datasets.  Split data functionality is not currently supported.
        cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregpytest
      
     The sample generated file can be viewed at
-    [tests/generator](https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/generator)
+    [tests/generator](https://github.com/cloudmesh/cloudmesh-openapi/tree/main/tests/generator)
     
 6. Utilize the generate command to generate OpenAPI spec with upload functionality enabled
      
@@ -82,7 +82,7 @@ test datasets.  Split data functionality is not currently supported.
    testfiles.
 
    Place your test files in
-   [Scikitlearn-data](https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/Scikitlearn-data)
+   [Scikitlearn-data](https://github.com/cloudmesh/cloudmesh-openapi/tree/main/tests/Scikitlearn-data)
    We are testing with X_SAT.csv(SAT Scores of students),y_GPA(GPA of
    students)
    

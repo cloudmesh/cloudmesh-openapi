@@ -15,10 +15,10 @@ from cloudmesh.common.util import writefile
 repo = "cloudmesh-openapi"
 
 icons = f"""
-[![image](https://img.shields.io/travis/TankerHQ/{repo}.svg?branch=master)](https://travis-ci.org/TankerHQ/{repo})
+[![image](https://img.shields.io/travis/TankerHQ/{repo}.svg?branch=main)](https://travis-ci.org/TankerHQ/{repo})
 [![image](https://img.shields.io/pypi/pyversions/{repo}.svg)](https://pypi.org/project/{repo})
 [![image](https://img.shields.io/pypi/v/{repo}.svg)](https://pypi.org/project/{repo}/)
-[![image](https://img.shields.io/github/license/TankerHQ/python-{repo}.svg)](https://github.com/TankerHQ/python-{repo}/blob/master/LICENSE)
+[![image](https://img.shields.io/github/license/TankerHQ/python-{repo}.svg)](https://github.com/TankerHQ/python-{repo}/blob/main/LICENSE)
 """
 
 #

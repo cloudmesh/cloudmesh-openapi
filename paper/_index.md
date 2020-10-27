@@ -3,7 +3,7 @@
 NOTE:
 > This document is maintained at:
 >
-> * <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/paper/_index.md>
+> * <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/paper/_index.md>
 >
 
 [Gregor von Laszewski](https://laszewski.github.io), 
@@ -14,7 +14,7 @@ Vishwanadham Mandala, [fa20-523-325](https://github.com/cybertraining-dsc/fa20-5
 
 Corresponding author: laszewski@gmail.com
 
-[Edit](https://github.com/cybertraining-dsc/fa20-523-348/blob/master/project/project.md)
+[Edit](https://github.com/cybertraining-dsc/fa20-523-348/blob/main/project/project.md)
 
 {{% pageinfo %}}
 
@@ -464,11 +464,11 @@ One of our goals for next week is to replicate this example as a OpenAPI service
 
 [^Cloud-Computing]: G. von Laszewski, “Cloud Computing.” Web Page, Sep-2020 [Online]. Available: <https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf>
 
-[^Swagger2.0]: OpenAPI Initiative, “The openapi specification.” Web Page [Online]. Available: <https://github.com/OAI/OpenAPI- Specification/blob/master/versions/2.0.md>
+[^Swagger2.0]: OpenAPI Initiative, “The openapi specification.” Web Page [Online]. Available: <https://github.com/OAI/OpenAPI- Specification/blob/main/versions/2.0.md>
 
 [^OpenAPI3.0]: OpenAPI Initiative, “The openapi specification.” Web Page [Online]. Available: <https://github.com/OAI/OpenAPI-Specification> 
 
-[^RAML]: RAML, “RAML version 1.0: RESTful api modeling language.” Web Page [Online]. Available: <https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md>
+[^RAML]: RAML, “RAML version 1.0: RESTful api modeling language.” Web Page [Online]. Available: <https://github.com/raml-org/raml-spec/blob/main/versions/raml-10/raml-10.md>
 
 [^Flask-Rest]: R. H. Kevin Burke Kyle Conroy, “Flask-restful.” Web Page [Online]. Available: <https://flask-restful.readthedocs.io/en/latest/>
 

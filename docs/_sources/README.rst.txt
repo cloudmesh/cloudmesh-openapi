@@ -3,7 +3,7 @@ Cloudmesh OpenAPI Service Generator
 
    **Note:** The README.md page is outomatically generated, do not edit
    it. To modify change the content in
-   https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md
+   https://github.com/cloudmesh/cloudmesh-openapi/blob/main/README-source.md
    Curley brackets must use two in README-source.md
 
 |image| |Python| |License| |Format| |Status| |Travis|
@@ -777,7 +777,7 @@ file. Summaries are provided below the table
 | Generator-calculator  | Test to check if      | `test_01_generator.py |
 |                       | calculator api is     |  <https://github.com/ |
 |                       | generated correctly.  | cloudmesh/cloudmesh-o |
-|                       | This is to test       | penapi/blob/master/te |
+|                       | This is to test       | penapi/blob/main/te |
 |                       | multiple function in  | sts/generator-calcula |
 |                       | one python file       | tor/test_01_generator |
 |                       |                       | .py>`__               |
@@ -785,7 +785,7 @@ file. Summaries are provided below the table
 | Generator-testclass   | Test to check if      | `test_02_generator.py |
 |                       | calculator api is     |  <https://github.com/ |
 |                       | generated correctly.  | cloudmesh/cloudmesh-o |
-|                       | This is to test       | penapi/blob/master/te |
+|                       | This is to test       | penapi/blob/main/te |
 |                       | multiple function in  | sts/generator-testcla |
 |                       | one python class file | ss/test_02_generator. |
 |                       |                       | py>`__                |
@@ -793,7 +793,7 @@ file. Summaries are provided below the table
 | Server-cpu            | Test to check if cpu  | `test_03_generator.py |
 |                       | api is generated      |  <https://github.com/ |
 |                       | correctly. This is to | cloudmesh/cloudmesh-o |
-|                       | test single function  | penapi/blob/master/te |
+|                       | test single function  | penapi/blob/main/te |
 |                       | in one python file    | sts/server-cpu/test_0 |
 |                       | and function name is  | 3_generator.py>`__    |
 |                       | different than file   |                       |
@@ -802,7 +802,7 @@ file. Summaries are provided below the table
 | Server-cms            | Test to check if cms  | `test_04_generator.py |
 |                       | api is generated      |  <https://github.com/ |
 |                       | correctly. This is to | cloudmesh/cloudmesh-o |
-|                       | test multiple         | penapi/blob/master/te |
+|                       | test multiple         | penapi/blob/main/te |
 |                       | function in one       | sts/server-cms/test_0 |
 |                       | python file.          | 4_generator.py>`__    |
 +-----------------------+-----------------------+-----------------------+
@@ -823,7 +823,7 @@ file. Summaries are provided below the table
 +-----------------------+-----------------------+-----------------------+
 
 For more infromation about test cases ,please check `tests
-info <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md>`__
+info <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/tests/README.md>`__
 
 -  `test_001_registry <tests/test_001_registry.py>`__
 -  `test_003_server_manage_cpu <tests/test_003_server_manage_cpu.py>`__
@@ -839,10 +839,10 @@ info <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md
 .. |Python| image:: https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg
    :target: https://pypi.python.org/pypi/cloudmesh-openapi
 .. |License| image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-   :target: https://github.com/cloudmesh/cloudmesh-openapi/blob/master/LICENSE
+   :target: https://github.com/cloudmesh/cloudmesh-openapi/blob/main/LICENSE
 .. |Format| image:: https://img.shields.io/pypi/format/cloudmesh-openapi.svg
    :target: https://pypi.python.org/pypi/cloudmesh-openapi
 .. |Status| image:: https://img.shields.io/pypi/status/cloudmesh-openapi.svg
    :target: https://pypi.python.org/pypi/cloudmesh-openapi
-.. |Travis| image:: https://travis-ci.com/cloudmesh/cloudmesh-openapi.svg?branch=master
+.. |Travis| image:: https://travis-ci.com/cloudmesh/cloudmesh-openapi.svg?branch=main
    :target: https://travis-ci.com/cloudmesh/cloudmesh-openapi

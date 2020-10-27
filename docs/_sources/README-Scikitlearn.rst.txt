@@ -66,7 +66,7 @@ Setting up Scikit-learn service
        cms openapi sklearnreadfile sklearn.linear_model.LinearRegression Linregpytest
 
     The sample generated file can be viewed at
-    `tests/generator <https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/generator>`__
+    `tests/generator <https://github.com/cloudmesh/cloudmesh-openapi/tree/main/tests/generator>`__
 
 6.  Utilize the generate command to generate OpenAPI spec with upload
     functionality enabled
@@ -92,7 +92,7 @@ Setting up Scikit-learn service
     testfiles.
 
     Place your test files in
-    `Scikitlearn-data <https://github.com/cloudmesh/cloudmesh-openapi/tree/master/tests/Scikitlearn-data>`__
+    `Scikitlearn-data <https://github.com/cloudmesh/cloudmesh-openapi/tree/main/tests/Scikitlearn-data>`__
     We are testing with X_SAT.csv(SAT Scores of students),y_GPA(GPA of
     students)
 

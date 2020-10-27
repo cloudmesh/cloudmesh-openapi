@@ -3,17 +3,17 @@
 
 > **Note:** The README.md page is outomatically generated, do not edit it.
 > To modify  change the content in
-> <https://github.com/cloudmesh/cloudmesh-openapi/blob/master/README-source.md>
+> <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/README-source.md>
 > Curley brackets must use two in README-source.md
 
 
 
 [![image](https://img.shields.io/pypi/v/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi/)
 [![Python](https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg)](https://pypi.python.org/pypi/cloudmesh-openapi)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-openapi/blob/main/LICENSE)
 [![Format](https://img.shields.io/pypi/format/cloudmesh-openapi.svg)](https://pypi.python.org/pypi/cloudmesh-openapi)
 [![Status](https://img.shields.io/pypi/status/cloudmesh-openapi.svg)](https://pypi.python.org/pypi/cloudmesh-openapi)
-[![Travis](https://travis-ci.com/cloudmesh/cloudmesh-openapi.svg?branch=master)](https://travis-ci.com/cloudmesh/cloudmesh-openapi)
+[![Travis](https://travis-ci.com/cloudmesh/cloudmesh-openapi.svg?branch=main)](https://travis-ci.com/cloudmesh/cloudmesh-openapi)
 
 
 
@@ -1022,15 +1022,15 @@ are provided below the table
 
 | Test   | Short Description  | Link  |
 | --- | --- | --- | 
-| Generator-calculator   | Test to check if calculator api is generated correctly. This is to test multiple function in one python file   | [test_01_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/generator-calculator/test_01_generator.py)  
-| Generator-testclass   |Test to check if calculator api is generated correctly. This is to test multiple function in one python class file  | [test_02_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/generator-testclass/test_02_generator.py)  
-| Server-cpu    | Test to check if cpu api is generated correctly. This is to test single function in one python file and function name is different than file name  | [test_03_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cpu/test_03_generator.py)  
-| Server-cms   | Test to check if cms api is generated correctly. This is to test multiple function in one python file. | [test_04_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/server-cms/test_04_generator.py)  
-| Registry    | test_001_registry.py - Runs tests for registry. Description is in tests/README.md| [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
-| Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [image](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/image-analysis/README.md)
+| Generator-calculator   | Test to check if calculator api is generated correctly. This is to test multiple function in one python file   | [test_01_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/main/tests/generator-calculator/test_01_generator.py)  
+| Generator-testclass   |Test to check if calculator api is generated correctly. This is to test multiple function in one python class file  | [test_02_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/main/tests/generator-testclass/test_02_generator.py)  
+| Server-cpu    | Test to check if cpu api is generated correctly. This is to test single function in one python file and function name is different than file name  | [test_03_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/main/tests/server-cpu/test_03_generator.py)  
+| Server-cms   | Test to check if cms api is generated correctly. This is to test multiple function in one python file. | [test_04_generator.py](https://github.com/cloudmesh/cloudmesh-openapi/blob/main/tests/server-cms/test_04_generator.py)  
+| Registry    | test_001_registry.py - Runs tests for registry. Description is in tests/README.md| [Link](https://github.com/cloudmesh/cloudmesh-openapi/blob/main/tests/README.md)
+| Image-Analysis | image_test.py - Runs benchmark for text detection for Google Vision API and AWS Rekognition. Description in image-analysis/README.md | [image](https://github.com/cloudmesh/cloudmesh-openapi/blob/main/tests/image-analysis/README.md)
 
 
-For more information about test cases ,please check [tests info](https://github.com/cloudmesh/cloudmesh-openapi/blob/master/tests/README.md)
+For more information about test cases ,please check [tests info](https://github.com/cloudmesh/cloudmesh-openapi/blob/main/tests/README.md)
 
 
  * [test_001_registry](tests/test_001_registry.py)
