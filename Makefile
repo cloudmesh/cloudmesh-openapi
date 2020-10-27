@@ -80,7 +80,7 @@ patch: clean
 	$(call banner, "patch")
 	bump2version --allow-dirty patch
 	python setup.py sdist bdist_wheel
-	git push origin master --tags
+	git push origin main --tags
 	twine check dist/*
 	twine upload --repository testpypi  dist/*
 	# $(call banner, "install")
@@ -96,7 +96,7 @@ minor: clean
 release: clean
 	$(call banner, "release")
 	git tag "v$(VERSION)"
-	git push origin master --tags
+	git push origin main --tags
 	python setup.py sdist bdist_wheel
 	twine check dist/*
 	twine upload --repository pypi dist/*
