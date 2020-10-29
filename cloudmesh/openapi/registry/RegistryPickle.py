@@ -1,7 +1,8 @@
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.Shell import Shell
 from cloudmesh.mongo.CmDatabase import CmDatabase
-from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
+#from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
+from cloudmesh.openapi.registry.DataBaseDecorator import DatabaseUpdate
 
 
 class Registry:
@@ -26,6 +27,27 @@ class Registry:
                        "Pid"]
         }
     }
+
+    def load(self, filename="~/.cloudmesh/openapi/registy.pkl"):
+        """
+        loads the registry content
+
+        :param filename:
+        :return:
+        """
+        # self.data
+        pass
+
+    def clean(self, filename="~/.cloudmesh/openapi/registy.pkl"):
+        """
+        erases the registry content form the file and keep the file.
+        The data is empty.
+
+        :param filename:
+        :return:
+        """
+        pass
+
 
     # noinspection PyPep8Naming
     def Print(self, data, output=None):
@@ -106,7 +128,7 @@ class Registry:
         :param name: name of the item in registry
         :return:  
         """
-        cm = CmDatabase()
+        cm = CmDatabase() # repalce by pickle
 
         collection = cm.collection(self.collection)
         if name is None:
