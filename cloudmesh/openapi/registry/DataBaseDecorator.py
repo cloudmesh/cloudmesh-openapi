@@ -1,4 +1,5 @@
 from cloudmesh.mongo.CmDatabase import CmDatabase
+from cloudmesh.openapi.registry.PickleDB import PickleDB
 
 
 class DatabaseUpdate:
@@ -79,8 +80,11 @@ class DatabaseUpdate:
     """
 
     # noinspection PyUnusedLocal
-    def __init__(self, **kwargs):
-        self.database = CmDatabase()
+    def __init__(self, provider="cm", **kwargs):
+        if provider == "cm":
+            self.database = CmDatabase()
+        elif provider == "pickle":
+            self.database = PickleDB()
 
     def __call__(self, f):
         def wrapper(*args, **kwargs):
