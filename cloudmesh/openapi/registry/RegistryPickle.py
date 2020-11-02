@@ -1,11 +1,12 @@
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.Shell import Shell
 from cloudmesh.mongo.CmDatabase import CmDatabase
-#from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
+# from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 from cloudmesh.openapi.registry.DataBaseDecorator import DatabaseUpdate
+from cloudmesh.openapi.registry.PickleDB import PickleDB
 
 
-class Registry:
+class RegistryPickle:
     """
       This class will help to register service into db.
       which later use to stop server.
@@ -28,17 +29,16 @@ class Registry:
         }
     }
 
-    def load(self, filename="~/.cloudmesh/openapi/registy.pkl"):
+    def load(self, filename="~/.cloudmesh/openapi/registry.p"):
         """
         loads the registry content
 
         :param filename:
         :return:
         """
-        # self.data
-        pass
+        self.data = PickleDB(filename=filename)
 
-    def clean(self, filename="~/.cloudmesh/openapi/registy.pkl"):
+    def clean(self, filename="~/.cloudmesh/openapi/registry.p"):
         """
         erases the registry content form the file and keep the file.
         The data is empty.
@@ -46,10 +46,10 @@ class Registry:
         :param filename:
         :return:
         """
-        pass
-
+        return PickleDB(filename=filename).clean()
 
     # noinspection PyPep8Naming
+
     def Print(self, data, output=None):
         """
         print output in a structured format
@@ -61,8 +61,8 @@ class Registry:
 
         if output == "table":
 
-            order = self.output[Registry.kind]['order']  # not pretty
-            header = self.output[Registry.kind]['header']  # not pretty
+            order = self.output[RegistryPickle.kind]['order']  # not pretty
+            header = self.output[RegistryPickle.kind]['header']  # not pretty
             # humanize = self.output[kind]['humanize']  # not pretty
 
             print(Printer.flatwrite(data,
@@ -76,17 +76,14 @@ class Registry:
         else:
             print(Printer.write(data, output=output))
 
-    def __init__(self):
-        pass
-
-    @DatabaseUpdate()
+    @DatabaseUpdate(provider="pickle")
     def add(self, name=None, **kwargs):
         """
         add to registry
 
         :param name: name to be used for registry entry
         :param kwargs:  other optional fields to populate in registry
-        :return:  
+        :return:
         """
         entry = {
             "cm": {
@@ -116,7 +113,7 @@ class Registry:
 
         title = spec["info"]["title"]
 
-        registry = Registry()
+        registry = RegistryPickle()
         entry = registry.add(name=title, **kwargs)
 
         return entry
@@ -126,18 +123,12 @@ class Registry:
         delete item from registry
 
         :param name: name of the item in registry
-        :return:  
+        :return:
         """
-        cm = CmDatabase() # repalce by pickle
-
-        collection = cm.collection(self.collection)
-        if name is None:
-            query = {}
-        else:
-            query = {'name': name}
-        entries = cm.delete(collection=self.collection, **query)
+        cm = PickleDB()  # repalce by pickle
+        entries = cm.delete(name)
+        cm.close_client()
         return entries
-
 
     def list(self, name=None):
         """
@@ -146,15 +137,14 @@ class Registry:
         :param name:  name of registered server.  If not passed will list all registered servers.
         :return:  list of registered server(s)
         """
+        cm = PickleDB()
 
-        cm = CmDatabase()
         if name == None:
             entries = cm.find(cloud="local", kind="registry")
         else:
             entries = cm.find_name(name=name, kind="registry")
 
         return entries
-
 
     # TODO: determine if these are still needed as these functions are handled by cms already
     '''

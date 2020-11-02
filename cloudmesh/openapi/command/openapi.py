@@ -8,6 +8,7 @@ from importlib import import_module
 from pathlib import Path
 from shutil import copyfile
 
+from cloudmesh.configuration.Config import Config
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
@@ -195,6 +196,13 @@ class OpenapiCommand(PluginCommand):
                        'host',
                        'basic_auth')
         arguments.debug = arguments.verbose
+        try:
+            Registry.TYPE = Config().get("cloudmesh.registry")
+        except KeyError as e:
+            config = Config()
+            config.set("cloudmesh.registry", "mongo")
+            Registry.TYPE = Config().get("cloudmesh.registry")
+        Console.ok(f"Using {Registry.TYPE} Registry")
 
         #VERBOSE(arguments)
 

@@ -1,31 +1,27 @@
-from cloudmesh.common.Printer import Printer
-from cloudmesh.common.Shell import Shell
-from cloudmesh.mongo.CmDatabase import CmDatabase
-from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
+# from cloudmesh.common.Printer import Printer
+# from cloudmesh.common.Shell import Shell
+# from cloudmesh.mongo.CmDatabase import CmDatabase
+# from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
+from cloudmesh.common.console import Console
+from cloudmesh.openapi.registry.RegistryMongoDB import RegistryMongoDB
+from cloudmesh.openapi.registry.RegistryPickle import RegistryPickle
+
 
 
 class Registry:
     """
-      This class will help to register service into db.
-      which later use to stop server.
+      This class serves as a wrapper for either Registrypickle or RegistryMongoDatabase
     """
-    kind = "register"
+    TYPE = None
 
-    collection = "local-registry"
-
-    output = {
-        "register": {
-            "sort_keys": ["cm.name"],
-            "order": ["cm.name",
-                      "status",
-                      "url",
-                      "pid"],
-            "header": ["Name",
-                       "Status",
-                       "Url",
-                       "Pid"]
-        }
-    }
+    def __init__(self):
+        if Registry.TYPE == "mongo":
+            self.provider = RegistryMongoDB()
+        elif Registry.TYPE == "pickle":
+            self.provider = RegistryPickle()
+        else:
+            Console.error(f"Unsupported Registry Type {Registry.TYPE}")
+            raise ValueError(f"Unsupported Registry Type {Registry.TYPE}")
 
     # noinspection PyPep8Naming
     def Print(self, data, output=None):
@@ -36,28 +32,8 @@ class Registry:
         :param output:  type of structured output
         :return:  structured output
         """
+        self.provider.Print(data, output)
 
-        if output == "table":
-
-            order = self.output[Registry.kind]['order']  # not pretty
-            header = self.output[Registry.kind]['header']  # not pretty
-            # humanize = self.output[kind]['humanize']  # not pretty
-
-            print(Printer.flatwrite(data,
-                                    sort_keys=["name"],
-                                    order=order,
-                                    header=header,
-                                    output=output,
-                                    # humanize=humanize
-                                    )
-                  )
-        else:
-            print(Printer.write(data, output=output))
-
-    def __init__(self):
-        pass
-
-    @DatabaseUpdate()
     def add(self, name=None, **kwargs):
         """
         add to registry
@@ -66,21 +42,7 @@ class Registry:
         :param kwargs:  other optional fields to populate in registry
         :return:  
         """
-        entry = {
-            "cm": {
-                "cloud": "local",
-                "kind": "registry",
-                "name": name,
-                "driver": None
-            },
-            "name": name,
-            "status": "defined"
-        }
-
-        for key in kwargs:
-            entry[key] = kwargs[key]
-
-        return entry
+        return self.provider.add(name, **kwargs)
 
     def add_form_file(self, filename, **kwargs):
         """
@@ -89,15 +51,7 @@ class Registry:
         :param filename: file name including path
         :return:  entry to be inserted into Registry
         """
-
-        spec = filename
-
-        title = spec["info"]["title"]
-
-        registry = Registry()
-        entry = registry.add(name=title, **kwargs)
-
-        return entry
+        return self.provider.add_form_file(filename, **kwargs)
 
     def delete(self, name=None):
         """
@@ -106,16 +60,7 @@ class Registry:
         :param name: name of the item in registry
         :return:  
         """
-        cm = CmDatabase()
-
-        collection = cm.collection(self.collection)
-        if name is None:
-            query = {}
-        else:
-            query = {'name': name}
-        entries = cm.delete(collection=self.collection, **query)
-        return entries
-
+        return self.provider.delete(name)
 
     def list(self, name=None):
         """
@@ -125,14 +70,7 @@ class Registry:
         :return:  list of registered server(s)
         """
 
-        cm = CmDatabase()
-        if name == None:
-            entries = cm.find(cloud="local", kind="registry")
-        else:
-            entries = cm.find_name(name=name, kind="registry")
-
-        return entries
-
+        return self.provider.list(name)
 
     # TODO: determine if these are still needed as these functions are handled by cms already
     '''

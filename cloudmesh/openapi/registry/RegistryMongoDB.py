@@ -4,7 +4,7 @@ from cloudmesh.mongo.CmDatabase import CmDatabase
 from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
 
 
-class Registry:
+class RegistryMongoDB:
     """
       This class will help to register service into db.
       which later use to stop server.
@@ -39,8 +39,8 @@ class Registry:
 
         if output == "table":
 
-            order = self.output[Registry.kind]['order']  # not pretty
-            header = self.output[Registry.kind]['header']  # not pretty
+            order = self.output[RegistryMongoDB.kind]['order']  # not pretty
+            header = self.output[RegistryMongoDB.kind]['header']  # not pretty
             # humanize = self.output[kind]['humanize']  # not pretty
 
             print(Printer.flatwrite(data,
@@ -94,7 +94,7 @@ class Registry:
 
         title = spec["info"]["title"]
 
-        registry = Registry()
+        registry = RegistryMongoDB()
         entry = registry.add(name=title, **kwargs)
 
         return entry
