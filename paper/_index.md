@@ -440,7 +440,8 @@ replicate may be the faces recognition example using eigenfaces and
 SVMs
 <https://scikit-learn.org/stable/auto_examples/applications/plot_face_recognition.html#sphx-glr-auto-examples-applications-plot-face-recognition-py>.
 
-One of our goals for next week is to replicate this example as a OpenAPI service.
+This week we created the first draft of the eigenfaces-svm example that is found in the "benchmark" branch.
+It outputs the example and prints benchmark information. We are making progress on manually running this example on a cloud VM using the Cloudmesh shell, which will generate the requirements for our final script.
 
 ## References
 
