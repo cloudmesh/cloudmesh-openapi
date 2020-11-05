@@ -8,7 +8,6 @@ from importlib import import_module
 from pathlib import Path
 from shutil import copyfile
 
-from cloudmesh.configuration.Config import Config
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.console import Console
 from cloudmesh.common.debug import VERBOSE
@@ -62,6 +61,7 @@ class OpenapiCommand(PluginCommand):
               openapi register filename NAME
               openapi register delete NAME
               openapi register list [NAME] [--output=OUTPUT]
+              openapi register protocol PROTOCOL
               openapi TODO merge [SERVICES...] [--dir=DIR] [--verbose]
               openapi TODO doc FILE --format=(txt|md)[--indent=INDENT]
               openapi TODO doc [SERVICES...] [--dir=DIR]
@@ -196,13 +196,6 @@ class OpenapiCommand(PluginCommand):
                        'host',
                        'basic_auth')
         arguments.debug = arguments.verbose
-        try:
-            Registry.TYPE = Config().get("cloudmesh.registry")
-        except KeyError as e:
-            config = Config()
-            config.set("cloudmesh.registry", "mongo")
-            Registry.TYPE = Config().get("cloudmesh.registry")
-        Console.ok(f"Using {Registry.TYPE} Registry")
 
         #VERBOSE(arguments)
 
@@ -422,6 +415,10 @@ class OpenapiCommand(PluginCommand):
             result = registry.list(name=arguments.NAME)
 
             registry.Print(data=result, output=arguments.output)
+
+        elif arguments.register and arguments.protocol:
+            result = Registry.protocol(protocol=arguments.PROTOCOL)
+            Console.ok(f"Using Registry Protocol: {result}")
 
         elif arguments.register and arguments['filename']:
 
