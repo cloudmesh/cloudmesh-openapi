@@ -14,6 +14,7 @@ from cloudmesh.common.variables import Variables
 from cloudmesh.common.util import path_expand
 
 # Set the yaml file here for protocol=mongo
+Registry.protocol(protocol="mongo")
 variable = Variables()
 filename = variable['filename'] or path_expand('./tests/server-cpu/cpu.yaml')
 # sys.path.append("cloudmesh/openapi/function")
@@ -122,6 +123,3 @@ class TestGenerator:
     def test_benchmark(self):
         HEADING()
         Benchmark.print(csv=True, sysinfo=False, tag="generator")
-
-	def switch_to_pickle(self):
-		pass
