@@ -13,9 +13,10 @@ from cloudmesh.openapi.registry.Registry import Registry
 from cloudmesh.common.variables import Variables
 from cloudmesh.common.util import path_expand
 
-Registry.protocol(protocol="pickle")
-variable=Variables()
-filename= variable['filename'] or path_expand('./tests/server-cpu/cpu.yaml')
+# Set the yaml file here for protocol=mongo
+Registry.protocol(protocol="mongo")
+variable = Variables()
+filename = variable['filename'] or path_expand('./tests/server-cpu/cpu.yaml')
 # sys.path.append("cloudmesh/openapi/function")
 #
 
@@ -35,7 +36,6 @@ with open(filename, "r") as stream:
 @pytest.mark.incremental
 class TestGenerator:
 
-
     def test_registry_add(self):
         HEADING()
 
@@ -52,7 +52,7 @@ class TestGenerator:
         pid = 1
 
         entry = registry.add(name=title, url=url, pid=pid)
-        pprint (entry)
+        pprint(entry)
 
         after = len(registry.list(name=title))
 
@@ -96,7 +96,6 @@ class TestGenerator:
     def test_registry_delete(self):
         HEADING()
 
-
         Benchmark.Start()
 
         title = spec["info"]["title"]
@@ -115,12 +114,11 @@ class TestGenerator:
 
         # list after and use len
 
-        after = len(registry.list(name=title)) # use len()
+        after = len(registry.list(name=title))  # use len()
 
         assert before == after + 1
 
         Benchmark.Stop()
-
 
     def test_benchmark(self):
         HEADING()
