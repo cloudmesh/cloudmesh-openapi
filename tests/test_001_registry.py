@@ -11,8 +11,11 @@ from cloudmesh.common.Benchmark import Benchmark
 from cloudmesh.common.util import HEADING
 from cloudmesh.openapi.registry.Registry import Registry
 from cloudmesh.common.variables import Variables
+from cloudmesh.common.util import path_expand
+
+Registry.protocol(protocol="pickle")
 variable=Variables()
-filename= variable['filename']
+filename= variable['filename'] or path_expand('./tests/server-cpu/cpu.yaml')
 # sys.path.append("cloudmesh/openapi/function")
 #
 
