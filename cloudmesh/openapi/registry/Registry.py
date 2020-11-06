@@ -1,27 +1,63 @@
-# from cloudmesh.common.Printer import Printer
-# from cloudmesh.common.Shell import Shell
-# from cloudmesh.mongo.CmDatabase import CmDatabase
-# from cloudmesh.mongo.DataBaseDecorator import DatabaseUpdate
+from cloudmesh.configuration.Config import Config
 from cloudmesh.common.console import Console
 from cloudmesh.openapi.registry.RegistryMongoDB import RegistryMongoDB
 from cloudmesh.openapi.registry.RegistryPickle import RegistryPickle
-
 
 
 class Registry:
     """
       This class serves as a wrapper for either Registrypickle or RegistryMongoDatabase
     """
-    TYPE = None
+
+    kind = "registry"
+
+    sample = """
+    cloudmesh:
+      cloud:
+        {name}:
+          cm:
+            active: true
+            heading: microservice registry
+            host: TBD
+            label: {name}
+            kind: registry
+            version: TBD
+            service: registry
+          default:
+            kind: pickle
+    """
+
+    PROTOCOL_NAME = None
+    RESGISTRY_CONFIG = "cloudmesh.registry.microservice.default.protocol"
 
     def __init__(self):
-        if Registry.TYPE == "mongo":
-            self.provider = RegistryMongoDB()
-        elif Registry.TYPE == "pickle":
-            self.provider = RegistryPickle()
+        """
+        Choose which Registry protocol to use: mongo or pickle.
+        Check config for configured protocol
+        """
+        if Registry.PROTOCOL_NAME is None:
+            try:
+                Registry.PROTOCOL_NAME = Config().get(Registry.RESGISTRY_CONFIG)
+            except KeyError as e:
+                Console.warning("No provider setting found in config")
+                config = Config()
+                config.set(Registry.RESGISTRY_CONFIG, "pickle")
+                Registry.PROTOCOL_NAME = Config().get(Registry.RESGISTRY_CONFIG)
+
+        if Registry.PROTOCOL_NAME == "mongo":
+            self.protocol = RegistryMongoDB()
+        elif Registry.PROTOCOL_NAME == "pickle":
+            self.protocol = RegistryPickle()
         else:
-            Console.error(f"Unsupported Registry Type {Registry.TYPE}")
-            raise ValueError(f"Unsupported Registry Type {Registry.TYPE}")
+            Console.error(f"Unsupported Registry Type {Registry.PROTOCOL_NAME}")
+            raise ValueError(f"Unsupported Registry Type {Registry.PROTOCOL_NAME}")
+        Console.ok(f"INIT: Using {Registry.PROTOCOL_NAME} Protocol")
+
+    @classmethod
+    def protocol(cls, protocol="pickle"):
+        cls.PROTOCOL_NAME = protocol
+        Config().set(cls.RESGISTRY_CONFIG, protocol)
+        return cls.PROTOCOL_NAME
 
     # noinspection PyPep8Naming
     def Print(self, data, output=None):
@@ -32,7 +68,8 @@ class Registry:
         :param output:  type of structured output
         :return:  structured output
         """
-        self.provider.Print(data, output)
+        Console.ok(f"PRINT: Using {Registry.PROTOCOL_NAME} Protocol")
+        self.protocol.Print(data, output)
 
     def add(self, name=None, **kwargs):
         """
@@ -42,7 +79,8 @@ class Registry:
         :param kwargs:  other optional fields to populate in registry
         :return:  
         """
-        return self.provider.add(name, **kwargs)
+        Console.ok(f"ADD: Using {Registry.PROTOCOL_NAME} Protocol")
+        return self.protocol.add(name, **kwargs)
 
     def add_form_file(self, filename, **kwargs):
         """
@@ -51,7 +89,8 @@ class Registry:
         :param filename: file name including path
         :return:  entry to be inserted into Registry
         """
-        return self.provider.add_form_file(filename, **kwargs)
+        Console.ok(f"ADD FROM FILE: Using {Registry.PROTOCOL_NAME} Protocol")
+        return self.protocol.add_form_file(filename, **kwargs)
 
     def delete(self, name=None):
         """
@@ -60,7 +99,8 @@ class Registry:
         :param name: name of the item in registry
         :return:  
         """
-        return self.provider.delete(name)
+        Console.ok(f"DELETE: Using {Registry.PROTOCOL_NAME} Protocol")
+        return self.protocol.delete(name)
 
     def list(self, name=None):
         """
@@ -69,8 +109,8 @@ class Registry:
         :param name:  name of registered server.  If not passed will list all registered servers.
         :return:  list of registered server(s)
         """
-
-        return self.provider.list(name)
+        Console.ok(f"LIST: Using {Registry.PROTOCOL_NAME} Protocol")
+        return self.protocol.list(name)
 
     # TODO: determine if these are still needed as these functions are handled by cms already
     '''
