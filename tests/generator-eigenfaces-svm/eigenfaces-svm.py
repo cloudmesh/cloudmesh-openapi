@@ -1,6 +1,5 @@
 from time import time
 import logging
-import matplotlib.pyplot as plt
 import io
 import sys
 from sklearn.model_selection import train_test_split
