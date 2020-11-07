@@ -2,6 +2,7 @@
 # Run from localhost to install Openapi service on cloud VM. This is for a ubuntu 20.04 VM. Tested on Google Cloud and AWS.
 # Running requirements google: default.image=ubuntu-2004-lts, default.image_project=ubuntu-os-cloud
 # Running requirements aws: default.username=ubuntu, default.image=ami-0dba2cb6798deb6d8, credentials.region=us-east-1
+# Running requirements azure: image: Canonical:0001-com-ubuntu-server-focal:20_04-lts:20.04.202006100, updates to Azure Provider.py in benchmark branch
 #------------------------------
 # Create VM with cms
 #------------------------------
