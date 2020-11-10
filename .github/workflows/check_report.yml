@@ -17,3 +17,7 @@ jobs:
     steps:
     - name: Send greeting
       run: echo "Hello ${{ github.event.inputs.name }}"
+    - name: wget markdown-check.py
+      run: wget https://raw.githubusercontent.com/cybertraining-dsc/cybertraining-dsc.github.io/master/bin/markdown-check.py      
+    - name: check
+      run: python3 master/bin/markdown-check.py paper/_index.md
