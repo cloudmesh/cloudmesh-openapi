@@ -6,17 +6,13 @@ on:
   workflow_dispatch:
     inputs:
       name:
-        description: 'Person to greet'
-        default: 'World'
-        required: true
+        description: 'Check Report'
 
 jobs:
   greet:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
-    - name: Send greeting
-      run: echo "Hello ${{ github.event.inputs.name }}"
     - name: wget markdown-check.py
       run: wget https://raw.githubusercontent.com/cybertraining-dsc/cybertraining-dsc.github.io/master/bin/markdown-check.py      
     - name: check
