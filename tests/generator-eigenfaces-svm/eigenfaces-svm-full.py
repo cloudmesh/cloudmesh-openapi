@@ -161,7 +161,6 @@ class EigenfacesSVM:
         result += "Best estimator found by grid search:\n"
         result += "%s\n" % clf.best_estimator_
 
-
         # #############################################################################
         # Quantitative evaluation of the model quality on the test set
 
