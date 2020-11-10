@@ -1,7 +1,7 @@
 ###############################################################
-# pytest -v -s --capture=no ./tests/test_30_generator_eigenfaces_svm.py
-# pytest -v  -s ./tests/test_30_generator_eigenfaces_svm.py
-# pytest -v --capture=no  ./tests/test_30_generator_eigenfaces_svm.py:Test_name::<METHODNAME>
+# pytest -v -s --capture=no ./tests/test_030_generator_eigenfaces_svm.py
+# pytest -v  -s ./tests/test_030_generator_eigenfaces_svm.py
+# pytest -v --capture=no  ./tests/test_030_generator_eigenfaces_svm.py:Test_name::<METHODNAME>
 ###############################################################
 """
 # Headline
