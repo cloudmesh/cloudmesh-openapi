@@ -88,7 +88,7 @@ implement the CRUD functions on collections and items that REST
 introduces [^Cloud-Computing].
 
 * **Collection of resources** [^Cloud-Computing]: Assume the URI,
-  http://.../resources/, identifies a collection of resources. The
+  `http://.../resources/`, identifies a collection of resources. The
   following CRUD functions would be implemented:
 
   * **GET**: List the URIs and details about the collection’s items. 
@@ -98,7 +98,7 @@ introduces [^Cloud-Computing].
   * **DELETE**: Delete the collection. 
 		
 * **Single Resource** [^Cloud-Computing]: Assume the URI,
-  http://.../resources/item58, identifies a single resource in a
+  `http://.../resources/item58`, identifies a single resource in a
   collection. The following CRUD functions would be implemented:
 	
   * **GET**: Fetch a representation of the item in the collection,
@@ -142,7 +142,7 @@ providers include Amazon Web Services, Microsoft Azure, Google Cloud
 Platform, Oracle’s OpenStack based providers, and more.  Cloud
 providers offer these resources in multiple service models including
 infrastructure as a service, platform as a service, software as a
-service, and, recently, function as a service. [^NIST-SP-800-145].
+service, and, recently, function as a service [^NIST-SP-800-145].
 These providers are rapidly offering new platforms and services
 ranging from bare-metal machines to AI development platforms like
 Google’s TensorFlow Enterprise platform [^tensorflow-enterprise], and
@@ -227,11 +227,11 @@ pip install cloudmesh-installer
 cloudmesh-installer get openapi 
 cms help
 cms gui quick
-#fill out mongo variables
-#make sure autinstall is True
+# fill out mongo variables
+# make sure autinstall is True
 cms config set cloudmesh.data.mongo.MONGO_AUTOINSTALL=True
 cms admin mongo install --force
-#Restart a new terminal to make sure mongod is in your path
+# Restart a new terminal to make sure mongod is in your path
 cms init
 ```
 
@@ -284,7 +284,7 @@ a string.
 cms openapi generate add --filename=./tests/add-float/add.py
 cms openapi server start ./tests/add-float/add.yaml 
 curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plain"
-#This command returns
+# This command returns
 > 3.0
 cms openapi server stop add
 ```
@@ -318,7 +318,7 @@ The result will include a json string returned by the service.
 cms openapi generate add --filename=./tests/add-json/add.py
 cms openapi server start ./tests/add-json/add.yaml 
 curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plain"
-#This command returns
+# This command returns
 > {"result":3.0}
 cms openapi server stop add
 ```
