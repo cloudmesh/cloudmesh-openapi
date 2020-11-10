@@ -3,11 +3,11 @@
 name: Check Report
 
 on:
-  workflow_dispatch:
-    inputs:
-      name:
-        description: 'Check Report'
-# on: [push]
+#  workflow_dispatch:
+#    inputs:
+#      name:
+#        description: 'Check Report'
+  on: [push]
 
 jobs:
   build:
