@@ -500,13 +500,13 @@ finish the report.
 [^OpenAPI-Tools]: A. Y. W. Hate, "OpenAPI.Tools." Web Page [Online]. Available: 
 <https://openapi.tools/>
 
-[^OpenAPI-Specifications]: S. Software, "Swagger codegen documentation." Web Page [Online]. Available: https://swagger.io/docs/open-source-tools/swagger-codegen/ 
+[^OpenAPI-Specifications]: S. Software, "Swagger codegen documentation." Web Page [Online]. Available: <https://swagger.io/docs/open-source-tools/swagger-codegen/>
 
-[^NIST-SP-800-145]: NIST SP 800-145 Webpage < https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf>
+[^NIST-SP-800-145]: NIST SP 800-145 Webpage <https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf>
 
-[^tensorflow-enterprise]: Google Tensorflow Enterprise website https://cloud.google.com/tensorflow-enterprise
+[^tensorflow-enterprise]: Google Tensorflow Enterprise website <https://cloud.google.com/tensorflow-enterprise>
 
-[^polly]: Amazon Polly text-to-speech service website https://aws.amazon.com/polly/?c=ml&sec=srv
+[^polly]: Amazon Polly text-to-speech service website <https://aws.amazon.com/polly/?c=ml&sec=srv>
 
 
 
