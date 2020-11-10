@@ -1,5 +1,7 @@
 # Benchmarking Multi-Cloud Auto Generated AI Services
 
+[![Check Report](https://github.com/cloudmesh/cloudmesh-openapi/workflows/Check%20Report/badge.svg)](https://github.com/cloudmesh/cloudmesh-openapi/actions)
+
 NOTE:
 > This document is maintained at:
 >
