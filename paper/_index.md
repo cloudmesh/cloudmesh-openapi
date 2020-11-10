@@ -1,5 +1,7 @@
 # Benchmarking Multi-Cloud Auto Generated AI Services
 
+[![Check Report](https://github.com/cloudmesh/cloudmesh-openapi/workflows/Check%20Report/badge.svg)](https://github.com/cloudmesh/cloudmesh-openapi/actions)
+
 NOTE:
 > This document is maintained at:
 >
@@ -88,7 +90,7 @@ implement the CRUD functions on collections and items that REST
 introduces [^Cloud-Computing].
 
 * **Collection of resources** [^Cloud-Computing]: Assume the URI,
-  http://.../resources/, identifies a collection of resources. The
+  `http://.../resources/`, identifies a collection of resources. The
   following CRUD functions would be implemented:
 
   * **GET**: List the URIs and details about the collection’s items. 
@@ -98,7 +100,7 @@ introduces [^Cloud-Computing].
   * **DELETE**: Delete the collection. 
 		
 * **Single Resource** [^Cloud-Computing]: Assume the URI,
-  http://.../resources/item58, identifies a single resource in a
+  `http://.../resources/item58`, identifies a single resource in a
   collection. The following CRUD functions would be implemented:
 	
   * **GET**: Fetch a representation of the item in the collection,
@@ -142,7 +144,7 @@ providers include Amazon Web Services, Microsoft Azure, Google Cloud
 Platform, Oracle’s OpenStack based providers, and more.  Cloud
 providers offer these resources in multiple service models including
 infrastructure as a service, platform as a service, software as a
-service, and, recently, function as a service. [^NIST-SP-800-145].
+service, and, recently, function as a service [^NIST-SP-800-145].
 These providers are rapidly offering new platforms and services
 ranging from bare-metal machines to AI development platforms like
 Google’s TensorFlow Enterprise platform [^tensorflow-enterprise], and
@@ -227,11 +229,11 @@ pip install cloudmesh-installer
 cloudmesh-installer get openapi 
 cms help
 cms gui quick
-#fill out mongo variables
-#make sure autinstall is True
+# fill out mongo variables
+# make sure autinstall is True
 cms config set cloudmesh.data.mongo.MONGO_AUTOINSTALL=True
 cms admin mongo install --force
-#Restart a new terminal to make sure mongod is in your path
+# Restart a new terminal to make sure mongod is in your path
 cms init
 ```
 
@@ -284,7 +286,7 @@ a string.
 cms openapi generate add --filename=./tests/add-float/add.py
 cms openapi server start ./tests/add-float/add.yaml 
 curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plain"
-#This command returns
+# This command returns
 > 3.0
 cms openapi server stop add
 ```
@@ -318,7 +320,7 @@ The result will include a json string returned by the service.
 cms openapi generate add --filename=./tests/add-json/add.py
 cms openapi server start ./tests/add-json/add.yaml 
 curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plain"
-#This command returns
+# This command returns
 > {"result":3.0}
 cms openapi server stop add
 ```
@@ -421,9 +423,10 @@ Cloudmesh-Openapi by recreating example services on our local
 machines, setup a git branch of the source project on which we will
 collaborate, contributed to the paper’s background section, and
 started looking for example AI analytics, like those provided at
-SciKitLearn’s website. We obtained cloud service accounts from AWS, Azure,
-GCP, and Chameleon Cloud, and verified Cloudmesh documentation while
-applying for the cloud accounts. We registered our accounts with the Cloudmesh shell and executed VM operations using Cloudmesh.
+SciKitLearn’s website. We obtained cloud service accounts from AWS,
+Azure, GCP, and Chameleon Cloud, and verified Cloudmesh documentation
+while applying for the cloud accounts. We registered our accounts with
+the Cloudmesh shell and executed VM operations using Cloudmesh.
   
 Moving forward, we will develop benchmark tests in the
 form of pytests that replicate the AI analytic examples.  We will each
@@ -440,8 +443,26 @@ replicate may be the faces recognition example using eigenfaces and
 SVMs
 <https://scikit-learn.org/stable/auto_examples/applications/plot_face_recognition.html#sphx-glr-auto-examples-applications-plot-face-recognition-py>.
 
-This week we created the first draft of the eigenfaces-svm example that is found in the "benchmark" branch.
-It outputs the example and prints benchmark information. We are making progress on manually running this example on a cloud VM using the Cloudmesh shell, which will generate the requirements for our final script.
+Last week we created the first draft of the eigenfaces-svm example
+that is found in the "benchmark" branch.  It outputs the example and
+prints benchmark information. We are making progress on manually
+running this example on a cloud VM using the Cloudmesh shell, which
+will generate the requirements for our final script.
+
+This week we successfully ran the eigenfaces-svm example on Goolge
+Cloud, Amazon Web Services, and Microsoft Azure. We created a script
+eigenfaces-svm-script that can deploy the OpenAPI service on a fresh
+VM on a cloud and run the eigenfaces-svm example. We also created the
+eigenfaces-svm-full example which breaks the workflow into a functions
+that download remote data, train and tests the model, provide a image
+upload function, and a prediction function. We also created a pytest
+that automatically run those four functions and print benchark
+information.
+
+Next week we will create a script to run the eigenfaces-svm-full
+example on each cloud multiple times, and them summarize and plot
+benchmark information to compare the clouds. Additionally, we will
+finish the report.
 
 ## References
 
@@ -463,31 +484,31 @@ It outputs the example and prints benchmark information. We are making progress 
 
 [^cloudmesh-openapi]: Cloudmesh Openapi Web page <https://github.com/cloudmesh/cloudmesh-openapi>
 
-[^Cloud-Computing]: G. von Laszewski, “Cloud Computing.” Web Page, Sep-2020 [Online]. Available: <https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf>
+[^Cloud-Computing]: G. von Laszewski, "Cloud Computing." Web Page, Sep-2020 [Online]. Available: <https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf>
 
-[^Swagger2.0]: OpenAPI Initiative, “The openapi specification.” Web Page [Online]. Available: <https://github.com/OAI/OpenAPI- Specification/blob/main/versions/2.0.md>
+[^Swagger2.0]: OpenAPI Initiative, "The openapi specification." Web Page [Online]. Available: <https://github.com/OAI/OpenAPI- Specification/blob/main/versions/2.0.md>
 
-[^OpenAPI3.0]: OpenAPI Initiative, “The openapi specification.” Web Page [Online]. Available: <https://github.com/OAI/OpenAPI-Specification> 
+[^OpenAPI3.0]: OpenAPI Initiative, "The openapi specification." Web Page [Online]. Available: <https://github.com/OAI/OpenAPI-Specification> 
 
-[^RAML]: RAML, “RAML version 1.0: RESTful api modeling language.” Web Page [Online]. Available: <https://github.com/raml-org/raml-spec/blob/main/versions/raml-10/raml-10.md>
+[^RAML]: RAML, "RAML version 1.0: RESTful api modeling language." Web Page [Online]. Available: <https://github.com/raml-org/raml-spec/blob/main/versions/raml-10/raml-10.md>
 
-[^Flask-Rest]: R. H. Kevin Burke Kyle Conroy, “Flask-restful.” Web Page [Online]. Available: <https://flask-restful.readthedocs.io/en/latest/>
+[^Flask-Rest]: R. H. Kevin Burke Kyle Conroy, "Flask-restful." Web Page [Online]. Available: <https://flask-restful.readthedocs.io/en/latest/>
 
-[^Django-Rest-Services]: E. O. Ltd, “Django rest framework.” Web Page [Online]. Available: 
+[^Django-Rest-Services]: E. O. Ltd, "Django rest framework." Web Page [Online]. Available: 
 <https://www.django-rest-framework.org/>
 
-[^Swagger]: S. Software, “API development for everyone.” Web Page [Online]. Available: <https://swagger.io>
+[^Swagger]: S. Software, "API development for everyone." Web Page [Online]. Available: <https://swagger.io>
 
-[^OpenAPI-Tools]: A. Y. W. Hate, “OpenAPI.Tools.” Web Page [Online]. Available: 
+[^OpenAPI-Tools]: A. Y. W. Hate, "OpenAPI.Tools." Web Page [Online]. Available: 
 <https://openapi.tools/>
 
-[^OpenAPI-Specifications]: S. Software, “Swagger codegen documentation.” Web Page [Online]. Available: https://swagger.io/docs/open-source-tools/swagger-codegen/ 
+[^OpenAPI-Specifications]: S. Software, "Swagger codegen documentation." Web Page [Online]. Available: <https://swagger.io/docs/open-source-tools/swagger-codegen/>
 
-[^NIST-SP-800-145]: NIST SP 800-145 Webpage < https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf>
+[^NIST-SP-800-145]: NIST SP 800-145 Webpage <https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf>
 
-[^tensorflow-enterprise]: Google Tensorflow Enterprise website https://cloud.google.com/tensorflow-enterprise
+[^tensorflow-enterprise]: Google Tensorflow Enterprise website <https://cloud.google.com/tensorflow-enterprise>
 
-[^polly]: Amazon Polly text-to-speech service website https://aws.amazon.com/polly/?c=ml&sec=srv
+[^polly]: Amazon Polly text-to-speech service website <https://aws.amazon.com/polly/?c=ml&sec=srv>
 
 
 
