@@ -6,7 +6,7 @@
 #------------------------------
 # Create VM with cms
 #------------------------------
-export VM=benchmark-3
+export VM=benchmark-1
 cms vm boot --name=$VM
 #------------------------------
 # Setup python and pip

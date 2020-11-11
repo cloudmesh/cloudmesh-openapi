@@ -1,24 +1,28 @@
 #!/bin/bash
-# Run from localhost to install Openapi service on cloud VM. This is for a ubuntu 20.04 VM. Tested on Google Cloud and AWS.
+# Run from localhost to install Openapi service on cloud VM. This is for a ubuntu 20.04 VM. Tested on Google Cloud, AWS, and Azure. Azure provider has broken VM terminate at the moment.
 # Running requirements google: default.image=ubuntu-2004-lts, default.image_project=ubuntu-os-cloud
 # Running requirements aws: default.username=ubuntu, default.image=ami-0dba2cb6798deb6d8, credentials.region=us-east-1
 # Running requirements azure: image: Canonical:0001-com-ubuntu-server-focal:20_04-lts:20.04.202006100, updates to Azure Provider.py in benchmark branch
 #------------------------------
 # Create VM with cms
 #------------------------------
-export VM=benchmark-3
+export VM=$1
 cms vm boot --name=$VM
 #------------------------------
 # Setup python and pip
 #------------------------------
-sleep 2 #maybe a little race condition here for key upload, witnessed an ssh fail on next line
+sleep 4 #maybe a little race condition here for key upload, witnessed an ssh fail on next line
 cms vm ssh $VM --command=\"sudo apt update\" # this does wait for machine to boot significant delay
-cms vm ssh $VM --command=\"sudo apt -y install python3.8\"
+sleep 2 # for aws provider reliability
+cms vm ssh $VM --command=\"sudo apt -y install python3\"
+sleep 2 # for aws provider reliability
 cms vm ssh $VM --command=\"sudo apt -y install python3-pip\" #significant delay ~20s
+sleep 2 # for aws provider reliability
 cms vm ssh $VM --command=\"sudo ln -s /usr/bin/python3 /usr/bin/python\"
 cms vm ssh $VM --command=\"sudo ln -s /usr/bin/pip3 /usr/bin/pip\"
 cms vm ssh $VM --command=\"pip install -U pip\"
 cms vm ssh $VM --command=\"sudo apt -y install python3-venv\"
+sleep 2 # for aws provider reliability
 #------------------------------
 # Deployment of openapi service
 #------------------------------
@@ -38,6 +42,7 @@ cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms config set cloudm
 cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms config set cloudmesh.profile.lastname=benchmark"\"
 cms vm ssh $VM --command=\""ssh-keygen -t rsa -f \$\{HOME\}/.ssh/id_rsa -P \"benchmark\""\"
 cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms init"\"
+sleep 2 # for google provider reliability testing
 #
 #TODO remove <git checkout benchmark> when merged to main#
 #
@@ -45,8 +50,8 @@ cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms init"\"
 #cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cd cm/cloudmesh-openapi \; git checkout benchmark \; \(cms openapi server start ./tests/generator-eigenfaces-svm/eigenfaces-svm.yaml \&\>\dev\null\) \&"\"
 #cms vm ssh $VM --command=\"curl -X GET "http://localhost:8080/cloudmesh/eigenfaces_svm" -H "accept: text/plain"\"
 #cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms openapi server stop eigenfaces_svm"\"
-cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cd cm/cloudmesh-openapi \; git checkout benchmark \; ./tests/test_030_generator_eigenfaces_svm"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cd cm/cloudmesh-openapi \; git checkout benchmark \; pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py"\"
 #---------------------------------
 # shutdown vm
 #---------------------------------
-#cms vm terminate $VM
+cms vm terminate $VM
