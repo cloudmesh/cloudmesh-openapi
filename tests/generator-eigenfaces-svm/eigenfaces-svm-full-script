@@ -11,7 +11,8 @@ cms vm boot --name=$VM
 #------------------------------
 # Setup python and pip
 #------------------------------
-sleep 4 #maybe a little race condition here for key upload, witnessed an ssh fail on next line
+sleep 6 #maybe a little race condition here for key upload, witnessed an ssh fail on next line
+cms vm ssh $VM --command=\"ls\" #non crucial command in case of first ssh fail
 cms vm ssh $VM --command=\"sudo apt update\" # this does wait for machine to boot significant delay
 sleep 2 # for aws provider reliability
 cms vm ssh $VM --command=\"sudo apt -y install python3\"

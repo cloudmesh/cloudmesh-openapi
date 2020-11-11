@@ -2,6 +2,7 @@ import os
 import sys
 from cloudmesh.common.Shell import Shell
 import pandas as pd
+import numpy as np
 from cloudmesh.common.Benchmark import Benchmark
 from timeit import default_timer
 
@@ -21,6 +22,9 @@ def main(argv):
     # Run script to launch VMs and benchmark OpenAPI service if command line arg "run" passed
     if len(argv) > 1 and argv[1]=="run":
         clouds = ['google', 'aws', 'azure']
+        runtimes_dic = {'google': [],
+                    'aws': [],
+                    'azure': []}
         num_trials = 2
         print(f"Running {num_trials} trials for each cloud in {clouds}")
         for cloud in clouds:
@@ -32,6 +36,12 @@ def main(argv):
                 result = Shell.run(f"{home}/cm/cloudmesh-openapi/tests/generator-eigenfaces-svm/eigenfaces-svm-full-script {vm_name}> {script_output_dir}{cloud}-{i}")
                 end = default_timer()
                 print(f"Script on {vm_name} finished in {end - start} seconds")
+                runtimes_dic[cloud].append(end-start)
+            runtimes = np.asarray(runtimes_dic[cloud])
+            print (f"\n{cloud} script run time mean: {runtimes.mean()}")
+            print(f"{cloud} script run time min: {runtimes.min()}")
+            print(f"{cloud} script run time max: {runtimes.max()}")
+            print(f"{cloud} script run time std: {runtimes.std()}\n")
 
     # Scarpe benchmark output from script outputs
     print(f'Scraping benchmarks from script output at {script_output_dir}')
@@ -61,26 +71,25 @@ def main(argv):
         df = pd.read_csv(f"{benchmark_output_dir}{file}")
         benchmark_df = pd.concat([benchmark_df, df])
 
-
-
     print("Printing trial statistics:")
     benchmark_df['cloud'] = benchmark_df['uname.node'].str.slice(0,-2)
     benchmark_df.loc[(benchmark_df['cloud'] != 'google') & (benchmark_df['cloud'] != 'azure'),['cloud']] = 'aws' #fix for aws putting IP in uname.node insteads of VM name
     result = ""
     for cloud in benchmark_df['cloud'].unique():
+        result += f"{cloud} has {len(benchmark_df.loc[benchmark_df['cloud']==cloud]['uname.node'].unique())} VM samples.\n"
         for timer in benchmark_df['timer'].unique():
-            mean = benchmark_df.loc[(benchmark_df['cloud'] == cloud) & (benchmark_df['timer'] == timer),['time']].values.mean()
+            mean = benchmark_df.loc[(benchmark_df['cloud'] == cloud) & (benchmark_df['timer'] == timer), ['time']].values.mean()
             min = benchmark_df.loc[(benchmark_df['cloud'] == cloud) & (benchmark_df['timer'] == timer), ['time']].values.min()
             max = benchmark_df.loc[(benchmark_df['cloud'] == cloud) & (benchmark_df['timer'] == timer), ['time']].values.max()
             std = benchmark_df.loc[(benchmark_df['cloud'] == cloud) & (benchmark_df['timer'] == timer), ['time']].values.std()
             result += f"{cloud} {timer} mean: {mean}\n"
             result += f"{cloud} {timer} min: {min}\n"
             result += f"{cloud} {timer} max: {max}\n"
-            result += f"{cloud} {timer} std: {std}\n"
-
+            result += f"{cloud} {timer} std: {std}\n\n"
     print(result)
     Benchmark.Stop()
     Benchmark.print()
     return
+
 if __name__ == "__main__":
     main(sys.argv)
