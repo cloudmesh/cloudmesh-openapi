@@ -11,8 +11,8 @@ NOTE:
 [Gregor von Laszewski](https://laszewski.github.io), 
 Richard Otten,
 [Anthony Orlowski](https://github.com/aporlowski), [fa20-523-310](https://github.com/cybertraining-dsc/fa20-523-310/), 
-[Caleb Wilson](https://github.com/calewils), [fa20-523-348](https://github.com/cybertraining-dsc/fa20-523-348/), 
-Vishwanadham Mandala, [fa20-523-325](https://github.com/cybertraining-dsc/fa20-523-325/) 
+[Caleb Wilson](https://github.com/calewils), [fa20-523-348](https://github.com/cybertraining-dsc/fa20-523-348/)
+
 
 Corresponding author: laszewski@gmail.com
 
@@ -464,11 +464,11 @@ example on each cloud multiple times, and them summarize and plot
 benchmark information to compare the clouds. Additionally, we will
 finish the report.
 
-## References
+## Acknowledgements
 
-*NOTE:*
-> We will use bibtex, but start with footnotes. All http or links must
-> also be in refernces. No exception.
+We like to thank [Vishwanadham Mandala](https://github.com/cybertraining-dsc/fa20-523-325/) to participate in helping write an earlier version of this document.
+
+## References
 
 [^1]: Cloudmesh Manual, <https://cloudmesh.github.io/cloudmesh-manual/> 
 
