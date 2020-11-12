@@ -13,7 +13,7 @@ cms vm boot --name=$VM
 #------------------------------
 sleep 2 #maybe a little race condition here for key upload, witnessed an ssh fail on next line
 cms vm ssh $VM --command=\"sudo apt update\" # this does wait for machine to boot significant delay
-cms vm ssh $VM --command=\"sudo apt -y install python3.8\"
+cms vm ssh $VM --command=\"sudo apt -y install python3\"
 cms vm ssh $VM --command=\"sudo apt -y install python3-pip\" #significant delay ~20s
 cms vm ssh $VM --command=\"sudo ln -s /usr/bin/python3 /usr/bin/python\"
 cms vm ssh $VM --command=\"sudo ln -s /usr/bin/pip3 /usr/bin/pip\"

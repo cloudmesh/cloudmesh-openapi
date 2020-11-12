@@ -14,6 +14,7 @@ cms vm boot --name=$VM
 sleep 6 #maybe a little race condition here for key upload, witnessed an ssh fail on next line
 cms vm ssh $VM --command=\"ls\" #non crucial command in case of first ssh fail
 cms vm ssh $VM --command=\"sudo apt update\" # this does wait for machine to boot significant delay
+cms vm ssh $VM --command=\"sudo apt update\" # this does wait for machine to boot significant delay # seem the update might not always complete the first time
 sleep 2 # for aws provider reliability
 cms vm ssh $VM --command=\"sudo apt -y install python3\"
 sleep 2 # for aws provider reliability
@@ -51,7 +52,10 @@ sleep 2 # for google provider reliability testing
 #cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cd cm/cloudmesh-openapi \; git checkout benchmark \; \(cms openapi server start ./tests/generator-eigenfaces-svm/eigenfaces-svm.yaml \&\>\dev\null\) \&"\"
 #cms vm ssh $VM --command=\"curl -X GET "http://localhost:8080/cloudmesh/eigenfaces_svm" -H "accept: text/plain"\"
 #cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms openapi server stop eigenfaces_svm"\"
-cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cd cm/cloudmesh-openapi \; git checkout benchmark \; pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py"\"
+for i in {1..10}
+do
+    cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cd cm/cloudmesh-openapi \; git checkout benchmark \; pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py"\"
+done
 #---------------------------------
 # shutdown vm
 #---------------------------------

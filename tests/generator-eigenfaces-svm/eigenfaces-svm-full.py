@@ -46,7 +46,7 @@ class EigenfacesSVM:
     """TODO"""
 
     @classmethod
-    def download_remote_image_and_target_data(cls, images_filename: str ='lfw-funneled.tgz', images_url: str ='https://ndownloader.figshare.com/files/5976015', images_checksum: str ='b47c8422c8cded889dc5a13418c4bc2a'
+    def download_data(cls, images_filename: str ='lfw-funneled.tgz', images_url: str ='https://ndownloader.figshare.com/files/5976015', images_checksum: str ='b47c8422c8cded889dc5a13418c4bc2a'
                       'bbda121092b3533a83306f90d900100a', data_home: str =None, data_subdir: str ="lfw_home", image_subdir: str ="lfw_funneled", target_filenames: list =[], target_urls: list =[], target_checksums: list =[]):
         '''
         '''
@@ -85,13 +85,13 @@ class EigenfacesSVM:
         return f'Data downloaded to {lfw_home}'
 
     @classmethod
-    def train_and_test(cls) -> str:
+    def train(cls) -> str:
         """
             run eigenfaces_svm example
             :return type: str
         """
         #print(__doc__)
-        Benchmark.Start()
+        #Benchmark.Start()
         # Display progress logs on stdout
         logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
 
@@ -174,18 +174,18 @@ class EigenfacesSVM:
 
         EigenfacesSVM.store_model("eigenfaces-svm", clf, pca, target_names)
 
-        Benchmark.Stop()
+        #Benchmark.Stop()
         old_stdout = sys.stdout
         new_stdout = io.StringIO()
         sys.stdout = new_stdout
-        Benchmark.print()
+        #Benchmark.print()
         result += new_stdout.getvalue()
         sys.stdout = old_stdout
         print(result)
         return result
 
     @classmethod
-    def make_prediction(cls, image_file_paths: str, model_name: str = "eigenfaces-svm") -> str:
+    def predict(cls, image_file_paths: str, model_name: str = "eigenfaces-svm") -> str:
         """
         Make a prediction based on training configuration
         """
@@ -223,8 +223,8 @@ class EigenfacesSVM:
 
 # Code for local testing & debug
 #eigenfaces_svm = EigenfacesSVM()
-#eigenfaces_svm.download_remote_image_and_target_data()
-#eigenfaces_svm.train_and_test()
+#eigenfaces_svm.download_data()
+#eigenfaces_svm.train()
 #for i in range(100,531):
-    #print(eigenfaces_svm.make_prediction([f"/home/anthony/scikit_learn_data/lfw_home/lfw_funneled/George_W_Bush/George_W_Bush_0{i}.jpg"]))
-#print(eigenfaces_svm.make_prediction(["/home/anthony/scikit_learn_data/lfw_home/lfw_funneled/Colin_Powell/Colin_Powell_0001.jpg","/home/anthony/scikit_learn_data/lfw_home/lfw_funneled/George_W_Bush/George_W_Bush_0002.jpg"]))
+    #print(eigenfaces_svm.predict([f"/home/anthony/scikit_learn_data/lfw_home/lfw_funneled/George_W_Bush/George_W_Bush_0{i}.jpg"]))
+#print(eigenfaces_svm.predict(["/home/anthony/scikit_learn_data/lfw_home/lfw_funneled/Colin_Powell/Colin_Powell_0001.jpg","/home/anthony/scikit_learn_data/lfw_home/lfw_funneled/George_W_Bush/George_W_Bush_0002.jpg"]))
