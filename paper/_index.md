@@ -11,7 +11,7 @@ NOTE:
 [Gregor von Laszewski](https://laszewski.github.io), 
 Richard Otten,
 [Anthony Orlowski](https://github.com/aporlowski), [fa20-523-310](https://github.com/cybertraining-dsc/fa20-523-310/), 
-[Caleb Wilson](https://github.com/calewils), [fa20-523-348](https://github.com/cybertraining-dsc/fa20-523-348/), 
+[Caleb Wilson](https://github.com/calewils), [fa20-523-348](https://github.com/cybertraining-dsc/fa20-523-348/)
 
 
 Corresponding author: laszewski@gmail.com
