@@ -1,4 +1,5 @@
 ###############################################################
+# cms set host= localhost or ip
 # pytest -v -s --capture=no ./tests/test_030_generator_eigenfaces_svm.py
 # pytest -v  -s ./tests/test_030_generator_eigenfaces_svm.py
 # pytest -v --capture=no  ./tests/test_030_generator_eigenfaces_svm.py:Test_name::<METHODNAME>
@@ -27,8 +28,14 @@ from sklearn.decomposition import PCA
 from sklearn.svm import SVC
 from cloudmesh.common.Benchmark import Benchmark
 from cloudmesh.common.Shell import Shell
+from cloudmesh.common.variables import Variables
+from cloudmesh.configuration.Config import Config
+
+variables = Variables()
+ip = variables["host"] # to set, cms set host=localhost or ip for VM
 
 
+@pytest.mark.skipif(ip not in ["localhost", "127.0.0.1"],reason="testing remote server")
 @pytest.fixture(scope="class")
 def server_init(request):
     home = os.environ.get('HOME')
@@ -45,25 +52,27 @@ def server_init(request):
 @pytest.mark.incremental
 @pytest.mark.usefixtures("server_init")
 class TestGenerator():
+    @pytest.mark.skipif(ip not in ["localhost", "127.0.0.1"], reason="testing remote server")
     def test_download_data(self):
         HEADING()
         Benchmark.Start()
-        r = requests.get("http://localhost:8080/cloudmesh/EigenfacesSVM/download_data")
+        r = requests.get(f"http://{ip}:8080/cloudmesh/EigenfacesSVM/download_data")
         assert r.status_code == 200
         assert "Data downloaded to" in r.text
         Benchmark.Stop()
 
+    @pytest.mark.skipif(ip not in ["localhost", "127.0.0.1"], reason="testing remote server")
     def test_train(self):
         HEADING()
         Benchmark.Start()
-        r = requests.get("http://localhost:8080/cloudmesh/EigenfacesSVM/train")
+        r = requests.get(f"http://{ip}:8080/cloudmesh/EigenfacesSVM/train")
         assert r.status_code == 200
         Benchmark.Stop()
 
     def test_upload(self):
         HEADING()
         Benchmark.Start()
-        url = "http://localhost:8080/cloudmesh/upload"
+        url = f"http://{ip}:8080/cloudmesh/upload"
         home = os.environ.get('HOME')
         upload = {'upload': open(f'{home}/cm/cloudmesh-openapi/tests/generator-eigenfaces-svm/example_image.jpg', 'rb')}
         r = requests.post(url, files=upload)
@@ -74,13 +83,29 @@ class TestGenerator():
     def test_predict(self):
         HEADING()
         Benchmark.Start()
-        url = "http://localhost:8080/cloudmesh/EigenfacesSVM/predict"
-        home = os.environ.get('HOME')
+        url = f"http://{ip}:8080/cloudmesh/EigenfacesSVM/predict"
+        if ip in ['localhost', '127.0.0.1']:
+            home = os.environ.get('HOME')
+        else:
+            config = Config()
+            if variables["cloud"] == "aws":
+                user = config[f"cloudmesh.cloud.aws.default.username"]
+                home=f"/home/{user}"
+            elif variables["cloud"] == "azure":
+                user = config[f"cloudmesh.cloud.azure.default.AZURE_VM_USER"]
+                home = f"/home/{user}"
+            elif variables["cloud"] == "google":
+                user = config[f"cloudmesh.profile.user"]
+                home = f"/home/{user}"
+            else:
+                raise ValueError("Host not local and cloud not set, can't determine home dir")
+
         payload = {'image_file_paths' : f'{home}/.cloudmesh/upload-file/example_image.jpg'}
         r = requests.get(url, params=payload)
         assert r.status_code == 200
         Benchmark.Stop()
 
+    @pytest.mark.skipif(ip not in ["localhost", "127.0.0.1"], reason="testing remote server")
     def test_scikitlearn_train(self):
         HEADING()
         Benchmark.Start()

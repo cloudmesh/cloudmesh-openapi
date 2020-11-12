@@ -49,12 +49,11 @@ def main(argv):
     for file in script_outputs:
         with open(f"{script_output_dir}{file}",'r') as f:
             b = open(f"{benchmark_output_dir}{file}-benchmark", "w")
+            b.write("csv,timer,status,time,sum,start,tag,uname.node,user,uname.system,platform.version")
             found_benchmark = False
-            count = 0
             for line in f.readlines():
-                if line[0:6] == "# csv," and count < 5: #some shells return csv info twice once as error "info" and normal output
+                if line[0:10] == "# csv,test": #some shells return csv info twice once as error "info" and normal output
                     found_benchmark = True
-                    count +=1
                     b.write(line[2:]) #keep csv,...
             b.close()
             if not found_benchmark:
