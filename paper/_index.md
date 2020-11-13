@@ -204,6 +204,22 @@ Within Skikit Learn we have chosen the following examples:
 
 ### 4.3. Result Comparision
 
+![Sample Graph 1](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_1.png)
+
+**Figure 1:** Sample Graph 1
+
+![Sample Graph 2](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_2.png)
+
+**Figure 2:** Sample Graph 2
+
+![Sample Graph 3](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_3.png)
+
+**Figure 3:** Sample Graph 3
+
+![Sample Graph 4](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_4.png)
+
+**Figure 4:** Sample Graph 4
+
 ## 5. Conclusion
 
 ## 6. Limitations
