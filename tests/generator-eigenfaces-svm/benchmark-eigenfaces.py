@@ -81,14 +81,11 @@ def main(argv):
 
     print("Printing trial statistics:")
     result = ""
-    stats = {}
     stats_df = pd.DataFrame(columns=['test', 'type', 'cloud', 'mean', 'min', 'max', 'std'])
     for cloud in benchmark_df['cloud'].unique():
         result += f"{cloud} has {len(benchmark_df.loc[benchmark_df['cloud']==cloud]['uname.node'].unique())-1} VM samples.\n"
-        stats[cloud] = {}
         for timer in benchmark_df['timer'].unique():
             for test_type in benchmark_df['test_type'].unique():
-                stats[cloud][(timer, test_type)] = {}
                 df = benchmark_df.loc[(benchmark_df['cloud'] == cloud) & (benchmark_df['timer'] == timer) & (benchmark_df['test_type'] == test_type), ['time']]
                 if len(df.values) > 0:
                     mean = df.values.mean()
@@ -100,10 +97,6 @@ def main(argv):
                     result += f"{cloud} {timer} {test_type} min: {min}\n"
                     result += f"{cloud} {timer} {test_type} max: {max}\n"
                     result += f"{cloud} {timer} {test_type} std: {std}\n\n"
-                    stats[cloud][(timer, test_type)]['mean'] = mean
-                    stats[cloud][(timer, test_type)]['min'] = min
-                    stats[cloud][(timer, test_type)]['max'] = max
-                    stats[cloud][(timer, test_type)]['std'] = std
                     to_append = [timer, test_type, cloud, mean, min, max, std]
                     stats_series = pd.Series(to_append, index=stats_df.columns)
                     stats_df = stats_df.append(stats_series, ignore_index=True)
@@ -111,19 +104,6 @@ def main(argv):
     print(result)
 
     # graph 1: download_data_local
-    download_means = []
-    download_mins = []
-    download_stds = []
-    download_labels = []
-    for cloud in stats.keys():
-        download_labels.append(cloud)
-        cloud_mean = stats[cloud][('test_030_generator_eigenfaces_svm/test_download_data', 'local')]['mean']
-        cloud_min = stats[cloud][('test_030_generator_eigenfaces_svm/test_download_data', 'local')]['min']
-        cloud_std = stats[cloud][('test_030_generator_eigenfaces_svm/test_download_data', 'local')]['std']
-        download_means.append(cloud_mean)
-        download_mins.append(cloud_min)
-        download_stds.append(cloud_std)
-
     download_df = stats_df.loc[(stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_download_data')]
     download_means = download_df["mean"]
     download_mins = download_df["min"]
@@ -133,7 +113,7 @@ def main(argv):
     plt.style.use('ggplot')
     x = download_labels
     x_pos = [i for i, _ in enumerate(x)]
-    plt.bar(x_pos, download_means, bottom=download_mins,yerr=download_stds, color=["green",'orange','blue'])
+    plt.bar(x_pos, download_means, yerr=download_stds, color=["green",'orange','blue'])
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
     plt.title("Data Download Times")
@@ -142,48 +122,85 @@ def main(argv):
     plt.show()
 
     # graph 2: scikitlearn_train vs opeanpi_scikitlearn_train
-    openapi_means = []
-    openapi_mins = []
-    openapi_stds = []
-    _labels = []
-    scikit_means = []
-    scikit_mins = []
-    scikit_stds = []
-    scikit_labels = []
+    openapi_df = stats_df.loc[(stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_train')]
+    openapi_means = openapi_df['mean']
+    openapi_mins = openapi_df['min']
+    openapi_stds = openapi_df['std']
+    openapi_labels = openapi_df['cloud']
 
-    for cloud in stats.keys():
-        download_labels.append(cloud)
-        openapi = ('test_030_generator_eigenfaces_svm/test_train', 'local')
-        scikit = ('test_030_generator_eigenfaces_svm/test_scikitlearn_train', 'local')
-        openapi_mean = stats[cloud][openapi]['mean']
-        openapi_min = stats[cloud][openapi]['min']
-        openapi_std = stats[cloud][openapi]['std']
-        openapi_means.append(openapi_mean)
-        openapi_mins.append(openapi_min)
-        openapi_stds.append(openapi_std)
-        scikit_mean = stats[cloud][openapi]['mean']
-        scikit_min = stats[cloud][openapi]['min']
-        scikit_std = stats[cloud][openapi]['std']
-        download_means.append(cloud_mean)
-        download_mins.append(cloud_min)
-        download_stds.append(cloud_std)
+    scikitlearn_df = stats_df.loc[(stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_scikitlearn_train')]
+    scikit_means = scikitlearn_df['mean']
+    scikit_mins = scikitlearn_df['min']
+    scikit_stds = scikitlearn_df['std']
+    scikit_labels = scikitlearn_df['cloud']
 
-    plt.style.use('ggplot')
-    x = stats.keys()
-    x_pos = [i for i, _ in enumerate(x)]
-    plt.bar(x_pos, download_means, bottom=download_mins, yerr=download_stds, color=["green", 'orange', 'blue'])
+
+    x = openapi_labels
+    ind = np.arange(len(openapi_labels))
+    width = 0.35
+    plt.bar(ind, openapi_means, width, yerr=openapi_stds, color=["green", 'orange', 'blue'])
+    plt.bar(ind + width, scikit_means, width, yerr=scikit_stds, color=["springgreen", 'bisque', 'skyblue'])
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
-    plt.title("Data Download Times")
-    plt.xticks(x_pos, x)
-
+    plt.title("Openapi Service Train Time Vs. Scikit Learn Train Time")
+    plt.xticks(ind + width / 2, scikit_labels)
     plt.show()
 
 
-    # graph 3: upload_local vs upload_remote,
+    # graph 3: upload_local vs upload_remote
+    local_df = stats_df.loc[
+        (stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_upload') & (stats_df['type'] == 'local')]
+    local_means = local_df['mean']
+    local_mins = local_df['min']
+    local_stds = local_df['std']
+    local_labels = local_df['cloud']
+
+    remote_df = stats_df.loc[
+        (stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_upload') & (stats_df['type'] == 'remote')]
+    remote_means = remote_df['mean']
+    remote_mins = remote_df['min']
+    remote_stds = remote_df['std']
+    remote_labels = remote_df['cloud']
+
+    x = local_labels
+    ind = np.arange(len(local_labels))
+    width = 0.35
+    plt.bar(ind, local_means, width, yerr=local_stds, color=["green", 'orange', 'blue'])
+    plt.bar(ind + width, remote_means, width, yerr=remote_stds,
+            color=["springgreen", 'bisque', 'skyblue'])
+    plt.xlabel("Cloud")
+    plt.ylabel("Seconds")
+    plt.title("Local vs Remote Upload Time")
+    plt.xticks(ind + width / 2, local_labels)
+    plt.show()
+
     # graph 4  predict_local vs predict_remote
+    local_df = stats_df.loc[
+        (stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_predict') & (stats_df['type'] == 'local')]
+    local_means = local_df['mean']
+    local_mins = local_df['min']
+    local_stds = local_df['std']
+    local_labels = local_df['cloud']
 
+    remote_df = stats_df.loc[
+        (stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_predict') & (stats_df['type'] == 'remote')]
+    remote_means = remote_df['mean']
+    remote_mins = remote_df['min']
+    remote_stds = remote_df['std']
+    remote_labels = remote_df['cloud']
 
+    x = local_labels
+    ind = np.arange(len(local_labels))
+    width = 0.35
+    plt.bar(ind, local_means, width, yerr=local_stds, color=["green", 'orange', 'blue'])
+    plt.bar(ind + width, remote_means, width, yerr=remote_stds,
+            color=["springgreen", 'bisque', 'skyblue'])
+    plt.xlabel("Cloud")
+    plt.ylabel("Seconds")
+    plt.title("Local vs Remote Predict Time")
+    plt.xticks(ind + width / 2, local_labels)
+
+    plt.show()
 
     Benchmark.Stop()
     Benchmark.print()
