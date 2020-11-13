@@ -118,9 +118,9 @@ def main(argv):
     plt.ylabel("Seconds")
     plt.title("Data Download Times")
     plt.xticks(x_pos, x)
-
-    plt.show()
     plt.savefig('sample_graph_1')
+    plt.show()
+
 
     # graph 2: scikitlearn_train vs opeanpi_scikitlearn_train
     openapi_df = stats_df.loc[(stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_train')]
@@ -145,8 +145,8 @@ def main(argv):
     plt.ylabel("Seconds")
     plt.title("Openapi Service Train Time Vs. Scikit Learn Train Time")
     plt.xticks(ind + width / 2, scikit_labels)
-    plt.show()
     plt.savefig('sample_graph_2')
+    plt.show()
 
 
     # graph 3: upload_local vs upload_remote
@@ -174,8 +174,8 @@ def main(argv):
     plt.ylabel("Seconds")
     plt.title("Local vs Remote Upload Time")
     plt.xticks(ind + width / 2, local_labels)
-    plt.show()
     plt.savefig('sample_graph_3')
+    plt.show()
 
     # graph 4  predict_local vs predict_remote
     local_df = stats_df.loc[
@@ -203,8 +203,9 @@ def main(argv):
     plt.title("Local vs Remote Predict Time")
     plt.xticks(ind + width / 2, local_labels)
 
-    plt.show()
     plt.savefig('sample_graph_4')
+    plt.show()
+
 
     Benchmark.Stop()
     Benchmark.print()
