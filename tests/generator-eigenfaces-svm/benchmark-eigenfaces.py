@@ -7,6 +7,7 @@ from cloudmesh.common.Benchmark import Benchmark
 from timeit import default_timer
 from socket import gethostname
 import matplotlib.pyplot as plt
+from matplotlib.legend_handler import HandlerTuple
 
 def main(argv):
     Benchmark.Start()
@@ -116,7 +117,7 @@ def main(argv):
     plt.bar(x_pos, download_means, yerr=download_stds, color=["green",'orange','blue'])
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
-    plt.title("Data Download Times")
+    plt.title("Time to Download Data (233 MB)")
     plt.xticks(x_pos, x)
     plt.savefig('sample_graph_1')
     plt.show()
@@ -139,12 +140,14 @@ def main(argv):
     x = openapi_labels
     ind = np.arange(len(openapi_labels))
     width = 0.35
-    plt.bar(ind, openapi_means, width, yerr=openapi_stds, color=["green", 'orange', 'blue'])
-    plt.bar(ind + width, scikit_means, width, yerr=scikit_stds, color=["springgreen", 'bisque', 'skyblue'])
+    openapi_handles = plt.bar(ind, openapi_means, width, yerr=openapi_stds, color=["green", 'orange', 'blue'])
+    scikit_handles = plt.bar(ind + width, scikit_means, width, yerr=scikit_stds, color=["springgreen", 'bisque', 'skyblue'])
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
-    plt.title("Openapi Service Train Time Vs. Scikit Learn Train Time")
+    plt.title("Model Training Time")
     plt.xticks(ind + width / 2, scikit_labels)
+    plt.legend([tuple(openapi_handles), tuple(scikit_handles)], ['OpenAPI service', 'Scikit-learn example'], numpoints=1,
+               handler_map={tuple: HandlerTuple(ndivide=None)})
     plt.savefig('sample_graph_2')
     plt.show()
 
@@ -167,13 +170,15 @@ def main(argv):
     x = local_labels
     ind = np.arange(len(local_labels))
     width = 0.35
-    plt.bar(ind, local_means, width, yerr=local_stds, color=["green", 'orange', 'blue'])
-    plt.bar(ind + width, remote_means, width, yerr=remote_stds,
+    local_handels = plt.bar(ind, local_means, width, yerr=local_stds, color=["green", 'orange', 'blue'])
+    remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds,
             color=["springgreen", 'bisque', 'skyblue'])
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
-    plt.title("Local vs Remote Upload Time")
+    plt.title("Upload Function Runtime")
     plt.xticks(ind + width / 2, local_labels)
+    plt.legend([tuple(local_handels), tuple(remote_handles)], ['OpenAPI server', 'Remote client'], numpoints=1,
+               handler_map={tuple: HandlerTuple(ndivide=None)})
     plt.savefig('sample_graph_3')
     plt.show()
 
@@ -195,13 +200,15 @@ def main(argv):
     x = local_labels
     ind = np.arange(len(local_labels))
     width = 0.35
-    plt.bar(ind, local_means, width, yerr=local_stds, color=["green", 'orange', 'blue'])
-    plt.bar(ind + width, remote_means, width, yerr=remote_stds,
+    local_handels = plt.bar(ind, local_means, width, yerr=local_stds, color=["green", 'orange', 'blue'])
+    remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds,
             color=["springgreen", 'bisque', 'skyblue'])
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
-    plt.title("Local vs Remote Predict Time")
+    plt.title("Predict Function Runtime")
     plt.xticks(ind + width / 2, local_labels)
+    plt.legend([tuple(local_handels), tuple(remote_handles)], ['OpenAPI server', 'Remote client'], numpoints=1,
+               handler_map={tuple: HandlerTuple(ndivide=None)})
 
     plt.savefig('sample_graph_4')
     plt.show()
