@@ -117,7 +117,7 @@ def main(argv):
     plt.bar(x_pos, download_means, yerr=download_stds, color=["green",'orange','blue'])
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
-    plt.title("Time to Download Data (233 MB)")
+    plt.title("Time to Download and Extract Data")
     plt.xticks(x_pos, x)
     plt.savefig('sample_graph_1')
     plt.show()
