@@ -455,7 +455,7 @@ $ cms openapi server stop EigenfacesSVM
 
 Next, we benchmark these tests while wrapping them into pytests and run them on various cloud services.
 
-**Before continuing you must have successfully registered AWS, Azure, and Google clouds in your yaml file and be able to boot virtual machines on Google, AWS, and Azure.**
+**Before continuing you must have successfully registered AWS, Azure, and Google clouds in your yaml file and be able to boot virtual machines on Google, AWS, and Azure. This example currently should work on Linux and macOS**
 
 First we must change to a git branch that includes Azure provider fixes, and setup our ~./cloudmesh/cloudmesh.yaml file to replicate the parameters set for the benchmark results above. 
 
