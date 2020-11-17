@@ -621,41 +621,41 @@ We like to thank [Vishwanadham Mandala](https://github.com/cybertraining-dsc/fa2
 
 [^cloudmesh-openapi]: Cloudmesh Openapi Web page <https://github.com/cloudmesh/cloudmesh-openapi>
 
-[^Cloud-Computing]: G. von Laszewski, "Cloud Computing." Web Page, Sep-2020 [Online]. Available: <https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf>
+[^Cloud-Computing]: G. von Laszewski, "Cloud Computing", Web Page, Sep-2020 [Online]. Available: <https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf>
 
-[^Swagger2.0]: OpenAPI Initiative, "The openapi specification." Web Page [Online]. Available: <https://github.com/OAI/OpenAPI- Specification/blob/main/versions/2.0.md>
+[^Swagger2.0]: OpenAPI Initiative, "The openapi specification", Web Page [Online]. Available: <https://github.com/OAI/OpenAPI- Specification/blob/main/versions/2.0.md>
 
 [^OpenAPI3.0]: OpenAPI Initiative, "The openapi specification." Web Page [Online]. Available: <https://github.com/OAI/OpenAPI-Specification> 
 
-[^RAML]: RAML, "RAML version 1.0: RESTful api modeling language." Web Page [Online]. Available: <https://github.com/raml-org/raml-spec/blob/main/versions/raml-10/raml-10.md>
+[^RAML]: RAML, "RAML version 1.0: RESTful api modeling language", Web Page [Online]. Available: <https://github.com/raml-org/raml-spec/blob/main/versions/raml-10/raml-10.md>
 
-[^Flask-Rest]: R. H. Kevin Burke Kyle Conroy, "Flask-restful." Web Page [Online]. Available: <https://flask-restful.readthedocs.io/en/latest/>
+[^Flask-Rest]: R. H. Kevin Burke Kyle Conroy, "Flask-restful", Web Page [Online]. Available: <https://flask-restful.readthedocs.io/en/latest/>
 
-[^Django-Rest-Services]: E. O. Ltd, "Django rest framework." Web Page [Online]. Available: 
+[^Django-Rest-Services]: E. O. Ltd, "Django rest framework", Web Page [Online]. Available: 
 <https://www.django-rest-framework.org/>
 
-[^Swagger]: S. Software, "API development for everyone." Web Page [Online]. Available: <https://swagger.io>
+[^Swagger]: S. Software, "API development for everyone", Web Page [Online]. Available: <https://swagger.io>
 
-[^OpenAPI-Tools]: A. Y. W. Hate, "OpenAPI.Tools." Web Page [Online]. Available: 
+[^OpenAPI-Tools]: A. Y. W. Hate, "OpenAPI.Tools", Web Page [Online]. Available: 
 <https://openapi.tools/>
 
-[^OpenAPI-Specifications]: S. Software, "Swagger codegen documentation." Web Page [Online]. Available: <https://swagger.io/docs/open-source-tools/swagger-codegen/>
+[^OpenAPI-Specifications]: S. Software, "Swagger codegen documentation", Web Page [Online]. Available: <https://swagger.io/docs/open-source-tools/swagger-codegen/>
 
-[^NIST-SP-800-145]: "NIST SP 800-145" Web page [Online]. Available: <https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf>
+[^NIST-SP-800-145]: "NIST SP 800-145", Web page [Online]. Available: <https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf>
 
-[^tensorflow-enterprise]: "TensorFlow Enterprise." Web page [Online]. Available: <https://cloud.google.com/tensorflow-enterprise>
+[^tensorflow-enterprise]: "TensorFlow Enterprise", Web page [Online]. Available: <https://cloud.google.com/tensorflow-enterprise>
 
 [^polly]: "Amazon Polly. Turn text into lifelike speech using deep learning." Web page [Online]. Available: <https://aws.amazon.com/polly/?c=ml&sec=srv>
 
-[^eigenfaces-svm]: "Faces recognition example using eigenfaces and SVMs." Web Page [Online]. Available: <https://scikit-learn.org/stable/auto_examples/applications/plot_face_recognition.html#sphx-glr-auto-examples-applications-plot-face-recognition-py>
+[^eigenfaces-svm]: "Faces recognition example using eigenfaces and SVMs", Web Page [Online]. Available: <https://scikit-learn.org/stable/auto_examples/applications/plot_face_recognition.html#sphx-glr-auto-examples-applications-plot-face-recognition-py>
 
 [^labeled-faces-wild]: Huang, Gary & Jain, Vidit & Learned-Miller, Erik. (2007). Unsupervised Joint Alignment of Complex Images. ICCV. 1-8. 10.1109/ICCV.2007.4408858. Available: <http://vis-www.cs.umass.edu/papers/iccv07alignment.pdf>
 
-[^google-images]: "Machine Types" Web page [Online]. Available: <https://cloud.google.com/compute/docs/machine-types>
+[^google-images]: "Machine Types", Web page [Online]. Available: <https://cloud.google.com/compute/docs/machine-types>
 
-[^aws-images]: "Amazon EC2 Instance Types" Web page [Online]. Available: <https://aws.amazon.com/ec2/instance-types/>
+[^aws-images]: "Amazon EC2 Instance Types", Web page [Online]. Available: <https://aws.amazon.com/ec2/instance-types/>
 
- 
+[^nist-wg]: "NIST Big Data Working Group", Web Page [Online]. Available: <https://bigdatawg.nist.gov/show_InputDoc.php> 
 
 
 
