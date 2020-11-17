@@ -490,6 +490,8 @@ $ cms sec rule add openapi 8080 8080 tcp 0.0.0.0/0
 $ cms sec group add default openapi for_openapi_demo
 # the above two command should allow aws and azure to work
 # sec group load is broken for google and it does not use the default sec group, so you have to manually add the openapi rule to google cloud for now
+# console.cloud.google.com > VPC network > firewall > create firewall rule
+# name: openapi, targets:  all instances in network, Source IP ranges: 0.0.0.0 /0, specified protocols and ports: tcp 8080 > create
 ```
 
 Next we will run the benchmarking script, ~./tests/generator-eigenfaces-svm/benchmark-eigenfaces.py. This script utilizes the Cloudmesh shell and the Bash script, ~/.tests/generator-eigenfaces-svm/eigenfaces-svm-full-script, to sequentially deploy a VM on each of the clouds, install Cloudmesh-openapi and the example dependencies, and then us the pytest, ./tests/test_030_generator_eigenfaces_svm.py, twice to benchmark the EigenfacesSVM service functions both locally from the server, and from the remote client running the benchmark script. Finally, it prints and plots performance statistics.
