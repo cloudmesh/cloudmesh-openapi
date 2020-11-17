@@ -165,7 +165,24 @@ TBD
 
 ## 3. Architecture
 
-TBD
+### 3.1 Basic Auth Security
+Cloudmesh OpenAPI supports configuration of a single authorized user through
+basic authentication. Basic authentication is a simple authentication scheme built 
+into the HTTP protocol. The client sends HTTP requests with the `Authorization` 
+header that contains the word `Basic` followed by a space and a base64-encoded 
+string of the format `username:password`. 
+
+A cloudmesh user can create an OpenAPI server whose endpoints are only accessible 
+as an authorized user. Currently, when basic auth is used as the authentication mechanism,
+all endpoints are secured with this method. While this can be benficial to lock down an API,
+it is limited in the sense that is is "all or nothing": either all endpoints are secured or none at all. 
+This is something that can be improved upon in the future.
+
+For an example of basic auth usage, see Appendix X.Y
+
+Read more about Basic Auth usage with OpenAPI [here](https://swagger.io/docs/specification/authentication/basic-authentication/)
+
+### 3.2 Utilizing Pickle as an alternative to MongoDB for "out-of-the-box" functionality
 
 ## 4. Benchmarks
 
