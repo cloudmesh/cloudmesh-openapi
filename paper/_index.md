@@ -420,7 +420,89 @@ examples that we derive from existing sklearn examples. We benchmark
 these tests while wrapping them into pytests and run them on various
 cloud services.
 
-### A.3. Using unit tests for Benchmarking
+### A.3.  Eigenfaces SVM Facial Recognition
+
+Next we demonstrate how to locally run the Eigenfaces SVM example, and
+then how to run its associated benchmark script. 
+
+```
+$ pwd
+~/cm/cloudmesh-openapi
+
+$ git checkout benchmark # todo required until merged into main
+
+$ cms openapi generate EigenfacesSVM \
+      --filename=./tests/generator-eigenfaces-svm/eigenfaces-svm-full.py \
+      --import_class --enable_upload
+
+$ cms openapi server start ./tests/generator-eigenfaces-svm/eigenfaces-svm-full.yaml
+```
+
+After running these commands, we opened a web user interface at <http://localhost:8080/cloudmesh/ui>.In the user interface, we run the download_data function with the default arguments. This downloads and extracts the labeled faces in the wild data set to the ~/scikit_learn_data/lfw_home directory. 
+
+Next, we run the train function to train the model. The train function performs a 50/50 train/test split on the input data, and returns performance statistics of the trained model.
+
+Next, we use the upload function to upload an example image using `~./tests/generator-eigenfaces-svm/example_image.jpg` as the function argument. This puts the example image in the ~/.cloudmesh/upload-file/ directory. 
+
+Finally, we run the predict function with the uploaded file path as an argument, `~/.cloudmesh/upload-file/example_image.jpg`, and recieve the classification as a response `['George W. Bush']`  
+
+
+Lastly, we close the server:
+
+```
+$ cms openapi server stop EigenfacesSVM
+```
+
+Next, we benchmark these tests while wrapping them into pytests and run them on various cloud services.
+
+**Before continuing you must have successfully registered AWS, Azure, and Google clouds in your yaml file and be able to boot virtual machines on Google, AWS, and Azure.**
+
+First we must change to a git branch that includes Azure provider fixes, and setup our ~./cloudmesh/cloudmesh.yaml file to replicate the parameters set for the benchmark results above. 
+
+```
+$ cd ~/cm/cloudmesh-azure 
+$ git checkout benchmark # required until changes merged to main
+
+$ cd ~/cm/cloudmesh-openapi
+
+$ cp ~/.cloudmesh/cloudmesh.yaml ~/.cloudmesh/cloudmesh.bak.1 # to revert reverse the cp
+
+$ cms config set cloudmesh.cloud.azure.default.image="Canonical:0001-com-ubuntu-server-focal:20_04-lts:20.04.202006100"
+$ cms config set cloudmesh.cloud.azure.default.size="Standard_D2s_v3"
+$ cms config set cloudmesh.cloud.azure.credentials.AZURE_REGION="eastus"
+
+$ cms config set cloudmesh.cloud.aws.default.image="ami-0dba2cb6798deb6d8"
+$ cms config set cloudmesh.cloud.aws.default.size="m4.large"
+$ cms config set cloudmesh.cloud.aws.default.username="ubuntu"
+$ cms config set cloudmesh.cloud.aws.credentials.region="us-east-1"
+
+$ cms config set cloudmesh.cloud.google.default.image="ubuntu-2004-lts"
+$ cms config set cloudmesh.cloud.google.default.image_project="ubuntu-os-cloud"
+$ cms config set cloudmesh.cloud.google.default.zone="us-east1-b"
+$ cms config set cloudmesh.cloud.google.default.region="us-east1"
+$ cms config set cloudmesh.cloud.google.default.flavor="n1-standard-2"
+```
+
+Next we will modify the default security group to open the flask server port 8080 for OpenAPI service testing.
+
+```
+$ cms sec rule add openapi 8080 8080 tcp 0.0.0.0/0
+$ cms sec group add default openapi for_openapi_demo
+# the above two command should allow aws and azure to work
+# sec group load is broken for google and it does not use the default sec group, so you have to manually add the openapi rule to google cloud for now
+```
+
+Next we will run the benchmarking script, ~./tests/generator-eigenfaces-svm/benchmark-eigenfaces.py. This script utilizes the Cloudmesh shell and the Bash script, ~/.tests/generator-eigenfaces-svm/eigenfaces-svm-full-script, to sequentially deploy a VM on each of the clouds, install Cloudmesh-openapi and the example dependencies, and then us the pytest, ./tests/test_030_generator_eigenfaces_svm.py, twice to benchmark the EigenfacesSVM service functions both locally from the server, and from the remote client running the benchmark script. Finally, it prints and plots performance statistics.
+
+```
+$ ./tests/generator/eigenfaces-svm/benchmark-eigenfaces.py run
+```
+
+If the command line argument `run` is passed to the script, then it will start up the virtual machines on each cloud. Output and benchmark results from each of the virtual machines will be store in the ~/.cloudmesh/eigenfaces-svm/vm_script_output/ directory. The benchmark results are scraped from the script outputs and stored in the ~/.cloudmesh/eigenfaces-svm/benchmark_output directory. If the `run` argument is **not** provided, it will only print statistics from script output already stored in the vm_script_output directory.
+
+Statistics will be printed to the commandline, and graphs will be displayed using plt.show() function calls as well as saved to the ~./tests/generator-eigenfaces-svm/ directory.
+
+### A.4. Using unit tests for Benchmarking
 
 TODO: This section will be expanded upon
 
