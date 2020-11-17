@@ -238,7 +238,7 @@ Another factor that can affect performance, particularly in network latency, is 
 
 **Table 1:** Eigenfaces-SVM benchmark parameters. Clouds were tested at least twice, and were run sequentially between the hours of approximately 1945 EST and 0330 EST starting with Google and ending with Azure. *Only 60 runs were conducted on Azure due to a failed VM deployment from factors outside of the benchnmark scripts control. 
 
-In Figure 1 we compare the download and extraction time of the labeled faces in the wild dataset. This data set is approximately 233MBs compressed, which allows us to measure a non-trivial data transfer. Lower transfer times imply the cloud has less routing latency to the data server, or that it provides access to a higher performing internal network. The standard deviation is displayed to compare the variation in the download times.  
+In Figure 1 we compare the download and extraction time of the labeled faces in the wild dataset. This data set is approximately 233MBs compressed, which allows us to measure a non-trivial data transfer. Lower transfer times imply the cloud has higher throughput from the data server, less latency to the data server, or that it provides access to a higher performing internal network. The standard deviation is displayed to compare the variation in the download times.  
 
 ![Sample Graph 1](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_1.png)
 
