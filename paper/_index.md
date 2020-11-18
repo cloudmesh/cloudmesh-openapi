@@ -481,7 +481,7 @@ Next, we run the train function to train the model. The train function performs 
 
 Next, we use the upload function to upload an example image using `~./tests/generator-eigenfaces-svm/example_image.jpg` as the function argument. This puts the example image in the ~/.cloudmesh/upload-file/ directory.
 
-Finally, we run the predict function with the uploaded file path as an argument, `~/.cloudmesh/upload-file/example_image.jpg`, and recieve the classification as a response `['George W. Bush']`  
+Finally, we run the predict function with the uploaded file path as an argument, `~/.cloudmesh/upload-file/example_image.jpg`, and recieve the classification as a response `['George W. Bush']`
 
 
 Lastly, we close the server:
@@ -641,7 +641,7 @@ SciKitLearn’s website. We obtained cloud service accounts from AWS,
 Azure, GCP, and Chameleon Cloud, and verified Cloudmesh documentation
 while applying for the cloud accounts. We registered our accounts with
 the Cloudmesh shell and executed VM operations using Cloudmesh.
-  
+
 Moving forward, we will develop benchmark tests in the
 form of pytests that replicate the AI analytic examples.  We will each
 use Cloudmesh to deploy these tests as an Openapi based REST service
