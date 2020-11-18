@@ -186,6 +186,17 @@ Read more about Basic Auth usage with OpenAPI [here](https://swagger.io/docs/spe
 
 ### 3.2 Utilizing Pickle as an alternative to MongoDB for "out-of-the-box" functionality
 
+Currently, the installation and setup of cloudmesh openapi involves the installation of MongoDB and the configuration of mongo variables. This is documented [here.](https://github.com/cloudmesh/cloudmesh-openapi#installation)
+
+There have been serveral recent cloudmesh projects involving Raspberry Pis. Unfortunately, the minimum version of MongoDB required for openapi is not available to the Raspberry Pi. Thus cloudmesh-openapi is not available to Pi users with MongoDB.
+
+In an effort to provide this software to all those that are interested regardless of OS/machine, we have added a new default storage mechanism that functions "out-of-the-box" with cloudmesh-openapi. This storage mechanism is implemented with python's native Pickle at the heart. All interfaces associated with MongoDB interactions have been extended to support switching to PickleDB. Thus, this addition is backwards compatible with previous versions of cloudmesh-openapi and requires little changes in the existing code base to support. Since Pickle is native to python, it is supported on any platform running python.
+
+
+It is important to note that there are essentially no security mechanisms with Pickle. We provide this option for users to test their APIs on different machines with little to no setup, but we do not recommend its usage in a production server. 
+
+See [Appendix A.6](#a6-switching-between-pickledb-and-mongodb) to see how to switch between DB protocols.
+
 ## 4. Benchmarks
 
 ### 4.1. Algorithms and Datasets
@@ -564,6 +575,19 @@ TODO: This section will be expanded upon
 
     The user will now be required to authenticate as the registered user in order to access the API. This can be done by specifying the Basic Auth credentials in the header as done [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization). Alternatively, the user can login via the [swagger UI](http://localhost:8080/cloudmesh/u) when the server is started.
 
+### A.6 Switching between PickleDB and MongoDB
+The default "out-of-the-box" storage mechanism of cloudmesh-openapi is Pickle. This requires no setup of the DB on the user's end.
+
+To switch to MongoDB, the user must first change their config option as follows:
+```
+cms openapi register protocol mongo
+```
+Note that by switching to mongo, certain mongo variables need to be filled out. Mongo may need to be installed as well. Refer to [this](https://github.com/cloudmesh/cloudmesh-openapi/#installation) documentation to see how this process can be done.
+
+One may switch back to pickle with the same command:
+```
+cms openapi register protocol pickle
+```
 
 ## APPENDIX B. - Code Location
 
