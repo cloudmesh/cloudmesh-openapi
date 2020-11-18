@@ -414,8 +414,13 @@ These examples are used to demonstrate the ease of use as well as the
 functionality for those that want to replicate our work.
 
 ### A.2.  Pipiline ANOVA SVM
+This example demonstrates how to deploy a simple machine learning example onto a server using cloudmesh-openapi. The specific implementation details that this example is based on can be found [here.](https://scikit-learn.org/stable/auto_examples/feature_selection/plot_feature_selection_pipeline.html)
 
-Next we demonstrate how oto run the Pipeline ANOVA example.
+The model being implemented is, in essence, an SVM with extra features to improve the model.  An SVM (support vector machine) is a supervised learning model with associated learning algorithms used for classification and regression analysis. This model has become one of the most robust prediction methods widely used in problems conerning classification and the like.
+
+The Pipeline and ANOVA aspects are extensions to the SVM to improve the overall model. The purpose of the pipeline is to assemble several steps that can be cross-validated together while setting different parameters. ANOVA on the other hand is an acronym for Analysis of Variance. It is an omnibus test, meaning it tests for a difference overall between all groups. In the context of an SVM, this information is useful as an SVM mainly classifies data into separate groups.
+
+We can now proceed as follows:
 
 ```
 $ pwd
