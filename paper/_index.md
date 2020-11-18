@@ -166,6 +166,7 @@ TBD
 ## 3. Architecture
 
 ### 3.1 Basic Auth Security
+
 Cloudmesh OpenAPI supports configuration of a single authorized user through
 basic authentication. Basic authentication is a simple authentication scheme built 
 into the HTTP protocol. The client sends HTTP requests with the `Authorization` 
@@ -213,7 +214,7 @@ Within Skikit Learn we have chosen the following examples:
 * **Pipelined ANOVA SVM**: An example code that shows a pipeline running
   successively a univariate feature selection with anova and then a
   SVM of the selected features [^6].
-  
+ 
 * **Eigenfaces SVM Facial Recognition**: A facial recognition example that first  utilizes principle component analysis (PCA) to generate eigenfaces from the training image data, and then trains and tests a SVM model [^eigenfaces-svm]. This example uses the real world "Labeled Faces in the Wild" dataset consisting of labeled images of famous individuals gathered from the internet [^labeled-faces-wild]     .
 
 ### 4.2. Cloud Providers
@@ -268,25 +269,25 @@ Another factor that can affect performance, particularly in network latency, is 
 
 **Table 1:** Eigenfaces-SVM benchmark parameters. Clouds were tested at least twice, and were run sequentially between the hours of approximately 1945 EST and 0330 EST starting with Google and ending with Azure. *Only 60 runs were conducted on Azure due to a failed VM deployment from factors outside of the benchnmark scripts control. 
 
-In Figure 1 we compare the download and extraction time of the labeled faces in the wild dataset. This data set is approximately 233 MBs compressed, which allows us to measure a non-trivial data transfer. Lower transfer times imply the cloud has higher throughput from the data server, less latency to the data server, or that it provides access to a higher performing internal network. The standard deviation is displayed to compare the variation in the download times.  
+In Figure 1 we compare the download and extraction time of the labeled faces in the wild dataset. This data set is approximately 233 MBs compressed, which allows us to measure a non-trivial data transfer. Lower transfer times imply the cloud has higher throughput from the data server, less latency to the data server, or that it provides access to a higher performing internal network. The standard deviation is displayed to compare the variation in the download times.
 
 ![Sample Graph 1](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_1.png)
 
 **Figure 1:** Donwload (233MB) and extraction (~275MB) of remote image data from ndownloader.figshare.com/files/5976015
 
-In Figure 2 we measure the training time of the Eigenfaces-SVM model both as a OpenAPI service and as the basic Scikit-learn example. This allows us to measure runtime overhead added by OpenAPI compared to the source example. In this case the two functions are identical except that the OpenAPI train function makes an additional store_model function call to store the model to disk using joblib. This is necessary to share the model across the train and predict functions. The standard deviation is displayed to compare the variation in the training times.  
+In Figure 2 we measure the training time of the Eigenfaces-SVM model both as a OpenAPI service and as the basic Scikit-learn example. This allows us to measure runtime overhead added by OpenAPI compared to the source example. In this case the two functions are identical except that the OpenAPI train function makes an additional store_model function call to store the model to disk using joblib. This is necessary to share the model across the train and predict functions. The standard deviation is displayed to compare the variation in the training times.
 
 ![Sample Graph 2](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_2.png)
 
 **Figure 2:** Compares the eigenfaces-svm model training time running both as an OpenAPI service, and as the raw Scikit-learn example
 
-In Figure 3 we measure the time to upload an image to the server both from itself, and from a remote client. This allows us to compare the function runtime as experienced by the server, and as experienced by a remote client. The difference helps determine the network latency between the benchmark client and the cloud service. The standard deviation is displayed to compare the variation in the upload times.  
+In Figure 3 we measure the time to upload an image to the server both from itself, and from a remote client. This allows us to compare the function runtime as experienced by the server, and as experienced by a remote client. The difference helps determine the network latency between the benchmark client and the cloud service. The standard deviation is displayed to compare the variation in the upload times.
 
 ![Sample Graph 3](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_3.png)
 
 **Figure 3:** Runtime of the upload function when run locally from the OpenAPI server and from a remote client 
 
-In Figure 4 we measure the time to call the predict function on the uploaded image. Again we run this once from the local server itself, and a second time from a remote client to determine as experienced runtimes. The standard deviation is displayed to compare the variation in the predict times.  
+In Figure 4 we measure the time to call the predict function on the uploaded image. Again we run this once from the local server itself, and a second time from a remote client to determine as experienced runtimes. The standard deviation is displayed to compare the variation in the predict times.
 
 ![Sample Graph 4](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_4.png)
 
@@ -297,7 +298,7 @@ In Figure 4 we measure the time to call the predict function on the uploaded ima
 ## 6. Limitations
 
 Azure has updated their libraries and discontinued the version 4.0
-Azure libraries. We updated Cloudmesh to use the new library, but not all features, such as virtual machine delete, are implemented or verified.  
+Azure libraries. We updated Cloudmesh to use the new library, but not all features, such as virtual machine delete, are implemented or verified.
 
 ## APPENDIX A. - Setup 
 
@@ -414,6 +415,7 @@ These examples are used to demonstrate the ease of use as well as the
 functionality for those that want to replicate our work.
 
 ### A.2.  Pipiline ANOVA SVM
+
 This example demonstrates how to deploy a simple machine learning example onto a server using cloudmesh-openapi. The specific implementation details that this example is based on can be found [here.](https://scikit-learn.org/stable/auto_examples/feature_selection/plot_feature_selection_pipeline.html)
 
 The model being implemented is, in essence, an SVM with extra features to improve the model.  An SVM (support vector machine) is a supervised learning model with associated learning algorithms used for classification and regression analysis. This model has become one of the most robust prediction methods widely used in problems conerning classification and the like.
@@ -477,7 +479,7 @@ After running these commands, we opened a web user interface at <http://localhos
 
 Next, we run the train function to train the model. The train function performs a 50/50 train/test split on the input data, and returns performance statistics of the trained model.
 
-Next, we use the upload function to upload an example image using `~./tests/generator-eigenfaces-svm/example_image.jpg` as the function argument. This puts the example image in the ~/.cloudmesh/upload-file/ directory. 
+Next, we use the upload function to upload an example image using `~./tests/generator-eigenfaces-svm/example_image.jpg` as the function argument. This puts the example image in the ~/.cloudmesh/upload-file/ directory.
 
 Finally, we run the predict function with the uploaded file path as an argument, `~/.cloudmesh/upload-file/example_image.jpg`, and recieve the classification as a response `['George W. Bush']`  
 
@@ -552,11 +554,12 @@ TODO: This section will be expanded upon
   cms set cloud=azure
   # run test
   ```
-  
+
 * Describe the Benchmark class from cloudmesh in one sentence and how
   we use it
 
   ### A.5. Basic Auth Example
+
   Basic Auth in cloudmesh openapi can be enabled with the following flag
   ```
   --basic_auth=<username>:<password>
@@ -581,6 +584,7 @@ TODO: This section will be expanded upon
     The user will now be required to authenticate as the registered user in order to access the API. This can be done by specifying the Basic Auth credentials in the header as done [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization). Alternatively, the user can login via the [swagger UI](http://localhost:8080/cloudmesh/u) when the server is started.
 
 ### A.6 Switching between PickleDB and MongoDB
+
 The default "out-of-the-box" storage mechanism of cloudmesh-openapi is Pickle. This requires no setup of the DB on the user's end.
 
 To switch to MongoDB, the user must first change their config option as follows:
