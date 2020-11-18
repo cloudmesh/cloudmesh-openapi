@@ -172,13 +172,15 @@ into the HTTP protocol. The client sends HTTP requests with the `Authorization`
 header that contains the word `Basic` followed by a space and a base64-encoded 
 string of the format `username:password`. 
 
+From wikipedia, basic auth is "a method for an HTTP user agent (e.g. a web browser) to provide a user name and password when making a request". ([more on this](https://github.com/cloudmesh/cloudmesh-openapi))
+
 A cloudmesh user can create an OpenAPI server whose endpoints are only accessible 
 as an authorized user. Currently, when basic auth is used as the authentication mechanism,
 all endpoints are secured with this method. While this can be benficial to lock down an API,
 it is limited in the sense that is is "all or nothing": either all endpoints are secured or none at all. 
 This is something that can be improved upon in the future.
 
-For an example of basic auth usage, see Appendix X.Y
+For an example of basic auth usage, see [Appendix A.5.](#a5-basic-auth-example)
 
 Read more about Basic Auth usage with OpenAPI [here](https://swagger.io/docs/specification/authentication/basic-authentication/)
 
@@ -538,6 +540,29 @@ TODO: This section will be expanded upon
 * Describe the Benchmark class from cloudmesh in one sentence and how
   we use it
 
+  ### A.5. Basic Auth Example
+  Basic Auth in cloudmesh openapi can be enabled with the following flag
+  ```
+  --basic_auth=<username>:<password>
+  ``` 
+  flag. As such, this example will be an extension of a previously existing example. To follow with this example, navigate to the `cloudmesh-openapi` directory.
+
+  We will use the `server-cpu` example which tells the user the CPU of the machine running the API.
+
+  For this example, let's create a user with username `admin` and password `secret`.
+
+  ```
+  cms openapi generate get_processor_name \
+    --filename=./tests/server-cpu/cpu.py \
+    --basic_auth=admin:secret
+    ```
+
+    We can start the server as follows:
+    ```
+    cms openapi server start ./tests/server-cpu/cpu.yaml
+    ```
+
+    The user will now be required to authenticate as the registered user in order to access the API. This can be done by specifying the Basic Auth credentials in the header as done [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization). Alternatively, the user can login via the [swagger UI](http://localhost:8080/cloudmesh/u) when the server is started.
 
 
 ## APPENDIX B. - Code Location
