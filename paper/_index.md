@@ -130,34 +130,11 @@ programming to REST specifications.  Here are different categories
 
 ### 2.3 VM Cloud providers
 
-Cloud computing providers offer their customers on-demand self-service
-computing resources that are rapidly elastic and accessible via broad
-network access [^NIST-SP-800-145]. They accomplish this through the
-economies of scale achieved by resource pooling (serving multiple
-customers on the same hardware), and utilizing measured services for
-fine grained customer billing [^NIST-SP-800-145]. Examples of cloud
-providers include Amazon Web Services, Microsoft Azure, Google Cloud
-Platform, Oracle’s OpenStack based providers, and more.  Cloud
-providers offer these resources in multiple service models including
-infrastructure as a service, platform as a service, software as a
-service, and, recently, function as a service [^NIST-SP-800-145].
-These providers are rapidly offering new platforms and services
-ranging from bare-metal machines to AI development platforms like
-Google’s TensorFlow Enterprise platform [^tensorflow-enterprise], and
-AI services such as Amazon’s text-to-speech service [^polly].
+Cloud computing providers offer their customers on-demand self-service computing resources that are rapidly elastic and accessible via broad network access [^NIST-SP-800-145]. They accomplish this through the economies of scale achieved by resource pooling (serving multiple customers on the same hardware) and using measured services for fine grained customer billing [^NIST-SP-800-145]. Cloud providers offer these resources in multiple service models including infrastructure as a service, platform as a service, software as a service, and, recently, function as a service [^NIST-SP-800-145]. These providers are rapidly offering new platforms and services ranging from bare-metal machines to AI development platforms like Google’s TensorFlow Enterprise platform [^tensorflow-enterprise], and AI services such as Amazon’s text-to-speech service [^polly].
 
-Customers can take advantage of cloud computing to reduce overhead
-expenses, increase their speed and scale of service deployment, and
-reduce development requirements by utilizing providers’ platforms or
-services. For example, customers’ developing AI systems can utilize
-clouds to handle big data inputs for which private infrastructure
-would be too costly or slow to implement. However, having multiple
-competing cloud providers leads to situations where service
-availability, performance, and cost may vary greatly. Customer’s must
-navigate these heterogeneous solutions to meet their business needs
-while avoiding provider lock-in and managing organizational risk. This
-may require comparing or utilizing multiple cloud providers to meet various
-objectives.
+Customers can take advantage of cloud computing to reduce overhead expenses, increase their speed and scale of service deployment, and reduce development requirements by using cloud providers’ platforms or services. For example, customers’ developing AI systems can utilize clouds to handle big data inputs for which private infrastructure would be too costly or slow to implement. However, having multiple competing cloud providers leads to situations where service availability, performance, and cost may vary. Customer’s must navigate these heterogeneous solutions to meet their business needs while avoiding provider lock-in and managing organizational risk. This may require comparing or using multiple cloud providers to meet various objectives.
+
+Cloudmesh works with a variety of cloud providers including Amazon Web Services, Microsoft Azure, Google Cloud Platform, and Oracle’s OpenStack based providers such as the academic research serving Chameleon Cloud.
 
 ### 2.4 Containers and Microservices
 
@@ -249,65 +226,74 @@ Within Skikit Learn we have chosen the following examples:
 
 ### 4.3. Result Comparision
 
-#### Eigenfaces-SVM Example
+In this section we will discuss the setup and execution of a benchmark for three example AI services.
 
-The Eigenfaces-SVM benchmark script utilizes Cloudmesh to create virtual machines and setup an Cloudmesh OpenAPI environment sequentially across the three measured clouds including Amazon, Azure, and Google. After the environment is setup, a series of pytests are run that generate and launch the Eigenfaces-SVM OpenAPI service, and then conduct runtime measurements of various service functions. 
+#### 4.3.1 VM Selection
 
-The pytest is run in two configurations. After the benchmark script sets up a virtual machine environment, it runs the first pytest locally on the OpenAPI machine and measures five runtimes:
+When benchmarking cloud performance, it is important to identify and control deployment parameters that can affect the performance results. This enables one to analyze comparable services or identify opportunities for service improvement for varying deployment features such as machine size, location, network, or storage hardware. This example aimed to create similar machines across all three clouds and measure service performance. See Table 1 for a summary of the parameters controlled in these benchmark example.
 
-1. Downdload and extraction of remote image data from ndownloader.figshare.com/files/5976015
-2. The model training time when run as an OpenAPI service
-3. The model training time when run as the scikit-learn example without OpenAPI involvement
-4. The time to upload an image from the server to itself
-5. The time to predict and return the target label of the uploaded image
+One key component is the virtual machine size, which determines the number of vCPUs, the amount of memory, attached storage types, and resource sharing policies. Resource sharing policies include shared core machine varieties which providers offer at less expensive rates and allow the virtual machines to burst over its base clock rate in exchange for credits or the machines inherent bursting factor [^aws-images] [^google-images]. For this example, we chose three similar machine sizes that had comparable vCPUs, comparable underlying processors, memory, price, and were not a shared core variety. We installed the same Ubuntu 20.04 operating system on all three clouds. 
 
-The second run is conducted on the remote client and interacts with the deployed OpenAPI service over the internet. It tests two runtimes:
+Another factor that can affect performance, particularly in network latency, is the zone and region selected. We deploy all benchmark machines to zones on the east coast of the United States. This helps control variations caused by network routing latency and provides more insight into the inherent network performance of the individual cloud services.
 
-1. The time to upload an image to the remote OpenAPI server
-2. The time to run the predict function on the remote OpenAPI server, and return the target label  of the uploaded image
-
-When benchmarking cloud performance it is important to identify and control deployment parameters that can affect the performance results. This enables one to analyze comparable services or identify opportunities for service improvement due to varying deployment features such as machine size, location, network, or storage hardware. This example aimed to create similar machines across all three clouds and measure service performance. See Table 1 for a summary of the parameters controlled in this benchmark example.
-
-One key components is the virtual machine size, which determine the number of vCPUs, the amount of memory, attached storage types, and resource sharing policies. Resource sharing policies include shared core machine varieties which are offered at less expensive rates, and allow the virtual machine to opportunistically burst over its base clock rate in exchange for credits or the machines inherent bursting factor [^aws-images] [^google-images]. For this example we chose three similar machine sizes that had comparable vCPUs, comparable underlying processors, memory, price, and were not a shared core variety. Additionally, we installed the same Ubuntu 20.04 operating system on all three clouds. 
-
-Another factor that can affect performance, particularly in network latency, is the zone and region selected. We choose to deploy all benchmark machines to zones located on the east coast of the United States. This helps control variations caused by network routing latency and provide more insight into the inherent network performance of the individual cloud services. 
+**Table 1:** Selected VM parameters for benchmark measurement. Clouds were tested at least twice, and were run sequentially between the hours of approximately 1945 EST and 0330 EST starting with Google and ending with Azure. * For the Eigenfaces SVM example, only 60 runs were conducted on Azure due to a failed VM deployment from factors outside of the benchnmark scripts control.
 
 |                  | AWS                    | Azure                                                            | Google          |
 |------------------|------------------------|------------------------------------------------------------------|-----------------|
-| VM size (flavor) | m4.large               | Standard_D2s_v3                                                  | n1-standard-2   |
-| VM vCPU          | 2                      | 2                                                                | 2               |
-| VM memory (GB)   | 8                      | 8                                                                | 7.5             |
-| VM Image         | ami-0dba2cb6798deb6d8  | Canonical:0001-com-ubuntu-server-focal:20_04-lts:20.04.202006100 | ubuntu-2004-lts |
+| Size (flavor) | m4.large               | Standard_D2s_v3                                                  | n1-standard-2   |
+| vCPU          | 2                      | 2                                                                | 2               |
+| Memory (GB)   | 8                      | 8                                                                | 7.5             |
+| Image         | ami-0dba2cb6798deb6d8  | Canonical:0001-com-ubuntu-server-focal:20_04-lts:20.04.202006100 | ubuntu-2004-lts |
+| OS            | Ubuntu 20.04 LTS  | Ubuntu 20.04 LTS | Ubuntu 20.04 LTS |
 | Region           | us-east-1              | eastus                                                           | us-east1        |
 | Zone             | N/A                    | N/A                                                              | us-east1-b      |
 | Price ($/hr)     | 0.1                    | 0.096                                                            | 0.0949995       |
 | Runs/Test        | 90                     | 60*                                                              | 90              |
 
-**Table 1:** Eigenfaces-SVM benchmark parameters. Clouds were tested at least twice, and were run sequentially between the hours of approximately 1945 EST and 0330 EST starting with Google and ending with Azure. *Only 60 runs were conducted on Azure due to a failed VM deployment from factors outside of the benchnmark scripts control. 
+#### 4.3.2 Eigenfaces-SVM Example
+
+The benchmark script for the Eigenfaces SVM example uses Cloudmesh to create virtual machines and setup a Cloudmesh OpenAPI environment sequentially across the three measured clouds including Amazon, Azure, and Google. After the script sets up the environment, it runs a series of pytests that generate and launch the Eigenfaces-SVM OpenAPI service, and then conduct runtime measurements of various service functions. 
+
+The benchmark runs the pytest in two configurations. After the benchmark script sets up a virtual machine environment, it runs the first pytest locally on the OpenAPI server and measures five runtimes:
+
+1. Download and extraction of remote image data from ndownloader.figshare.com/files/5976015
+2. The model training time when run as an OpenAPI service
+3. The model training time when run as the Scikit-learn example without OpenAPI involvement
+4. The time to upload an image from the server to itself
+5. The time to predict and return the target label of the uploaded image
+
+The benchmark runs the second pytest iteration from the remote client it is running on and interacts with the deployed OpenAPI service over the internet. It tests two runtimes:
+
+1. The time to upload an image to the remote OpenAPI server
+2. The time to run the predict function on the remote OpenAPI server, and return the target label  of the uploaded image 
 
 In Figure 1 we compare the download and extraction time of the labeled faces in the wild dataset. This data set is approximately 233 MBs compressed, which allows us to measure a non-trivial data transfer. Lower transfer times imply the cloud has higher throughput from the data server, less latency to the data server, or that it provides access to a higher performing internal network. The standard deviation is displayed to compare the variation in the download times.
 
 ![Sample Graph 1](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_1.png)
 
-**Figure 1:** Donwload (233MB) and extraction (~275MB) of remote image data from ndownloader.figshare.com/files/5976015
+**Figure 1:** Donwnload (233MB) and extraction (~275MB) of remote image data from ndownloader.figshare.com/files/5976015.
 
-In Figure 2 we measure the training time of the Eigenfaces-SVM model both as a OpenAPI service and as the basic Scikit-learn example. This allows us to measure runtime overhead added by OpenAPI compared to the source example. In this case the two functions are identical except that the OpenAPI train function makes an additional store_model function call to store the model to disk using joblib. This is necessary to share the model across the train and predict functions. The standard deviation is displayed to compare the variation in the training times.
+In Figure 2 we measure the training time of the Eigenfaces-SVM model both as an OpenAPI service and as the basic Scikit-learn example. This allows us to measure runtime overhead added by OpenAPI compared to the source example. Here the two functions are identical except that the OpenAPI train function makes an additional function call to store the model to disk using joblib. This is necessary to share the model across the train and predict functions. The standard deviation is displayed to compare the variation in the training times.
 
 ![Sample Graph 2](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_2.png)
 
-**Figure 2:** Compares the eigenfaces-svm model training time running both as an OpenAPI service, and as the raw Scikit-learn example
+**Figure 2:** Compares the eigenfaces-svm model training time running both as an OpenAPI service, and as the raw Scikit-learn example. There are two bars per cloud provider. The bold bars are the training time of the model when hosted as a Cloudmesh OpenAPI function. The pastel bars are the training time of the Scikit-learn example code without Cloudmesh OpenAPI involvement. The bars plot mean runtimes and the error bar reflects the standard deviation of the runtimes.
 
 In Figure 3 we measure the time to upload an image to the server both from itself, and from a remote client. This allows us to compare the function runtime as experienced by the server, and as experienced by a remote client. The difference helps determine the network latency between the benchmark client and the cloud service. The standard deviation is displayed to compare the variation in the upload times.
 
 ![Sample Graph 3](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_3.png)
 
-**Figure 3:** Runtime of the upload function when run locally from the OpenAPI server and from a remote client 
+**Figure 3:** Runtime of the upload function when run locally from the OpenAPI server and from a remote client. There are two bars per cloud provider. The bold bars are the runtime of the upload function as experienced by the server, and the pastel as experienced by the remote client. The bars plot mean runtimes and the error bar reflects the standard deviation of the runtimes.
 
 In Figure 4 we measure the time to call the predict function on the uploaded image. Again we run this once from the local server itself, and a second time from a remote client to determine as experienced runtimes. The standard deviation is displayed to compare the variation in the predict times.
 
 ![Sample Graph 4](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_4.png)
 
-**Figure 4:** Runtime of the predict function when run locally from the OpenAPI server and from a remote client
+**Figure 4:** Runtime of the predict function when run locally from the OpenAPI server and from a remote client. There are two bars per cloud provider. The bold bars are the runtime of the predict function as experienced by the server, and the pastel as experienced by the remote client. The bars plot mean runtimes and the error bar reflects the standard deviation of the runtimes.
+
+#### 4.3.3 Pipelined Anova SVM Example
+
+#### 4.3.4 Caleb Example
 
 ## 5. Conclusion
 
