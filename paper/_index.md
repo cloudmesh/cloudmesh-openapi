@@ -202,17 +202,17 @@ See [Appendix A.6](#a6-switching-between-pickledb-and-mongodb) to see how to swi
 
 A user deploys Cloudmesh OpenAPI on a virtual machine from a cloud provider, and uses it to host auto-generated, RESTful, AI services. A user constructs an AI service as a set of Python functions that implement a workflow, for example, downloading data from a remote server, training an AI model, uploading a new sample for prediction, and running a prediction on that sample. Cloudmesh OpenAPI hosts user provided Python functions on a web server that is accessible using standard HTTP request methods. In Figure 1 we show a remote client accessing a Cloudmesh OpenAPI server to execute an AI service workflow. In this example, the user deployed Cloudmesh OpenAPI on a virtual machine from a single cloud provider. Cloudmesh OpenAPI provides the choice of multiple supported providers to allow users to meet their specific administrative requirements.
 
-![AI Service Workflow](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/ai-service-workflow.PNG)
+![AI Service Workflow](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/ai-service-workflow.png)
 
-**Figure 1:** Client running a AI service workflow generated and hosted by Cloudmesh OpenAPI on a cloud provider virtual machine. Requests and responses are made using http 
+**Figure 1:** A client running an AI service workflow, generated and hosted by Cloudmesh OpenAPI, on a cloud provider virtual machine. Requests for each function invocation are made using standard HTTP request methods including function arguments. 
 
 ### 3.4 Mult-Cloud Hosted AI Service
 
 Cloudmesh with Cloudmesh OpenAPI provides a framework to deploy AI services to multiple clouds. One use case for a multi-cloud deployment is to benchmark cloud provider VM performance. A user can use these tools to script the deployment of virtual machines with different providers, virtual machine sizes, or operating systems.  In Figure 2, a user has deployed an AI service hosted by Cloudmesh OpenAPI on three separate cloud providers, AWS, Azure, and Google. The user makes standard HTTP method requests to access the services simultaneously, and gathers responses and benchmark statistics. With the Cloudmesh benchmark utility, the user can measure the runtime of each AI service function and collect key information such as virtual machine memory usage. This information provides the user key insight for future hosting decisions. We distinguish this example from Figure 1, where the AI service is deployed on a single cloud provider. 
 
-![Mult-Cloud AI Services](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/multi-cloud-ai-service.PNG)
+![Mult-Cloud AI Services](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/multi-cloud-ai-service.png)
 
-**Figure 2:** Client running a AI service workflow generated and hosted by Cloudmesh OpenAPI on a cloud provider virtual machine. Requests and responses are made using http 
+**Figure 2:** A client simultaneously accesses an AI service hosted on three seperate cloud providers, AWS, Azure, and Google to benchmark provider performance. 
 
 ## 4. Benchmarks
 
