@@ -291,6 +291,34 @@ In Figure 4 we measure the time to call the predict function on the uploaded ima
 
 **Figure 4:** Runtime of the predict function when run locally from the OpenAPI server and from a remote client. There are two bars per cloud provider. The bold bars are the runtime of the predict function as experienced by the server, and the pastel as experienced by the remote client. The bars plot mean runtimes and the error bar reflects the standard deviation of the runtimes.
 
+Table 2 presents a full listing of test results.
+
+**Table 2:** Test results for the Eigenfaces SVM benchmark. Type "local: denotes the test was run locally on the Cloudmesh Openapi server, and "remote" denotes a remote host interacted with the server using the python requets library.
+
+| test                                                     | type   | cloud   |        mean (s) |    min (s) |    max (s) |         std (s) |
+|:---------------------------------------------------------|:-------|:--------|------------:|-------:|-------:|------------:|
+| test_download_data     | local  | aws     | 20.583      | 17.233 | 31.798 | 2.76933     |
+| test_download_data     | local  | azure   | 20.8087     | 13.564 | 42.701 | 6.9407      |
+| test_download_data     | local  | google  | 18.0035     | 17.062 | 19.381 | 0.478574    |
+| test_predict           | local  | aws     |  0.0299111  |  0.015 |  0.051 | 0.00401288  |
+| test_predict           | local  | azure   |  0.0245333  |  0.013 |  0.029 | 0.00306848  |
+| test_predict           | local  | google  |  0.0285889  |  0.014 |  0.058 | 0.00420554  |
+| test_predict           | remote | aws     |  0.401722   |  0.259 |  0.804 | 0.175369    |
+| test_predict           | remote | azure   |  0.358733   |  0.244 |  0.6   | 0.134117    |
+| test_predict           | remote | google  |  0.358189   |  0.27  |  0.815 | 0.158345    |
+| test_scikitlearn_train | local  | aws     | 35.8861     | 35.113 | 46.451 | 1.7666      |
+| test_scikitlearn_train | local  | azure   | 40.1319     | 34.946 | 43.961 | 3.28506     |
+| test_scikitlearn_train | local  | google  | 42.1328     | 41.771 | 42.493 | 0.12829     |
+| test_train             | local  | aws     | 35.725      | 34.908 | 46.505 | 1.72603     |
+| test_train             | local  | azure   | 40.2847     | 35.302 | 47.5   | 3.31544     |
+| test_train             | local  | google  | 42.0448     | 41.516 | 45.932 | 0.709089    |
+| test_upload            | local  | aws     |  0.00673333 |  0.006 |  0.012 | 0.000866667 |
+| test_upload            | local  | azure   |  0.00575    |  0.005 |  0.007 | 0.000469929 |
+| test_upload            | local  | google  |  0.00688889 |  0.006 |  0.009 | 0.000406733 |
+| test_upload            | remote | aws     |  0.428256   |  0.163 |  1.134 | 0.205095    |
+| test_upload            | remote | azure   |  0.322283   |  0.153 |  0.498 | 0.151721    |
+| test_upload            | remote | google  |  0.310822   |  0.184 |  0.729 | 0.180025    |
+
 #### 4.3.3 Pipelined Anova SVM Example
 
 #### 4.3.4 Caleb Example
