@@ -275,27 +275,27 @@ The benchmark runs the second pytest iteration from the remote client it is runn
 
 In Figure 1 we compare the download and extraction time of the labeled faces in the wild dataset. This data set is approximately 233 MBs compressed, which allows us to measure a non-trivial data transfer. Lower transfer times imply the cloud has higher throughput from the data server, less latency to the data server, or that it provides access to a higher performing internal network. The standard deviation is displayed to compare the variation in the download times.
 
-![Sample Graph 1](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_1.png)
+![Download Data Runtime](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_1.png)
 
-**Figure 1:** Donwnload (233MB) and extraction (~275MB) of remote image data from ndownloader.figshare.com/files/5976015.
+**Figure 3:** Donwnload (233MB) and extraction (~275MB) of remote image data from ndownloader.figshare.com/files/5976015.
 
 In Figure 2 we measure the training time of the Eigenfaces-SVM model both as an OpenAPI service and as the basic Scikit-learn example. This allows us to measure runtime overhead added by OpenAPI compared to the source example. Here the two functions are identical except that the OpenAPI train function makes an additional function call to store the model to disk using joblib. This is necessary to share the model across the train and predict functions. The standard deviation is displayed to compare the variation in the training times.
 
-![Sample Graph 2](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_2.png)
+![Train Runtime](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_2.png)
 
-**Figure 2:** Compares the eigenfaces-svm model training time running both as an OpenAPI service, and as the raw Scikit-learn example. There are two bars per cloud provider. The bold bars are the training time of the model when hosted as a Cloudmesh OpenAPI function. The pastel bars are the training time of the Scikit-learn example code without Cloudmesh OpenAPI involvement. The bars plot mean runtimes and the error bar reflects the standard deviation of the runtimes.
+**Figure 4:** Compares the eigenfaces-svm model training time running both as an OpenAPI service, and as the raw Scikit-learn example. There are two bars per cloud provider. The bold bars are the training time of the model when hosted as a Cloudmesh OpenAPI function. The pastel bars are the training time of the Scikit-learn example code without Cloudmesh OpenAPI involvement. The bars plot mean runtimes and the error bar reflects the standard deviation of the runtimes.
 
 In Figure 3 we measure the time to upload an image to the server both from itself, and from a remote client. This allows us to compare the function runtime as experienced by the server, and as experienced by a remote client. The difference helps determine the network latency between the benchmark client and the cloud service. The standard deviation is displayed to compare the variation in the upload times.
 
-![Sample Graph 3](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_3.png)
+![Upload Runtime](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_3.png)
 
-**Figure 3:** Runtime of the upload function when run locally from the OpenAPI server and from a remote client. There are two bars per cloud provider. The bold bars are the runtime of the upload function as experienced by the server, and the pastel as experienced by the remote client. The bars plot mean runtimes and the error bar reflects the standard deviation of the runtimes.
+**Figure 5:** Runtime of the upload function when run locally from the OpenAPI server and from a remote client. There are two bars per cloud provider. The bold bars are the runtime of the upload function as experienced by the server, and the pastel as experienced by the remote client. The bars plot mean runtimes and the error bar reflects the standard deviation of the runtimes.
 
 In Figure 4 we measure the time to call the predict function on the uploaded image. Again we run this once from the local server itself, and a second time from a remote client to determine as experienced runtimes. The standard deviation is displayed to compare the variation in the predict times.
 
-![Sample Graph 4](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_4.png)
+![Predict Runtime](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/sample_graph_4.png)
 
-**Figure 4:** Runtime of the predict function when run locally from the OpenAPI server and from a remote client. There are two bars per cloud provider. The bold bars are the runtime of the predict function as experienced by the server, and the pastel as experienced by the remote client. The bars plot mean runtimes and the error bar reflects the standard deviation of the runtimes.
+**Figure 6:** Runtime of the predict function when run locally from the OpenAPI server and from a remote client. There are two bars per cloud provider. The bold bars are the runtime of the predict function as experienced by the server, and the pastel as experienced by the remote client. The bars plot mean runtimes and the error bar reflects the standard deviation of the runtimes.
 
 Table 2 presents a full listing of test results.
 
@@ -324,6 +324,28 @@ Table 2 presents a full listing of test results.
 | test_upload            | remote | aws     |  0.428256   |  0.163 |  1.134 | 0.205095    |
 | test_upload            | remote | azure   |  0.322283   |  0.153 |  0.498 | 0.151721    |
 | test_upload            | remote | google  |  0.310822   |  0.184 |  0.729 | 0.180025    |
+
+![AI Service Workflow Runtime](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/ai_service_workflow_runtime.png)
+
+**Figure 4:** Mean runtime of the Eigenfaces SVM workflow deployed as a multi-cloud service. Means were computed from 30 runs of a workflow that included 1 donwload data invocation, 1 train invocation, 30 upload invocations, and 30 predict invocations. Workflows were run in parallel on the seperate clouds using a multiprocessing on an 8 core machine.
+
+
+**Table 3:** Test results for the Eigenfaces SVM benchmark deployed as a mutli-cloud service. 
+
+| test                                                | type   | cloud   |     mean (s) |    min (s) |    max (s) |      std (s) |
+|:----------------------------------------------------|:-------|:--------|---------:|-------:|-------:|---------:|
+| test_download_data | remote | aws     | 20.5102  | 17.566 | 34.42  | 3.82372  |
+| test_download_data | remote | azure   | 18.604   | 13.489 | 32.645 | 4.53201  |
+| test_download_data | remote | google  | 17.8976  | 17.133 | 21.861 | 0.853191 |
+| test_predict       | remote | aws     |  4.148   |  3.59  |  5.417 | 0.572103 |
+| test_predict       | remote | azure   |  3.9337  |  3.398 |  6.654 | 0.737981 |
+| test_predict       | remote | google  |  4.13497 |  3.744 |  6.366 | 0.602431 |
+| test_train         | remote | aws     | 35.6067  | 35.245 | 39.531 | 0.734663 |
+| test_train         | remote | azure   | 35.8856  | 35.077 | 39.998 | 0.94563  |
+| test_train         | remote | google  | 41.981   | 41.578 | 45.706 | 0.70646  |
+| test_upload        | remote | aws     | 10.0755  |  4.895 | 16.524 | 4.37981  |
+| test_upload        | remote | azure   |  8.45627 |  4.72  | 13.915 | 4.05165  |
+| test_upload        | remote | google  |  8.8688  |  5.39  | 15.443 | 4.51598  |
 
 #### 4.3.3 Pipelined Anova SVM Example
 
