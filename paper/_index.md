@@ -224,6 +224,12 @@ Within Skikit Learn we have chosen the following examples:
 
 #### Raspberry Pi Cluster
 
+##### Execution on Raspbian
+
+##### Execution on a Kubernetes Cluster
+
+* <https://opensource.com/article/20/3/kubernetes-raspberry-pi-k3s>
+
 ### 4.3. Result Comparision
 
 In this section we will discuss the setup and execution of a benchmark for three example AI services.
