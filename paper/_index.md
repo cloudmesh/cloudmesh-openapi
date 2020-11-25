@@ -327,7 +327,7 @@ Table 2 presents a full listing of test results.
 
 ![AI Service Workflow Runtime](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/ai_service_workflow_runtime.png)
 
-**Figure 4:** Mean runtime of the Eigenfaces SVM workflow deployed as a multi-cloud service. Means were computed from 30 runs of a workflow that included 1 donwload data invocation, 1 train invocation, 30 upload invocations, and 30 predict invocations. Workflows were run in parallel on the seperate clouds using a multiprocessing on an 8 core machine.
+**Figure 7:** Mean runtime of the Eigenfaces SVM workflow deployed as a multi-cloud service. Means were computed from 30 runs of a workflow that included 1 donwload data invocation, 1 train invocation, 30 upload invocations, and 30 predict invocations. Workflows were run in parallel on the seperate clouds using a multiprocessing on an 8 core machine.
 
 
 **Table 3:** Test results for the Eigenfaces SVM benchmark deployed as a mutli-cloud service. 
