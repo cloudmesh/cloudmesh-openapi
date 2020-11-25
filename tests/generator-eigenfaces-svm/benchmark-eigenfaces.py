@@ -103,6 +103,7 @@ def main(argv):
                     stats_df = stats_df.append(stats_series, ignore_index=True)
 
     print(result)
+    print(stats_df.sort_values(by=['test', 'type', 'cloud']).to_markdown(index=False))
 
     # graph 1: download_data_local
     download_df = stats_df.loc[(stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_download_data')]

@@ -1,0 +1,52 @@
+#!/bin/bash
+# Run from localhost to install Openapi service on cloud VM. This is for a ubuntu 20.04 VM. Tested on Google Cloud, AWS, and Azure. Azure provider has broken VM terminate at the moment.
+# Running requirements google: default.image=ubuntu-2004-lts, default.image_project=ubuntu-os-cloud
+# Running requirements aws: default.username=ubuntu, default.image=ami-0dba2cb6798deb6d8, credentials.region=us-east-1
+# Running requirements azure: image: Canonical:0001-com-ubuntu-server-focal:20_04-lts:20.04.202006100, updates to Azure Provider.py in benchmark branch
+#------------------------------
+# Create VM with cms
+#------------------------------
+export VM=$1
+cms vm boot --name=$VM
+#------------------------------
+# Setup python and pip
+#------------------------------
+sleep 6 #maybe a little race condition here for key upload, witnessed an ssh fail on next line
+cms vm ssh $VM --command=\"ls\" #non crucial command in case of first ssh fail
+cms vm ssh $VM --command=\"sudo apt update\" # this does wait for machine to boot significant delay
+cms vm ssh $VM --command=\"sudo apt update\" # this does wait for machine to boot significant delay # seem the update might not always complete the first time
+sleep 2 # for aws provider reliability
+cms vm ssh $VM --command=\"sudo apt -y install python3\"
+sleep 2 # for aws provider reliability
+cms vm ssh $VM --command=\"sudo apt -y install python3-pip\" #significant delay ~20s
+sleep 2 # for aws provider reliability
+cms vm ssh $VM --command=\"sudo ln -s /usr/bin/python3 /usr/bin/python\"
+cms vm ssh $VM --command=\"sudo ln -s /usr/bin/pip3 /usr/bin/pip\"
+cms vm ssh $VM --command=\"pip install -U pip\"
+cms vm ssh $VM --command=\"sudo apt -y install python3-venv\"
+sleep 2 # for aws provider reliability
+#------------------------------
+# Deployment of openapi service
+#------------------------------
+cms vm ssh $VM --command=\""python -m venv \~/ENV3"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; pip install cloudmesh-installer"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; pip install pillow"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; pip install -U scikit-learn"\"
+cms vm ssh $VM --command=\"mkdir cm\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cd cm \; cloudmesh-installer get openapi"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms config set cloudmesh.data.mongo.MONGO_AUTOINSTALL=True"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms admin mongo install --force"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; echo PATH=\$\{HOME\}/local/mongo/bin:\$\{PATH\} \>\> \~/ENV3/bin/activate"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms config set cloudmesh.data.mongo.MONGO_USERNAME=benchmark"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms config set cloudmesh.data.mongo.MONGO_PASSWORD=benchmark"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms config set cloudmesh.profile.user=benchmark"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms config set cloudmesh.profile.firstname=benchmark"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms config set cloudmesh.profile.lastname=benchmark"\"
+cms vm ssh $VM --command=\""ssh-keygen -t rsa -f \$\{HOME\}/.ssh/id_rsa -P \"benchmark\""\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cms init"\"
+sleep 2 # for google provider reliability testing
+#
+#TODO remove <git checkout benchmark> when merged to main#
+#
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cd cm/cloudmesh-openapi \; git checkout benchmark \; cms openapi generate EigenfacesSVM --filename=./tests/generator-eigenfaces-svm/eigenfaces-svm-full.py --import_class --enable_upload"\"
+cms vm ssh $VM --command=\""source \~/ENV3/bin/activate \; cd cm/cloudmesh-openapi \; git checkout benchmark \; \(cms openapi server start ./tests/generator-eigenfaces-svm/eigenfaces-svm-full.yaml --host=\$\(hostname --ip-address\) \&\>\dev\null\) \&"\"
