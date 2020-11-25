@@ -260,7 +260,7 @@ Another factor that can affect performance, particularly in network latency, is 
 
 We provide two example benchmarks for the Eigenfaces SVM example. The first is strucuted as a single cloud provider hosted AI service where the AI service is deployed and measured on a single cloud at a time, and the second as a multi-cloud hosted AI service where the AI service is deployed and measured in parallel on multiple clouds.
 
-#### 4.3.2.1 Single Cloud Provider Benchmarking
+#### 4.3.2.1 Single Cloud Provider Service Benchmarking
 
 The benchmark script for the Eigenfaces SVM example uses Cloudmesh to create virtual machines and setup a Cloudmesh OpenAPI environment sequentially across the three measured clouds including Amazon, Azure, and Google. After the script sets up the environment, it runs a series of pytests that generate and launch the Eigenfaces-SVM OpenAPI service, and then conduct runtime measurements of various service functions. 
 
@@ -329,7 +329,7 @@ Table 2 presents a full listing of test results.
 | test_upload            | remote | azure   |  0.322283   |  0.153 |  0.498 | 0.151721    |
 | test_upload            | remote | google  |  0.310822   |  0.184 |  0.729 | 0.180025    |
 
-#### 4.3.2.1 Single Cloud Provider Benchmarking
+#### 4.3.2.1 Multi-Cloud Service Benchmarking
 
 In this benchmark our script first acquires VMs, install Cloudmesh OpenAPI, and launch the Eigenfaces SVM AI service on three separate cloud providers. Because Cloudmesh has limited parallel computing support, this setup was conducted in a serial manner. After the services are running, we then run our tests in a parallel manner as depicted in Figure 2. Testing in parallel provides provides faster benchmark results, and better equalizes benchmark testing conditions. The benchmark conducts requests to each cloud in parallel, so they should experience similar network conditions. For example, in a serial testing model, the remote data server  may experience varying loads resulting in different load times. Our parallel tests better equalize these conditions by having each cloud download the data at the same time.
 
