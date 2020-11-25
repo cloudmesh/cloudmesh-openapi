@@ -329,7 +329,7 @@ Table 2 presents a full listing of test results.
 | test_upload            | remote | azure   |  0.322283   |  0.153 |  0.498 | 0.151721    |
 | test_upload            | remote | google  |  0.310822   |  0.184 |  0.729 | 0.180025    |
 
-#### 4.3.2.1 Multi-Cloud Service Benchmarking
+#### 4.3.2.2 Multi-Cloud Service Benchmarking
 
 In this benchmark our script first acquires VMs, install Cloudmesh OpenAPI, and launch the Eigenfaces SVM AI service on three separate cloud providers. Because Cloudmesh has limited parallel computing support, the script deploys the VMs in a serial manner. After the services are running, we then run our tests in a parallel manner as depicted in Figure 2. Testing in parallel provides faster benchmark results, and better equalizes benchmark testing conditions. The benchmark conducts requests to each cloud in parallel, so they should experience similar network conditions. For example, in a serial testing model, the remote data server may experience varying loads resulting in different load times. Our parallel tests better equalize these conditions by having each cloud download the data at the same time.
 
