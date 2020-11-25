@@ -258,7 +258,7 @@ Another factor that can affect performance, particularly in network latency, is 
 
 #### 4.3.2 Eigenfaces-SVM Example
 
-We provide two example benchmarks for the Eigenfaces SVM example. The first is strucuted as a single cloud provider hosted AI service where the AI service is deployed and measured on a single cloud at a time, and the second as a multi-cloud hosted AI service where the AI service is deployed and measured in parallel on multiple clouds.
+We provide two example benchmarks for the Eigenfaces SVM example. The first deploys and measures the AI service on a single cloud provider at a time, and the second deploys a multi-cloud AI service, and then measures the service across the clouds in parallel. 
 
 #### 4.3.2.1 Single Cloud Provider Service Benchmarking
 
@@ -331,13 +331,13 @@ Table 2 presents a full listing of test results.
 
 #### 4.3.2.1 Multi-Cloud Service Benchmarking
 
-In this benchmark our script first acquires VMs, install Cloudmesh OpenAPI, and launch the Eigenfaces SVM AI service on three separate cloud providers. Because Cloudmesh has limited parallel computing support, this setup was conducted in a serial manner. After the services are running, we then run our tests in a parallel manner as depicted in Figure 2. Testing in parallel provides provides faster benchmark results, and better equalizes benchmark testing conditions. The benchmark conducts requests to each cloud in parallel, so they should experience similar network conditions. For example, in a serial testing model, the remote data server  may experience varying loads resulting in different load times. Our parallel tests better equalize these conditions by having each cloud download the data at the same time.
+In this benchmark our script first acquires VMs, install Cloudmesh OpenAPI, and launch the Eigenfaces SVM AI service on three separate cloud providers. Because Cloudmesh has limited parallel computing support, the script deploys the VMs in a serial manner. After the services are running, we then run our tests in a parallel manner as depicted in Figure 2. Testing in parallel provides faster benchmark results, and better equalizes benchmark testing conditions. The benchmark conducts requests to each cloud in parallel, so they should experience similar network conditions. For example, in a serial testing model, the remote data server may experience varying loads resulting in different load times. Our parallel tests better equalize these conditions by having each cloud download the data at the same time.
 
 In Figure 7 we depict the combined runtime of our benchmark tests. This allows us to compare the complete execution time of an AI service workflow.
 
 ![AI Service Workflow Runtime](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/ai_service_workflow_runtime.png)
 
-**Figure 7:** Mean runtime of the Eigenfaces SVM workflow deployed as a multi-cloud service. Means were computed from 30 runs of a workflow that included 1 donwload data invocation, 1 train invocation, 30 upload invocations, and 30 predict invocations. Workflows were run in parallel on the seperate clouds using a multiprocessing on an 8 core machine.
+**Figure 7:** Mean runtime of the Eigenfaces SVM workflow deployed as a multi-cloud service. We compute the means from 30 runs of a workflow that included 1 download data invocation, 1 train invocation, 30 upload invocations, and 30 predict invocations. We run the workflows in parallel on the separate clouds using a multiprocessing on an 8-core machine.
 
 In Table 3 we provide complete test results.
 
@@ -528,7 +528,7 @@ cloud services.
 
 ### A.3.  Eigenfaces SVM Facial Recognition
 
-Next we demonstrate how to locally run the Eigenfaces SVM example, and
+Next we demonstrate how to run the Eigenfaces SVM example locally, and
 then how to run its associated benchmark script. 
 
 ```
@@ -544,16 +544,16 @@ $ cms openapi generate EigenfacesSVM \
 $ cms openapi server start ./tests/generator-eigenfaces-svm/eigenfaces-svm-full.yaml
 ```
 
-After running these commands, we opened a web user interface at <http://localhost:8080/cloudmesh/ui>.In the user interface, we run the download_data function with the default arguments. This downloads and extracts the labeled faces in the wild data set to the ~/scikit_learn_data/lfw_home directory. 
+After running these commands, we opened a web user interface at <http://localhost:8080/cloudmesh/ui>. In the user interface we run the download_data function with the default arguments. This downloads and extracts the labeled faces in the wild data set to the ~/scikit_learn_data/lfw_home directory. 
 
 Next, we run the train function to train the model. The train function performs a 50/50 train/test split on the input data, and returns performance statistics of the trained model.
 
 Next, we use the upload function to upload an example image using `~./tests/generator-eigenfaces-svm/example_image.jpg` as the function argument. This puts the example image in the ~/.cloudmesh/upload-file/ directory.
 
-Finally, we run the predict function with the uploaded file path as an argument, `~/.cloudmesh/upload-file/example_image.jpg`, and recieve the classification as a response `['George W. Bush']`
+Finally, we run the predict function with the uploaded file path as an argument, `~/.cloudmesh/upload-file/example_image.jpg`, and receive  the classification as a response `['George W. Bush']`
 
 
-Lastly, we close the server:
+Last, we close the server:
 
 ```
 $ cms openapi server stop EigenfacesSVM
@@ -608,16 +608,16 @@ $ ./tests/generator/eigenfaces-svm/benchmark-eigenfaces.py run
 
 If the command line argument `run` is passed to the script, then it will start up the virtual machines on each cloud. Output and benchmark results from each of the virtual machines will be store in the ~/.cloudmesh/eigenfaces-svm/vm_script_output/ directory. The benchmark results are scraped from the script outputs and stored in the ~/.cloudmesh/eigenfaces-svm/benchmark_output directory. If the `run` argument is **not** provided, it will only print statistics from script output already stored in the vm_script_output directory.
 
-Statistics will be printed to the commandline, and graphs will be displayed using plt.show() function calls as well as saved to the ~./tests/generator-eigenfaces-svm/ directory.
+Statistics will be printed to the command line, and graphs will be displayed using plt.show() function calls as well as saved to the ~./tests/generator-eigenfaces-svm/ directory.
 
-Next, we wil run the multi-cloud benchmarking script, ~/.tests/generator-eigenfaces-svm/bencmark-eigenfaces-multi-cloud.py. This script utilizes the Cloudmesh shell and the Bash script, ~/.tests/generator-eigenfaces-svm/eigenfaces-svm-full-multi-script, to sequentially deploy a VM on each of the clouds, install Cloudmesh-openapi and the example dependencies, and start the AI service. Next, it conducts HTTP requests in parallel to interact with the services to measure the runtime for data download, training, uploading, and prediction.
+Next, we will run the multi-cloud benchmarking script, ~/.tests/generator-eigenfaces-svm/bencmark-eigenfaces-multi-cloud.py. This script uses the Cloudmesh shell and the Bash script, ~/.tests/generator-eigenfaces-svm/eigenfaces-svm-full-multi-script, to sequentially deploy a VM on each of the clouds, install Cloudmesh-OpenAPI and the example dependencies, and start the AI service. Next, it conducts HTTP requests in parallel to interact with the services to measure the runtime for data download, training, uploading, and prediction.
 
 ```
 $ ./tests/generator/eigenfaces-svm/benchmark-eigenfaces-multi-cloud.py run
 ```
 As above the command line argument run is used to conduct actual tests, and the absence of that argument simply computes statistics on existing output from the ~/.cloudmesh/eigenfaces-svm/vm_script_output_multi/ directory.
 
-Statistics will be printed to the commandline, and graphs will be displayed using plt.show() function calls as well as saved to the ~./tests/generator-eigenfaces-svm/ directory.
+Statistics will be printed to the command line, and graphs will be displayed using plt.show() function calls as well as saved to the ~./tests/generator-eigenfaces-svm/ directory.
 
 ### A.4. Using unit tests for Benchmarking
 
