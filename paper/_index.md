@@ -258,6 +258,10 @@ Another factor that can affect performance, particularly in network latency, is 
 
 #### 4.3.2 Eigenfaces-SVM Example
 
+We provide two example benchmarks for the Eigenfaces SVM example. The first is strucuted as a single cloud provider hosted AI service where the AI service is deployed and measured on a single cloud at a time, and the second as a multi-cloud hosted AI service where the AI service is deployed and measured in parallel on multiple clouds.
+
+#### 4.3.2.1 Single Cloud Provider Benchmarking
+
 The benchmark script for the Eigenfaces SVM example uses Cloudmesh to create virtual machines and setup a Cloudmesh OpenAPI environment sequentially across the three measured clouds including Amazon, Azure, and Google. After the script sets up the environment, it runs a series of pytests that generate and launch the Eigenfaces-SVM OpenAPI service, and then conduct runtime measurements of various service functions. 
 
 The benchmark runs the pytest in two configurations. After the benchmark script sets up a virtual machine environment, it runs the first pytest locally on the OpenAPI server and measures five runtimes:
@@ -325,10 +329,17 @@ Table 2 presents a full listing of test results.
 | test_upload            | remote | azure   |  0.322283   |  0.153 |  0.498 | 0.151721    |
 | test_upload            | remote | google  |  0.310822   |  0.184 |  0.729 | 0.180025    |
 
+#### 4.3.2.1 Single Cloud Provider Benchmarking
+
+In this benchmark our script first acquires VMs, install Cloudmesh OpenAPI, and launch the Eigenfaces SVM AI service on three separate cloud providers. Because Cloudmesh has limited parallel computing support, this setup was conducted in a serial manner. After the services are running, we then run our tests in a parallel manner as depicted in Figure 2. Testing in parallel provides provides faster benchmark results, and better equalizes benchmark testing conditions. The benchmark conducts requests to each cloud in parallel, so they should experience similar network conditions. For example, in a serial testing model, the remote data server  may experience varying loads resulting in different load times. Our parallel tests better equalize these conditions by having each cloud download the data at the same time.
+
+In Figure 7 we depict the combined runtime of our benchmark tests. This allows us to compare the complete execution time of an AI service workflow.
+
 ![AI Service Workflow Runtime](https://github.com/cloudmesh/cloudmesh-openapi/raw/main/images/ai_service_workflow_runtime.png)
 
 **Figure 7:** Mean runtime of the Eigenfaces SVM workflow deployed as a multi-cloud service. Means were computed from 30 runs of a workflow that included 1 donwload data invocation, 1 train invocation, 30 upload invocations, and 30 predict invocations. Workflows were run in parallel on the seperate clouds using a multiprocessing on an 8 core machine.
 
+In Table 3 we provide complete test results.
 
 **Table 3:** Test results for the Eigenfaces SVM benchmark deployed as a mutli-cloud service. 
 
@@ -552,7 +563,7 @@ Next, we benchmark these tests while wrapping them into pytests and run them on 
 
 **Before continuing you must have successfully registered AWS, Azure, and Google clouds in your yaml file and be able to boot virtual machines on Google, AWS, and Azure. This example currently should work on Linux and macOS**
 
-First we must change to a git branch that includes Azure provider fixes, and setup our ~./cloudmesh/cloudmesh.yaml file to replicate the parameters set for the benchmark results above. 
+First, we must change to a git branch that includes Azure provider fixes, and setup our ~./cloudmesh/cloudmesh.yaml file to replicate the parameters set for the benchmark results above. 
 
 ```
 $ cd ~/cm/cloudmesh-azure 
@@ -578,7 +589,7 @@ $ cms config set cloudmesh.cloud.google.default.region="us-east1"
 $ cms config set cloudmesh.cloud.google.default.flavor="n1-standard-2"
 ```
 
-Next we will modify the default security group to open the flask server port 8080 for OpenAPI service testing.
+Next, we will modify the default security group to open the flask server port 8080 for OpenAPI service testing.
 
 ```
 $ cms sec rule add openapi 8080 8080 tcp 0.0.0.0/0
@@ -589,13 +600,22 @@ $ cms sec group add default openapi for_openapi_demo
 # name: openapi, targets:  all instances in network, Source IP ranges: 0.0.0.0 /0, specified protocols and ports: tcp 8080 > create
 ```
 
-Next we will run the benchmarking script, ~./tests/generator-eigenfaces-svm/benchmark-eigenfaces.py. This script utilizes the Cloudmesh shell and the Bash script, ~/.tests/generator-eigenfaces-svm/eigenfaces-svm-full-script, to sequentially deploy a VM on each of the clouds, install Cloudmesh-openapi and the example dependencies, and then us the pytest, ./tests/test_030_generator_eigenfaces_svm.py, twice to benchmark the EigenfacesSVM service functions both locally from the server, and from the remote client running the benchmark script. Finally, it prints and plots performance statistics.
+Next, we will run the benchmarking script, ~./tests/generator-eigenfaces-svm/benchmark-eigenfaces.py. This script utilizes the Cloudmesh shell and the Bash script, ~/.tests/generator-eigenfaces-svm/eigenfaces-svm-full-script, to sequentially deploy a VM on each of the clouds, install Cloudmesh-openapi and the example dependencies, and then us the pytest, ./tests/test_030_generator_eigenfaces_svm.py, twice to benchmark the EigenfacesSVM service functions both locally from the server, and from the remote client running the benchmark script. Finally, it prints and plots performance statistics.
 
 ```
 $ ./tests/generator/eigenfaces-svm/benchmark-eigenfaces.py run
 ```
 
 If the command line argument `run` is passed to the script, then it will start up the virtual machines on each cloud. Output and benchmark results from each of the virtual machines will be store in the ~/.cloudmesh/eigenfaces-svm/vm_script_output/ directory. The benchmark results are scraped from the script outputs and stored in the ~/.cloudmesh/eigenfaces-svm/benchmark_output directory. If the `run` argument is **not** provided, it will only print statistics from script output already stored in the vm_script_output directory.
+
+Statistics will be printed to the commandline, and graphs will be displayed using plt.show() function calls as well as saved to the ~./tests/generator-eigenfaces-svm/ directory.
+
+Next, we wil run the multi-cloud benchmarking script, ~/.tests/generator-eigenfaces-svm/bencmark-eigenfaces-multi-cloud.py. This script utilizes the Cloudmesh shell and the Bash script, ~/.tests/generator-eigenfaces-svm/eigenfaces-svm-full-multi-script, to sequentially deploy a VM on each of the clouds, install Cloudmesh-openapi and the example dependencies, and start the AI service. Next, it conducts HTTP requests in parallel to interact with the services to measure the runtime for data download, training, uploading, and prediction.
+
+```
+$ ./tests/generator/eigenfaces-svm/benchmark-eigenfaces-multi-cloud.py run
+```
+As above the command line argument run is used to conduct actual tests, and the absence of that argument simply computes statistics on existing output from the ~/.cloudmesh/eigenfaces-svm/vm_script_output_multi/ directory.
 
 Statistics will be printed to the commandline, and graphs will be displayed using plt.show() function calls as well as saved to the ~./tests/generator-eigenfaces-svm/ directory.
 
