@@ -138,8 +138,7 @@ Cloudmesh works with a variety of cloud providers including Amazon Web Services,
 
 ### 2.4 Containers and Microservices
 
-TBD
-
+Cloudmesh uses the internet architectures of microservices and containers to organize its functions and code. Microservice architecture is a variant of service oriented architecture. Cloudmesh uses microservices to arrange its app in loosley coupled services. These services are fine grained and protocals are lightweight. Containers are data structures whose instances are collections of other objects. Cloudmesh uses containers to store objects in an organized way that follows specific access rules. Containers are characterized by three properties: accessing objects in the container, storage of the objects, and traversal of the objects. Cloudmesh is designed to work on containers in docker, kubernatges, etc.  
 ## 3. Architecture
 
 ### 3.1 Basic Auth Security
@@ -211,7 +210,7 @@ Within Skikit Learn we have chosen the following examples:
 * **Eigenfaces SVM Facial Recognition**: A facial recognition example that first  utilizes principle component analysis (PCA) to generate eigenfaces from the training image data, and then trains and tests a SVM model [^eigenfaces-svm]. This example uses the real world "Labeled Faces in the Wild" dataset consisting of labeled images of famous individuals gathered from the internet [^labeled-faces-wild]     .
 
 ### 4.2. Cloud Providers
-
+Cloudmesh openapi works with virtual machine providers. It is necessary to select similar virtual machines for benchmarking. 
 #### AWS
 
 #### Azure
