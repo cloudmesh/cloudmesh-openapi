@@ -1,6 +1,8 @@
 
 \tableofcontents
 
+\verbatimfont{\footnotesize}%
+
 \newcommand{\TODO}[1]{\todo[inline]{#1}}
 
 \begin{abstract}
@@ -38,6 +40,10 @@ prediction time, and more. The final project will include scripts and
 code for others to use and replicate our tests. The team will also make
 a report consisting of research and findings.
 
+\section{Requirements}
+
+\todo{TBD}
+
 \section{Background and Related
 Research}\label{background-and-related-research}
 
@@ -45,19 +51,17 @@ Research}\label{background-and-related-research}
 
 \TODO{test}
 
-Cloudmesh \cite{cloudmesh-manual}
-is a service that enables users to access multi-cloud environments
-easily. Cloudmesh is an evolution of previous tools that have been used
-by many users. Cloudmesh makes interacting with clouds easy by creating
-a service mashup to access common cloud services across numerous cloud
-platforms. Cloudmesh contains a sophisticated command shell, a database
-to store jason objects representing virtual machines, storage and a
-registry of REST services \cite{cloudmesh-openapi}.
-Cloudmesh has
-a sophisticated plugin concept that is easy to use and leverages python
-namespaces while being able to integrate plugins from different source
-code directories \footnote{Cloudmesh Repositories,
-  \url{https://github.com/cloudmesh/}}. Installation of Cloudmesh is
+Cloudmesh \cite{cloudmesh-manual} is a service that enables users to
+access multi-cloud environments easily. Cloudmesh is an evolution of
+previous tools that have been used by many users. Cloudmesh makes
+interacting with clouds easy by creating a service mashup to access
+common cloud services across numerous cloud platforms. Cloudmesh
+contains a sophisticated command shell, a database to store jason
+objects representing virtual machines, storage and a registry of REST
+services \cite{cloudmesh-openapi}.  Cloudmesh has a sophisticated
+plugin concept that is easy to use and leverages python namespaces
+while being able to integrate plugins from different source code
+directories \cite{cloudmesh-github}.  Installation of Cloudmesh is
 available for macOS, Linux, Windows, and Rasbian
 \cite{cloudmesh-manual}.
 
@@ -70,105 +74,73 @@ delete resources. It is important to note that REST is not a standard,
 but it is a software architectural style for building network services.
 When referred to as a part of the HTTP protocol, REST has the methods of
 GET, PUT, POST, and DELETE. These methods are used to implement the CRUD
-functions on collections and items that REST introduces \footnote{G. von
-  Laszewski, ``Cloud Computing'', Web Page, Sep-2020 {[}Online{]}.
-  Available:
-  \url{https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf}}.
+functions on collections and items that REST introduces
+\cite{las-book-cloud}.
  
 \begin{itemize}
 \item
-  \textbf{Collection of resources} \footnote{G. von Laszewski, ``Cloud
-    Computing'', Web Page, Sep-2020 {[}Online{]}. Available:
-    \url{https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf}}:
-  Assume the URI, \\ \texttt{http://.../resources/}, identifies a
+  \textbf{Collection of resources}:
+  Assume the URI, \\ \verb|http://.../resources/|, identifies a
   collection of resources. The following CRUD functions would be
   implemented:
 
-  \begin{itemize}
+  \begin{description}
   \tightlist
   \item
-    \textbf{GET}: List the URIs and details about the collection's
+    [GET:] List the URIs and details about the collection's
     items.
-  \item
-    \textbf{PUT}: Replace the collection with a different collection.
-  \item
-    \textbf{POST}: Make a new entry in the collection. The operation
+  \item[PUT:] Replace the collection with a different collection.
+  \item[POST:] Make a new entry in the collection. The operation
     returns new entry's URI and assigns it automatically.
   \item
-    \textbf{DELETE}: Delete the collection.
-  \end{itemize}
+    [DELETE:] Delete the collection.
+\end{description}
+
 \item
-  \textbf{Single Resource} \footnote{G. von Laszewski, ``Cloud
-    Computing'', Web Page, Sep-2020 {[}Online{]}. Available:
-    \url{https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf}}:
+  \textbf{Single Resource}:
   Assume the URI, \\ \texttt{http://.../resources/item1}, identifies a
   single resource in a collection. The following CRUD functions would be
   implemented:
 
-  \begin{itemize}
+  \begin{description}
   \tightlist
   \item
-    \textbf{GET}: Fetch a representation of the item in the collection,
+    [GET:] Fetch a representation of the item in the collection,
     extracted in the appropriate media type.
   \item
-    \textbf{PUT}: Replace the item in the collection. If the item does
+    [PUT:] Replace the item in the collection. If the item does
     not exist, then create the item.
   \item
-    \textbf{POST}: Typically, not used. Treat the item as a collection
+    [POST:] Typically, not used. Treat the item as a collection
     and make a new entry in it.
   \item
-    \textbf{DELETE}: Delete the item in the collection.
-  \end{itemize}
+    [DELETE':] Delete the item in the collection.
+  \end{description}
 \end{itemize}
 
 Because REST has a defined structure, there are tools that manage
 programming to REST specifications. Here are different categories
-\footnote{G. von Laszewski, ``Cloud Computing'', Web Page, Sep-2020
-  {[}Online{]}. Available:
-  \url{https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf}}:
+\cite{las-book-cloud}.
 
 \begin{itemize}
 \tightlist
-\item
-  \textbf{REST Specification Frameworks}: Frameworks to define REST
-  service specifications for generating REST services in a language and
-  framework independently, include: Swagger 2.0 \footnote{OpenAPI
-    Initiative, ``The openapi specification'', Web Page {[}Online{]}.
-    Available: \textless https://github.com/OAI/OpenAPI-
-    Specification/blob/main/versions/2.0.md\textgreater{}}, OpenAPI 3.0
-  \footnote{OpenAPI Initiative, ``The openapi specification.'' Web Page
-    {[}Online{]}. Available:
-    \url{https://github.com/OAI/OpenAPI-Specification}}, and RAML
-  \footnote{RAML, ``RAML version 1.0: RESTful api modeling language'',
-    Web Page {[}Online{]}. Available:
-    \url{https://github.com/raml-org/raml-spec/blob/main/versions/raml-10/raml-10.md}}.
-\item
-  \textbf{REST programming language support}: Tools and services for
-  targeting specific programming languages, include: Flask Rest
-  \footnote{R. H. Kevin Burke Kyle Conroy, ``Flask-restful'', Web Page
-    {[}Online{]}. Available:
-    \url{https://flask-restful.readthedocs.io/en/latest/}}, Django Rest
-  Services \footnote{E. O. Ltd, ``Django rest framework'', Web Page
-    {[}Online{]}. Available:
-    \url{https://www.django-rest-framework.org/}}
-\item
-  \textbf{REST documentation-based tools}: These tools document REST
-  specifications. One such tool is Swagger \footnote{S. Software, ``API
-    development for everyone'', Web Page {[}Online{]}. Available:
-    \url{https://swagger.io}}
-\item
-  \textbf{REST design support tools}: These tools support the design
-  process in developing REST services while extracting on top of the
-  programming languages. These tools also define reusable to create
-  clients and servers for particular targets.These tools include Swagger
-  \footnote{S. Software, ``API development for everyone'', Web Page
-    {[}Online{]}. Available: \url{https://swagger.io}} , additional
-  swagger tools are available at OpenAPI Tools \footnote{A. Y. W. Hate,
-    ``OpenAPI.Tools'', Web Page {[}Online{]}. Available:
-    \url{https://openapi.tools/}} to generate code from OpenAPI
-  specifications \footnote{S. Software, ``Swagger codegen
-    documentation'', Web Page {[}Online{]}. Available:
-    \url{https://swagger.io/docs/open-source-tools/swagger-codegen/}}
+\item \textbf{REST Specification Frameworks}: Frameworks to define
+  REST service specifications for generating REST services in a
+  language and framework independently, include: Swagger 2.0
+  \cite{openapi-2}, OpenAPI 3.0 \cite{openapi-3} and RAML
+  \cite{raml-1}.
+\item \textbf{REST programming language support}: Tools and services
+  for targeting specific programming languages, include: Flask Rest
+  \cite{www-flask-restful}, Django Rest \cite{www-django-rest}.
+\item \textbf{REST documentation-based tools}: These tools document
+  REST specifications. One such tool is Swagger \cite{www-swagger}.
+\item \textbf{REST design support tools}: These tools support the
+  design process in developing REST services while extracting on top
+  of the programming languages. These tools also define reusable to
+  create clients and servers for particular targets.These tools
+  include Swagger \cite{www-swagger}, additional swagger tools are
+  available at OpenAPI Tools \cite{www-openapi-tools} to generate code
+  from OpenAPI specifications \cite{www-swagger-codegen}
 \end{itemize}
 
 \subsection{OpenAPI}
@@ -179,28 +151,18 @@ programming to REST specifications. Here are different categories
 
 Cloud computing providers offer their customers on-demand self-service
 computing resources that are rapidly elastic and accessible via broad
-network access \footnote{``NIST SP 800-145'', Web page {[}Online{]}.
-  Available:
-  \url{https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf}}.
+network access \cite{nist-cloud-standard}.
 They accomplish this through the economies of scale achieved by resource
 pooling (serving multiple customers on the same hardware) and using
-measured services for fine grained customer billing \footnote{``NIST SP
-  800-145'', Web page {[}Online{]}. Available:
-  \url{https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf}}.
+measured services for fine grained customer billing \cite{nist-cloud-standard}.
 Cloud providers offer these resources in multiple service models
 including infrastructure as a service, platform as a service, software
-as a service, and, recently, function as a service \footnote{``NIST SP
-  800-145'', Web page {[}Online{]}. Available:
-  \url{https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf}}.
+as a service, and, recently, function as a service
+\cite{nist-cloud-standard}.
 These providers are rapidly offering new platforms and services ranging
 from bare-metal machines to AI development platforms like Google's
-TensorFlow Enterprise platform \footnote{``TensorFlow Enterprise'', Web
-  page {[}Online{]}. Available:
-  \url{https://cloud.google.com/tensorflow-enterprise}}, and AI services
-such as Amazon's text-to-speech service \footnote{``Amazon Polly. Turn
-  text into lifelike speech using deep learning.'' Web page
-  {[}Online{]}. Available:
-  \url{https://aws.amazon.com/polly/?c=ml\&sec=srv}}.
+TensorFlow Enterprise platform \cite{www-tensorflow-enterprise}, and AI services
+such as Amazon's text-to-speech service \cite{amazon-polly}.
 
 Customers can take advantage of cloud computing to reduce overhead
 expenses, increase their speed and scale of service deployment, and
@@ -219,7 +181,7 @@ Services, Microsoft Azure, Google Cloud Platform, and Oracle's OpenStack
 based providers such as the academic research serving Chameleon Cloud.
 
 \subsection{Containers and
-Microservices}\label{containers-and-microservices}
+  Microservices}\label{containers-and-microservices}
 
 Cloudmesh uses the internet architectures of microservices and
 containers to organize its functions and code. Microservice architecture
@@ -240,9 +202,9 @@ containers in docker, and kubernetes.
 Cloudmesh OpenAPI supports configuration of a single authorized user
 through basic authentication. Basic authentication is a simple
 authentication scheme built into the HTTP protocol. The client sends
-HTTP requests with the \texttt{Authorization} header that contains the
-word \texttt{Basic} followed by a space and a base64-encoded string of
-the format \texttt{username:password}.
+HTTP requests with the \verb|Authorization| header that contains the
+word \verb|Basic| followed by a space and a base64-encoded string of
+the format \verb|username:password|.
 
 \TODO{we must not cite from wikipedia}
 From wikipedia, basic auth is ``a method for an HTTP user agent (e.g.~a
@@ -371,9 +333,7 @@ Within Skikit Learn we have chosen the following examples:
 \item
   \textbf{Pipelined ANOVA SVM}: An example code that shows a pipeline
   running successively a univariate feature selection with anova and
-  then a SVM of the selected features \footnote{Scikit Learn, Pipeline
-    Anova SVM,
-    \url{https://scikit-learn.org/stable/auto_examples/feature_selection/plot_feature_selection_pipeline.html}}.
+  then a SVM of the selected features \cite{www-skikit-learn-pipeline,}
 \item
   \textbf{Eigenfaces SVM Facial Recognition}: A facial recognition
   example that first utilizes principle component analysis (PCA) to
@@ -440,17 +400,14 @@ controlled in these benchmark examples.
 
 One key component is the virtual machine size, which determines the
 number of vCPUs, the amount of memory, attached storage types, and
-resource sharing policies. Resource sharing policies include shared core
-machine varieties which providers offer at less expensive rates and
-allow the virtual machines to burst over its base clock rate in exchange
-for credits or the machines inherent bursting factor \footnote{``Amazon
-  EC2 Instance Types'', Web page {[}Online{]}. Available:
-  \url{https://aws.amazon.com/ec2/instance-types/}} \footnote{``Machine
-  Types'', Web page {[}Online{]}. Available:
-  \url{https://cloud.google.com/compute/docs/machine-types}}. For this
-example, we chose three similar machine sizes that had comparable vCPUs,
-comparable underlying processors, memory, price, and were not a shared
-core variety. We installed the same Ubuntu 20.04 operating system on all
+resource sharing policies. Resource sharing policies include shared
+core machine varieties which providers offer at less expensive rates
+and allow the virtual machines to burst over its base clock rate in
+exchange for credits or the machines inherent bursting factor
+\cite{amazon-instances,google-instances}. For this example, we chose
+three similar machine sizes that had comparable vCPUs, comparable
+underlying processors, memory, price, and were not a shared core
+variety. We installed the same Ubuntu 20.04 operating system on all
 three clouds.
 
 Another factor that can affect performance, particularly in network
@@ -614,7 +571,7 @@ the error bar reflects the standard deviation of the runtimes.}
 \label{fig:4}
 \end{figure}
 
-In Figure 3 we measure the time to upload an image to the server both
+In Figure \ref{fig:upload} we measure the time to upload an image to the server both
 from itself, and from a remote client. This allows us to compare the
 function runtime as experienced by the server, and as experienced by a
 remote client. The difference helps determine the network latency
@@ -624,17 +581,17 @@ deviation is displayed to compare the variation in the upload times.
 \begin{figure}
 \centering
 \includegraphics[width=\columnwidth]{../images/sample_graph_3.png}
-\caption{Upload Runtime}
-\end{figure}
-
-\textbf{Figure 5:} Runtime of the upload function when run locally from
+\caption{Upload Runtime: Runtime of the upload function when run locally from
 the OpenAPI server and from a remote client. There are two bars per
 cloud provider. The bold bars are the runtime of the upload function as
 experienced by the server, and the pastel as experienced by the remote
 client. The bars plot mean runtimes and the error bar reflects the
-standard deviation of the runtimes.
+standard deviation of the runtimes.}
+\label{fig:upload}
+\end{figure}
 
-In Figure 4 we measure the time to call the predict function on the
+
+In Figure \ref{fig:predict} we measure the time to call the predict function on the
 uploaded image. Again we run this once from the local server itself, and
 a second time from a remote client to determine as experienced runtimes.
 The standard deviation is displayed to compare the variation in the
@@ -643,15 +600,14 @@ predict times.
 \begin{figure}
 \centering
 \includegraphics[width=\columnwidth]{../images/sample_graph_4.png}
-\caption{Predict Runtime}
-\end{figure}
-
-\textbf{Figure 6:} Runtime of the predict function when run locally from
+\caption{Predict Runtime Runtime of the predict function when run locally from
 the OpenAPI server and from a remote client. There are two bars per
 cloud provider. The bold bars are the runtime of the predict function as
 experienced by the server, and the pastel as experienced by the remote
 client. The bars plot mean runtimes and the error bar reflects the
-standard deviation of the runtimes.
+standard deviation of the runtimes.}
+\label{fig:predict}
+\end{figure}
 
 Table \ref{tab:2} presents a full listing of test results.
 
@@ -806,6 +762,19 @@ features, such as virtual machine delete, are implemented or verified.
 \section{Conclusion}\label{conclusion}
 
 
+
+\section*{Acknowledgements}\label{acknowledgements}
+
+We like to thank
+\href{https://github.com/cybertraining-dsc/fa20-523-325/}{Vishwanadham
+Mandala} to participate in helping write an earlier version of this
+document.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\clearpage
+
 \appendix
 
 \section{Appendix}
@@ -815,8 +784,9 @@ features, such as virtual machine delete, are implemented or verified.
 \subsubsection{Deployment}\label{a.1.-deployment}
 
 The project is easy to replicate with our detailed instructions. First
-you must install Cloudmesh OpenAPI whihch can be done by the follwoing
+you must install Cloudmesh OpenAPI whihch can be done by the following
 steps:
+
 
 \begin{verbatim}
 python -m venv ~/ENV3
@@ -831,9 +801,11 @@ cms gui quick
 # make sure autinstall is True
 cms config set cloudmesh.data.mongo.MONGO_AUTOINSTALL=True
 cms admin mongo install --force
-# Restart a new terminal to make sure mongod is in your path
+# Restart a new terminal to make sure mongod 
+# is in your path
 cms init
 \end{verbatim}
+ 
 
 As a first example we like to test if the deployment works by using a
 number of simple commands we execute in a terminal.
@@ -855,7 +827,7 @@ cms openapi server stop cpu
 
 The output will be a string containing your computer.
 
-TODO: how does the string look like
+\todo{how does the string look like}
 
 Next you can test a more sophiticated example. Here we generate from a
 python function a rest servive. We consider the following function
@@ -884,7 +856,8 @@ string.
 \begin{verbatim}
 cms openapi generate add --filename=./tests/add-float/add.py
 cms openapi server start ./tests/add-float/add.yaml 
-curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plain"
+curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" \
+     -H "accept: text/plain"
 # This command returns
 > 3.0
 cms openapi server stop add
@@ -916,7 +889,8 @@ The result will include a json string returned by the service.
 \begin{verbatim}
 cms openapi generate add --filename=./tests/add-json/add.py
 cms openapi server start ./tests/add-json/add.yaml 
-curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H  "accept: text/plain"
+curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" \
+     -H "accept: text/plain"
 # This command returns
 > {"result":3.0}
 cms openapi server stop add
@@ -963,17 +937,17 @@ $ cms openapi server start ./tests/Scikitlearn-experimental/sklearn_svm.yaml
 
 After running these commands, we opened a web user interface. In the
 user interface, we uploaded the file iris data located in
-\textasciitilde/cm/cloudmesh-openapi/tests/
+\verb|~/cm/cloudmesh-openapi/tests/|
 Scikitlearn-experimental/iris.data
 
 We then trained the model on this data set by inserting the name of the
-file we uploaded \texttt{iris.data}. Next, we tested the model by
+file we uploaded \verb|iris.data|. Next, we tested the model by
 clicking on make\_prediction and giving it the name of the file
-iris.data and the parameters \texttt{5.1}, \texttt{3.5}, \texttt{1.4},
-\texttt{0.2}
+iris.data and the parameters \verb|5.1|, \verb|3.5|, \verb|1.4|,
+\verb|0.2|
 
 The response we received was
-\texttt{Classification:\ {[}\textquotesingle{}Iris-setosa\textquotesingle{}{]}}
+\verb|Classification: ['Iris-setosa']|
 
 Lastly, we close the server:
 
@@ -1002,29 +976,30 @@ $ cms openapi generate EigenfacesSVM \
       --filename=./tests/generator-eigenfaces-svm/eigenfaces-svm-full.py \
       --import_class --enable_upload
 
-$ cms openapi server start ./tests/generator-eigenfaces-svm/eigenfaces-svm-full.yaml
+$ cms openapi server start \
+      ./tests/generator-eigenfaces-svm/eigenfaces-svm-full.yaml
 \end{verbatim}
 
 After running these commands, we opened a web user interface at
 \url{http://localhost:8080/cloudmesh/ui}. In the user interface we run
 the download\_data function with the default arguments. This downloads
 and extracts the labeled faces in the wild data set to the
-\textasciitilde/scikit\_learn\_data/lfw\_home directory.
+\verb|~/scikit_learn_data/lfw_home directory|.
 
 Next, we run the train function to train the model. The train function
 performs a 50/50 train/test split on the input data, and returns
 performance statistics of the trained model.
 
 Next, we use the upload function to upload an example image using
-\texttt{\textasciitilde{}./tests/generator-eigenfaces-svm/example\_image.jpg}
+\verb|~./tests/generator-eigenfaces-svm/example\_image.jpg|
 as the function argument. This puts the example image in the
-\textasciitilde/.cloudmesh/upload-file/ directory.
+\verb|~/.cloudmesh/upload-file/| directory.
 
 Finally, we run the predict function with the uploaded file path as an
 argument,
-\texttt{\textasciitilde{}/.cloudmesh/upload-file/example\_image.jpg},
+\verb|~/.cloudmesh/upload-file/example\_image.jpg|,
 and receive the classification as a response
-\texttt{{[}\textquotesingle{}George\ W.\ Bush\textquotesingle{}{]}}
+\verb|['George W. Bush']|
 
 Last, we close the server:
 
@@ -1041,8 +1016,13 @@ machines on Google, AWS, and Azure. This example currently should work
 on Linux and macOS}
 
 First, we must change to a git branch that includes Azure provider
-fixes, and setup our \textasciitilde./cloudmesh/cloudmesh.yaml file to
-replicate the parameters set for the benchmark results above.
+fixes, and setup our \verb|~./cloudmesh/cloudmesh.yaml| file to
+replicate the parameters set for the benchmark results above. This can
+be done with the commands listed in Figure \ref{fig:config}.
+
+\todo{NEVER USE THE WORD ABOVE to refer to previous, next or numbered items}
+
+\begin{figure*}[htb]
 
 \begin{verbatim}
 $ cd ~/cm/cloudmesh-azure 
@@ -1068,6 +1048,10 @@ $ cms config set cloudmesh.cloud.google.default.region="us-east1"
 $ cms config set cloudmesh.cloud.google.default.flavor="n1-standard-2"
 \end{verbatim}
 
+  \caption{Configuration}
+  \label{fig:config}
+  \end{figure*}
+
 Next, we will modify the default security group to open the flask server
 port 8080 for OpenAPI service testing.
 
@@ -1075,44 +1059,57 @@ port 8080 for OpenAPI service testing.
 $ cms sec rule add openapi 8080 8080 tcp 0.0.0.0/0
 $ cms sec group add default openapi for_openapi_demo
 # the above two command should allow aws and azure to work
-# sec group load is broken for google and it does not use the default sec group, so you have to manually add the openapi rule to google cloud for now
+# sec group load is broken for google and it does not 
+# use the default sec group, so you have to manually 
+# add the openapi rule to google cloud for now
 # console.cloud.google.com > VPC network > firewall > create firewall rule
-# name: openapi, targets:  all instances in network, Source IP ranges: 0.0.0.0 /0, specified protocols and ports: tcp 8080 > create
+# name: openapi, targets:  all instances in network, 
+#       Source IP ranges: 0.0.0.0 /0, 
+#       specified protocols and ports: tcp 8080 > create
 \end{verbatim}
 
 Next, we will run the benchmarking script,
-\textasciitilde./tests/generator-eigenfaces-svm/benchmark-eigenfaces.py.
+
+\verb|./tests/generator-eigenfaces-svm/benchmark-eigenfaces.py.|
+
 This script utilizes the Cloudmesh shell and the Bash script,
-\textasciitilde/.tests/generator-eigenfaces-svm/eigenfaces-svm-full-script,
+
+\verb|./tests/generator-eigenfaces-svm/eigenfaces-svm-full-script|,
+
 to sequentially deploy a VM on each of the clouds, install
-Cloudmesh-openapi and the example dependencies, and then us the pytest,
-./tests/test\_030\_generator\_eigenfaces\_svm.py, twice to benchmark the
-EigenfacesSVM service functions both locally from the server, and from
-the remote client running the benchmark script. Finally, it prints and
-plots performance statistics.
+Cloudmesh-openapi and the example dependencies, and then us the
+pytest, \\
+\verb|./tests/test\_030\_generator\_eigenfaces\_svm.py|, twice to
+benchmark the EigenfacesSVM service functions both locally from the
+server, and from the remote client running the benchmark
+script. Finally, it prints and plots performance statistics.
 
 \begin{verbatim}
 $ ./tests/generator/eigenfaces-svm/benchmark-eigenfaces.py run
 \end{verbatim}
 
-If the command line argument \texttt{run} is passed to the script, then
+If the command line argument \verb|run| is passed to the script, then
 it will start up the virtual machines on each cloud. Output and
 benchmark results from each of the virtual machines will be store in the
-\textasciitilde/.cloudmesh/eigenfaces-svm/vm\_script\_output/ directory.
+\verb|~/.cloudmesh/eigenfaces-svm/vm\_script_output/| directory.
 The benchmark results are scraped from the script outputs and stored in
-the \textasciitilde/.cloudmesh/eigenfaces-svm/benchmark\_output
-directory. If the \texttt{run} argument is \textbf{not} provided, it
+the \verb|~/.cloudmesh/eigenfaces-svm/benchmark_output|
+directory. If the \verb|run| argument is \textbf{not} provided, it
 will only print statistics from script output already stored in the
 vm\_script\_output directory.
 
 Statistics will be printed to the command line, and graphs will be
-displayed using plt.show() function calls as well as saved to the
-\textasciitilde./tests/generator-eigenfaces-svm/ directory.
+displayed using plt.show() function calls as well as saved to the \\
+\verb|./tests/generator-eigenfaces-svm/ directory|.
 
 Next, we will run the multi-cloud benchmarking script,
-\textasciitilde/.tests/generator-eigenfaces-svm/bencmark-eigenfaces-multi-cloud.py.
+
+\verb|.tests/generator-eigenfaces-svm/bencmark-eigenfaces-multi-cloud.py|.
+
 This script uses the Cloudmesh shell and the Bash script,
-\textasciitilde/.tests/generator-eigenfaces-svm/eigenfaces-svm-full-multi-script,
+
+\verb|.tests/generator-eigenfaces-svm/eigenfaces-svm-full-multi-script|,
+
 to sequentially deploy a VM on each of the clouds, install
 Cloudmesh-OpenAPI and the example dependencies, and start the AI
 service. Next, it conducts HTTP requests in parallel to interact with
@@ -1125,18 +1122,18 @@ $ ./tests/generator/eigenfaces-svm/benchmark-eigenfaces-multi-cloud.py run
 
 As above the command line argument run is used to conduct actual tests,
 and the absence of that argument simply computes statistics on existing
-output from the
-\textasciitilde/.cloudmesh/eigenfaces-svm/vm\_script\_output\_multi/
+output from the \\
+\verb|~/.cloudmesh/eigenfaces-svm/vm_script_output_multi/|
 directory.
 
 Statistics will be printed to the command line, and graphs will be
 displayed using plt.show() function calls as well as saved to the
-\textasciitilde./tests/generator-eigenfaces-svm/ directory.
+\verb|./tests/generator-eigenfaces-svm/ directory|.
 
 \subsection{Using unit tests for
 Benchmarking}\label{a.4.-using-unit-tests-for-benchmarking}
 
-TODO: This section will be expanded upon
+\todo{This section will be expanded upon}
 
 \begin{itemize}
 \item
@@ -1165,13 +1162,13 @@ cms set cloud=azure
 
   flag. As such, this example will be an extension of a previously
   existing example. To follow with this example, navigate to the
-  \texttt{cloudmesh-openapi} directory.
+  \verb|cloudmesh-openapi| directory.
 
-  We will use the \texttt{server-cpu} example which tells the user the
+  We will use the \verb|server-cpu| example which tells the user the
   CPU of the machine running the API.
 
-  For this example, let's create a user with username \texttt{admin} and
-  password \texttt{secret}.
+  For this example, let's create a user with username \verb|admin| and
+  password \verb|secret|.
 
 \begin{verbatim}
 cms openapi generate get_processor_name \
@@ -1180,7 +1177,8 @@ cms openapi generate get_processor_name \
 \end{verbatim}
 
   We can start the server as follows:
-  \texttt{cms\ openapi\ server\ start\ ./tests/server-cpu/cpu.yaml}
+  
+  \verb|cms openapi server start ./tests/server-cpu/cpu.yaml|
 
   The user will now be required to authenticate as the registered user
   in order to access the API. This can be done by specifying the Basic
@@ -1219,17 +1217,8 @@ cms openapi register protocol pickle
 Location}\label{appendix-b.---code-location}
 
 This is temporary and will in final be moved elsewhere. Its conveniently
-for now placed on top so we can easier locate it
+for now placed on top so we can easier locate it at \cite{cloudmesh-openapi}.
 
-\begin{itemize}
-\tightlist
-\item
-  github: \url{https://github.com/cloudmesh/cloudmesh-openapi}
-  \footnote{Cloudmesh Openapi Web page
-    \url{https://github.com/cloudmesh/cloudmesh-openapi}}
-\item
-  branch: benchmark (not yet created)
-\end{itemize}
 
 \subsection{APPENDIX C. - Cloudmesh
 Links}\label{appendix-c.---cloudmesh-links}
@@ -1237,14 +1226,7 @@ Links}\label{appendix-c.---cloudmesh-links}
 We added this section so the Reader can easily find some cloudmesh
 related information Documentation for Cloudmesh can be found at \cite{cloudmesh-manual}:
 
-Code for cloud mesh can be found at:
-
-\begin{itemize}
-\tightlist
-\item
-  \url{https://github.com/cloudmesh/} \footnote{Cloudmesh Repositories,
-    \url{https://github.com/cloudmesh/}}
-\end{itemize}
+Code for cloud mesh can be found at \cite{cloudmesh-github}.
 
 Examples in this paper came from the cloudmesh openapi manual which is
 located here \cite{cloudmesh-openapi}.
@@ -1298,13 +1280,3 @@ Next week we will create a script to run the eigenfaces-svm-full example
 on each cloud multiple times, and them summarize and plot benchmark
 information to compare the clouds. Additionally, we will finish the
 report.
-
-\section*{Acknowledgements}\label{acknowledgements}
-
-We like to thank
-\href{https://github.com/cybertraining-dsc/fa20-523-325/}{Vishwanadham
-Mandala} to participate in helping write an earlier version of this
-document.
-
-\bibliographystyle{ACM-Reference-Format}
-\bibliography{references}
