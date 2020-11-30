@@ -1,28 +1,7 @@
-\hypertarget{benchmarking-multi-cloud-auto-generated-ai-services}{%
-\section{Benchmarking Multi-Cloud Auto Generated AI
-Services}\label{benchmarking-multi-cloud-auto-generated-ai-services}}
 
-% \href{https://github.com/cloudmesh/cloudmesh-openapi/actions}{\includegraphics{https://github.com/cloudmesh/cloudmesh-openapi/workflows/Check\%20Report/badge.svg}}
+\tableofcontents
 
-NOTE: \textgreater{} This document is maintained at: \textgreater{}
-\textgreater{} *
-\url{https://github.com/cloudmesh/cloudmesh-openapi/blob/main/paper/_index.md}
-\textgreater{}
-
-\href{https://laszewski.github.io}{Gregor von Laszewski}, Richard Otten,
-\href{https://github.com/aporlowski}{Anthony Orlowski},
-\href{https://github.com/cybertraining-dsc/fa20-523-310/}{fa20-523-310},
-\href{https://github.com/calewils}{Caleb Wilson},
-\href{https://github.com/cybertraining-dsc/fa20-523-348/}{fa20-523-348}
-
-Corresponding author: laszewski@gmail.com
-
-\href{https://github.com/cybertraining-dsc/fa20-523-348/blob/main/project/project.md}{Edit}
-
-\{\{\% pageinfo \%\}\}
-
-\hypertarget{abstract}{%
-\subsection{Abstract}\label{abstract}}
+\begin{abstract}
 
 In this work we are benchmarking auto generated cloud REST services on
 various clouds. In today's application scientist want to share their
@@ -37,16 +16,13 @@ by benchmark enhanced unit tests as to allow replication of the test on
 the users computer. A comparative study of the results is included in
 our evaluation.
 
-Contents
+\end{abstract}
 
-\{\{\textless{} table\_of\_contents \textgreater\}\}
-
-\{\{\% /pageinfo \%\}\}
+\maketitle
 
 \textbf{Keywords:} cloudmesh, AI service, REST, multi-cloud
 
-\hypertarget{introduction}{%
-\subsection{1. Introduction}\label{introduction}}
+\section{Introduction}\label{introduction}
 
 We will develop benchmark tests that are pytest replications of Sklearn
 artificial intelligent algorithms. These pytests will then be ran on
@@ -60,12 +36,10 @@ prediction time, and more. The final project will include scripts and
 code for others to use and replicate our tests. The team will also make
 a report consisting of research and findings.
 
-\hypertarget{background-and-related-research}{%
-\subsection{2. Background and Related
-Research}\label{background-and-related-research}}
+\section{Background and Related
+Research}\label{background-and-related-research}
 
-\hypertarget{cloudmesh}{%
-\subsubsection{2.1 Cloudmesh}\label{cloudmesh}}
+\subsection{Cloudmesh}\label{cloudmesh}
 
 Cloudmesh \footnote{Cloudmesh Manual,
   \url{https://cloudmesh.github.io/cloudmesh-manual/}}\footnote{Cloudmesh
@@ -88,8 +62,7 @@ available for macOS, Linux, Windows, and Rasbian \footnote{Cloudmesh
   Manual, Instalation instryctions for cloudmesh
   \url{https://cloudmesh.github.io/cloudmesh-manual/installation/install.html}}.
 
-\hypertarget{rest}{%
-\subsubsection{2.2 REST}\label{rest}}
+\subsection{REST}\label{rest}
 
 REST is an acronym for representational state transfer. REST often uses
 the HTTP protocol for the CRUD functions which create, read, update, and
@@ -198,8 +171,7 @@ programming to REST specifications. Here are different categories
     \url{https://swagger.io/docs/open-source-tools/swagger-codegen/}}
 \end{itemize}
 
-\hypertarget{vm-cloud-providers}{%
-\subsubsection{2.3 VM Cloud providers}\label{vm-cloud-providers}}
+\subsection{VM Cloud providers}\label{vm-cloud-providers}
 
 Cloud computing providers offer their customers on-demand self-service
 computing resources that are rapidly elastic and accessible via broad
@@ -242,9 +214,8 @@ Cloudmesh works with a variety of cloud providers including Amazon Web
 Services, Microsoft Azure, Google Cloud Platform, and Oracle's OpenStack
 based providers such as the academic research serving Chameleon Cloud.
 
-\hypertarget{containers-and-microservices}{%
-\subsubsection{2.4 Containers and
-Microservices}\label{containers-and-microservices}}
+\subsection{Containers and
+Microservices}\label{containers-and-microservices}
 
 Cloudmesh uses the internet architectures of microservices and
 containers to organize its functions and code. Microservice architecture
@@ -258,11 +229,9 @@ properties: accessing objects in the container, storage of the objects,
 and traversal of the objects. Cloudmesh is designed to work on
 containers in docker, and kubernetes.
 
-\hypertarget{architecture}{%
-\subsection{3. Architecture}\label{architecture}}
+\section{Architecture}\label{architecture}
 
-\hypertarget{basic-auth-security}{%
-\subsubsection{3.1 Basic Auth Security}\label{basic-auth-security}}
+\subsection{Basic Auth Security}\label{basic-auth-security}
 
 Cloudmesh OpenAPI supports configuration of a single authorized user
 through basic authentication. Basic authentication is a simple
@@ -280,7 +249,7 @@ A cloudmesh user can create an OpenAPI server whose endpoints are only
 accessible as an authorized user. Currently, when basic auth is used as
 the authentication mechanism, all endpoints are secured with this
 method. While this can be benficial to lock down an API, it is limited
-in the sense that is is ``all or nothing'': either all endpoints are
+in the sense that is is {\em all or nothin}: either all endpoints are
 secured or none at all. This is something that can be improved upon in
 the future.
 
@@ -290,10 +259,9 @@ For an example of basic auth usage, see
 Read more about Basic Auth usage with OpenAPI
 \href{https://swagger.io/docs/specification/authentication/basic-authentication/}{here}
 
-\hypertarget{utilizing-pickle-as-an-alternative-to-mongodb-for-out-of-the-box-functionality}{%
-\subsubsection{3.2 Utilizing Pickle as an alternative to MongoDB for
-``out-of-the-box''
-functionality}\label{utilizing-pickle-as-an-alternative-to-mongodb-for-out-of-the-box-functionality}}
+\section{Utilizing Pickle as an alternative to MongoDB for
+  out-of-the-box
+  functionality}\label{utilizing-pickle-as-an-alternative-to-mongodb-for-out-of-the-box-functionality}
 
 Currently, the installation and setup of cloudmesh openapi involves the
 installation of MongoDB and the configuration of mongo variables. This
@@ -324,9 +292,8 @@ See
 \protect\hyperlink{a6-switching-between-pickledb-and-mongodb}{Appendix
 A.6} to see how to switch between DB protocols.
 
-\hypertarget{cloud-provider-hosted-ai-service}{%
-\subsubsection{3.3 Cloud Provider Hosted AI
-Service}\label{cloud-provider-hosted-ai-service}}
+\section{Cloud Provider Hosted AI
+Service}\label{cloud-provider-hosted-ai-service}
 
 A user deploys Cloudmesh OpenAPI on a virtual machine from a cloud
 provider, and uses it to host auto-generated, RESTful, AI services. A
@@ -335,7 +302,7 @@ implement a workflow, for example, downloading data from a remote
 server, training an AI model, uploading a new sample for prediction, and
 running a prediction on that sample. Cloudmesh OpenAPI hosts user
 provided Python functions on a web server that is accessible using
-standard HTTP request methods. In Figure 1 we show a remote client
+standard HTTP request methods. In Figure \ref{fig:1} we show a remote client
 accessing a Cloudmesh OpenAPI server to execute an AI service workflow.
 In this example, the user deployed Cloudmesh OpenAPI on a virtual
 machine from a single cloud provider. Cloudmesh OpenAPI provides the
@@ -354,15 +321,14 @@ request methods including function arguments.
 \end{figure}
 
 
-\hypertarget{multi-cloud-hosted-ai-service}{%
-\subsubsection{3.4 Multi-Cloud Hosted AI
-Service}\label{multi-cloud-hosted-ai-service}}
+\section{Multi-Cloud Hosted AI
+Service}\label{multi-cloud-hosted-ai-service}
 
 Cloudmesh with Cloudmesh OpenAPI provides a framework to deploy AI
 services to multiple clouds. One use case for a multi-cloud deployment
 is to benchmark cloud provider VM performance. A user can use these
 tools to script the deployment of virtual machines with different
-providers, virtual machine sizes, or operating systems. In Figure 2, a
+providers, virtual machine sizes, or operating systems. In Figure \ref{fig:2}, a
 user has deployed an AI service hosted by Cloudmesh OpenAPI on three
 separate cloud providers, AWS, Azure, and Google. The user makes
 standard HTTP method requests to access the services simultaneously, and
@@ -375,20 +341,17 @@ deployed on a single cloud provider.
 
 \begin{figure}
 \centering
-\includegraphics{../images/multi-cloud-ai-service.png}
-\caption{Mult-Cloud AI Services}
+\includegraphics[width=\columnwidth]{../images/multi-cloud-ai-service.png}
+\caption{Mult-Cloud AI Services: A client simultaneously accesses an AI service hosted
+on three seperate cloud providers, AWS, Azure, and Google to benchmark
+provider performance.}
+\label{fig:2}
 \end{figure}
 
-\textbf{Figure 2:} A client simultaneously accesses an AI service hosted
-on three seperate cloud providers, AWS, Azure, and Google to benchmark
-provider performance.
+\section{Benchmarks}\label{benchmarks}
 
-\hypertarget{benchmarks}{%
-\subsection{4. Benchmarks}\label{benchmarks}}
-
-\hypertarget{algorithms-and-datasets}{%
-\subsubsection{4.1. Algorithms and
-Datasets}\label{algorithms-and-datasets}}
+\subsection{Algorithms and
+Datasets}\label{algorithms-and-datasets}
 
 This project uses a number of simple example algorithms and datasets. We
 have chosen to use the examples included in Scikit Learn as they are
@@ -421,8 +384,7 @@ Within Skikit Learn we have chosen the following examples:
     \url{http://vis-www.cs.umass.edu/papers/iccv07alignment.pdf}} .
 \end{itemize}
 
-\hypertarget{cloud-providers}{%
-\subsubsection{4.2. Cloud Providers}\label{cloud-providers}}
+\subsection{Cloud Providers}\label{cloud-providers}
 
 Cloudmesh openapi works with virtual machine providers. It is necessary
 to select similar virtual machines for benchmarking.
@@ -458,14 +420,12 @@ Cluster}\label{execution-on-a-kubernetes-cluster}}
   \url{https://opensource.com/article/20/3/kubernetes-raspberry-pi-k3s}
 \end{itemize}
 
-\hypertarget{result-comparision}{%
-\subsubsection{4.3. Result Comparision}\label{result-comparision}}
+\section{Result Comparision}\label{result-comparision}
 
 In this section we will discuss the setup and execution of a benchmark
 for three example AI services.
 
-\hypertarget{vm-selection}{%
-\paragraph{4.3.1 VM Selection}\label{vm-selection}}
+\subsection{VM Selection}\label{vm-selection}
 
 When benchmarking cloud performance, it is important to identify and
 control deployment parameters that can affect the performance results.
@@ -473,7 +433,7 @@ This enables one to analyze comparable services or identify
 opportunities for service improvement for varying deployment features
 such as machine size, location, network, or storage hardware. These
 examples aimed to create similar machines across all three clouds and
-measure service performance. See Table 1 for a summary of the parameters
+measure service performance. See Table \ref{tab:1} for a summary of the parameters
 controlled in these benchmark examples.
 
 One key component is the virtual machine size, which determines the
@@ -498,12 +458,17 @@ control variations caused by network routing latency and provides more
 insight into the inherent network performance of the individual cloud
 services.
 
-\textbf{Table 1:} Selected VM parameters for benchmark measurement.
+%\rowcolors{2}{gray!25}{white}
+
+\begin{table*}
+  
+\caption{Selected VM parameters for benchmark measurement.
 Clouds were tested at least twice, and were run sequentially between the
 hours of approximately 1945 EST and 0330 EST starting with Google and
 ending with Azure. * For the Eigenfaces SVM example, only 60 runs were
 conducted on Azure due to a failed VM deployment from factors outside of
-the benchnmark scripts control.
+the benchnmark scripts control.}
+\label{tab:1}
 
 \begin{tabular}[]{@{}llll@{}}
 \toprule
@@ -518,81 +483,34 @@ Google\strut
 \end{minipage}\tabularnewline
 \midrule
 %\endhead
-\begin{minipage}[t]{0.13\columnwidth}\raggedright
-Size (flavor)\strut
-\end{minipage} & \begin{minipage}[t]{0.17\columnwidth}\raggedright
-m4.large\strut
-\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-Standard\_D2s\_v3\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-n1-standard-2\strut
+Size (flavor)
+& 
+m4.large~~~~~~~~~~~~
+& 
+Standard\_D2s\_v3 & 
+n1-standard-2
+\tabularnewline
+vCPU & 2 & 2 & 2
+\tabularnewline
+Memory (GB) & 8 & 8 & 7.5
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.13\columnwidth}\raggedright
-vCPU\strut
-\end{minipage} & \begin{minipage}[t]{0.17\columnwidth}\raggedright
-2\strut
-\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-2\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-2\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.13\columnwidth}\raggedright
-Memory (GB)\strut
-\end{minipage} & \begin{minipage}[t]{0.17\columnwidth}\raggedright
-8\strut
-\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-8\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-7.5\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.13\columnwidth}\raggedright
-Image\strut
-\end{minipage} & \begin{minipage}[t]{0.17\columnwidth}\raggedright
-ami-0dba2cb6798deb6d8\strut
-\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+Image & ami-0dba2cb6798deb6d8
+& \begin{minipage}[t]{0.80\columnwidth}\raggedright
 Canonical:0001-com-ubuntu-server-focal:20\_04-lts:20.04.202006100\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-ubuntu-2004-lts\strut
+\end{minipage} & 
+ubuntu-2004-lts
+\tabularnewline
+OS & Ubuntu 20.04 LTS & Ubuntu 20.04 LTS & Ubuntu 20.04 LTS
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.13\columnwidth}\raggedright
-OS\strut
-\end{minipage} & \begin{minipage}[t]{0.17\columnwidth}\raggedright
-Ubuntu 20.04 LTS\strut
-\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-Ubuntu 20.04 LTS\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-Ubuntu 20.04 LTS\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.13\columnwidth}\raggedright
-Region\strut
-\end{minipage} & \begin{minipage}[t]{0.17\columnwidth}\raggedright
-us-east-1\strut
-\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-eastus\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-us-east1\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.13\columnwidth}\raggedright
-Zone\strut
-\end{minipage} & \begin{minipage}[t]{0.17\columnwidth}\raggedright
-N/A\strut
-\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-N/A\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-us-east1-b\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.13\columnwidth}\raggedright
-Price (\$/hr)\strut
-\end{minipage} & \begin{minipage}[t]{0.17\columnwidth}\raggedright
-0.1\strut
-\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-0.096\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-0.0949995\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.13\columnwidth}\raggedright
-Runs/Test\strut
-\end{minipage} & \begin{minipage}[t]{0.17\columnwidth}\raggedright
+Region & us-east-1 & eastus & us-east1
+\tabularnewline
+Zone &  N/A &  N/A & us-east1-b
+\tabularnewline
+Price (\$/hr)
+&  0.1 & 0.096 & 0.0949995
+\tabularnewline
+Runs/Test
+& \begin{minipage}[t]{0.17\columnwidth}\raggedright
 90\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
 60*\strut
@@ -601,18 +519,17 @@ Runs/Test\strut
 \end{minipage}\tabularnewline
 \bottomrule
 \end{tabular}
+\end{table*}
 
-\hypertarget{eigenfaces-svm-example}{%
-\paragraph{4.3.2 Eigenfaces-SVM Example}\label{eigenfaces-svm-example}}
+\subsection{Eigenfaces-SVM Example}\label{eigenfaces-svm-example}
 
 We provide two example benchmarks for the Eigenfaces SVM example. The
 first deploys and measures the AI service on a single cloud provider at
 a time, and the second deploys a multi-cloud AI service, and then
 measures the service across the clouds in parallel.
 
-\hypertarget{single-cloud-provider-service-benchmarking}{%
-\paragraph{4.3.2.1 Single Cloud Provider Service
-Benchmarking}\label{single-cloud-provider-service-benchmarking}}
+\subsubsection{Single Cloud Provider Service
+Benchmarking}\label{single-cloud-provider-service-benchmarking}
 
 The benchmark script for the Eigenfaces SVM example uses Cloudmesh to
 create virtual machines and setup a Cloudmesh OpenAPI environment
@@ -656,7 +573,7 @@ internet. It tests two runtimes:
   return the target label of the uploaded image
 \end{enumerate}
 
-In Figure 1 we compare the download and extraction time of the labeled
+In Figure \ref{fig:3} we compare the download and extraction time of the labeled
 faces in the wild dataset. This data set is approximately 233 MBs
 compressed, which allows us to measure a non-trivial data transfer.
 Lower transfer times imply the cloud has higher throughput from the data
@@ -666,15 +583,14 @@ to compare the variation in the download times.
 
 \begin{figure}
 \centering
-\includegraphics{../images/sample_graph_1.png}
-\caption{Download Data Runtime}
+\includegraphics[width=\columnwidth]{../images/sample_graph_1.png}
+\caption{Download Data Runtime:  Donwnload (233MB) and extraction
+(\textasciitilde275MB) of remote image data from
+ndownloader.figshare.com/files/5976015.}
+\label{fig:3}
 \end{figure}
 
-\textbf{Figure 3:} Donwnload (233MB) and extraction
-(\textasciitilde275MB) of remote image data from
-ndownloader.figshare.com/files/5976015.
-
-In Figure 2 we measure the training time of the Eigenfaces-SVM model
+In Figure \ref{fig:4} we measure the training time of the Eigenfaces-SVM model
 both as an OpenAPI service and as the basic Scikit-learn example. This
 allows us to measure runtime overhead added by OpenAPI compared to the
 source example. Here the two functions are identical except that the
@@ -683,19 +599,18 @@ model to disk using joblib. This is necessary to share the model across
 the train and predict functions. The standard deviation is displayed to
 compare the variation in the training times.
 
-\begin{figure}
+\begin{figure}[htb]
 \centering
-\includegraphics{../images/sample_graph_2.png}
-\caption{Train Runtime}
-\end{figure}
-
-\textbf{Figure 4:} Compares the eigenfaces-svm model training time
+\includegraphics[width=\columnwidth]{../images/sample_graph_2.png}
+\caption{Train Runtime: Compares the eigenfaces-svm model training time
 running both as an OpenAPI service, and as the raw Scikit-learn example.
 There are two bars per cloud provider. The bold bars are the training
 time of the model when hosted as a Cloudmesh OpenAPI function. The
 pastel bars are the training time of the Scikit-learn example code
 without Cloudmesh OpenAPI involvement. The bars plot mean runtimes and
-the error bar reflects the standard deviation of the runtimes.
+the error bar reflects the standard deviation of the runtimes.}
+\label{fig:4}
+\end{figure}
 
 In Figure 3 we measure the time to upload an image to the server both
 from itself, and from a remote client. This allows us to compare the
@@ -706,7 +621,7 @@ deviation is displayed to compare the variation in the upload times.
 
 \begin{figure}
 \centering
-\includegraphics{../images/sample_graph_3.png}
+\includegraphics[width=\columnwidth]{../images/sample_graph_3.png}
 \caption{Upload Runtime}
 \end{figure}
 
@@ -725,7 +640,7 @@ predict times.
 
 \begin{figure}
 \centering
-\includegraphics{../images/sample_graph_4.png}
+\includegraphics[width=\columnwidth]{../images/sample_graph_4.png}
 \caption{Predict Runtime}
 \end{figure}
 
@@ -736,12 +651,17 @@ experienced by the server, and the pastel as experienced by the remote
 client. The bars plot mean runtimes and the error bar reflects the
 standard deviation of the runtimes.
 
-Table 2 presents a full listing of test results.
+Table \ref{tab:2} presents a full listing of test results.
 
-\textbf{Table 2:} Test results for the Eigenfaces SVM benchmark. Type
+\begin{table*}[htb]
+  
+\caption{Test results for the Eigenfaces SVM benchmark. Type
 ``local: denotes the test was run locally on the Cloudmesh Openapi
-server, and''remote" denotes a remote host interacted with the server
-using the python requets library.
+server, and remote denotes a remote host interacted with the server
+using the python requets library.}
+\label{tab:2}
+
+TABLE VALUES MUST BE 2 DIGITS BEHIND COMMA ROUNDED
 
 \begin{tabular}[]{@{}lllrrrr@{}}
 \toprule
@@ -793,10 +713,10 @@ test\_upload & remote & google & 0.310822 & 0.184 & 0.729 &
 0.180025\tabularnewline
 \bottomrule
 \end{tabular}
+\end{table*}
 
-\hypertarget{multi-cloud-service-benchmarking}{%
-\paragraph{4.3.2.2 Multi-Cloud Service
-Benchmarking}\label{multi-cloud-service-benchmarking}}
+\subsubsection{Multi-Cloud Service
+Benchmarking}\label{multi-cloud-service-benchmarking}
 
 In this benchmark our script first acquires VMs, install Cloudmesh
 OpenAPI, and launch the Eigenfaces SVM AI service on three separate
@@ -811,29 +731,31 @@ model, the remote data server may experience varying loads resulting in
 different load times. Our parallel tests better equalize these
 conditions by having each cloud download the data at the same time.
 
-In Figure 7 we depict the combined runtime of our benchmark tests. This
+In Figure \ref{fig:7} we depict the combined runtime of our benchmark tests. This
 allows us to compare the complete execution time of an AI service
 workflow.
 
 \begin{figure}
 \centering
-\includegraphics{../images/ai_service_workflow_runtime.png}
-\caption{AI Service Workflow Runtime}
-\end{figure}
-
-\textbf{Figure 7:} Mean runtime of the Eigenfaces SVM workflow deployed
+\includegraphics[width=\columnwidth]{../images/ai_service_workflow_runtime.png}
+\caption{AI Service Workflow Runtime: Mean runtime of the Eigenfaces SVM workflow deployed
 as a multi-cloud service. We compute the means from 30 runs of a
 workflow that included 1 download data invocation, 1 train invocation,
 30 upload invocations, and 30 predict invocations. We run the workflows
 in parallel on the separate clouds using a multiprocessing on an 8-core
-machine.
+machine.}
+\label{fig:7}
+\end{figure}
+
 
 In \ref{tab:3} we provide complete test results.
 
-\begin{table}[htb]
+\begin{table*}[htb]
 \caption{Test results for the Eigenfaces SVM benchmark deployed
   as a mutli-cloud service.}
 \label{tabe:3}
+
+TABLE VALUES MUST BE 2 DIGITS BEHIND COMMA ROUNDED
 
 \begin{tabular}[]{@{}lllrrrr@{}}
 \toprule
@@ -867,30 +789,29 @@ test\_upload & remote & google & 8.8688 & 5.39 & 15.443 &
 4.51598\tabularnewline
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
-\hypertarget{pipelined-anova-svm-example}{%
-\paragraph{4.3.3 Pipelined Anova SVM
-Example}\label{pipelined-anova-svm-example}}
+\subsection{Pipelined Anova SVM
+Example}\label{pipelined-anova-svm-example}
 
-\hypertarget{caleb-example}{%
-\paragraph{4.3.4 Caleb Example}\label{caleb-example}}
+\subsection{Caleb Example}\label{caleb-example}
 
-\hypertarget{conclusion}{%
-\subsection{5. Conclusion}\label{conclusion}}
-
-\hypertarget{limitations}{%
-\subsection{6. Limitations}\label{limitations}}
+\section{Limitations}\label{limitations}
 
 Azure has updated their libraries and discontinued the version 4.0 Azure
 libraries. We updated Cloudmesh to use the new library, but not all
 features, such as virtual machine delete, are implemented or verified.
 
-\hypertarget{appendix-a.---setup}{%
-\subsection{APPENDIX A. - Setup}\label{appendix-a.---setup}}
+\section{Conclusion}\label{conclusion}
 
-\hypertarget{a.1.-deployment}{%
-\subsubsection{A.1. Deployment}\label{a.1.-deployment}}
+
+\appendix
+
+\section{Appendix}
+
+\subsection{Setup}\label{appendix-a.---setup}
+
+\subsubsection{Deployment}\label{a.1.-deployment}
 
 The project is easy to replicate with our detailed instructions. First
 you must install Cloudmesh OpenAPI whihch can be done by the follwoing
@@ -1003,8 +924,8 @@ cms openapi server stop add
 These examples are used to demonstrate the ease of use as well as the
 functionality for those that want to replicate our work.
 
-\hypertarget{a.2.-pipiline-anova-svm}{%
-\subsubsection{A.2. Pipiline ANOVA SVM}\label{a.2.-pipiline-anova-svm}}
+
+\subsection{Pipiline ANOVA SVM}\label{a.2.-pipiline-anova-svm}
 
 This example demonstrates how to deploy a simple machine learning
 example onto a server using cloudmesh-openapi. The specific
@@ -1064,9 +985,8 @@ examples that we derive from existing sklearn examples. We benchmark
 these tests while wrapping them into pytests and run them on various
 cloud services.
 
-\hypertarget{a.3.-eigenfaces-svm-facial-recognition}{%
-\subsubsection{A.3. Eigenfaces SVM Facial
-Recognition}\label{a.3.-eigenfaces-svm-facial-recognition}}
+\subsection{Eigenfaces SVM Facial
+Recognition}\label{a.3.-eigenfaces-svm-facial-recognition}
 
 Next we demonstrate how to run the Eigenfaces SVM example locally, and
 then how to run its associated benchmark script.
@@ -1212,9 +1132,8 @@ Statistics will be printed to the command line, and graphs will be
 displayed using plt.show() function calls as well as saved to the
 \textasciitilde./tests/generator-eigenfaces-svm/ directory.
 
-\hypertarget{a.4.-using-unit-tests-for-benchmarking}{%
-\subsubsection{A.4. Using unit tests for
-Benchmarking}\label{a.4.-using-unit-tests-for-benchmarking}}
+\subsection{Using unit tests for
+Benchmarking}\label{a.4.-using-unit-tests-for-benchmarking}
 
 TODO: This section will be expanded upon
 
@@ -1234,9 +1153,8 @@ cms set cloud=azure
   Describe the Benchmark class from cloudmesh in one sentence and how we
   use it
 
-  \hypertarget{a.5.-basic-auth-example}{%
-  \subsubsection{A.5. Basic Auth
-  Example}\label{a.5.-basic-auth-example}}
+  \subsection{Basic Auth
+  Example}\label{a.5.-basic-auth-example}
 
   Basic Auth in cloudmesh openapi can be enabled with the following flag
 
@@ -1272,9 +1190,8 @@ cms openapi generate get_processor_name \
   is started.
 \end{itemize}
 
-\hypertarget{a.6-switching-between-pickledb-and-mongodb}{%
-\subsubsection{A.6 Switching between PickleDB and
-MongoDB}\label{a.6-switching-between-pickledb-and-mongodb}}
+\subsection{A.6 Switching between PickleDB and
+MongoDB}\label{a.6-switching-between-pickledb-and-mongodb}
 
 The default ``out-of-the-box'' storage mechanism of cloudmesh-openapi is
 Pickle. This requires no setup of the DB on the user's end.
@@ -1297,9 +1214,8 @@ One may switch back to pickle with the same command:
 cms openapi register protocol pickle
 \end{verbatim}
 
-\hypertarget{appendix-b.---code-location}{%
 \subsection{APPENDIX B. - Code
-Location}\label{appendix-b.---code-location}}
+Location}\label{appendix-b.---code-location}
 
 This is temporary and will in final be moved elsewhere. Its conveniently
 for now placed on top so we can easier locate it
@@ -1314,9 +1230,8 @@ for now placed on top so we can easier locate it
   branch: benchmark (not yet created)
 \end{itemize}
 
-\hypertarget{appendix-c.---cloudmesh-links}{%
 \subsection{APPENDIX C. - Cloudmesh
-Links}\label{appendix-c.---cloudmesh-links}}
+Links}\label{appendix-c.---cloudmesh-links}
 
 We added this section so the Reader can easily find some cloudmesh
 related information Documentation for Cloudmesh can be found at:
@@ -1364,8 +1279,7 @@ Various cloudmesh installations for various needs can be found here:
     \url{https://cloudmesh.github.io/cloudmesh-manual/installation/install.html}}
 \end{itemize}
 
-\hypertarget{appendix-d.---plan}{%
-\subsection{APPENDIX D. - Plan}\label{appendix-d.---plan}}
+\subsection{APPENDIX D. - Plan}\label{appendix-d.---plan}
 
 Thus far in the project we have familiarized ourselves with
 Cloudmesh-Openapi by recreating example services on our local machines,
@@ -1412,13 +1326,10 @@ on each cloud multiple times, and them summarize and plot benchmark
 information to compare the clouds. Additionally, we will finish the
 report.
 
-\hypertarget{acknowledgements}{%
-\subsection{Acknowledgements}\label{acknowledgements}}
+\section*{Acknowledgements}\label{acknowledgements}
 
 We like to thank
 \href{https://github.com/cybertraining-dsc/fa20-523-325/}{Vishwanadham
 Mandala} to participate in helping write an earlier version of this
 document.
 
-\hypertarget{references}{%
-\subsection{References}\label{references}}

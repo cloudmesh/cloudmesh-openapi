@@ -1,36 +1,56 @@
-PANDOC = pandoc
-OUTPUT = ../docs
+FILENAME=vonLaszewski-openapi
+DIR=paper-teaching
 
-FLAGS = \
-	-F pandoc-crossref \
-	-f markdown \
-	--pdf-engine=pdflatex \
-	--filter=bin/table-filter.py \
-	--filter=pandoc-citeproc \
-	--filter=bin/includes.hs \
-	--bibliography=bibliography.bib \
-	--csl=bibliography.csl \
-	-s
+# .PHONY: $(FILENAME).pdf
 
-FLAGS_TEX =
-	--bibliography=bibliography.bib \
-	--csl=bibliography.csl \
-	-s \
-	-F pandoc-crossref
+all: $(FILENAME).pdf
 
-FLAGS_PDF = --template=template.latex
+# MAIN LATEXMK RULE
 
-all: vonLaszewski-cmburn.pdf
+$(FILENAME).pdf: $(FILENAME).tex
+	latexmk -quiet -bibtex $(PREVIEW_CONTINUOUSLY) -f -pdf -pdflatex="pdflatex -synctex=1 -interaction=nonstopmode" -use-make $(FILENAME).tex
 
-mkdir:
-	@if [ ! -e build ]; then mkdir build; fi
+.PRECIOUS: %.pdf
+.PHONY: watch
 
-%.pdf : %.md | mkdir
-	$(PANDOC) -o $(OUTPUT)/$@ $(FLAGS) $(FLAGS_PDF) metadata.yaml $<
+watch: PREVIEW_CONTINUOUSLY=-pvc
+watch: $(FILENAME).pdf
 
-%.tex : %.md | mkdir
-	$(PANDOC) -o $(OUTPUT)/$@ $(FLAGS_TEX) $(FLAGS_PDF) metadata.yaml $<
+.PHONY: clean
 
 clean:
-	rm -f docs/vonLaszewski-cmburn.pdf
-	rm -f *.aux *.log *.out
+	latexmk -C -bibtex
+	rm -rf $(FILENAME).spl
+	rm -f *_bibertool.bib
+	rm -f *.ttt
+	rm -f *.blg
+
+
+regular:
+	pdflatex $(FILENAME)
+	bibtex $(FILENAME)
+	pdflatex $(FILENAME)
+	pdflatex $(FILENAME)
+
+biber:
+	@echo
+	biber -V --tool cloud-scheduling.bib | fgrep -v INFO
+	@echo
+	biber -V --tool cloud-scheduling_bibertool.bib | fgrep -v INFO
+	@echo
+	biber -V --tool strings.bib | fgrep -v INFO
+	@echo
+	biber -V --tool vonlaszewski.bib | fgrep -v INFO
+	@make -f Makefile clean
+
+zip: clean
+	cd ..; zip -x "*/.DS*" "*/*.git*" "*/*bin*" "*/*zip" "*/*.md" "*/Makefile" -r $(DIR)/$(FILENAME).zip $(DIR)
+
+flatzip: clean
+	zip -x "*.git*" "*bin*" "*zip" "*.md" "Makefile" -r $(FILENAME).zip .
+
+publish:
+	cp $(FILENAME).pdf ../../laszewski/laszewski.github.io/papers/
+	cd ../../laszewski/laszewski.github.io/papers; git add $(FILENAME).pdf
+	cd ../../laszewski/laszewski.github.io/papers; git commit -m "update $(FILENAME)" $(FILENAME).pdf
+	cd ../../laszewski/laszewski.github.io/papers; git push

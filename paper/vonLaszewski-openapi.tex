@@ -1,25 +1,62 @@
-%\documentclass{article}
+% \documentclass{article}
 \documentclass[acmtog, review=false]{acmart}
+\PassOptionsToPackage{hyphens}{url}
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{booktabs,siunitx}
-
-
+\usepackage{breakurl}
+%\usepackage[table]{xcolor} 
 
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-%\author{Gregor von Laszewski, Richard Otten, Anthony Orlowski,  Caleb Wilson}
+\author{Gregor von Laszewski}
+\email{laszewski@gmail.com}
+\orcid{0000-0001-9558-179X}
+\affiliation{%
+  \institution{$^1$Indiana University}
+  \streetaddress{Multidisciplinary Engineering and Sciences Hall\\
+2425 N Milo Sampson Lane}
+  \city{Bloomington}
+  \state{IN}
+  \country{USA}
+  \postcode{47408}
+}
+\author{Richard Otten$^1$}
+\author{Anthony Orlowski$^1$}
+\author{Caleb Wilson$^1$}
 
-\title{test}
 
-\acmConference[TD’15]{Technical Data Conference}{November
-12--16}{Dallas, TX, USA}
-\acmConference{SA’15 Art Papers}{November 02--06, 2015}{Kobe, Japan}
+\title{Benchmarking Multi-Cloud Auto Generated AI Services\footnote{\url{https://github.com/cloudmesh/cloudmesh-openapi/blob/main/paper/}
+}}
+
+%\copyrightyear{2020}
+%\acmYear{2020}
+
+
+%% These commands are for a PROCEEDINGS abstract or paper.
+%\acmConference[Woodstock '18]{Woodstock '18: ACM Symposium on Neural
+%  Gaze Detection}{June 03--05, 2018}{Woodstock, NY}
+%\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection,
+%  June 03--05, 2018, Woodstock, NY}
+%\acmPrice{15.00}
+%\acmISBN{978-1-4503-XXXX-X/18/06}
+
+\setcopyright{none}
+%% These commands are for a PROCEEDINGS abstract or paper.
+\acmConference[Draft]{Darft}{Dec 2020}{Bloomington, IN}
+\acmBooktitle{}
+\acmDOI{http://dx.doi.org/xx.xxxx/xxxxxxx.xxxxxxx}
+% \acmPrice{15.00}
+%\acmISBN{978-1-4503-XXXX-X/18/06}
+
+%% REMOVE COPYRIGHT
+\settopmatter{printacmref=false}
+\setcopyright{none}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\pagestyle{plain}
 
 \begin{document}
-
-\maketitle
 
 \input{content}
 
