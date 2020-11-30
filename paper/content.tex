@@ -1,6 +1,8 @@
 
 \tableofcontents
 
+\newcommand{\TODO}[1]{\todo[inline]{#1}}
+
 \begin{abstract}
 
 In this work we are benchmarking auto generated cloud REST services on
@@ -41,26 +43,24 @@ Research}\label{background-and-related-research}
 
 \subsection{Cloudmesh}\label{cloudmesh}
 
-Cloudmesh \footnote{Cloudmesh Manual,
-  \url{https://cloudmesh.github.io/cloudmesh-manual/}}\footnote{Cloudmesh
-  Manaual Preface for cloudmesh,
-  \url{https://cloudmesh.github.io/cloudmesh-manual/preface/about.html}}
+\TODO{test}
+
+Cloudmesh \cite{cloudmesh-manual}
 is a service that enables users to access multi-cloud environments
 easily. Cloudmesh is an evolution of previous tools that have been used
 by many users. Cloudmesh makes interacting with clouds easy by creating
 a service mashup to access common cloud services across numerous cloud
 platforms. Cloudmesh contains a sophisticated command shell, a database
 to store jason objects representing virtual machines, storage and a
-registry of REST services \footnote{Cloudmesh OpenAPI Repository for
-  automatically generated REST services from Python functions
-  \url{https://github.com/cloudmesh/cloudmesh-openapi}.}. Cloudmesh has
+registry of REST services \cite{cloudmesh-openapi}.
+Cloudmesh has
 a sophisticated plugin concept that is easy to use and leverages python
 namespaces while being able to integrate plugins from different source
 code directories \footnote{Cloudmesh Repositories,
   \url{https://github.com/cloudmesh/}}. Installation of Cloudmesh is
-available for macOS, Linux, Windows, and Rasbian \footnote{Cloudmesh
-  Manual, Instalation instryctions for cloudmesh
-  \url{https://cloudmesh.github.io/cloudmesh-manual/installation/install.html}}.
+available for macOS, Linux, Windows, and Rasbian
+\cite{cloudmesh-manual}.
+
 
 \subsection{REST}\label{rest}
 
@@ -74,13 +74,13 @@ functions on collections and items that REST introduces \footnote{G. von
   Laszewski, ``Cloud Computing'', Web Page, Sep-2020 {[}Online{]}.
   Available:
   \url{https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf}}.
-
+ 
 \begin{itemize}
 \item
   \textbf{Collection of resources} \footnote{G. von Laszewski, ``Cloud
     Computing'', Web Page, Sep-2020 {[}Online{]}. Available:
     \url{https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf}}:
-  Assume the URI, \texttt{http://.../resources/}, identifies a
+  Assume the URI, \\ \texttt{http://.../resources/}, identifies a
   collection of resources. The following CRUD functions would be
   implemented:
 
@@ -101,7 +101,7 @@ functions on collections and items that REST introduces \footnote{G. von
   \textbf{Single Resource} \footnote{G. von Laszewski, ``Cloud
     Computing'', Web Page, Sep-2020 {[}Online{]}. Available:
     \url{https://cloudmesh-community.github.io/pub//vonLaszewski-cloud.pdf}}:
-  Assume the URI, \texttt{http://.../resources/item58}, identifies a
+  Assume the URI, \\ \texttt{http://.../resources/item1}, identifies a
   single resource in a collection. The following CRUD functions would be
   implemented:
 
@@ -170,6 +170,10 @@ programming to REST specifications. Here are different categories
     documentation'', Web Page {[}Online{]}. Available:
     \url{https://swagger.io/docs/open-source-tools/swagger-codegen/}}
 \end{itemize}
+
+\subsection{OpenAPI}
+
+\todo{TBD}
 
 \subsection{VM Cloud providers}\label{vm-cloud-providers}
 
@@ -240,10 +244,11 @@ HTTP requests with the \texttt{Authorization} header that contains the
 word \texttt{Basic} followed by a space and a base64-encoded string of
 the format \texttt{username:password}.
 
+\TODO{we must not cite from wikipedia}
 From wikipedia, basic auth is ``a method for an HTTP user agent (e.g.~a
 web browser) to provide a user name and password when making a
 request''. (\href{https://github.com/cloudmesh/cloudmesh-openapi}{more
-on this})
+on this}) \cite{cloudmesh-openapi}.
 
 A cloudmesh user can create an OpenAPI server whose endpoints are only
 accessible as an authorized user. Currently, when basic auth is used as
@@ -275,7 +280,7 @@ available to Pi users with MongoDB.
 
 In an effort to provide this software to all those that are interested
 regardless of OS/machine, we have added a new default storage mechanism
-that functions ``out-of-the-box'' with cloudmesh-openapi. This storage
+that functions {\em out-of-the-box} with cloudmesh-openapi. This storage
 mechanism is implemented with python's native Pickle at the heart. All
 interfaces associated with MongoDB interactions have been extended to
 support switching to PickleDB. Thus, this addition is backwards
@@ -373,15 +378,12 @@ Within Skikit Learn we have chosen the following examples:
   \textbf{Eigenfaces SVM Facial Recognition}: A facial recognition
   example that first utilizes principle component analysis (PCA) to
   generate eigenfaces from the training image data, and then trains and
-  tests a SVM model \footnote{``Faces recognition example using
-    eigenfaces and SVMs'', Web Page {[}Online{]}. Available:
-    \url{https://scikit-learn.org/stable/auto_examples/applications/plot_face_recognition.html\#sphx-glr-auto-examples-applications-plot-face-recognition-py}}.
-  This example uses the real world ``Labeled Faces in the Wild'' dataset
+  tests a SVM model \cite{www-skikit-learn-faces}.
+
+  This example uses the real world {\em Labeled Faces in the Wild} dataset
   consisting of labeled images of famous individuals gathered from the
-  internet \footnote{Huang, Gary \& Jain, Vidit \& Learned-Miller, Erik.
-    (2007). Unsupervised Joint Alignment of Complex Images. ICCV. 1-8.
-    10.1109/ICCV.2007.4408858. Available:
-    \url{http://vis-www.cs.umass.edu/papers/iccv07alignment.pdf}} .
+  internet \cite{faces-data}.
+
 \end{itemize}
 
 \subsection{Cloud Providers}\label{cloud-providers}
@@ -485,7 +487,7 @@ Google\strut
 %\endhead
 Size (flavor)
 & 
-m4.large~~~~~~~~~~~~
+m4.large
 & 
 Standard\_D2s\_v3 & 
 n1-standard-2
@@ -493,7 +495,7 @@ n1-standard-2
 vCPU & 2 & 2 & 2
 \tabularnewline
 Memory (GB) & 8 & 8 & 7.5
-\end{minipage}\tabularnewline
+\tabularnewline
 Image & ami-0dba2cb6798deb6d8
 & \begin{minipage}[t]{0.80\columnwidth}\raggedright
 Canonical:0001-com-ubuntu-server-focal:20\_04-lts:20.04.202006100\strut
@@ -501,7 +503,7 @@ Canonical:0001-com-ubuntu-server-focal:20\_04-lts:20.04.202006100\strut
 ubuntu-2004-lts
 \tabularnewline
 OS & Ubuntu 20.04 LTS & Ubuntu 20.04 LTS & Ubuntu 20.04 LTS
-\end{minipage}\tabularnewline
+\tabularnewline
 Region & us-east-1 & eastus & us-east1
 \tabularnewline
 Zone &  N/A &  N/A & us-east1-b
@@ -661,7 +663,7 @@ server, and remote denotes a remote host interacted with the server
 using the python requets library.}
 \label{tab:2}
 
-TABLE VALUES MUST BE 2 DIGITS BEHIND COMMA ROUNDED
+\todo{TABLE VALUES MUST BE 2 DIGITS BEHIND COMMA ROUNDED}
 
 \begin{tabular}[]{@{}lllrrrr@{}}
 \toprule
@@ -747,7 +749,6 @@ machine.}
 \label{fig:7}
 \end{figure}
 
-
 In \ref{tab:3} we provide complete test results.
 
 \begin{table*}[htb]
@@ -755,7 +756,7 @@ In \ref{tab:3} we provide complete test results.
   as a mutli-cloud service.}
 \label{tabe:3}
 
-TABLE VALUES MUST BE 2 DIGITS BEHIND COMMA ROUNDED
+\TODO{TABLE VALUES MUST BE 2 DIGITS BEHIND COMMA ROUNDED}
 
 \begin{tabular}[]{@{}lllrrrr@{}}
 \toprule
@@ -1234,14 +1235,7 @@ for now placed on top so we can easier locate it
 Links}\label{appendix-c.---cloudmesh-links}
 
 We added this section so the Reader can easily find some cloudmesh
-related information Documentation for Cloudmesh can be found at:
-
-\begin{itemize}
-\tightlist
-\item
-  \url{https://cloudmesh.github.io/cloudmesh-manual/} \footnote{Cloudmesh
-    Manual, \url{https://cloudmesh.github.io/cloudmesh-manual/}}
-\end{itemize}
+related information Documentation for Cloudmesh can be found at \cite{cloudmesh-manual}:
 
 Code for cloud mesh can be found at:
 
@@ -1253,31 +1247,11 @@ Code for cloud mesh can be found at:
 \end{itemize}
 
 Examples in this paper came from the cloudmesh openapi manual which is
-located here:
+located here \cite{cloudmesh-openapi}.
 
-\begin{itemize}
-\tightlist
-\item
-  \url{https://github.com/cloudmesh/cloudmesh-openapi} \footnote{Cloudmesh
-    OpenAPI Repository for automatically generated REST services from
-    Python functions
-    \url{https://github.com/cloudmesh/cloudmesh-openapi}.}.
-\end{itemize}
-
-Information about cloudmesh can be found here: *
-\url{https://cloudmesh.github.io/cloudmesh-manual/preface/about.html}
-\footnote{Cloudmesh Manaual Preface for cloudmesh,
-  \url{https://cloudmesh.github.io/cloudmesh-manual/preface/about.html}}
-
-Various cloudmesh installations for various needs can be found here:
-
-\begin{itemize}
-\tightlist
-\item
-  \url{https://cloudmesh.github.io/cloudmesh-manual/installation/install.html}
-  \footnote{Cloudmesh Manual, Instalation instryctions for cloudmesh
-    \url{https://cloudmesh.github.io/cloudmesh-manual/installation/install.html}}
-\end{itemize}
+Information about cloudmesh can be found here \cite{cloudmesh-manual},
+whic includes various cloudmesh installations documentation for
+different OSes.
 
 \subsection{APPENDIX D. - Plan}\label{appendix-d.---plan}
 
@@ -1302,8 +1276,7 @@ Cloudmesh shell to automate our benchmark tests so others can replicate
 our work.
 
 For an AI analytic benchmark test, one intesresting example to replicate
-may be the faces recognition example using eigenfaces and SVMs
-\url{https://scikit-learn.org/stable/auto_examples/applications/plot_face_recognition.html\#sphx-glr-auto-examples-applications-plot-face-recognition-py}.
+may be the faces recognition example using eigenfaces and SVMs \cite{www-skikit-learn-faces}.
 
 Last week we created the first draft of the eigenfaces-svm example that
 is found in the ``benchmark'' branch. It outputs the example and prints
@@ -1333,3 +1306,5 @@ We like to thank
 Mandala} to participate in helping write an earlier version of this
 document.
 
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
