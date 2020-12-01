@@ -8,7 +8,7 @@ for x in range(0,30):
 	for line in output:
   		outF.write(line)
   		outF.write("\n")
-		outF.close()
+outF.close()
 
 
 
