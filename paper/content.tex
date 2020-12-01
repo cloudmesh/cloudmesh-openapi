@@ -1,3 +1,4 @@
+\hyphenation{al-though Al-though}
 
 \tableofcontents
 
@@ -90,7 +91,8 @@ The previous work provides us with a blueprint on how to proceed.  We list the f
 
 \begin{description}
   
-\item[Software Defined Analytics Services and Applications.] Just as
+\item[Software Defined Analytics Services and Applications.] ~\\ 
+  Just as
   in the NBDIF the utilization of \emph{DevOps} to deliver
   Software-Defined (SD) Big Data applications is of
  utmost importance for the design of reusable services and components \cite{cloudmesh-manual,bigdata-stack-1,bigdata-stack-2}. 
@@ -108,7 +110,7 @@ The previous work provides us with a blueprint on how to proceed.  We list the f
   cases were sufficient to drive the NIST BDRA document \cite{nist-v6}
   and allowed the community to investigate initial implementations. These usecases also motivate the work conducted in this effort.
 
-\item[Independent API Specification Leveraging OpenAPI.] Although the
+\item[Independent API Specification Leveraging OpenAPI.] ~\\ Although the
   use of OpenAPI \cite{openapi,openapi-tools} is not required as part
   of the NIST specification, it can be used to formulate services in a
   language-independent fashion. Hence is allows {\em creating, evolving
@@ -127,20 +129,22 @@ The previous work provides us with a blueprint on how to proceed.  We list the f
 
 \end{description}
 
-Hence, previous work provides us with a blueprint on how to proceed which we summarize as follows: {\em Develop an easy to use framework that allows the scientists (a) to develop shareable analytics components (b) allow for the deployment of them and (c) allow for the easy reuse of the services by community members leveraging the deployments.} 
+Hence, previous work provides us with a blueprint on how to proceed which we summarize as 
+follows:
+
+{\em Develop an easy to use framework that allows the scientists (a) to develop shareable analytics components (b) allow for the deployment of them and (c) allow for the easy reuse of the services by community members leveraging the deployments.} 
 
 
 
 \subsection{REST}\label{rest}
 
-REST is an acronym for representational state transfer. REST often uses
+One of the most common architectural styles for cloud related services is based on {\BF R}epr{\BF E}sentational {\bf S}tate {\bf T}ransfer (REST). REST often uses
 the HTTP protocol for the CRUD functions which create, read, update, and
 delete resources. It is important to note that REST is not a standard,
 but it is a software architectural style for building network services.
 When referred to as a part of the HTTP protocol, REST has the methods of
 GET, PUT, POST, and DELETE. These methods are used to implement the CRUD
-functions on collections and items that REST introduces
-\cite{las-book-cloud}.
+functions on collections and items that REST introduces abstractions for managing collections and single resources \cite{las-book-cloud}.
  
 \begin{itemize}
 \item
@@ -184,31 +188,36 @@ functions on collections and items that REST introduces
 \end{itemize}
 
 Because REST has a defined structure, there are tools that manage
-programming to REST specifications. Here are different categories
-\cite{las-book-cloud}.
+programming to REST style architectures. They include, for example, different categories
+\cite{las-book-cloud}:
 
 \begin{itemize}
 \tightlist
-\item \textbf{REST Specification Frameworks}: Frameworks to define
+\item \textbf{REST Specification Frameworks} which  define
   REST service specifications for generating REST services in a
-  language and framework independently, include: Swagger 2.0
+  language and framework independently such as Swagger 2.0
   \cite{openapi-2}, OpenAPI 3.0 \cite{openapi-3} and RAML
   \cite{raml-1}.
-\item \textbf{REST programming language support}: Tools and services
-  for targeting specific programming languages, include: Flask Rest
-  \cite{www-flask-restful}, Django Rest \cite{www-django-rest}.
-\item \textbf{REST documentation-based tools}: These tools document
+\item \textbf{REST programming language support} which include tools and services
+  for targeting specific programming languages such as Flask Restful
+  \cite{www-flask-restful}, Django Rest \cite{www-django-rest} for Python.
+\item \textbf{REST documentation-based tools} which are tools to document
   REST specifications. One such tool is Swagger \cite{www-swagger}.
-\item \textbf{REST design support tools}: These tools support the
-  design process in developing REST services while extracting on top
-  of the programming languages. These tools also define reusable to
-  create clients and servers for particular targets.These tools
-  include Swagger \cite{www-swagger}, additional swagger tools are
+\item \textbf{REST design support tools} which support the
+  design process in developing REST services while defining reusable client and server that can be integrated and enhanced such as Swagger \cite{www-swagger} and other tools
   available at OpenAPI Tools \cite{www-openapi-tools} to generate code
   from OpenAPI specifications \cite{www-swagger-codegen}
 \end{itemize}
 
+Within our work reported here we will heavily base our architecture on REST. From this small discussion it is obvious that although the concept of REST is easy to understand a significant amount of expertise is needed to apply it which domain scientists may not be interested in to know but keen on reusing without needing to know the details.
+
 \subsection{OpenAPI}
+
+One of the important aspects of generating REST services is a language independent formulation of REST services. For this reason the ``OpenAPI Specification (OAS) defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined, a consumer can understand and interact with the remote service with a minimal amount of implementation logic \cite{openapi}.''
+
+Hence the specifucation allows us to not only display the documentation, but also allows us to use it to automatically generate the clients and server stubs from it. OpenAPI can be formulated at a YAML Ain't Markup Language (YAML) \cite{www-yaml} file. 
+
+An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases.
 
 \TODO{TBD}
 
@@ -868,9 +877,14 @@ features, such as virtual machine delete, are implemented or verified.
 \section*{Acknowledgements}\label{acknowledgements}
 
 We like to thank
-\href{https://github.com/cybertraining-dsc/fa20-523-325/}{Vishwanadham
-Mandala} to participate in helping write an earlier version of this
-document.
+Brian Kegerreis,
+Jonathan Beckford,
+Jagadeesh Kandimalla,
+Prateek Shaw,
+Ishan Mishra,
+Fugang Wang, and Andrew Goldfarb for developing the Python REST service generator on which this work is based on. We also like to thank the more than 70 contributors to the cloudmesh toolkit for developing the various cloud providers. 
+
+
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
