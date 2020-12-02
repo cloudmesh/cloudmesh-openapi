@@ -212,19 +212,7 @@ Within Skikit Learn we have chosen the following examples:
 
 ### 4.2. Cloud Providers
 
-Cloudmesh openapi works with virtual machine providers. It is necessary to select similar virtual machines for benchmarking. 
-
-#### AWS
-
-#### Azure
-
-#### Google
-
-#### OpenStack
-
-#### Oracle
-
-#### Raspberry Pi Cluster
+Cloudmesh openapi works with virtual machine providers. It is necessary to select similar virtual machines for benchmarking. It is important to select clouds with similar features and virtual machines for benchmarking. Cloudmesh works with these cloud provider virtual machine services: AWS, Azure, Google, OpenStac, Oracle, and Rasberry Pi Cluster. 
 
 ##### Execution on Raspbian
 
