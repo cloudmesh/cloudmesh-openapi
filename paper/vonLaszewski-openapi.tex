@@ -7,16 +7,20 @@
 \usepackage{breakurl}
 \usepackage{todonotes}
 % \usepackage[table]{xcolor} 
+\usepackage{fancyvrb}
+\usepackage{listings}
+\usepackage{xcolor}
 
 
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
+
 \author{Gregor von Laszewski}
 \email{laszewski@gmail.com}
 \orcid{0000-0001-9558-179X}
 \affiliation{%
-  \institution{$^1$Indiana University}
+  \institution{$^*$Indiana University}
   \streetaddress{Multidisciplinary Engineering and Sciences Hall\\
 2425 N Milo Sampson Lane}
   \city{Bloomington}
@@ -24,16 +28,38 @@
   \country{USA}
   \postcode{47408}
 }
+\authornotemark[1]
 %\authornote{Corresponding author}
-\authornotemark[1]
-\author{Geoffrey C. Fox}
-\authornotemark[1]
-\author{Richard Otten}
-\authornotemark[1]
+
 \author{Anthony Orlowski}
 \authornotemark[1]
+
+\author{Richard Otten}
+\authornotemark[1]
+
 \author{Caleb Wilson}
 \authornotemark[1]
+
+\author{Geoffrey C. Fox}
+\authornotemark[1]
+
+\author{\\Wo L. Chang}
+\authornotemark[2]
+\affiliation{%
+  \institution{$^\textdagger$National Institute of Standards and Technology }
+  \streetaddress{
+  100 Bureau Drive
+  }
+  \city{Gaithersburg}
+  \state{MD}
+  \country{USA}
+  \postcode{20899}
+}
+
+\settopmatter{authorsperrow=4}
+
+
+\renewcommand{\shortauthors}{Gregor von Laszewski, et al.}
 
 \title{Multi-Cloud Auto Generated AI Services\footnote{\url{https://github.com/cloudmesh/cloudmesh-openapi/blob/main/paper/}
 }}
