@@ -52,39 +52,6 @@ The output will be a string containing your computer.
 
 \TODO{how does the string look like}
 
-Next you can test a more sophiticated example. Here we generate from a
-python function a rest servive. We consider the following function
-definition in which a float is returned as a simple integer
-
-\begin{verbatim}
-def add(x: float, y: float) -> float:
-    """
-    adding float and float.
-    :param x: x value
-    :type x: float
-    :param y: y value
-    :type y: float
-    :return: result
-    :return type: float
-    """
-    result = x + y
-
-    return result
-\end{verbatim}
-
-Once we execute the following lines in a terminal, the result of the
-addition will be calculated in the REST service and it is returned as a
-string.
-
-\begin{verbatim}
-cms openapi generate add --filename=./tests/add-float/add.py
-cms openapi server start ./tests/add-float/add.yaml 
-curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" \
-     -H "accept: text/plain"
-# This command returns
-> 3.0
-cms openapi server stop add
-\end{verbatim}
 
 As we often also need the information as a REST service, we provide in
 our next example a jsonified object specification.

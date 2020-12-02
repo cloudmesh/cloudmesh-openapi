@@ -82,8 +82,8 @@ our activities reported here while expanding it to cloud providers and
 services focusing on {\em Analytics Services}, which are not covered
 by the current volumes. 
 
-In a previous effort we have developed a reference implementation that follows the architecture layed out in NBDIF and is easy to use by by scientists. 
-However, it focused mostly on a multi-cloud provider access via REST services and command line tools. The reference implementation is done as part of the cloudmesh project which was one of the first multi-cloud provider interfaces even including cloud technologies that are no longer active such as Eucalyptus \cite{??}, OpenCirrus \cite{??}, FutureGrid \cite{??}, and Comet Cloud \cite{??}. Today, it supports clouds such as AWS \cite{www-aws}, Azure \cite{www-azure}, Google Cloud Platform \cite{??}, Oracle \cite{??}, and OpenStack \cite{www-openStack}. It will offer value adds as it also explores the integration of MapReduce frameworks such as Hadoop \cite{??} and Spark \cite{??}, as well as container based frameworks such as Docker \cite{??} and Kubernetes \cite{??}. 
+In a previous effort we have developed a reference implementation that follows the architecture laid out in NBDIF and is easy to use by by scientists. 
+However, it focused mostly on a multi-cloud provider access via REST services and command line tools. The reference implementation is done as part of the cloudmesh project which was one of the first multi-cloud provider interfaces even including cloud technologies that are no longer active such as Eucalyptus \cite{??}, OpenCirrus \cite{opencirrus}, FutureGrid \cite{futuregrid}, and Comet Cloud \cite{??}. Today, it supports clouds such as AWS \cite{www-aws}, Azure \cite{www-azure}, Google Cloud Platform \cite{??}, Oracle \cite{??}, and OpenStack \cite{www-openStack}. It will offer value adds as it also explores the integration of MapReduce frameworks such as Hadoop \cite{??} and Spark \cite{??}, as well as container based frameworks such as Docker \cite{??} and Kubernetes \cite{??}. 
 
 However, the work presented here focuses on the creation of analytics services that can be automatically created and hosted on any of the clouds supported by cloudmesh. This is a non trivial effort due to the large number of technologies involved and is outside of the expertise of domain scientists. However, the use of cloudmesh makes it possible that domain scientist can much more easily access these services and leverage our more than 10 years of experience in this field.
 
@@ -217,9 +217,7 @@ One of the important aspects of generating REST services is a language independe
 
 Hence the specifucation allows us to not only display the documentation, but also allows us to use it to automatically generate the clients and server stubs from it. OpenAPI can be formulated at a YAML Ain't Markup Language (YAML) \cite{www-yaml} file. 
 
-An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases.
-
-\TODO{TBD}
+An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases. One of the issues with using the OpenAPI during the design of a project is that it takes considerable effort to understand the specification. In fact, based on our experience of integrating it into university courses it is a formidable effort to learn and use it. The lessosn from this educational effort that includes researchers, professionals, graduate and undergraduate students motivated this work.
 
 \subsection{VM Cloud providers}\label{vm-cloud-providers}
 
@@ -297,6 +295,72 @@ available for macOS, Linux, Windows, and Rasbian
 
 \section{Architecture}
 \label{sec:architecture}
+
+
+\subsection{Definition}
+
+\TODO{TBD}
+
+\subsubsection{Definition Using Functions}
+
+\TODO{TBD}
+
+Here we generate from a
+python function a rest servive. We consider the following function
+definition in which a float is returned as a simple integer
+
+Figure \ref{fig:function}
+
+Figure \ref{fig:deploy}
+
+\begin{figure}[htb]
+%\begin{Verbatim}[numbers=left,xleftmargin=5mm]
+\bigskip
+\begin{lstlisting}[language=Python,
+                   basicstyle=\ttfamily\footnotesize,
+                   numbers=left,                   
+                   numbersep=5pt,
+                   xleftmargin=5mm]
+def add(x: float, y: float) -> float:
+    """
+    adding x and y.
+    :param x: x value
+    :param y: y value
+    :return: result
+    """
+    result = x + y
+    return result
+\end{lstlisting}
+\caption{Defining an analytics function that is used to generate a REST service.}
+\label{fig:function}
+\bigskip
+\begin{lstlisting}[language=bash,
+                   firstnumber=10,
+                   basicstyle=\ttfamily\footnotesize,
+                   numbers=left,                   
+                   numbersep=5pt,
+                   xleftmargin=5mm]
+$ cms openapi generate add --filename=./add.py
+$ cms openapi server start ./add.yaml 
+$ curl \ 
+  -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" \
+  -H "accept: text/plain"
+# This command returns
+> 3.0
+\end{lstlisting}
+
+\caption{Generating, deploying, and invoking the REST service.}
+\label{fig:deploy}
+
+\end{figure}
+
+Once we execute the following lines in a terminal, the result of the
+addition will be calculated in the REST service and it is returned as a
+string.
+
+
+\subsubsection{Definition Using Classes}
+
 
 \subsection{Security}
 \label{security}
