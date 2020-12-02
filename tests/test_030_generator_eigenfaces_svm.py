@@ -1,5 +1,5 @@
 ###############################################################
-# cms set host= localhost or ip
+# cms set host=localhost
 # pytest -v -s --capture=no ./tests/test_030_generator_eigenfaces_svm.py
 # pytest -v  -s ./tests/test_030_generator_eigenfaces_svm.py
 # pytest -v --capture=no  ./tests/test_030_generator_eigenfaces_svm.py:Test_name::<METHODNAME>
@@ -45,6 +45,7 @@ def server_init(request):
     FNULL = open(os.devnull, 'w')
     subprocess.Popen([command], shell=True,stdin=None, stdout=FNULL, stderr=subprocess.STDOUT, close_fds=True)
     sleep(3)
+    r = requests.get(f"http://{ip}:8080/cloudmesh/ui)
     yield
     command = "cms openapi server stop EigenfacesSVM"
     result = Shell.run(command)
