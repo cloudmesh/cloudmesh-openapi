@@ -237,9 +237,9 @@ def main(argv):
     plt.title('AI Service Workflow Runtime')
     plt.xticks(ind, download_labels)
     plt.legend((p1[0], p2[0],p3[0],p4[0]), ('Download Data', 'Train', 'Upload', 'Predict'), bbox_to_anchor=(0, 0), loc='lower left', ncol=4, frameon=True)
-    plt.savefig('sample_multi_graph_1.png')
-    plt.savefig('sample_multi_graph_1.pdf')
-    plt.savefig('sample_multi_graph_1.svg')
+    plt.savefig('ai_service_workflow_runtime.png')
+    plt.savefig('ai_service_workflow_runtime.pdf')
+    plt.savefig('ai_service_workflow_runtime.svg')
     plt.show()
 
 if __name__ == "__main__":
