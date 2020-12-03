@@ -1,3 +1,15 @@
+# LATEX
+
+
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+*.toc
+*.aux
+
 *~
 .vscode
 # Byte-compiled / optimized / DLL files
