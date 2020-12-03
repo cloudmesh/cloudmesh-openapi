@@ -1,0 +1,638 @@
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /home/pi/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/pi/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/test_030_generator_eigenfaces_svm.py __________
+ImportError while importing test module '/home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:22: in <module>
+    from . import multiarray
+../../ENV3/lib/python3.7/site-packages/numpy/core/multiarray.py:12: in <module>
+    from . import overrides
+../../ENV3/lib/python3.7/site-packages/numpy/core/overrides.py:7: in <module>
+    from numpy.core._multiarray_umath import (
+E   ImportError: libf77blas.so.3: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+/usr/lib/python3.7/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_030_generator_eigenfaces_svm.py:22: in <module>
+    from sklearn.model_selection import train_test_split
+../../ENV3/lib/python3.7/site-packages/sklearn/__init__.py:80: in <module>
+    from .base import clone
+../../ENV3/lib/python3.7/site-packages/sklearn/base.py:17: in <module>
+    import numpy as np
+../../ENV3/lib/python3.7/site-packages/numpy/__init__.py:140: in <module>
+    from . import core
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:48: in <module>
+    raise ImportError(msg)
+E   ImportError: 
+E   
+E   IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+E   
+E   Importing the numpy C-extensions failed. This error can happen for
+E   many reasons, often due to issues with your setup or how NumPy was
+E   installed.
+E   
+E   We have compiled some common reasons and troubleshooting tips at:
+E   
+E       https://numpy.org/devdocs/user/troubleshooting-importerror.html
+E   
+E   Please note and check the following:
+E   
+E     * The Python version is: Python3.7 from "/home/pi/ENV3/bin/python3"
+E     * The NumPy version is: "1.19.4"
+E   
+E   and make sure that they are the versions you expect.
+E   Please carefully study the documentation linked above for further help.
+E   
+E   Original error was: libf77blas.so.3: cannot open shared object file: No such file or directory
+=========================== short test summary info ============================
+ERROR tests/test_030_generator_eigenfaces_svm.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 1.06s ===============================
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /home/pi/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/pi/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/test_030_generator_eigenfaces_svm.py __________
+ImportError while importing test module '/home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:22: in <module>
+    from . import multiarray
+../../ENV3/lib/python3.7/site-packages/numpy/core/multiarray.py:12: in <module>
+    from . import overrides
+../../ENV3/lib/python3.7/site-packages/numpy/core/overrides.py:7: in <module>
+    from numpy.core._multiarray_umath import (
+E   ImportError: libf77blas.so.3: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+/usr/lib/python3.7/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_030_generator_eigenfaces_svm.py:22: in <module>
+    from sklearn.model_selection import train_test_split
+../../ENV3/lib/python3.7/site-packages/sklearn/__init__.py:80: in <module>
+    from .base import clone
+../../ENV3/lib/python3.7/site-packages/sklearn/base.py:17: in <module>
+    import numpy as np
+../../ENV3/lib/python3.7/site-packages/numpy/__init__.py:140: in <module>
+    from . import core
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:48: in <module>
+    raise ImportError(msg)
+E   ImportError: 
+E   
+E   IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+E   
+E   Importing the numpy C-extensions failed. This error can happen for
+E   many reasons, often due to issues with your setup or how NumPy was
+E   installed.
+E   
+E   We have compiled some common reasons and troubleshooting tips at:
+E   
+E       https://numpy.org/devdocs/user/troubleshooting-importerror.html
+E   
+E   Please note and check the following:
+E   
+E     * The Python version is: Python3.7 from "/home/pi/ENV3/bin/python3"
+E     * The NumPy version is: "1.19.4"
+E   
+E   and make sure that they are the versions you expect.
+E   Please carefully study the documentation linked above for further help.
+E   
+E   Original error was: libf77blas.so.3: cannot open shared object file: No such file or directory
+=========================== short test summary info ============================
+ERROR tests/test_030_generator_eigenfaces_svm.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 1.05s ===============================
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /home/pi/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/pi/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/test_030_generator_eigenfaces_svm.py __________
+ImportError while importing test module '/home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:22: in <module>
+    from . import multiarray
+../../ENV3/lib/python3.7/site-packages/numpy/core/multiarray.py:12: in <module>
+    from . import overrides
+../../ENV3/lib/python3.7/site-packages/numpy/core/overrides.py:7: in <module>
+    from numpy.core._multiarray_umath import (
+E   ImportError: libf77blas.so.3: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+/usr/lib/python3.7/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_030_generator_eigenfaces_svm.py:22: in <module>
+    from sklearn.model_selection import train_test_split
+../../ENV3/lib/python3.7/site-packages/sklearn/__init__.py:80: in <module>
+    from .base import clone
+../../ENV3/lib/python3.7/site-packages/sklearn/base.py:17: in <module>
+    import numpy as np
+../../ENV3/lib/python3.7/site-packages/numpy/__init__.py:140: in <module>
+    from . import core
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:48: in <module>
+    raise ImportError(msg)
+E   ImportError: 
+E   
+E   IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+E   
+E   Importing the numpy C-extensions failed. This error can happen for
+E   many reasons, often due to issues with your setup or how NumPy was
+E   installed.
+E   
+E   We have compiled some common reasons and troubleshooting tips at:
+E   
+E       https://numpy.org/devdocs/user/troubleshooting-importerror.html
+E   
+E   Please note and check the following:
+E   
+E     * The Python version is: Python3.7 from "/home/pi/ENV3/bin/python3"
+E     * The NumPy version is: "1.19.4"
+E   
+E   and make sure that they are the versions you expect.
+E   Please carefully study the documentation linked above for further help.
+E   
+E   Original error was: libf77blas.so.3: cannot open shared object file: No such file or directory
+=========================== short test summary info ============================
+ERROR tests/test_030_generator_eigenfaces_svm.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 1.06s ===============================
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /home/pi/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/pi/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/test_030_generator_eigenfaces_svm.py __________
+ImportError while importing test module '/home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:22: in <module>
+    from . import multiarray
+../../ENV3/lib/python3.7/site-packages/numpy/core/multiarray.py:12: in <module>
+    from . import overrides
+../../ENV3/lib/python3.7/site-packages/numpy/core/overrides.py:7: in <module>
+    from numpy.core._multiarray_umath import (
+E   ImportError: libf77blas.so.3: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+/usr/lib/python3.7/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_030_generator_eigenfaces_svm.py:22: in <module>
+    from sklearn.model_selection import train_test_split
+../../ENV3/lib/python3.7/site-packages/sklearn/__init__.py:80: in <module>
+    from .base import clone
+../../ENV3/lib/python3.7/site-packages/sklearn/base.py:17: in <module>
+    import numpy as np
+../../ENV3/lib/python3.7/site-packages/numpy/__init__.py:140: in <module>
+    from . import core
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:48: in <module>
+    raise ImportError(msg)
+E   ImportError: 
+E   
+E   IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+E   
+E   Importing the numpy C-extensions failed. This error can happen for
+E   many reasons, often due to issues with your setup or how NumPy was
+E   installed.
+E   
+E   We have compiled some common reasons and troubleshooting tips at:
+E   
+E       https://numpy.org/devdocs/user/troubleshooting-importerror.html
+E   
+E   Please note and check the following:
+E   
+E     * The Python version is: Python3.7 from "/home/pi/ENV3/bin/python3"
+E     * The NumPy version is: "1.19.4"
+E   
+E   and make sure that they are the versions you expect.
+E   Please carefully study the documentation linked above for further help.
+E   
+E   Original error was: libf77blas.so.3: cannot open shared object file: No such file or directory
+=========================== short test summary info ============================
+ERROR tests/test_030_generator_eigenfaces_svm.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 1.06s ===============================
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /home/pi/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/pi/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/test_030_generator_eigenfaces_svm.py __________
+ImportError while importing test module '/home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:22: in <module>
+    from . import multiarray
+../../ENV3/lib/python3.7/site-packages/numpy/core/multiarray.py:12: in <module>
+    from . import overrides
+../../ENV3/lib/python3.7/site-packages/numpy/core/overrides.py:7: in <module>
+    from numpy.core._multiarray_umath import (
+E   ImportError: libf77blas.so.3: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+/usr/lib/python3.7/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_030_generator_eigenfaces_svm.py:22: in <module>
+    from sklearn.model_selection import train_test_split
+../../ENV3/lib/python3.7/site-packages/sklearn/__init__.py:80: in <module>
+    from .base import clone
+../../ENV3/lib/python3.7/site-packages/sklearn/base.py:17: in <module>
+    import numpy as np
+../../ENV3/lib/python3.7/site-packages/numpy/__init__.py:140: in <module>
+    from . import core
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:48: in <module>
+    raise ImportError(msg)
+E   ImportError: 
+E   
+E   IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+E   
+E   Importing the numpy C-extensions failed. This error can happen for
+E   many reasons, often due to issues with your setup or how NumPy was
+E   installed.
+E   
+E   We have compiled some common reasons and troubleshooting tips at:
+E   
+E       https://numpy.org/devdocs/user/troubleshooting-importerror.html
+E   
+E   Please note and check the following:
+E   
+E     * The Python version is: Python3.7 from "/home/pi/ENV3/bin/python3"
+E     * The NumPy version is: "1.19.4"
+E   
+E   and make sure that they are the versions you expect.
+E   Please carefully study the documentation linked above for further help.
+E   
+E   Original error was: libf77blas.so.3: cannot open shared object file: No such file or directory
+=========================== short test summary info ============================
+ERROR tests/test_030_generator_eigenfaces_svm.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 1.04s ===============================
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /home/pi/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/pi/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/test_030_generator_eigenfaces_svm.py __________
+ImportError while importing test module '/home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:22: in <module>
+    from . import multiarray
+../../ENV3/lib/python3.7/site-packages/numpy/core/multiarray.py:12: in <module>
+    from . import overrides
+../../ENV3/lib/python3.7/site-packages/numpy/core/overrides.py:7: in <module>
+    from numpy.core._multiarray_umath import (
+E   ImportError: libf77blas.so.3: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+/usr/lib/python3.7/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_030_generator_eigenfaces_svm.py:22: in <module>
+    from sklearn.model_selection import train_test_split
+../../ENV3/lib/python3.7/site-packages/sklearn/__init__.py:80: in <module>
+    from .base import clone
+../../ENV3/lib/python3.7/site-packages/sklearn/base.py:17: in <module>
+    import numpy as np
+../../ENV3/lib/python3.7/site-packages/numpy/__init__.py:140: in <module>
+    from . import core
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:48: in <module>
+    raise ImportError(msg)
+E   ImportError: 
+E   
+E   IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+E   
+E   Importing the numpy C-extensions failed. This error can happen for
+E   many reasons, often due to issues with your setup or how NumPy was
+E   installed.
+E   
+E   We have compiled some common reasons and troubleshooting tips at:
+E   
+E       https://numpy.org/devdocs/user/troubleshooting-importerror.html
+E   
+E   Please note and check the following:
+E   
+E     * The Python version is: Python3.7 from "/home/pi/ENV3/bin/python3"
+E     * The NumPy version is: "1.19.4"
+E   
+E   and make sure that they are the versions you expect.
+E   Please carefully study the documentation linked above for further help.
+E   
+E   Original error was: libf77blas.so.3: cannot open shared object file: No such file or directory
+=========================== short test summary info ============================
+ERROR tests/test_030_generator_eigenfaces_svm.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 1.04s ===============================
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /home/pi/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/pi/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/test_030_generator_eigenfaces_svm.py __________
+ImportError while importing test module '/home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:22: in <module>
+    from . import multiarray
+../../ENV3/lib/python3.7/site-packages/numpy/core/multiarray.py:12: in <module>
+    from . import overrides
+../../ENV3/lib/python3.7/site-packages/numpy/core/overrides.py:7: in <module>
+    from numpy.core._multiarray_umath import (
+E   ImportError: libf77blas.so.3: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+/usr/lib/python3.7/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_030_generator_eigenfaces_svm.py:22: in <module>
+    from sklearn.model_selection import train_test_split
+../../ENV3/lib/python3.7/site-packages/sklearn/__init__.py:80: in <module>
+    from .base import clone
+../../ENV3/lib/python3.7/site-packages/sklearn/base.py:17: in <module>
+    import numpy as np
+../../ENV3/lib/python3.7/site-packages/numpy/__init__.py:140: in <module>
+    from . import core
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:48: in <module>
+    raise ImportError(msg)
+E   ImportError: 
+E   
+E   IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+E   
+E   Importing the numpy C-extensions failed. This error can happen for
+E   many reasons, often due to issues with your setup or how NumPy was
+E   installed.
+E   
+E   We have compiled some common reasons and troubleshooting tips at:
+E   
+E       https://numpy.org/devdocs/user/troubleshooting-importerror.html
+E   
+E   Please note and check the following:
+E   
+E     * The Python version is: Python3.7 from "/home/pi/ENV3/bin/python3"
+E     * The NumPy version is: "1.19.4"
+E   
+E   and make sure that they are the versions you expect.
+E   Please carefully study the documentation linked above for further help.
+E   
+E   Original error was: libf77blas.so.3: cannot open shared object file: No such file or directory
+=========================== short test summary info ============================
+ERROR tests/test_030_generator_eigenfaces_svm.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 1.03s ===============================
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /home/pi/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/pi/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/test_030_generator_eigenfaces_svm.py __________
+ImportError while importing test module '/home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:22: in <module>
+    from . import multiarray
+../../ENV3/lib/python3.7/site-packages/numpy/core/multiarray.py:12: in <module>
+    from . import overrides
+../../ENV3/lib/python3.7/site-packages/numpy/core/overrides.py:7: in <module>
+    from numpy.core._multiarray_umath import (
+E   ImportError: libf77blas.so.3: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+/usr/lib/python3.7/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_030_generator_eigenfaces_svm.py:22: in <module>
+    from sklearn.model_selection import train_test_split
+../../ENV3/lib/python3.7/site-packages/sklearn/__init__.py:80: in <module>
+    from .base import clone
+../../ENV3/lib/python3.7/site-packages/sklearn/base.py:17: in <module>
+    import numpy as np
+../../ENV3/lib/python3.7/site-packages/numpy/__init__.py:140: in <module>
+    from . import core
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:48: in <module>
+    raise ImportError(msg)
+E   ImportError: 
+E   
+E   IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+E   
+E   Importing the numpy C-extensions failed. This error can happen for
+E   many reasons, often due to issues with your setup or how NumPy was
+E   installed.
+E   
+E   We have compiled some common reasons and troubleshooting tips at:
+E   
+E       https://numpy.org/devdocs/user/troubleshooting-importerror.html
+E   
+E   Please note and check the following:
+E   
+E     * The Python version is: Python3.7 from "/home/pi/ENV3/bin/python3"
+E     * The NumPy version is: "1.19.4"
+E   
+E   and make sure that they are the versions you expect.
+E   Please carefully study the documentation linked above for further help.
+E   
+E   Original error was: libf77blas.so.3: cannot open shared object file: No such file or directory
+=========================== short test summary info ============================
+ERROR tests/test_030_generator_eigenfaces_svm.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 1.04s ===============================
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /home/pi/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/pi/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/test_030_generator_eigenfaces_svm.py __________
+ImportError while importing test module '/home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:22: in <module>
+    from . import multiarray
+../../ENV3/lib/python3.7/site-packages/numpy/core/multiarray.py:12: in <module>
+    from . import overrides
+../../ENV3/lib/python3.7/site-packages/numpy/core/overrides.py:7: in <module>
+    from numpy.core._multiarray_umath import (
+E   ImportError: libf77blas.so.3: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+/usr/lib/python3.7/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_030_generator_eigenfaces_svm.py:22: in <module>
+    from sklearn.model_selection import train_test_split
+../../ENV3/lib/python3.7/site-packages/sklearn/__init__.py:80: in <module>
+    from .base import clone
+../../ENV3/lib/python3.7/site-packages/sklearn/base.py:17: in <module>
+    import numpy as np
+../../ENV3/lib/python3.7/site-packages/numpy/__init__.py:140: in <module>
+    from . import core
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:48: in <module>
+    raise ImportError(msg)
+E   ImportError: 
+E   
+E   IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+E   
+E   Importing the numpy C-extensions failed. This error can happen for
+E   many reasons, often due to issues with your setup or how NumPy was
+E   installed.
+E   
+E   We have compiled some common reasons and troubleshooting tips at:
+E   
+E       https://numpy.org/devdocs/user/troubleshooting-importerror.html
+E   
+E   Please note and check the following:
+E   
+E     * The Python version is: Python3.7 from "/home/pi/ENV3/bin/python3"
+E     * The NumPy version is: "1.19.4"
+E   
+E   and make sure that they are the versions you expect.
+E   Please carefully study the documentation linked above for further help.
+E   
+E   Original error was: libf77blas.so.3: cannot open shared object file: No such file or directory
+=========================== short test summary info ============================
+ERROR tests/test_030_generator_eigenfaces_svm.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 1.03s ===============================
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /home/pi/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/pi/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/test_030_generator_eigenfaces_svm.py __________
+ImportError while importing test module '/home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:22: in <module>
+    from . import multiarray
+../../ENV3/lib/python3.7/site-packages/numpy/core/multiarray.py:12: in <module>
+    from . import overrides
+../../ENV3/lib/python3.7/site-packages/numpy/core/overrides.py:7: in <module>
+    from numpy.core._multiarray_umath import (
+E   ImportError: libf77blas.so.3: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+/usr/lib/python3.7/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_030_generator_eigenfaces_svm.py:22: in <module>
+    from sklearn.model_selection import train_test_split
+../../ENV3/lib/python3.7/site-packages/sklearn/__init__.py:80: in <module>
+    from .base import clone
+../../ENV3/lib/python3.7/site-packages/sklearn/base.py:17: in <module>
+    import numpy as np
+../../ENV3/lib/python3.7/site-packages/numpy/__init__.py:140: in <module>
+    from . import core
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:48: in <module>
+    raise ImportError(msg)
+E   ImportError: 
+E   
+E   IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+E   
+E   Importing the numpy C-extensions failed. This error can happen for
+E   many reasons, often due to issues with your setup or how NumPy was
+E   installed.
+E   
+E   We have compiled some common reasons and troubleshooting tips at:
+E   
+E       https://numpy.org/devdocs/user/troubleshooting-importerror.html
+E   
+E   Please note and check the following:
+E   
+E     * The Python version is: Python3.7 from "/home/pi/ENV3/bin/python3"
+E     * The NumPy version is: "1.19.4"
+E   
+E   and make sure that they are the versions you expect.
+E   Please carefully study the documentation linked above for further help.
+E   
+E   Original error was: libf77blas.so.3: cannot open shared object file: No such file or directory
+=========================== short test summary info ============================
+ERROR tests/test_030_generator_eigenfaces_svm.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 1.04s ===============================
+============================= test session starts ==============================
+platform linux -- Python 3.7.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /home/pi/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/pi/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/test_030_generator_eigenfaces_svm.py __________
+ImportError while importing test module '/home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:22: in <module>
+    from . import multiarray
+../../ENV3/lib/python3.7/site-packages/numpy/core/multiarray.py:12: in <module>
+    from . import overrides
+../../ENV3/lib/python3.7/site-packages/numpy/core/overrides.py:7: in <module>
+    from numpy.core._multiarray_umath import (
+E   ImportError: libf77blas.so.3: cannot open shared object file: No such file or directory
+
+During handling of the above exception, another exception occurred:
+/usr/lib/python3.7/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_030_generator_eigenfaces_svm.py:22: in <module>
+    from sklearn.model_selection import train_test_split
+../../ENV3/lib/python3.7/site-packages/sklearn/__init__.py:80: in <module>
+    from .base import clone
+../../ENV3/lib/python3.7/site-packages/sklearn/base.py:17: in <module>
+    import numpy as np
+../../ENV3/lib/python3.7/site-packages/numpy/__init__.py:140: in <module>
+    from . import core
+../../ENV3/lib/python3.7/site-packages/numpy/core/__init__.py:48: in <module>
+    raise ImportError(msg)
+E   ImportError: 
+E   
+E   IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+E   
+E   Importing the numpy C-extensions failed. This error can happen for
+E   many reasons, often due to issues with your setup or how NumPy was
+E   installed.
+E   
+E   We have compiled some common reasons and troubleshooting tips at:
+E   
+E       https://numpy.org/devdocs/user/troubleshooting-importerror.html
+E   
+E   Please note and check the following:
+E   
+E     * The Python version is: Python3.7 from "/home/pi/ENV3/bin/python3"
+E     * The NumPy version is: "1.19.4"
+E   
+E   and make sure that they are the versions you expect.
+E   Please carefully study the documentation linked above for further help.
+E   
+E   Original error was: libf77blas.so.3: cannot open shared object file: No such file or directory
+=========================== short test summary info ============================
+ERROR tests/test_030_generator_eigenfaces_svm.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 1.04s ===============================
