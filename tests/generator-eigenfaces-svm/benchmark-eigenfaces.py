@@ -119,31 +119,35 @@ def main(argv):
     #stats_df = stats_df.append(pi_series, ignore_index=True)
 
     cost_df = stats_df[['test', 'type', 'cloud', 'mean']]
-    cost_df['cost/s'] = 0
-    cost_df['cost'] = 0
-    cost_df['% cost > best'] = 0
+    #cost_df['cost/s'] = 0
+    #cost_df['cost'] = 0
     cost_df.loc[cost_df['cloud'] == 'aws',['cost/s']] = 0.1 / 60.0 / 60.0
     cost_df.loc[cost_df['cloud'] == 'azure', ['cost/s']] = 0.096 / 60.0 / 60.0
     cost_df.loc[cost_df['cloud'] == 'google', ['cost/s']] = 0.0949995 / 60.0 / 60.0
-    cost_df.loc[cost_df['cloud'] == 'pi', ['cost/s']] = 0.012555936 / 60.0 / 60.0
-    cost_df['cost'] = cost_df['mean'] * cost_df['cost/s']
+    cost_df.loc[cost_df['cloud'] == 'pi 3b+', ['cost/s']] = 0.005934932 / 60.0 / 60.0
+    cost_df.loc[cost_df['cloud'] == 'pi 4', ['cost/s']] = 0.012555936 / 60.0 / 60.0
+    cost_df['cost'] = cost_df['mean'].values * cost_df['cost/s'].values
+
     for test in cost_df['test'].unique():
         for type in cost_df['type'].unique():
             if type == 'remote':
-                pass
+                continue
             sub_df = cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type)]
-            min = sub_df['cost'].min()
-            test2 = (sub_df['cost'].values - min )/ min * 100
-            cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type),["% cost > best"]] = test2
-            hello = 'te'
+            pi_cost = sub_df.loc[cost_df['cloud'] == 'pi 3b+', 'cost'].values
+            pi_mean = sub_df.loc[cost_df['cloud'] == 'pi 3b+', 'mean'].values
+            cost_inc = (sub_df['cost'].values - pi_cost) / pi_cost * 100
+            mean_dec = (sub_df['mean'].values * -1 + pi_mean) / pi_mean * 100
+            cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type), ["% runtime decrease"]] = mean_dec
+            cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type), ["% cost increase"]] = cost_inc
 
+    cost_df["% cost increase"] = cost_df["% cost increase"].round(2)
+    cost_df["% runtime decrease"] = cost_df["% runtime decrease"].round(2)
     cost_df = cost_df.drop(columns='cost/s')
-    cost_df['% cost > best'] = cost_df['% cost > best'].round(2)
     #pd.set_option('display.float_format', '{:.2E}'.format)
     print(cost_df.sort_values(by=['test', 'type', 'cloud']).to_latex(index=False, formatters={'cost':'{:,.2e}'.format}))
 
     suffix = ""
-    if "pi" in stats_df['cloud'].unique():
+    if "pi 3b+" in stats_df['cloud'].unique():
         suffix = "_pi"
 
     # graph 1: download_data_local
