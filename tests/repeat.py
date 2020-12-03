@@ -5,7 +5,7 @@ for x in range(0,30):
     count += 1
     bashCmd = "pytest -v  -s /home/pi/cm/cloudmesh-openapi/tests/test_030_generator_eigenfaces_svm.py"
     output = Shell.run(bashCmd)
-    outF = open("myOutFile.txt", "a")
+    outF = open("finalOutFile.txt", "a")
     outF.write(str(output))
     outF.flush()
     outF.close()
