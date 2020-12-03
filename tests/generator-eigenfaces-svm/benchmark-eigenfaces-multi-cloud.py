@@ -195,33 +195,37 @@ def main(argv):
                     stats_df = stats_df.append(stats_series, ignore_index=True)
 
     print(result)
-    print(stats_df.sort_values(by=['test', 'type', 'cloud']).to_markdown(index=False))
+
+    stats_df = stats_df.round(decimals=2)
+    stats_df['test'] = stats_df['test'].str.replace("benchmark-eigenfaces-multi-cloud/", "")
+    # print(stats_df_print.sort_values(by=['test', 'type', 'cloud']).to_markdown(index=False))
+    print(stats_df.sort_values(by=['test', 'type', 'cloud']).to_latex(index=False))
 
     # graph 1: stacked bar graph of all tests
-    download_df = stats_df.loc[(stats_df['test'] == 'benchmark-eigenfaces-multi-cloud/test_download_data')]
+    download_df = stats_df.loc[(stats_df['test'] == 'test_download_data')]
     download_means = download_df["mean"]
 
     download_mins = download_df["min"]
     download_stds = download_df["std"]
     download_labels = download_df["cloud"]
 
-    train_df = stats_df.loc[(stats_df['test'] == 'benchmark-eigenfaces-multi-cloud/test_train')]
+    train_df = stats_df.loc[(stats_df['test'] == 'test_train')]
     train_means = train_df["mean"]
     train_mins = train_df["min"]
     train_stds = train_df["std"]
 
 
-    upload_df = stats_df.loc[(stats_df['test'] == 'benchmark-eigenfaces-multi-cloud/test_upload')]
+    upload_df = stats_df.loc[(stats_df['test'] == 'test_upload')]
     upload_means = upload_df["mean"]
     upload_mins = upload_df["min"]
     upload_stds = upload_df["std"]
 
-    predict_df = stats_df.loc[(stats_df['test'] == 'benchmark-eigenfaces-multi-cloud/test_predict')]
+    predict_df = stats_df.loc[(stats_df['test'] == 'test_predict')]
     predict_means = predict_df["mean"]
     predict_mins = predict_df["min"]
     predict_stds = predict_df["std"]
 
-    plt.style.use('ggplot')
+    plt.style.use('seaborn-whitegrid')
     n = 3
     ind = np.arange(n)
     width = 0.35
@@ -232,8 +236,10 @@ def main(argv):
     plt.ylabel('Time (s)')
     plt.title('AI Service Workflow Runtime')
     plt.xticks(ind, download_labels)
-    plt.legend((p1[0], p2[0],p3[0],p4[0]), ('Download Data', 'Train', 'Upload', 'Predict'), bbox_to_anchor=(0, 0), loc='lower left', ncol=4)
-    plt.savefig('sample_multi_graph_1')
+    plt.legend((p1[0], p2[0],p3[0],p4[0]), ('Download Data', 'Train', 'Upload', 'Predict'), bbox_to_anchor=(0, 0), loc='lower left', ncol=4, frameon=True)
+    plt.savefig('ai_service_workflow_runtime.png')
+    plt.savefig('ai_service_workflow_runtime.pdf')
+    plt.savefig('ai_service_workflow_runtime.svg')
     plt.show()
 
 if __name__ == "__main__":

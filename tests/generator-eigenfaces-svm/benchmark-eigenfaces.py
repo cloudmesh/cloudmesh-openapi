@@ -103,35 +103,83 @@ def main(argv):
                     stats_df = stats_df.append(stats_series, ignore_index=True)
 
     print(result)
-    print(stats_df.sort_values(by=['test', 'type', 'cloud']).to_markdown(index=False))
+    stats_df = stats_df.round(decimals=2)
+    stats_df['test'] = stats_df['test'].str.replace("test_030_generator_eigenfaces_svm/", "")
+    #print(stats_df_print.sort_values(by=['test', 'type', 'cloud']).to_markdown(index=False))
+    print(stats_df.sort_values(by=['test', 'type', 'cloud']).to_latex(index=False))
+    #pi_series = pd.Series(["test_download_data", "local", "pi", 135.5, 135.5, 135.5, 0.0], index=stats_df.columns)
+    #stats_df = stats_df.append(pi_series, ignore_index=True)
+    #pi_series = pd.Series(["test_scikitlearn_train", "local", "pi", 232.0, 232.0, 232.0, 0.0], index=stats_df.columns)
+    #stats_df = stats_df.append(pi_series, ignore_index=True)
+    #pi_series = pd.Series(["test_train", "local", "pi", 231.0, 231.0, 231.0, 0.0], index=stats_df.columns)
+    #stats_df = stats_df.append(pi_series, ignore_index=True)
+    #pi_series = pd.Series(["test_upload", "local", "pi", 0.05, 0.05, 0.05, 0.0], index=stats_df.columns)
+    #stats_df = stats_df.append(pi_series, ignore_index=True)
+    #pi_series = pd.Series(["test_predict", "local", "pi", 0.4, 0.4, 0.4, 0.0], index=stats_df.columns)
+    #stats_df = stats_df.append(pi_series, ignore_index=True)
+
+    cost_df = stats_df[['test', 'type', 'cloud', 'mean']]
+    #cost_df['cost/s'] = 0
+    #cost_df['cost'] = 0
+    cost_df.loc[cost_df['cloud'] == 'aws',['cost/s']] = 0.1 / 60.0 / 60.0
+    cost_df.loc[cost_df['cloud'] == 'azure', ['cost/s']] = 0.096 / 60.0 / 60.0
+    cost_df.loc[cost_df['cloud'] == 'google', ['cost/s']] = 0.0949995 / 60.0 / 60.0
+    cost_df.loc[cost_df['cloud'] == 'pi 3b+', ['cost/s']] = 0.005934932 / 60.0 / 60.0
+    cost_df.loc[cost_df['cloud'] == 'pi 4', ['cost/s']] = 0.012555936 / 60.0 / 60.0
+    cost_df['cost'] = cost_df['mean'].values * cost_df['cost/s'].values
+
+    for test in cost_df['test'].unique():
+        for type in cost_df['type'].unique():
+            if type == 'remote':
+                continue
+            sub_df = cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type)]
+            pi_cost = sub_df.loc[cost_df['cloud'] == 'pi 3b+', 'cost'].values
+            pi_mean = sub_df.loc[cost_df['cloud'] == 'pi 3b+', 'mean'].values
+            cost_inc = (sub_df['cost'].values - pi_cost) / pi_cost * 100
+            mean_dec = (sub_df['mean'].values * -1 + pi_mean) / pi_mean * 100
+            cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type), ["% runtime decrease"]] = mean_dec
+            cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type), ["% cost increase"]] = cost_inc
+
+    cost_df["% cost increase"] = cost_df["% cost increase"].round(2)
+    cost_df["% runtime decrease"] = cost_df["% runtime decrease"].round(2)
+    cost_df = cost_df.drop(columns='cost/s')
+    #pd.set_option('display.float_format', '{:.2E}'.format)
+    print(cost_df.sort_values(by=['test', 'type', 'cloud']).to_latex(index=False, formatters={'cost':'{:,.2e}'.format}))
+
+    suffix = ""
+    if "pi 3b+" in stats_df['cloud'].unique():
+        suffix = "_pi"
 
     # graph 1: download_data_local
-    download_df = stats_df.loc[(stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_download_data')]
+    download_df = stats_df.loc[(stats_df['test'] == 'test_download_data')]
     download_means = download_df["mean"]
     download_mins = download_df["min"]
     download_stds = download_df["std"]
     download_labels = download_df["cloud"]
 
-    plt.style.use('ggplot')
+    #plt.style.use('ggplot')
+    plt.style.use('seaborn-whitegrid')
     x = download_labels
     x_pos = [i for i, _ in enumerate(x)]
-    plt.bar(x_pos, download_means, yerr=download_stds, color=["green",'orange','blue'])
+    plt.bar(x_pos, download_means, yerr=download_stds,capsize=3, color=["green",'orange','blue', 'red'])
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
     plt.title("Time to Download and Extract Data")
     plt.xticks(x_pos, x)
-    plt.savefig('sample_graph_1')
+    plt.savefig(f'sample_graph_1{suffix}.png')
+    plt.savefig(f'sample_graph_1{suffix}.pdf')
+    plt.savefig(f'sample_graph_1{suffix}.svg')
     plt.show()
 
 
     # graph 2: scikitlearn_train vs opeanpi_scikitlearn_train
-    openapi_df = stats_df.loc[(stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_train')]
+    openapi_df = stats_df.loc[(stats_df['test'] == 'test_train')]
     openapi_means = openapi_df['mean']
     openapi_mins = openapi_df['min']
     openapi_stds = openapi_df['std']
     openapi_labels = openapi_df['cloud']
 
-    scikitlearn_df = stats_df.loc[(stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_scikitlearn_train')]
+    scikitlearn_df = stats_df.loc[(stats_df['test'] == 'test_scikitlearn_train')]
     scikit_means = scikitlearn_df['mean']
     scikit_mins = scikitlearn_df['min']
     scikit_stds = scikitlearn_df['std']
@@ -141,28 +189,30 @@ def main(argv):
     x = openapi_labels
     ind = np.arange(len(openapi_labels))
     width = 0.35
-    openapi_handles = plt.bar(ind, openapi_means, width, yerr=openapi_stds, color=["green", 'orange', 'blue'])
-    scikit_handles = plt.bar(ind + width, scikit_means, width, yerr=scikit_stds, color=["springgreen", 'bisque', 'skyblue'])
+    openapi_handles = plt.bar(ind, openapi_means, width, yerr=openapi_stds, capsize=3, color=["green", 'orange', 'blue', 'red'])
+    scikit_handles = plt.bar(ind + width, scikit_means, width, yerr=scikit_stds, capsize=3, color=["springgreen", 'bisque', 'skyblue', 'lightcoral'])
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
     plt.title("Model Training Time")
     plt.xticks(ind + width / 2, scikit_labels)
     plt.legend([tuple(openapi_handles), tuple(scikit_handles)], ['OpenAPI service', 'Scikit-learn example'], numpoints=1,
-               handler_map={tuple: HandlerTuple(ndivide=None)})
-    plt.savefig('sample_graph_2')
+               handler_map={tuple: HandlerTuple(ndivide=None)},frameon=True)
+    plt.savefig(f'sample_graph_2{suffix}.png')
+    plt.savefig(f'sample_graph_2{suffix}.pdf')
+    plt.savefig(f'sample_graph_2{suffix}.svg')
     plt.show()
 
 
     # graph 3: upload_local vs upload_remote
     local_df = stats_df.loc[
-        (stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_upload') & (stats_df['type'] == 'local')]
+        (stats_df['test'] == 'test_upload') & (stats_df['type'] == 'local')]
     local_means = local_df['mean']
     local_mins = local_df['min']
     local_stds = local_df['std']
     local_labels = local_df['cloud']
 
     remote_df = stats_df.loc[
-        (stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_upload') & (stats_df['type'] == 'remote')]
+        (stats_df['test'] == 'test_upload') & (stats_df['type'] == 'remote')]
     remote_means = remote_df['mean']
     remote_mins = remote_df['min']
     remote_stds = remote_df['std']
@@ -171,28 +221,32 @@ def main(argv):
     x = local_labels
     ind = np.arange(len(local_labels))
     width = 0.35
-    local_handels = plt.bar(ind, local_means, width, yerr=local_stds, color=["green", 'orange', 'blue'])
-    remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds,
+    local_handels = plt.bar(ind, local_means, width, yerr=local_stds, capsize=3, color=["green", 'orange', 'blue', 'red'])
+    ind = np.arange(len(remote_labels))
+    remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds,capsize=3,
             color=["springgreen", 'bisque', 'skyblue'])
+    ind = np.arange(len(local_labels))
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
     plt.title("Upload Function Runtime")
     plt.xticks(ind + width / 2, local_labels)
     plt.legend([tuple(local_handels), tuple(remote_handles)], ['OpenAPI server', 'Remote client'], numpoints=1,
-               handler_map={tuple: HandlerTuple(ndivide=None)})
-    plt.savefig('sample_graph_3')
+               handler_map={tuple: HandlerTuple(ndivide=None)}, frameon=True)
+    plt.savefig(f'sample_graph_3{suffix}.png')
+    plt.savefig(f'sample_graph_3{suffix}.pdf')
+    plt.savefig(f'sample_graph_3{suffix}.svg')
     plt.show()
 
     # graph 4  predict_local vs predict_remote
     local_df = stats_df.loc[
-        (stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_predict') & (stats_df['type'] == 'local')]
+        (stats_df['test'] == 'test_predict') & (stats_df['type'] == 'local')]
     local_means = local_df['mean']
     local_mins = local_df['min']
     local_stds = local_df['std']
     local_labels = local_df['cloud']
 
     remote_df = stats_df.loc[
-        (stats_df['test'] == 'test_030_generator_eigenfaces_svm/test_predict') & (stats_df['type'] == 'remote')]
+        (stats_df['test'] == 'test_predict') & (stats_df['type'] == 'remote')]
     remote_means = remote_df['mean']
     remote_mins = remote_df['min']
     remote_stds = remote_df['std']
@@ -201,17 +255,21 @@ def main(argv):
     x = local_labels
     ind = np.arange(len(local_labels))
     width = 0.35
-    local_handels = plt.bar(ind, local_means, width, yerr=local_stds, color=["green", 'orange', 'blue'])
-    remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds,
+    local_handels = plt.bar(ind, local_means, width, yerr=local_stds, capsize=3, color=["green", 'orange', 'blue', 'red'])
+    ind = np.arange(len(remote_labels))
+    remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds, capsize=3,
             color=["springgreen", 'bisque', 'skyblue'])
+    ind = np.arange(len(local_labels))
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
     plt.title("Predict Function Runtime")
     plt.xticks(ind + width / 2, local_labels)
     plt.legend([tuple(local_handels), tuple(remote_handles)], ['OpenAPI server', 'Remote client'], numpoints=1,
-               handler_map={tuple: HandlerTuple(ndivide=None)})
+               handler_map={tuple: HandlerTuple(ndivide=None)}, frameon=True)
 
-    plt.savefig('sample_graph_4')
+    plt.savefig(f'sample_graph_4{suffix}.png')
+    plt.savefig(f'sample_graph_4{suffix}.pdf')
+    plt.savefig(f'sample_graph_4{suffix}.svg')
     plt.show()
 
 
