@@ -118,33 +118,34 @@ def main(argv):
     #pi_series = pd.Series(["test_predict", "local", "pi", 0.4, 0.4, 0.4, 0.0], index=stats_df.columns)
     #stats_df = stats_df.append(pi_series, ignore_index=True)
 
-    cost_df = stats_df[['test', 'type', 'cloud', 'mean']]
-    #cost_df['cost/s'] = 0
-    #cost_df['cost'] = 0
-    cost_df.loc[cost_df['cloud'] == 'aws',['cost/s']] = 0.1 / 60.0 / 60.0
-    cost_df.loc[cost_df['cloud'] == 'azure', ['cost/s']] = 0.096 / 60.0 / 60.0
-    cost_df.loc[cost_df['cloud'] == 'google', ['cost/s']] = 0.0949995 / 60.0 / 60.0
-    cost_df.loc[cost_df['cloud'] == 'pi 3b+', ['cost/s']] = 0.005934932 / 60.0 / 60.0
-    cost_df.loc[cost_df['cloud'] == 'pi 4', ['cost/s']] = 0.012555936 / 60.0 / 60.0
-    cost_df['cost'] = cost_df['mean'].values * cost_df['cost/s'].values
+    if "pi 3b+" in stats_df['cloud'].unique():
+        cost_df = stats_df[['test', 'type', 'cloud', 'mean']]
+        #cost_df['cost/s'] = 0
+        #cost_df['cost'] = 0
+        cost_df.loc[cost_df['cloud'] == 'aws',['cost/s']] = 0.1 / 60.0 / 60.0
+        cost_df.loc[cost_df['cloud'] == 'azure', ['cost/s']] = 0.096 / 60.0 / 60.0
+        cost_df.loc[cost_df['cloud'] == 'google', ['cost/s']] = 0.0949995 / 60.0 / 60.0
+        cost_df.loc[cost_df['cloud'] == 'pi 3b+', ['cost/s']] = 0.005934932 / 60.0 / 60.0
+        cost_df.loc[cost_df['cloud'] == 'pi 4', ['cost/s']] = 0.012555936 / 60.0 / 60.0
+        cost_df['cost'] = cost_df['mean'].values * cost_df['cost/s'].values
 
-    for test in cost_df['test'].unique():
-        for type in cost_df['type'].unique():
-            if type == 'remote':
-                continue
-            sub_df = cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type)]
-            pi_cost = sub_df.loc[cost_df['cloud'] == 'pi 3b+', 'cost'].values
-            pi_mean = sub_df.loc[cost_df['cloud'] == 'pi 3b+', 'mean'].values
-            cost_inc = (sub_df['cost'].values - pi_cost) / pi_cost * 100
-            mean_dec = (sub_df['mean'].values * -1 + pi_mean) / pi_mean * 100
-            cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type), ["% runtime decrease"]] = mean_dec
-            cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type), ["% cost increase"]] = cost_inc
+        for test in cost_df['test'].unique():
+            for type in cost_df['type'].unique():
+                if type == 'remote':
+                    continue
+                sub_df = cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type)]
+                pi_cost = sub_df.loc[cost_df['cloud'] == 'pi 3b+', 'cost'].values
+                pi_mean = sub_df.loc[cost_df['cloud'] == 'pi 3b+', 'mean'].values
+                cost_inc = (sub_df['cost'].values - pi_cost) / pi_cost * 100
+                mean_dec = (sub_df['mean'].values * -1 + pi_mean) / pi_mean * 100
+                cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type), ["% runtime decrease"]] = mean_dec
+                cost_df.loc[(cost_df['test'] == test) & (cost_df['type'] == type), ["% cost increase"]] = cost_inc
 
-    cost_df["% cost increase"] = cost_df["% cost increase"].round(2)
-    cost_df["% runtime decrease"] = cost_df["% runtime decrease"].round(2)
-    cost_df = cost_df.drop(columns='cost/s')
-    #pd.set_option('display.float_format', '{:.2E}'.format)
-    print(cost_df.sort_values(by=['test', 'type', 'cloud']).to_latex(index=False, formatters={'cost':'{:,.2e}'.format}))
+        cost_df["% cost increase"] = cost_df["% cost increase"].round(2)
+        cost_df["% runtime decrease"] = cost_df["% runtime decrease"].round(2)
+        cost_df = cost_df.drop(columns='cost/s')
+        #pd.set_option('display.float_format', '{:.2E}'.format)
+        print(cost_df.sort_values(by=['test', 'type', 'cloud']).to_latex(index=False, formatters={'cost':'{:,.2e}'.format}))
 
     suffix = ""
     if "pi 3b+" in stats_df['cloud'].unique():
@@ -161,7 +162,8 @@ def main(argv):
     plt.style.use('seaborn-whitegrid')
     x = download_labels
     x_pos = [i for i, _ in enumerate(x)]
-    plt.bar(x_pos, download_means, yerr=download_stds,capsize=3, color=["green",'orange','blue', 'red'])
+    #plt.bar(x_pos, download_means, yerr=download_stds,capsize=3, color=["green",'orange','blue', 'red'])
+    plt.bar(x_pos, download_means, yerr=download_stds, capsize=3)
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
     plt.title("Time to Download and Extract Data")
@@ -189,14 +191,17 @@ def main(argv):
     x = openapi_labels
     ind = np.arange(len(openapi_labels))
     width = 0.35
-    openapi_handles = plt.bar(ind, openapi_means, width, yerr=openapi_stds, capsize=3, color=["green", 'orange', 'blue', 'red'])
-    scikit_handles = plt.bar(ind + width, scikit_means, width, yerr=scikit_stds, capsize=3, color=["springgreen", 'bisque', 'skyblue', 'lightcoral'])
+    #openapi_handles = plt.bar(ind, openapi_means, width, yerr=openapi_stds, capsize=3, color=["green", 'orange', 'blue', 'red'])
+    #scikit_handles = plt.bar(ind + width, scikit_means, width, yerr=scikit_stds, capsize=3, color=["springgreen", 'bisque', 'skyblue', 'lightcoral'])
+    openapi_handles = plt.bar(ind, openapi_means, width, yerr=openapi_stds, capsize=3)
+    scikit_handles = plt.bar(ind + width, scikit_means, width, yerr=scikit_stds, capsize=3)
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
     plt.title("Model Training Time")
     plt.xticks(ind + width / 2, scikit_labels)
-    plt.legend([tuple(openapi_handles), tuple(scikit_handles)], ['OpenAPI service', 'Scikit-learn example'], numpoints=1,
-               handler_map={tuple: HandlerTuple(ndivide=None)},frameon=True)
+    #plt.legend([tuple(openapi_handles), tuple(scikit_handles)], ['OpenAPI service', 'Scikit-learn example'], numpoints=1,
+    #           handler_map={tuple: HandlerTuple(ndivide=None)},frameon=True)
+    plt.legend(['OpenAPI service', 'Scikit-learn example'], frameon=True)
     plt.savefig(f'sample_graph_2{suffix}.png')
     plt.savefig(f'sample_graph_2{suffix}.pdf')
     plt.savefig(f'sample_graph_2{suffix}.svg')
@@ -221,17 +226,20 @@ def main(argv):
     x = local_labels
     ind = np.arange(len(local_labels))
     width = 0.35
-    local_handels = plt.bar(ind, local_means, width, yerr=local_stds, capsize=3, color=["green", 'orange', 'blue', 'red'])
+    #local_handels = plt.bar(ind, local_means, width, yerr=local_stds, capsize=3, color=["green", 'orange', 'blue', 'red'])
+    local_handels = plt.bar(ind, local_means, width, yerr=local_stds, capsize=3)
     ind = np.arange(len(remote_labels))
-    remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds,capsize=3,
-            color=["springgreen", 'bisque', 'skyblue'])
+    #remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds,capsize=3,
+    #        color=["springgreen", 'bisque', 'skyblue'])
+    remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds, capsize=3)
     ind = np.arange(len(local_labels))
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
     plt.title("Upload Function Runtime")
     plt.xticks(ind + width / 2, local_labels)
-    plt.legend([tuple(local_handels), tuple(remote_handles)], ['OpenAPI server', 'Remote client'], numpoints=1,
-               handler_map={tuple: HandlerTuple(ndivide=None)}, frameon=True)
+    #plt.legend([tuple(local_handels), tuple(remote_handles)], ['OpenAPI server', 'Remote client'], numpoints=1,
+    #           handler_map={tuple: HandlerTuple(ndivide=None)}, frameon=True)
+    plt.legend(['local', 'remote'], frameon=True)
     plt.savefig(f'sample_graph_3{suffix}.png')
     plt.savefig(f'sample_graph_3{suffix}.pdf')
     plt.savefig(f'sample_graph_3{suffix}.svg')
@@ -255,18 +263,20 @@ def main(argv):
     x = local_labels
     ind = np.arange(len(local_labels))
     width = 0.35
-    local_handels = plt.bar(ind, local_means, width, yerr=local_stds, capsize=3, color=["green", 'orange', 'blue', 'red'])
+    #local_handels = plt.bar(ind, local_means, width, yerr=local_stds, capsize=3, color=["green", 'orange', 'blue', 'red'])
+    local_handels = plt.bar(ind, local_means, width, yerr=local_stds, capsize=3)
     ind = np.arange(len(remote_labels))
-    remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds, capsize=3,
-            color=["springgreen", 'bisque', 'skyblue'])
+    #remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds, capsize=3,
+    #        color=["springgreen", 'bisque', 'skyblue'])
+    remote_handles = plt.bar(ind + width, remote_means, width, yerr=remote_stds, capsize=3)
     ind = np.arange(len(local_labels))
     plt.xlabel("Cloud")
     plt.ylabel("Seconds")
     plt.title("Predict Function Runtime")
     plt.xticks(ind + width / 2, local_labels)
-    plt.legend([tuple(local_handels), tuple(remote_handles)], ['OpenAPI server', 'Remote client'], numpoints=1,
-               handler_map={tuple: HandlerTuple(ndivide=None)}, frameon=True)
-
+    #plt.legend([tuple(local_handels), tuple(remote_handles)], ['OpenAPI server', 'Remote client'], numpoints=1,
+    #           handler_map={tuple: HandlerTuple(ndivide=None)}, frameon=True)
+    plt.legend(['local', 'remote'],frameon=True)
     plt.savefig(f'sample_graph_4{suffix}.png')
     plt.savefig(f'sample_graph_4{suffix}.pdf')
     plt.savefig(f'sample_graph_4{suffix}.svg')
