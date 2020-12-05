@@ -1,0 +1,141 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.5, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /root/cm/ENV3/bin/python3
+cachedir: .pytest_cache
+rootdir: /root/cm/cloudmesh-openapi, configfile: pytest.ini
+plugins: cov-2.10.1
+collecting ... collected 6 items
+
+tests/test_030_generator_eigenfaces_svm.py::TestGenerator::test_download_data 
+[35m
+# ######################################################################
+# test_download_data /tests/test_030_generator_eigenfaces_svm.py 57
+# ######################################################################
+[0m
+PASSED
+tests/test_030_generator_eigenfaces_svm.py::TestGenerator::test_train 
+[35m
+# ######################################################################
+# test_train /tests/test_030_generator_eigenfaces_svm.py 66
+# ######################################################################
+[0m
+PASSED
+tests/test_030_generator_eigenfaces_svm.py::TestGenerator::test_upload 
+[35m
+# ######################################################################
+# test_upload /tests/test_030_generator_eigenfaces_svm.py 73
+# ######################################################################
+[0m
+PASSED
+tests/test_030_generator_eigenfaces_svm.py::TestGenerator::test_predict 
+[35m
+# ######################################################################
+# test_predict /tests/test_030_generator_eigenfaces_svm.py 84
+# ######################################################################
+[0m
+PASSED
+tests/test_030_generator_eigenfaces_svm.py::TestGenerator::test_scikitlearn_train 
+[35m
+# ######################################################################
+# test_scikitlearn_train /tests/test_030_generator_eigenfaces_svm.py 110
+# ######################################################################
+[0m
+Total dataset size:
+n_samples: 1288
+n_features: 1850
+n_classes: 7
+Extracting the top 150 eigenfaces from 966 faces
+done in 0.432s
+Projecting the input data on the eigenfaces orthonormal basis
+done in 0.034s
+Fitting the classifier to the training set
+done in 53.090s
+Best estimator found by grid search:
+SVC(C=1000.0, class_weight='balanced', gamma=0.005)
+Predicting people's names on the test set
+done in 0.083s
+                   precision    recall  f1-score   support
+
+     Ariel Sharon       0.86      0.46      0.60        13
+     Colin Powell       0.80      0.87      0.83        60
+  Donald Rumsfeld       0.85      0.63      0.72        27
+    George W Bush       0.83      0.98      0.90       146
+Gerhard Schroeder       0.95      0.80      0.87        25
+      Hugo Chavez       1.00      0.47      0.64        15
+       Tony Blair       0.97      0.78      0.86        36
+
+         accuracy                           0.85       322
+        macro avg       0.89      0.71      0.77       322
+     weighted avg       0.86      0.85      0.84       322
+
+[[  6   2   0   5   0   0   0]
+ [  1  52   2   5   0   0   0]
+ [  0   2  17   8   0   0   0]
+ [  0   3   0 143   0   0   0]
+ [  0   1   0   3  20   0   1]
+ [  0   4   0   3   1   7   0]
+ [  0   1   1   6   0   0  28]]
+
+PASSED
+tests/test_030_generator_eigenfaces_svm.py::TestGenerator::test_benchmark 
++---------------------+------------------------------------------------------------------+
+| Attribute           | Value                                                            |
+|---------------------+------------------------------------------------------------------|
+| BUG_REPORT_URL      | "https://bugs.launchpad.net/ubuntu/"                             |
+| DISTRIB_CODENAME    | focal                                                            |
+| DISTRIB_DESCRIPTION | "Ubuntu 20.04.1 LTS"                                             |
+| DISTRIB_ID          | Ubuntu                                                           |
+| DISTRIB_RELEASE     | 20.04                                                            |
+| HOME_URL            | "https://www.ubuntu.com/"                                        |
+| ID                  | ubuntu                                                           |
+| ID_LIKE             | debian                                                           |
+| NAME                | "Ubuntu"                                                         |
+| PRETTY_NAME         | "Ubuntu 20.04.1 LTS"                                             |
+| PRIVACY_POLICY_URL  | "https://www.ubuntu.com/legal/terms-and-policies/privacy-policy" |
+| SUPPORT_URL         | "https://help.ubuntu.com/"                                       |
+| UBUNTU_CODENAME     | focal                                                            |
+| VERSION             | "20.04.1 LTS (Focal Fossa)"                                      |
+| VERSION_CODENAME    | focal                                                            |
+| VERSION_ID          | "20.04"                                                          |
+| cpu_count           | 2                                                                |
+| mem.active          | 627.3 MiB                                                        |
+| mem.available       | 1.3 GiB                                                          |
+| mem.free            | 283.6 MiB                                                        |
+| mem.inactive        | 825.6 MiB                                                        |
+| mem.percent         | 35.2 %                                                           |
+| mem.total           | 1.9 GiB                                                          |
+| mem.used            | 534.3 MiB                                                        |
+| platform.version    | #1 SMP Fri May 8 23:03:06 UTC 2020                               |
+| python              | 3.8.5 (default, Jul 28 2020, 12:59:40)                           |
+|                     | [GCC 9.3.0]                                                      |
+| python.pip          | 20.0.2                                                           |
+| python.version      | 3.8.5                                                            |
+| sys.platform        | linux                                                            |
+| uname.machine       | x86_64                                                           |
+| uname.node          | d4c033baab4b                                                     |
+| uname.processor     | x86_64                                                           |
+| uname.release       | 5.4.39-linuxkit                                                  |
+| uname.system        | Linux                                                            |
+| uname.version       | #1 SMP Fri May 8 23:03:06 UTC 2020                               |
+| user                | root                                                             |
++---------------------+------------------------------------------------------------------+
+
++----------------------------------------------------------+----------+---------+---------+---------------------+-------+--------------+--------+-------+------------------------------------+
+| Name                                                     | Status   |    Time |     Sum | Start               | tag   | Node         | User   | OS    | Version                            |
+|----------------------------------------------------------+----------+---------+---------+---------------------+-------+--------------+--------+-------+------------------------------------|
+| test_030_generator_eigenfaces_svm/test_download_data     | ok       | 820.975 | 820.975 | 2020-12-04 22:32:43 |       | d4c033baab4b | root   | Linux | #1 SMP Fri May 8 23:03:06 UTC 2020 |
+| test_030_generator_eigenfaces_svm/test_train             | ok       |  54.718 |  54.718 | 2020-12-04 22:46:24 |       | d4c033baab4b | root   | Linux | #1 SMP Fri May 8 23:03:06 UTC 2020 |
+| test_030_generator_eigenfaces_svm/test_upload            | ok       |   0.024 |   0.024 | 2020-12-04 22:47:19 |       | d4c033baab4b | root   | Linux | #1 SMP Fri May 8 23:03:06 UTC 2020 |
+| test_030_generator_eigenfaces_svm/test_predict           | ok       |   0.03  |   0.03  | 2020-12-04 22:47:19 |       | d4c033baab4b | root   | Linux | #1 SMP Fri May 8 23:03:06 UTC 2020 |
+| test_030_generator_eigenfaces_svm/test_scikitlearn_train | ok       |  53.761 |  53.761 | 2020-12-04 22:47:19 |       | d4c033baab4b | root   | Linux | #1 SMP Fri May 8 23:03:06 UTC 2020 |
++----------------------------------------------------------+----------+---------+---------+---------------------+-------+--------------+--------+-------+------------------------------------+
+
+# csv,timer,status,time,sum,start,tag,uname.node,user,uname.system,platform.version
+# csv,test_030_generator_eigenfaces_svm/test_download_data,ok,820.975,820.975,2020-12-04 22:32:43,,d4c033baab4b,root,Linux,#1 SMP Fri May 8 23:03:06 UTC 2020
+# csv,test_030_generator_eigenfaces_svm/test_train,ok,54.718,54.718,2020-12-04 22:46:24,,d4c033baab4b,root,Linux,#1 SMP Fri May 8 23:03:06 UTC 2020
+# csv,test_030_generator_eigenfaces_svm/test_upload,ok,0.024,0.024,2020-12-04 22:47:19,,d4c033baab4b,root,Linux,#1 SMP Fri May 8 23:03:06 UTC 2020
+# csv,test_030_generator_eigenfaces_svm/test_predict,ok,0.03,0.03,2020-12-04 22:47:19,,d4c033baab4b,root,Linux,#1 SMP Fri May 8 23:03:06 UTC 2020
+# csv,test_030_generator_eigenfaces_svm/test_scikitlearn_train,ok,53.761,53.761,2020-12-04 22:47:19,,d4c033baab4b,root,Linux,#1 SMP Fri May 8 23:03:06 UTC 2020
+
+PASSED
+
+======================== 6 passed in 939.05s (0:15:39) =========================
