@@ -104,7 +104,7 @@ def main(argv):
 
     print(result)
     stats_df = stats_df.round(decimals=2)
-    stats_df['test'] = stats_df['test'].str.replace("test_030_generator_eigenfaces_svm/", "")
+    stats_df['test'] = stats_df['test'].str.replace("test_030_generator_eigenfaces_svm/test_", "")
     #print(stats_df_print.sort_values(by=['test', 'type', 'cloud']).to_markdown(index=False))
     print(stats_df.sort_values(by=['test', 'type', 'cloud']).to_latex(index=False))
     #pi_series = pd.Series(["test_download_data", "local", "pi", 135.5, 135.5, 135.5, 0.0], index=stats_df.columns)
@@ -152,7 +152,7 @@ def main(argv):
         suffix = "_pi"
 
     # graph 1: download_data_local
-    download_df = stats_df.loc[(stats_df['test'] == 'test_download_data')]
+    download_df = stats_df.loc[(stats_df['test'] == 'download_data')]
     download_means = download_df["mean"]
     download_mins = download_df["min"]
     download_stds = download_df["std"]
@@ -175,13 +175,13 @@ def main(argv):
 
 
     # graph 2: scikitlearn_train vs opeanpi_scikitlearn_train
-    openapi_df = stats_df.loc[(stats_df['test'] == 'test_train')]
+    openapi_df = stats_df.loc[(stats_df['test'] == 'train')]
     openapi_means = openapi_df['mean']
     openapi_mins = openapi_df['min']
     openapi_stds = openapi_df['std']
     openapi_labels = openapi_df['cloud']
 
-    scikitlearn_df = stats_df.loc[(stats_df['test'] == 'test_scikitlearn_train')]
+    scikitlearn_df = stats_df.loc[(stats_df['test'] == 'scikitlearn_train')]
     scikit_means = scikitlearn_df['mean']
     scikit_mins = scikitlearn_df['min']
     scikit_stds = scikitlearn_df['std']
@@ -210,14 +210,14 @@ def main(argv):
 
     # graph 3: upload_local vs upload_remote
     local_df = stats_df.loc[
-        (stats_df['test'] == 'test_upload') & (stats_df['type'] == 'local')]
+        (stats_df['test'] == 'upload') & (stats_df['type'] == 'local')]
     local_means = local_df['mean']
     local_mins = local_df['min']
     local_stds = local_df['std']
     local_labels = local_df['cloud']
 
     remote_df = stats_df.loc[
-        (stats_df['test'] == 'test_upload') & (stats_df['type'] == 'remote')]
+        (stats_df['test'] == 'upload') & (stats_df['type'] == 'remote')]
     remote_means = remote_df['mean']
     remote_mins = remote_df['min']
     remote_stds = remote_df['std']
@@ -247,14 +247,14 @@ def main(argv):
 
     # graph 4  predict_local vs predict_remote
     local_df = stats_df.loc[
-        (stats_df['test'] == 'test_predict') & (stats_df['type'] == 'local')]
+        (stats_df['test'] == 'predict') & (stats_df['type'] == 'local')]
     local_means = local_df['mean']
     local_mins = local_df['min']
     local_stds = local_df['std']
     local_labels = local_df['cloud']
 
     remote_df = stats_df.loc[
-        (stats_df['test'] == 'test_predict') & (stats_df['type'] == 'remote')]
+        (stats_df['test'] == 'predict') & (stats_df['type'] == 'remote')]
     remote_means = remote_df['mean']
     remote_mins = remote_df['min']
     remote_stds = remote_df['std']
