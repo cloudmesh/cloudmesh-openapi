@@ -10,7 +10,7 @@ source ~/ENV3/bin/activate
 mkdir cm
 cd cm
 pip install cloudmesh-installer
-cloudmesh-installer get openapi
+cloudmesh-installer install openapi
 cms help
 
 # Configure cloudmesh DB
@@ -59,7 +59,7 @@ source ~/ENV3/bin/activate
 mkdir cm
 cd cm
 pip install cloudmesh-installer
-cloudmesh-installer get openapi
+cloudmesh-installer install openapi
 cms help
 
 # Configure cloudmesh DB
@@ -110,7 +110,7 @@ source ~/ENV3/bin/activate
 mkdir cm
 cd cm
 pip install cloudmesh-installer
-cloudmesh-installer get openapi 
+cloudmesh-installer install openapi 
 cms help
 
 # Configure cloudmesh DB
