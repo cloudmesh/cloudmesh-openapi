@@ -159,7 +159,7 @@ cms set host=<ip>
 pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py
 ```
 ### To run the pytest multiple times 
-**run-script.txt**
+**run-script**
 ```
 #!/bin/bash
 
