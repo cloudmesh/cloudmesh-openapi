@@ -118,6 +118,11 @@ def main(argv):
     #pi_series = pd.Series(["test_predict", "local", "pi", 0.4, 0.4, 0.4, 0.0], index=stats_df.columns)
     #stats_df = stats_df.append(pi_series, ignore_index=True)
 
+    sorter = ['aws', 'azure', 'google', 'mac book', 'docker', 'pi 4', 'pi 3b+']
+    stats_df.cloud = stats_df.cloud.astype("category")
+    stats_df.cloud.cat.set_categories(sorter, inplace=True)
+    stats_df = stats_df.sort_values(["cloud"])
+
     if "pi 3b+" in stats_df['cloud'].unique():
         cost_df = stats_df[['test', 'type', 'cloud', 'mean']]
         #cost_df['cost/s'] = 0
@@ -125,8 +130,8 @@ def main(argv):
         cost_df.loc[cost_df['cloud'] == 'aws',['cost/s']] = 0.1 / 60.0 / 60.0
         cost_df.loc[cost_df['cloud'] == 'azure', ['cost/s']] = 0.096 / 60.0 / 60.0
         cost_df.loc[cost_df['cloud'] == 'google', ['cost/s']] = 0.0949995 / 60.0 / 60.0
-        cost_df.loc[cost_df['cloud'] == 'pi 3b+', ['cost/s']] = 0.005934932 / 60.0 / 60.0
-        cost_df.loc[cost_df['cloud'] == 'pi 4', ['cost/s']] = 0.012555936 / 60.0 / 60.0
+        cost_df.loc[cost_df['cloud'] == 'pi 3b+', ['cost/s']] = 0.006546804/ 60.0 / 60.0
+        cost_df.loc[cost_df['cloud'] == 'pi 4', ['cost/s']] = 0.013324201 / 60.0 / 60.0
         cost_df['cost'] = cost_df['mean'].values * cost_df['cost/s'].values
 
         for test in cost_df['test'].unique():
@@ -201,7 +206,7 @@ def main(argv):
     plt.xticks(ind + width / 2, scikit_labels)
     #plt.legend([tuple(openapi_handles), tuple(scikit_handles)], ['OpenAPI service', 'Scikit-learn example'], numpoints=1,
     #           handler_map={tuple: HandlerTuple(ndivide=None)},frameon=True)
-    plt.legend(['OpenAPI service', 'Scikit-learn example'], frameon=True)
+    plt.legend(['train', 'scikitlearn train'], frameon=True)
     plt.savefig(f'sample_graph_2{suffix}.png')
     plt.savefig(f'sample_graph_2{suffix}.pdf')
     plt.savefig(f'sample_graph_2{suffix}.svg')
