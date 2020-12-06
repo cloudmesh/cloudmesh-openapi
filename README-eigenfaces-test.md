@@ -19,6 +19,7 @@ cms config set cloudmesh.profile.user=benchmark
 cms config set cloudmesh.profile.firstname=benchmark
 cms config set cloudmesh.profile.lastname=benchmark
 #END WARNING
+cms openapi register protocol pickle
 
 # Generate SSH key
 # WARNING Don't Run if SSH key already exists
@@ -64,6 +65,7 @@ cms config set cloudmesh.profile.user=benchmark
 cms config set cloudmesh.profile.firstname=benchmark
 cms config set cloudmesh.profile.lastname=benchmark
 #END WARNING
+cms openapi register protocol pickle
 
 # Generate SSH key
 # WARNING Don't Run if SSH key already exists
