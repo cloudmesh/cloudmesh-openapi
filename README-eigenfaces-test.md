@@ -29,6 +29,8 @@ ssh-keygen -t rsa -f ~/.ssh/id_rsa -P "benchmark"
 # Install dependencies
 pip install pillow
 pip install scikit-learn
+pip install pytest
+pip install dataclasses
 
 # Run EigenfacesSVM Example MANUALLY
 cd ~/cm/cloudmesh-openapi
@@ -77,6 +79,8 @@ sudo apt-get update
 sudo apt-get install libatlas-base-dev
 pip install pillow
 pip install scikit-learn
+pip install pytest
+pip install dataclasses
 
 # Run EigenfacesSVM Example MANUALLY
 cd ~/cm/cloudmesh-openapi
