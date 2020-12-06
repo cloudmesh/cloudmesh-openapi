@@ -71,3 +71,31 @@
 # csv,install cloudmesh-openstack,ok,3.618,3.618,2020-12-06 20:55:47,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
 # csv,install cloudmesh-openapi,ok,1.264,1.264,2020-12-06 20:55:51,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
 
+
+$ lscpu
+
+Architecture:                    x86_64
+CPU op-mode(s):                  32-bit, 64-bit
+Byte Order:                      Little Endian
+Address sizes:                   43 bits physical, 48 bits virtual
+CPU(s):                          32
+On-line CPU(s) list:             0-31
+Thread(s) per core:              2
+Core(s) per socket:              16
+Socket(s):                       1
+NUMA node(s):                    1
+Vendor ID:                       AuthenticAMD
+CPU family:                      23
+Model:                           113
+Model name:                      AMD Ryzen 9 3950X 16-Core Processor
+Stepping:                        0
+CPU MHz:                         3212.260
+BogoMIPS:                        6986.86
+Virtualization:                  AMD-V
+L1d cache:                       512 KiB
+L1i cache:                       512 KiB
+L2 cache:                        8 MiB
+L3 cache:                        64 MiB
+NUMA node0 CPU(s):               0-31
+
+
