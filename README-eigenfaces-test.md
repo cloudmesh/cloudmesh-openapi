@@ -158,3 +158,19 @@ This will only run the test_upload and test_predict functions on the remote serv
 cms set host=<ip>
 pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py
 ```
+### To run the pytest multiple times 
+**run-script.txt**
+```
+#!/bin/bash
+
+cd ~/cm/cloudmesh-openapi
+for i in {1..30}
+do
+pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py >> out.txt
+done
+```
+
+```
+chmod run-script 700
+nohub ./run-script &
+```
