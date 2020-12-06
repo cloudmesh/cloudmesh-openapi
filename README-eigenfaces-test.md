@@ -14,8 +14,8 @@ cms help
 
 # Configure cloudmesh DB
 # WARNING Don't run if mongo already configured for other cloudmesh use
-cms config set cloudmesh.data.mongo.MONGO_USERNAME=benchmark * for pi too even though it doesn't use mongo
-cms config set cloudmesh.data.mongo.MONGO_PASSWORD=benchmark * for pi too even though it doesn't use mongo
+cms config set cloudmesh.data.mongo.MONGO_USERNAME=benchmark
+cms config set cloudmesh.data.mongo.MONGO_PASSWORD=benchmark
 cms config set cloudmesh.profile.user=benchmark
 cms config set cloudmesh.profile.firstname=benchmark
 cms config set cloudmesh.profile.lastname=benchmark
@@ -63,8 +63,8 @@ cms help
 
 # Configure cloudmesh DB
 # WARNING Don't run if mongo already configured for other cloudmesh use
-cms config set cloudmesh.data.mongo.MONGO_USERNAME=benchmark * for pi too even though it doesn't use mongo
-cms config set cloudmesh.data.mongo.MONGO_PASSWORD=benchmark * for pi too even though it doesn't use mongo
+cms config set cloudmesh.data.mongo.MONGO_USERNAME=benchmark
+cms config set cloudmesh.data.mongo.MONGO_PASSWORD=benchmark
 cms config set cloudmesh.profile.user=benchmark
 cms config set cloudmesh.profile.firstname=benchmark
 cms config set cloudmesh.profile.lastname=benchmark
@@ -114,8 +114,8 @@ cms help
 
 # Configure cloudmesh DB
 # WARNING Don't run if mongo already configured for other cloudmesh use
-cms config set cloudmesh.data.mongo.MONGO_USERNAME=benchmark * for pi too even though it doesn't use mongo
-cms config set cloudmesh.data.mongo.MONGO_PASSWORD=benchmark * for pi too even though it doesn't use mongo
+cms config set cloudmesh.data.mongo.MONGO_USERNAME=benchmark
+cms config set cloudmesh.data.mongo.MONGO_PASSWORD=benchmark
 cms config set cloudmesh.profile.user=benchmark
 cms config set cloudmesh.profile.firstname=benchmark
 cms config set cloudmesh.profile.lastname=benchmark
