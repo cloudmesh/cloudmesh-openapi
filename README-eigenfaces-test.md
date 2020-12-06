@@ -170,6 +170,6 @@ seq 30 | xargs -I -- pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py |
 
 to look at the prediction time you can say
 
-fgrep “# csv” out.txt | fgrep test_predict | cut -d ‘,’ -f4
-
+fgrep "# csv" out.txt |fgrep "test_predict" | cut -d "," -f4 | cat -n
+ 
 ```
