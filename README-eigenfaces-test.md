@@ -4,7 +4,7 @@
 
 ```
 #INSATLL cloudmesh-openapi
-python3 -m venv ~/ENV3
+python3.9 -m venv ~/ENV3
 source ~/ENV3/bin/activate 
 mkdir cm
 cd cm
