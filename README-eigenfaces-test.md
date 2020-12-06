@@ -90,3 +90,13 @@ cms openapi server stop EigenfacesSVM
 cd ~/cm/cloudmesh-openapi
 pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py
 ```
+
+### Using the pytest to test a remote server
+
+This assumes the remote server is already running the OpenAPI service.
+This will only run the test_upload and test_predict functions on the remote server. Used to measure function response times over the network.
+
+```
+cms set host=<ip>
+pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py
+```
