@@ -167,4 +167,9 @@ pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py
 ### To run the pytest 30 times 
 ```
 seq 30 | xargs -I -- pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py | tee out.txt
+
+to look at the prediction time you can say
+
+fgrep “# csv” out.txt | fgrep test_predict | cut -d ‘,’ -f4
+
 ```
