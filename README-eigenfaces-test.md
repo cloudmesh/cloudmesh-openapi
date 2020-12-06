@@ -21,6 +21,7 @@ cms config set cloudmesh.data.mongo.MONGO_PASSWORD=benchmark
 cms config set cloudmesh.profile.user=benchmark
 cms config set cloudmesh.profile.firstname=benchmark
 cms config set cloudmesh.profile.lastname=benchmark
+cms set host=localhost
 #END WARNING
 cms openapi register protocol pickle
 
@@ -70,6 +71,7 @@ cms config set cloudmesh.data.mongo.MONGO_PASSWORD=benchmark
 cms config set cloudmesh.profile.user=benchmark
 cms config set cloudmesh.profile.firstname=benchmark
 cms config set cloudmesh.profile.lastname=benchmark
+cms set host=localhost
 #END WARNING
 cms openapi register protocol pickle
 
@@ -121,6 +123,8 @@ cms config set cloudmesh.data.mongo.MONGO_PASSWORD=benchmark
 cms config set cloudmesh.profile.user=benchmark
 cms config set cloudmesh.profile.firstname=benchmark
 cms config set cloudmesh.profile.lastname=benchmark
+cms set host=localhost
+
 #END WARNING
 cms openapi register protocol pickle
 
