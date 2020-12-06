@@ -11,6 +11,7 @@ mkdir cm
 cd cm
 pip install cloudmesh-installer
 cloudmesh-installer install openapi
+pip uninstall uuid
 cms help
 
 # Configure cloudmesh DB
