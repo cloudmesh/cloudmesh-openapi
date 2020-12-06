@@ -12,6 +12,7 @@ Here come document for test
 """
 import pytest
 from cloudmesh.common.util import HEADING
+from cloudmesh.common.util import banner
 import requests
 import os
 import subprocess
@@ -30,6 +31,9 @@ from cloudmesh.common.Benchmark import Benchmark
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.variables import Variables
 from cloudmesh.configuration.Config import Config
+
+
+banner("test_030_generator_eigenfaces_svm")
 
 variables = Variables()
 ip = variables["host"] # to set, cms set host=localhost or ip for VM
