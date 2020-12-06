@@ -161,16 +161,5 @@ pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py
 ### To run the pytest multiple times 
 **run-script**
 ```
-#!/bin/bash
-
-cd ~/cm/cloudmesh-openapi
-for i in {1..30}
-do
-pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py >> out.txt
-done
-```
-
-```
-chmod run-script 700
-nohup ./run-script &
+seq 30 | xargs -I -- pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py | tee out.txt
 ```
