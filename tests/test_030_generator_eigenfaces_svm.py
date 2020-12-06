@@ -45,7 +45,12 @@ def server_init(request):
     FNULL = open(os.devnull, 'w')
     subprocess.Popen([command], shell=True,stdin=None, stdout=FNULL, stderr=subprocess.STDOUT, close_fds=True)
     sleep(3)
-    r = requests.get(f"http://{ip}:8080/cloudmesh/ui", timeout=200)
+    not_start = True
+    while(not_start):
+        result = Shell.run("cms openapi server list")
+        if 'EigenfacesSVM' in result:
+            not_start = False
+        sleep(3)
     yield
     command = "cms openapi server stop EigenfacesSVM"
     result = Shell.run(command)
