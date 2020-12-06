@@ -43,7 +43,7 @@ curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -
 curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/predict?image_file_paths=$HOME%2F.cloudmesh%2Fupload-file%2Fexample_image.jpg" -H  "accept: text/plain"
 cms openapi server stop EigenfacesSVM
 
-# Run EigenfacesSVM Example as AUTOMATICALLY as pytest
+# Run EigenfacesSVM Example AUTOMATICALLY as pytest
 cd ~/cm/cloudmesh-openapi
 pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py
 ```
@@ -95,7 +95,7 @@ curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -
 curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/predict?image_file_paths=$HOME%2F.cloudmesh%2Fupload-file%2Fexample_image.jpg" -H  "accept: text/plain"
 cms openapi server stop EigenfacesSVM
 
-# Run EigenfacesSVM Example as AUTOMATICALLY as pytest
+# Run EigenfacesSVM Example AUTOMATICALLY as pytest
 cd ~/cm/cloudmesh-openapi
 pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py
 ```
@@ -144,7 +144,7 @@ curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/train" -H  "accept: t
 curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@$HOME/cm/cloudmesh-openapi/tests/generator-eigenfaces-svm/example_image.jpg;type=image/jpeg"
 curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/predict?image_file_paths=$HOME%2F.cloudmesh%2Fupload-file%2Fexample_image.jpg" -H  "accept: text/plain"
 
-# Run EigenfacesSVM Example as AUTOMATICALLY as pytest
+# Run EigenfacesSVM Example AUTOMATICALLY as pytest
 cd ~/cm/cloudmesh-openapi
 pytest -v -s ./tests/test_030_generator_eigenfaces_svm.py
 ```
