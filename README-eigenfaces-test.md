@@ -172,5 +172,5 @@ done
 
 ```
 chmod run-script 700
-nohub ./run-script &
+nohup ./run-script &
 ```
