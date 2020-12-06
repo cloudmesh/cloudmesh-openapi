@@ -38,8 +38,8 @@ cms openapi generate EigenfacesSVM --filename=./tests/generator-eigenfaces-svm/e
 cms openapi server start ./tests/generator-eigenfaces-svm/eigenfaces-svm-full.yaml
 curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/download_data" -H  "accept: */*"
 curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/train" -H  "accept: text/plain"
-curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@example_image.jpg;type=image/jpeg"
-curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/predict?image_file_paths=%2Fhome%2Fanthony%2F.cloudmesh%2Fupload-file%2Fexample-image.jpg" -H  "accept: text/plain"
+curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@$HOME/cm/cloudmesh-openapi/tests/generator-eigenfaces-svm/example_image.jpg;type=image/jpeg"
+curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/predict?image_file_paths=$HOME%2F.cloudmesh%2Fupload-file%2Fexample_image.jpg" -H  "accept: text/plain"
 cms openapi server stop EigenfacesSVM
 
 # Run EigenfacesSVM Example as AUTOMATICALLY as pytest
@@ -88,9 +88,8 @@ cms openapi generate EigenfacesSVM --filename=./tests/generator-eigenfaces-svm/e
 cms openapi server start ./tests/generator-eigenfaces-svm/eigenfaces-svm-full.yaml
 curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/download_data" -H  "accept: */*"
 curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/train" -H  "accept: text/plain"
-curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@example_image.jpg;type=image/jpeg"
-curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/predict?image_file_paths=%2Fhome%2Fanthony%2F.cloudmesh%2Fupload-file%2Fexample-image.jpg" -H  "accept: text/plain"
-cms openapi server stop EigenfacesSVM
+curl -X POST "http://localhost:8080/cloudmesh/upload" -H  "accept: text/plain" -H  "Content-Type: multipart/form-data" -F "upload=@$HOME/cm/cloudmesh-openapi/tests/generator-eigenfaces-svm/example_image.jpg;type=image/jpeg"
+curl -X GET "http://localhost:8080/cloudmesh/EigenfacesSVM/predict?image_file_paths=$HOME%2F.cloudmesh%2Fupload-file%2Fexample_image.jpg" -H  "accept: text/plain"
 
 # Run EigenfacesSVM Example as AUTOMATICALLY as pytest
 cd ~/cm/cloudmesh-openapi
