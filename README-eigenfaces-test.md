@@ -10,8 +10,9 @@ mkdir cm
 cd cm
 pip install cloudmesh-installer
 cloudmesh-installer get openapi
+cms help
 
-cms help# Configure cloudmesh DB
+# Configure cloudmesh DB
 # WARNING Don't run if mongo already configured for other cloudmesh use
 cms config set cloudmesh.data.mongo.MONGO_USERNAME=benchmark * for pi too even though it doesn't use mongo
 cms config set cloudmesh.data.mongo.MONGO_PASSWORD=benchmark * for pi too even though it doesn't use mongo
