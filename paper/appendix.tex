@@ -341,75 +341,6 @@ cms set cloud=azure
   Describe the Benchmark class from cloudmesh in one sentence and how we
   use it
 
-  \subsection{Basic Auth
-  Example}\label{a.5.-basic-auth-example}
-
-  Basic Auth in cloudmesh openapi can be enabled with the following flag
-
-\begin{verbatim}
---basic_auth=<username>:<password>
-\end{verbatim}
-
-  flag. As such, this example will be an extension of a previously
-  existing example. To follow with this example, navigate to the
-  \verb|cloudmesh-openapi| directory.
-
-  We will use the \verb|server-cpu| example which tells the user the
-  CPU of the machine running the API.
-
-  For this example, let's create a user with username \verb|admin| and
-  password \verb|secret|.
-
-\begin{verbatim}
-cms openapi generate get_processor_name \
-  --filename=./tests/server-cpu/cpu.py \
-  --basic_auth=admin:secret
-\end{verbatim}
-
-  We can start the server as follows:
-  
-  \verb|cms openapi server start ./tests/server-cpu/cpu.yaml|
-
-  The user will now be required to authenticate as the registered user
-  in order to access the API. This can be done by specifying the Basic
-  Auth credentials in the header as done
-  \href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization}{here}.
-  Alternatively, the user can login via the
-  \href{http://localhost:8080/cloudmesh/u}{swagger UI} when the server
-  is started.
-\end{itemize}
-
-\subsection{A.6 Switching between PickleDB and
-MongoDB}\label{a.6-switching-between-pickledb-and-mongodb}
-
-The default ``out-of-the-box'' storage mechanism of cloudmesh-openapi is
-Pickle. This requires no setup of the DB on the user's end.
-
-To switch to MongoDB, the user must first change their config option as
-follows:
-
-\begin{verbatim}
-cms openapi register protocol mongo
-\end{verbatim}
-
-Note that by switching to mongo, certain mongo variables need to be
-filled out. Mongo may need to be installed as well. Refer to
-\href{https://github.com/cloudmesh/cloudmesh-openapi/\#installation}{this}
-documentation to see how this process can be done.
-
-One may switch back to pickle with the same command:
-
-\begin{verbatim}
-cms openapi register protocol pickle
-\end{verbatim}
-
-\subsection{APPENDIX B. - Code
-Location}\label{appendix-b.---code-location}
-
-This is temporary and will in final be moved elsewhere. Its conveniently
-for now placed on top so we can easier locate it at \cite{cloudmesh-openapi}.
-
-
 \subsection{APPENDIX C. - Cloudmesh
 Links}\label{appendix-c.---cloudmesh-links}
 
@@ -427,46 +358,87 @@ different OSes.
 
 \subsection{APPENDIX D. - Plan}\label{appendix-d.---plan}
 
-Thus far in the project we have familiarized ourselves with
-Cloudmesh-Openapi by recreating example services on our local machines,
-setup a git branch of the source project on which we will collaborate,
-contributed to the paper's background section, and started looking for
-example AI analytics, like those provided at SciKitLearn's website. We
-obtained cloud service accounts from AWS, Azure, GCP, and Chameleon
-Cloud, and verified Cloudmesh documentation while applying for the cloud
-accounts. We registered our accounts with the Cloudmesh shell and
-executed VM operations using Cloudmesh.
+\cite{www-skikit-learn-faces}.
 
-Moving forward, we will develop benchmark tests in the form of pytests
-that replicate the AI analytic examples. We will each use Cloudmesh to
-deploy these tests as an Openapi based REST service and benchmark their
-performance on various cloud providers. Our benchmarks will measure
-various components such as data transfer time, model train time, model
-prediction time, etc. We will then consolidate and report on our
-findings. Our final project will include a script that utilizes the
-Cloudmesh shell to automate our benchmark tests so others can replicate
-our work.
+\section{YAML}
 
-For an AI analytic benchmark test, one intesresting example to replicate
-may be the faces recognition example using eigenfaces and SVMs \cite{www-skikit-learn-faces}.
+\TODO{TBD}
 
-Last week we created the first draft of the eigenfaces-svm example that
-is found in the ``benchmark'' branch. It outputs the example and prints
-benchmark information. We are making progress on manually running this
-example on a cloud VM using the Cloudmesh shell, which will generate the
-requirements for our final script.
 
-This week we successfully ran the eigenfaces-svm example on Goolge
-Cloud, Amazon Web Services, and Microsoft Azure. We created a script
-eigenfaces-svm-script that can deploy the OpenAPI service on a fresh VM
-on a cloud and run the eigenfaces-svm example. We also created the
-eigenfaces-svm-full example which breaks the workflow into a functions
-that download remote data, train and tests the model, provide a image
-upload function, and a prediction function. We also created a pytest
-that automatically run those four functions and print benchark
-information.
+\begin{figure}[!h]
+%\begin{Verbatim}[numbers=left,xleftmargin=5mm]
+\bigskip
+\begin{lstlisting}[language=Python,
+                   basicstyle=\ttfamily\footnotesize,
+                   numbers=left,                   
+                   numbersep=5pt,
+                   xleftmargin=5mm]
+openapi: 3.0.0
+info:
+  title: Calculator
+  description: "A simple calculator that allows you to do basic math operations"
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/cloudmesh
+    description: "A simple calculator that allows you to do basic math operations"
+paths:
+  /Calculator/dividefloat:
+     get:
+      summary: "Divide int by float."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: calculator.Calculator.dividefloat
+      parameters:
+        - in: query
+          name: x
+          description: "the value of input #1"
+          schema:
+            type: integer
+        - in: query
+          name: y
+          description: "the value of input #2"
+          schema:
+            type: number
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: number
 
-Next week we will create a script to run the eigenfaces-svm-full example
-on each cloud multiple times, and them summarize and plot benchmark
-information to compare the clouds. Additionally, we will finish the
-report.
+  /Calculator/multiplyint:
+     get:
+      summary: "Multiply int by int."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: calculator.Calculator.multiplyint
+      parameters:
+        - in: query
+          name: x
+          description: "the value of input #1"
+          schema:
+            type: integer
+        - in: query
+          name: y
+          description: "the value of input #2"
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: integer
+                
+
+\end{lstlisting}
+
+\caption{YAML file generated from the python function}
+\label{fig:class-yaml}
+
+\end{figure}
+
+
+\TODO{TBD}
+
+\clearpage

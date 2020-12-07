@@ -1,0 +1,39 @@
+  \subsection{Basic Auth
+  Example}\label{a.5.-basic-auth-example}
+
+  Basic Auth in cloudmesh openapi can be enabled with the following flag
+
+\begin{verbatim}
+--basic_auth=<username>:<password>
+\end{verbatim}
+
+  flag. As such, this example will be an extension of a previously
+  existing example. To follow with this example, navigate to the
+  \verb|cloudmesh-openapi| directory.
+
+  We will use the \verb|server-cpu| example which tells the user the
+  CPU of the machine running the API.
+
+  For this example, let's create a user with username \verb|admin| and
+  password \verb|secret|.
+
+\begin{verbatim}
+cms openapi generate get_processor_name \
+  --filename=./tests/server-cpu/cpu.py \
+  --basic_auth=admin:secret
+\end{verbatim}
+
+  We can start the server as follows:
+  
+  \verb|cms openapi server start ./tests/server-cpu/cpu.yaml|
+
+  The user will now be required to authenticate as the registered user
+  in order to access the API. This can be done by specifying the Basic
+  Auth credentials in the header as done
+  \href{https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization}{here}.
+  Alternatively, the user can login via the
+  \href{http://localhost:8080/cloudmesh/u}{swagger UI} when the server
+  is started.
+\end{itemize}
+
+

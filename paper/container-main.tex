@@ -1,30 +1,26 @@
 % \documentclass{article}
-\documentclass[acmtog,review=false]{acmart}
-
-%\usepackage[disable]{todonotes}
+\documentclass[acmtog, review=false]{acmart}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs,siunitx}
+\usepackage{breakurl}
 \usepackage{todonotes}
+% \usepackage[table]{xcolor} 
+\usepackage{fancyvrb}
+\usepackage{listings}
+\usepackage{xcolor}
 
-\input{format/packages}
 
-\newcommand{\TITLE}{Using GAS for Speedy Generation of Hybrid Multi-Cloud Auto Generated AI Services}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-
-\renewcommand{\shortauthors}{Gregor von Laszewski, et al.}
 
 \author{Gregor von Laszewski}
 \email{laszewski@gmail.com}
 \orcid{0000-0001-9558-179X}
-
-\author{Anthony Orlowski}
-\author{Richard Otten}
-\author{Reilly Markowitz}
-\author{~\\Sunny Gandhi}
-\author{Adam Chai}
-\author{Caleb Wilson}
-
-\author{Geoffrey C. Fox}
 \affiliation{%
-  \institution{Indiana University}
+  \institution{$^*$Indiana University}
   \streetaddress{Multidisciplinary Engineering and Sciences Hall\\
 2425 N Milo Sampson Lane}
   \city{Bloomington}
@@ -32,10 +28,32 @@
   \country{USA}
   \postcode{47408}
 }
+\authornotemark[1]
+%\authornote{Corresponding author}
 
-\author{Wo L. Chang}
+\author{Anthony Orlowski}
+\authornotemark[1]
+
+\author{Richard Otten}
+\authornotemark[1]
+
+\author{Caleb Wilson}
+\authornotemark[1]
+
+\author{Geoffrey C. Fox}
+\authornotemark[1]
+
+\author{~\\Wo L. Chang}
+\authornotemark[2]
+
+\author{Reilly Markowitz}
+\authornotemark[1]
+
+\author{Sunny Gandhi}
+\authornotemark[1]
+
 \affiliation{%
-  \institution{National Institute of Standards and Technology }
+  \institution{$^\textdagger$National Institute of Standards and Technology }
   \streetaddress{
   100 Bureau Drive
   }
@@ -47,7 +65,10 @@
 
 \settopmatter{authorsperrow=4}
 
-\title{\TITLE}
+
+\renewcommand{\shortauthors}{Gregor von Laszewski, et al.}
+
+\title{Multi-Cloud Auto Generated AI Services}
 
 %\copyrightyear{2020}
 %\acmYear{2020}
@@ -79,16 +100,26 @@
 \newcommand{\verbatimfont}[1]{\renewcommand{\verbatim@font}{\ttfamily#1}}
 \makeatother
 
-\input{format/macros}
-
 \begin{document}
 
-\input{content}
+
+\tableofcontents
+
+\verbatimfont{\footnotesize}%
+
+\newcommand{\TODO}[1]{\todo[inline]{#1}}
+
+\maketitle
+
+\textbf{Keywords:} cloudmesh, AI service, REST, multi-cloud
+
+\textbf{URL to draft:} \url{https://github.com/cloudmesh/cloudmesh-openapi/blob/main/paper/}
+
+
+\input{container}
 
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{bib/references}
+\bibliography{references,container}
 
-%\clearpage
 
-%\input{appendix}
 \end{document}

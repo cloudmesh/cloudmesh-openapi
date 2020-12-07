@@ -1,0 +1,60 @@
+\begin{center}
+\begin{adjustbox}{width=1.0\columnwidth}
+\begin{footnotesize}
+\forestset{
+  skan tree/.style={
+    for tree={
+      drop shadow,
+      text width=3cm,
+      %grow'=0,
+      %growth=south,
+      rounded corners,
+      draw,
+      top color=white,
+      bottom color=blue!20,
+      edge={Latex-},
+      child anchor=parent,
+      %parent anchor=children,
+      anchor=parent,
+      tier/.wrap pgfmath arg={tier ##1}{level()},
+      s sep+=2.5pt,
+      l sep+=2.5pt,
+      edge path'={
+        (.child anchor) -- (!u.parent anchor)
+      },
+      node options={ align=center },
+    },
+    before typesetting nodes={
+      for tree={
+        content/.wrap value={\strut ##1},
+      },
+    },
+  },
+}
+\begin{forest}
+  skan tree
+  [Usecase, \nwhite
+    [Schema, \nwhite
+       [Code Generator (31 Languages), \ngreen
+          [Implementation, \nwhite
+          [Function, \nwhite
+          [Service, \ngreen
+             [Deployment, \nred
+               [Verification, \nred
+                  [Hosting, \nred
+                  ]
+               ]
+               ]
+            ]
+            ]
+         ]
+      ]
+    ]
+  ]
+\end{forest}
+\end{footnotesize}
+\end{adjustbox}
+\end{center}
+%\vspace{-0.8cm}
+\caption{Schema-based component flow to specify an analytics service.}
+\label{fig:flow-schema}
