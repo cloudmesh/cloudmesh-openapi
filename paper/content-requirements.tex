@@ -1,0 +1,62 @@
+\section{Requirements}
+\label{sec:requirements}
+
+Next, we present the most critical requirements that motivated our architecture and design. We start with a set of general requirements.
+
+\begin{description}
+
+\item[Leveraging new Python features.] Python is a very popular choice with many data scientists. Our framework will leverage the newest Python 3 features such as {\em Typing Interface} \cite{www-python-typing} in order to increase robustness and future-proofing of our code base. 
+
+\item[Ability to be used within Jupyter Notebooks.] ~\\
+The framework must be able to integrate with Jupyter notebooks as they are very popular with today's data scientists. The functionality must be easily accessible not only as part of python programs but also within Jupyter notebooks. This is of special importance also for cloud services such as Google Colab \cite{google-colab} which for example, offers cloud-based Notebooks. 
+
+\item[Easy of use] is a critical aspect of the framework that is to be addressed from the start by allowing for ease of creation, ease of deployment, and easy use of the generated services. This is accompanied by easy to use command-line tools.
+
+\end{description}
+
+Next, we list some more specific requirements that motivate our architectural design.
+
+\begin{description}
+
+\item[Multi-Cloud Service Integration.] The framework must allow us to integrate multiple cloud services, including IaaS, PaaS, and SaaS. This also includes the ability to access AI-based services offered by the various cloud providers.
+
+\item[Hybrid-Cloud Service Integration.] The framework must allow integrating on-premise, private, and public clouds.
+
+
+\item[Generalized Analytics Service Generator.] We need a generalized analytics service generator. The first step in the activity to generate an analytics service is to
+provide an OpenAPI Service generator. Our generator will allow us to
+define essential analytics functions such as (a) uploading and
+downloading files to an analytics service; (b) specifying the
+functionality through typing enhanced python functions; and (c)
+generating the code for the service.
+
+\item[Generalized Analytics Service Deployment.] After the service is generated, it needs to be deployed. For this step
+we will be reusing the Cloudmesh deployment mechanism to instantiate
+services on-demand on specified cloud providers such as AWS, Azure,
+and Google. 
+
+\item[Generalized Analytics Service Invocation.] The next step includes the invocation of the deployed services. While
+analyzing some use cases, we identified that users often need to
+invoke the same service many times to tune service parameters in a
+quasi-realtime fashion while using parameters that can not be included in the URL. Hence we will need to upload input parameters through
+files if the simple typing data types provided by our proposed
+framework is not sufficient. 
+
+\item[REST Services Architecture.] As REST has become the most prominent architectural design principle, our Generalized service architecture needs to be able to produce REST services.
+
+\item[Automated REST Service Generation for other Languages.] Our framework must have provisions included that allow the integration into other programming languages and, on the other hand, allows the integration of services and functions developed in other languages.
+
+
+  
+\item[Generalized Analytics Service Registry.] As users and communities may develop many different services, we must provide the ability to  (a) find
+specifications of generalized analytics services (b) find use-cases
+of generalized analytics services (c) find infrastructure on which
+such services can be deployed, and (d) find deployed analytics
+services. For this, we need a registry that can be queried by the community.
+
+\item[Generalized Composable Analytics Services.] Services must be allowed to reuse other services to allow for easy integration. Thus we need to make our services composable. This also includes the choreography of the execution of such composable services.
+
+
+
+
+\end{description}

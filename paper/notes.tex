@@ -1,0 +1,27 @@
+Not only will we be updating this code to leverage new
+Python 3 features, but we will also reorganize the code into several
+repositories. To do so, we will build repository bundles that
+interfaces to a cloud provider specifically. This allows us to create
+sophisticated plugins that target a particular cloud provider or
+service. As a consequence users can choose which providers or services
+they like to work with and only install the once needed. Through
+package dependencies, all needed packages for a particular provider or
+service can be installed with a single install command.  This will
+drastically reduce the time needed for management and deployment by
+the users.
+
+The other aspect of this effort is the use of high-level services that
+are already existing in the clouds targeting specific analytics tasks
+such as natural language processing and image classification. Here
+services may already exist as ready to be used components in the cloud
+and can be integrated into the workflow of the users as part of the
+generalized analytics services. However, as each vender tries to
+promote their own technologies, we will explore the creation of a
+high-level service-independent analytics service multiplexer that is
+capable of delegating the analysis task to a specific cloud
+service. If multiple such services on different providers exist, it
+can be coupled with a scheduler framework providing a selection a
+capability which of them is to be used.
+
+Lastly, it is obvious that we can showcase these capabilities within
+Jupyter notebooks, as discussed in Section \ref{sec:jupyter}.
