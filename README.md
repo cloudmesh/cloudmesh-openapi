@@ -15,7 +15,15 @@
 [![Status](https://img.shields.io/pypi/status/cloudmesh-openapi.svg)](https://pypi.python.org/pypi/cloudmesh-openapi)
 [![Travis](https://travis-ci.com/cloudmesh/cloudmesh-openapi.svg?branch=main)](https://travis-ci.com/cloudmesh/cloudmesh-openapi)
 
+## Publication
 
+A draft paper is available at
+
+* <https://github.com/laszewski/laszewski.github.io/raw/master/papers/vonLaszewski-openapi.pdf>
+
+The source to the paper is at
+
+* <https://github.com/cyberaide/paper-openapi>
 
 ## Prerequisites
 
