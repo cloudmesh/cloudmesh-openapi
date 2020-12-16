@@ -3,7 +3,12 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import explained_variance_score
 
-def decisiontree_model():
+def decisiontree_model() -> str:
+	"""
+    decision tree model example
+
+    :return: the score of the model
+    """
 	df =pd.read_csv("https://raw.githubusercontent.com/cybertraining-dsc/fa20-523-327/main/project/dataset/USvideos.csv")
 
 	#turn boolean labels into 1/0
