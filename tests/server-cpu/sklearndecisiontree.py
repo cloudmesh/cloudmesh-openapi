@@ -3,7 +3,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import explained_variance_score
 
-def decisiontree_model() -> str:
+def decisiontree_model():
 	"""
     decision tree model example
 
