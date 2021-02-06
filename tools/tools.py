@@ -2,6 +2,9 @@
 Usage:
     tools.py list
     tools.py table
+
+Description:
+  table   prints the latex table with all values
 """
 
 from cloudmesh.common.util import download
@@ -18,12 +21,12 @@ download(tools_yaml, "tools-orig.yml")
 
 categories = yaml.load(readfile("categories.yml"), Loader=yaml.SafeLoader)
 
-pprint (categories)
+# pprint (categories)
 
 
 tools = yaml.load(readfile("tools.yml"),  Loader=yaml.SafeLoader)
 
-print (tools)
+# print (tools)
 
 def get(attribute):
     l = list()
