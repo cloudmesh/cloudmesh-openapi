@@ -15,6 +15,3 @@ msrest
 pandas
 joblib
 sklearn
-numpy
-pandas
-joblib
