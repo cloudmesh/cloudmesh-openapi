@@ -550,6 +550,12 @@ $ pwd
 ~/cm/cloudmesh-openapi
 ```
 
+Then install some requirements needed for this example
+
+```
+$ pip install sklearn
+```
+
 Let us generate the yaml file from our python file to generate the proper specs for our service.
 
 ```
@@ -572,7 +578,7 @@ provided it for you to use. Simply navigate to the `/upload` endpoint
 by clicking on it, then click `Try it out`.
 
 We can now upload the file. Click on `Choose File` and upload the data
-set located at `~./tests/Scikitlearn-experimental/iris.data`.  Simply
+set located at `./tests/Scikitlearn-experimental/iris.data`.  Simply
 hit `Execute` after the file is uploaded. We should then get a return
 code of 200 (telling us that everything went ok).
 
