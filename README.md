@@ -553,7 +553,7 @@ $ pwd
 Then install some requirements needed for this example
 
 ```
-$ pip install sklearn
+$ pip install numpy pandas joblib sklearn
 ```
 
 Let us generate the yaml file from our python file to generate the proper specs for our service.
