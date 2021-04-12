@@ -448,7 +448,10 @@ class OpenapiCommand(PluginCommand):
                               spec=path_expand(arguments.YAML),
                               foreground=arguments.fg)
 
-                print(f"Run PID: {pid}")
+                if pid is None:
+                    pass
+                else:
+                    print(f"Run PID: {pid}")
 
             except FileNotFoundError:
 

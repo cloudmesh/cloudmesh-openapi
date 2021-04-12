@@ -162,6 +162,11 @@ class Server(object):
         :return: started server PID
         """
         name = Server.get_name(name, spec)
+        for active_server in Server.ps():
+            if active_server['name'] == name and os.getpid() != active_server['pid']:
+                Console.error(f'Server {name} already running on PID {active_server["pid"]}')
+                return None
+
         pid = ""
 
         if foreground:
