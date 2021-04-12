@@ -405,8 +405,10 @@ class OpenapiCommand(PluginCommand):
             result = registry.delete(name=arguments.NAME)
             if result == 0:
                 Console.error("Entry could not be found")
-            else:
+            elif result is not None:
                 Console.ok("Ok. Entry deleted")
+            else:
+                Console.error("Could not delete entry")
 
         elif arguments.register and arguments.list:
 
