@@ -17,7 +17,6 @@ from typing import Tuple
 class PipelineAnovaSVM:
     """
     A Pipeline Anova SVM model that can train on data and make predictions
-    WIP (work in progress)
 
     Sklearn Docs:
     https://tinylink.net/jCjzJ
