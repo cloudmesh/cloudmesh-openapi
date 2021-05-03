@@ -1,0 +1,103 @@
+cloudmesh-installer install openapi
+
++---------------------+------------------------------------------------------------------+
+| Attribute           | Value                                                            |
+|---------------------+------------------------------------------------------------------|
+| BUG_REPORT_URL      | "https://bugs.launchpad.net/ubuntu/"                             |
+| DISTRIB_CODENAME    | focal                                                            |
+| DISTRIB_DESCRIPTION | "Ubuntu 20.04.1 LTS"                                             |
+| DISTRIB_ID          | Ubuntu                                                           |
+| DISTRIB_RELEASE     | 20.04                                                            |
+| HOME_URL            | "https://www.ubuntu.com/"                                        |
+| ID                  | ubuntu                                                           |
+| ID_LIKE             | debian                                                           |
+| NAME                | "Ubuntu"                                                         |
+| PRETTY_NAME         | "Ubuntu 20.04.1 LTS"                                             |
+| PRIVACY_POLICY_URL  | "https://www.ubuntu.com/legal/terms-and-policies/privacy-policy" |
+| SUPPORT_URL         | "https://help.ubuntu.com/"                                       |
+| UBUNTU_CODENAME     | focal                                                            |
+| VERSION             | "20.04.1 LTS (Focal Fossa)"                                      |
+| VERSION_CODENAME    | focal                                                            |
+| VERSION_ID          | "20.04"                                                          |
+| cpu_count           | 32                                                               |
+| mem.active          | 9.4 GiB                                                          |
+| mem.available       | 55.9 GiB                                                         |
+| mem.free            | 6.8 GiB                                                          |
+| mem.inactive        | 41.2 GiB                                                         |
+| mem.percent         | 11.0 %                                                           |
+| mem.total           | 62.8 GiB                                                         |
+| mem.used            | 5.9 GiB                                                          |
+| platform.version    | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020                       |
+| python              | 3.9.0 (default, Nov 25 2020, 10:17:39)                           |
+|                     | [GCC 9.3.0]                                                      |
+| python.pip          | 20.3.1                                                           |
+| python.version      | 3.9.0                                                            |
+| sys.platform        | linux                                                            |
+| uname.machine       | x86_64                                                           |
+| uname.node          | alien                                                            |
+| uname.processor     | x86_64                                                           |
+| uname.release       | 5.4.0-54-generic                                                 |
+| uname.system        | Linux                                                            |
+| uname.version       | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020                       |
+| user                | green                                                            |
++---------------------+------------------------------------------------------------------+
+
++---------------------------------+----------+--------+-------+---------------------+-------+--------+--------+-------+--------------------------------------------+
+| Name                            | Status   |   Time |   Sum | Start               | tag   | Node   | User   | OS    | Version                                    |
+|---------------------------------+----------+--------+-------+---------------------+-------+--------+--------+-------+--------------------------------------------|
+| install cloudmesh-common        | ok       |  0.671 | 0.671 | 2020-12-06 20:55:33 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
+| install cloudmesh-cmd5          | ok       |  0.6   | 0.6   | 2020-12-06 20:55:34 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
+| install cloudmesh-sys           | ok       |  0.601 | 0.601 | 2020-12-06 20:55:35 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
+| install cloudmesh-configuration | ok       |  0.762 | 0.762 | 2020-12-06 20:55:35 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
+| install cloudmesh-test          | ok       |  0.898 | 0.898 | 2020-12-06 20:55:36 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
+| install cloudmesh-gui           | ok       |  0.882 | 0.882 | 2020-12-06 20:55:37 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
+| install cloudmesh-abstract      | ok       |  0.616 | 0.616 | 2020-12-06 20:55:38 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
+| install cloudmesh-admin         | ok       |  1.42  | 1.42  | 2020-12-06 20:55:38 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
+| install cloudmesh-cloud         | ok       |  6.637 | 6.637 | 2020-12-06 20:55:40 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
+| install cloudmesh-inventory     | ok       |  0.789 | 0.789 | 2020-12-06 20:55:47 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
+| install cloudmesh-openstack     | ok       |  3.618 | 3.618 | 2020-12-06 20:55:47 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
+| install cloudmesh-openapi       | ok       |  1.264 | 1.264 | 2020-12-06 20:55:51 |       | alien  | green  | Linux | #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 |
++---------------------------------+----------+--------+-------+---------------------+-------+--------+--------+-------+--------------------------------------------+
+
+# csv,timer,status,time,sum,start,tag,uname.node,user,uname.system,platform.version
+# csv,install cloudmesh-common,ok,0.671,0.671,2020-12-06 20:55:33,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+# csv,install cloudmesh-cmd5,ok,0.6,0.6,2020-12-06 20:55:34,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+# csv,install cloudmesh-sys,ok,0.601,0.601,2020-12-06 20:55:35,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+# csv,install cloudmesh-configuration,ok,0.762,0.762,2020-12-06 20:55:35,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+# csv,install cloudmesh-test,ok,0.898,0.898,2020-12-06 20:55:36,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+# csv,install cloudmesh-gui,ok,0.882,0.882,2020-12-06 20:55:37,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+# csv,install cloudmesh-abstract,ok,0.616,0.616,2020-12-06 20:55:38,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+# csv,install cloudmesh-admin,ok,1.42,1.42,2020-12-06 20:55:38,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+# csv,install cloudmesh-cloud,ok,6.637,6.637,2020-12-06 20:55:40,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+# csv,install cloudmesh-inventory,ok,0.789,0.789,2020-12-06 20:55:47,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+# csv,install cloudmesh-openstack,ok,3.618,3.618,2020-12-06 20:55:47,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+# csv,install cloudmesh-openapi,ok,1.264,1.264,2020-12-06 20:55:51,,alien,green,Linux,#60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020
+
+
+$ lscpu
+
+Architecture:                    x86_64
+CPU op-mode(s):                  32-bit, 64-bit
+Byte Order:                      Little Endian
+Address sizes:                   43 bits physical, 48 bits virtual
+CPU(s):                          32
+On-line CPU(s) list:             0-31
+Thread(s) per core:              2
+Core(s) per socket:              16
+Socket(s):                       1
+NUMA node(s):                    1
+Vendor ID:                       AuthenticAMD
+CPU family:                      23
+Model:                           113
+Model name:                      AMD Ryzen 9 3950X 16-Core Processor
+Stepping:                        0
+CPU MHz:                         3212.260
+BogoMIPS:                        6986.86
+Virtualization:                  AMD-V
+L1d cache:                       512 KiB
+L1i cache:                       512 KiB
+L2 cache:                        8 MiB
+L3 cache:                        64 MiB
+NUMA node0 CPU(s):               0-31
+
+

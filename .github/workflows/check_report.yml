@@ -22,9 +22,9 @@ jobs:
       with:
         python-version: '3.x' 
         architecture: 'x64' 
-    - name: wget markdown-check.py
-      run: wget https://raw.githubusercontent.com/cybertraining-dsc/cybertraining-dsc.github.io/main/bin/markdown-check.py      
-    - name: Run Check
-      run: python markdown-check.py paper/_index.md
-      # run: python3 markdown-check.py report/report.md
-      # run: python3 markdown-check.py project/project.md
+#    - name: wget markdown-check.py
+#      run: wget https://raw.githubusercontent.com/cybertraining-dsc/cybertraining-dsc.github.io/main/bin/markdown-check.py      
+#    - name: Run Check
+#      run: python markdown-check.py paper/_index.md
+#      # run: python3 markdown-check.py report/report.md
+#      # run: python3 markdown-check.py project/project.md

@@ -1,5 +1,4 @@
 import os
-import os
 import sys
 import textwrap
 import types
@@ -406,8 +405,10 @@ class OpenapiCommand(PluginCommand):
             result = registry.delete(name=arguments.NAME)
             if result == 0:
                 Console.error("Entry could not be found")
-            else:
+            elif result is not None:
                 Console.ok("Ok. Entry deleted")
+            else:
+                Console.error("Could not delete entry")
 
         elif arguments.register and arguments.list:
 
@@ -447,7 +448,10 @@ class OpenapiCommand(PluginCommand):
                               spec=path_expand(arguments.YAML),
                               foreground=arguments.fg)
 
-                print(f"Run PID: {pid}")
+                if pid is None:
+                    pass
+                else:
+                    print(f"Run PID: {pid}")
 
             except FileNotFoundError:
 

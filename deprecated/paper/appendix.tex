@@ -1,0 +1,444 @@
+\appendix
+
+\section{Appendix}
+
+\subsection{Setup}\label{appendix-a.---setup}
+
+\subsubsection{Deployment}\label{a.1.-deployment}
+
+The project is easy to replicate with our detailed instructions. First
+you must install Cloudmesh OpenAPI whihch can be done by the following
+steps:
+
+
+\begin{verbatim}
+python -m venv ~/ENV3
+source ~/ENV3/bin/activate 
+mkdir cm
+cd cm
+pip install cloudmesh-installer
+cloudmesh-installer get openapi 
+cms help
+cms gui quick
+# fill out mongo variables
+# make sure autinstall is True
+cms config set cloudmesh.data.mongo.MONGO_AUTOINSTALL=True
+cms admin mongo install --force
+# Restart a new terminal to make sure mongod 
+# is in your path
+cms init
+\end{verbatim}
+ 
+
+As a first example we like to test if the deployment works by using a
+number of simple commands we execute in a terminal.
+
+\begin{verbatim}
+cd ~/cm/cloudmesh-openapi
+
+cms openapi generate get_processor_name \
+    --filename=./tests/server-cpu/cpu.py
+
+cms openapi server start ./tests/server-cpu/cpu.yaml
+
+curl -X GET "http://localhost:8080/cloudmesh/get_processor_name" \
+     -H "accept: text/plain"
+cms openapi server list
+
+cms openapi server stop cpu
+\end{verbatim}
+
+The output will be a string containing your computer.
+
+\TODO{how does the string look like}
+
+
+As we often also need the information as a REST service, we provide in
+our next example a jsonified object specification.
+
+\begin{verbatim}
+from flask import jsonify
+
+def add(x: float, y: float) -> str:
+    """
+    adding float and float.
+    :param x: x value
+    :type x: float
+    :param y: y value
+    :type y: float
+    :return: result
+    :return type: float
+    """
+    result = {"result": x + y}
+
+    return jsonify(result)
+\end{verbatim}
+
+The result will include a json string returned by the service.
+
+\begin{verbatim}
+cms openapi generate add --filename=./tests/add-json/add.py
+cms openapi server start ./tests/add-json/add.yaml 
+curl -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" \
+     -H "accept: text/plain"
+# This command returns
+> {"result":3.0}
+cms openapi server stop add
+\end{verbatim}
+
+These examples are used to demonstrate the ease of use as well as the
+functionality for those that want to replicate our work.
+
+
+\subsection{Pipiline ANOVA SVM}\label{a.2.-pipiline-anova-svm}
+
+This example demonstrates how to deploy a simple machine learning
+example onto a server using cloudmesh-openapi. The specific
+implementation details that this example is based on can be found
+\href{https://scikit-learn.org/stable/auto_examples/feature_selection/plot_feature_selection_pipeline.html}{here.}
+
+The model being implemented is, in essence, an SVM with extra features
+to improve the model. An SVM (support vector machine) is a supervised
+learning model with associated learning algorithms used for
+classification and regression analysis. This model has become one of the
+most robust prediction methods widely used in problems conerning
+classification and the like.
+
+The Pipeline and ANOVA aspects are extensions to the SVM to improve the
+overall model. The purpose of the pipeline is to assemble several steps
+that can be cross-validated together while setting different parameters.
+ANOVA on the other hand is an acronym for Analysis of Variance. It is an
+omnibus test, meaning it tests for a difference overall between all
+groups. In the context of an SVM, this information is useful as an SVM
+mainly classifies data into separate groups.
+
+We can now proceed as follows:
+
+\begin{verbatim}
+$ pwd
+~/cm/cloudmesh-openapi
+
+$ cms openapi generate PipelineAnovaSVM \
+      --filename=./tests/Scikitlearn-experimental/sklearn_svm.py \
+      --import_class --enable_upload
+
+$ cms openapi server start ./tests/Scikitlearn-experimental/sklearn_svm.yaml
+\end{verbatim}
+
+After running these commands, we opened a web user interface. In the
+user interface, we uploaded the file iris data located in
+\verb|~/cm/cloudmesh-openapi/tests/|
+Scikitlearn-experimental/iris.data
+
+We then trained the model on this data set by inserting the name of the
+file we uploaded \verb|iris.data|. Next, we tested the model by
+clicking on make\_prediction and giving it the name of the file
+iris.data and the parameters \verb|5.1|, \verb|3.5|, \verb|1.4|,
+\verb|0.2|
+
+The response we received was
+\verb|Classification: ['Iris-setosa']|
+
+Lastly, we close the server:
+
+\begin{verbatim}
+$ cms openapi server stop sklearn_svm
+\end{verbatim}
+
+This process can easily be replicated when we create more service
+examples that we derive from existing sklearn examples. We benchmark
+these tests while wrapping them into pytests and run them on various
+cloud services.
+
+\subsection{Eigenfaces SVM Facial
+Recognition}\label{a.3.-eigenfaces-svm-facial-recognition}
+
+Next we demonstrate how to run the Eigenfaces SVM example locally, and
+then how to run its associated benchmark script.
+
+\begin{verbatim}
+$ pwd
+~/cm/cloudmesh-openapi
+
+$ git checkout benchmark # todo required until merged into main
+
+$ cms openapi generate EigenfacesSVM \
+      --filename=./tests/generator-eigenfaces-svm/eigenfaces-svm-full.py \
+      --import_class --enable_upload
+
+$ cms openapi server start \
+      ./tests/generator-eigenfaces-svm/eigenfaces-svm-full.yaml
+\end{verbatim}
+
+After running these commands, we opened a web user interface at
+\url{http://localhost:8080/cloudmesh/ui}. In the user interface we run
+the download\_data function with the default arguments. This downloads
+and extracts the labeled faces in the wild data set to the
+\verb|~/scikit_learn_data/lfw_home directory|.
+
+Next, we run the train function to train the model. The train function
+performs a 50/50 train/test split on the input data, and returns
+performance statistics of the trained model.
+
+Next, we use the upload function to upload an example image using
+\verb|~./tests/generator-eigenfaces-svm/example\_image.jpg|
+as the function argument. This puts the example image in the
+\verb|~/.cloudmesh/upload-file/| directory.
+
+Finally, we run the predict function with the uploaded file path as an
+argument,
+\verb|~/.cloudmesh/upload-file/example\_image.jpg|,
+and receive the classification as a response
+\verb|['George W. Bush']|
+
+Last, we close the server:
+
+\begin{verbatim}
+$ cms openapi server stop EigenfacesSVM
+\end{verbatim}
+
+Next, we benchmark these tests while wrapping them into pytests and run
+them on various cloud services.
+
+\textbf{Before continuing you must have successfully registered AWS,
+Azure, and Google clouds in your yaml file and be able to boot virtual
+machines on Google, AWS, and Azure. This example currently should work
+on Linux and macOS}
+
+First, we must change to a git branch that includes Azure provider
+fixes, and setup our \verb|~./cloudmesh/cloudmesh.yaml| file to
+replicate the parameters set for the benchmark results above. This can
+be done with the commands listed in Figure \ref{fig:config}.
+
+\TODO{NEVER USE THE WORD ABOVE to refer to previous, next or numbered items}
+
+\begin{figure*}[htb]
+
+\begin{verbatim}
+$ cd ~/cm/cloudmesh-azure 
+$ git checkout benchmark # required until changes merged to main
+
+$ cd ~/cm/cloudmesh-openapi
+
+$ cp ~/.cloudmesh/cloudmesh.yaml ~/.cloudmesh/cloudmesh.bak.1 # to revert reverse the cp
+
+$ cms config set cloudmesh.cloud.azure.default.image="Canonical:0001-com-ubuntu-server-focal:20_04-lts:20.04.202006100"
+$ cms config set cloudmesh.cloud.azure.default.size="Standard_D2s_v3"
+$ cms config set cloudmesh.cloud.azure.credentials.AZURE_REGION="eastus"
+
+$ cms config set cloudmesh.cloud.aws.default.image="ami-0dba2cb6798deb6d8"
+$ cms config set cloudmesh.cloud.aws.default.size="m4.large"
+$ cms config set cloudmesh.cloud.aws.default.username="ubuntu"
+$ cms config set cloudmesh.cloud.aws.credentials.region="us-east-1"
+
+$ cms config set cloudmesh.cloud.google.default.image="ubuntu-2004-lts"
+$ cms config set cloudmesh.cloud.google.default.image_project="ubuntu-os-cloud"
+$ cms config set cloudmesh.cloud.google.default.zone="us-east1-b"
+$ cms config set cloudmesh.cloud.google.default.region="us-east1"
+$ cms config set cloudmesh.cloud.google.default.flavor="n1-standard-2"
+\end{verbatim}
+
+  \caption{Configuration}
+  \label{fig:config}
+  \end{figure*}
+
+Next, we will modify the default security group to open the flask server
+port 8080 for OpenAPI service testing.
+
+\begin{verbatim}
+$ cms sec rule add openapi 8080 8080 tcp 0.0.0.0/0
+$ cms sec group add default openapi for_openapi_demo
+# the above two command should allow aws and azure to work
+# sec group load is broken for google and it does not 
+# use the default sec group, so you have to manually 
+# add the openapi rule to google cloud for now
+# console.cloud.google.com > VPC network > firewall > create firewall rule
+# name: openapi, targets:  all instances in network, 
+#       Source IP ranges: 0.0.0.0 /0, 
+#       specified protocols and ports: tcp 8080 > create
+\end{verbatim}
+
+Next, we will run the benchmarking script,
+
+\verb|./tests/generator-eigenfaces-svm/benchmark-eigenfaces.py.|
+
+This script utilizes the Cloudmesh shell and the Bash script,
+
+\verb|./tests/generator-eigenfaces-svm/eigenfaces-svm-full-script|,
+
+to sequentially deploy a VM on each of the clouds, install
+Cloudmesh-openapi and the example dependencies, and then us the
+pytest, \\
+\verb|./tests/test\_030\_generator\_eigenfaces\_svm.py|, twice to
+benchmark the EigenfacesSVM service functions both locally from the
+server, and from the remote client running the benchmark
+script. Finally, it prints and plots performance statistics.
+
+\begin{verbatim}
+$ ./tests/generator/eigenfaces-svm/benchmark-eigenfaces.py run
+\end{verbatim}
+
+If the command line argument \verb|run| is passed to the script, then
+it will start up the virtual machines on each cloud. Output and
+benchmark results from each of the virtual machines will be store in the
+\verb|~/.cloudmesh/eigenfaces-svm/vm\_script_output/| directory.
+The benchmark results are scraped from the script outputs and stored in
+the \verb|~/.cloudmesh/eigenfaces-svm/benchmark_output|
+directory. If the \verb|run| argument is \textbf{not} provided, it
+will only print statistics from script output already stored in the
+vm\_script\_output directory.
+
+Statistics will be printed to the command line, and graphs will be
+displayed using plt.show() function calls as well as saved to the \\
+\verb|./tests/generator-eigenfaces-svm/ directory|.
+
+Next, we will run the multi-cloud benchmarking script,
+
+\verb|.tests/generator-eigenfaces-svm/bencmark-eigenfaces-multi-cloud.py|.
+
+This script uses the Cloudmesh shell and the Bash script,
+
+\verb|.tests/generator-eigenfaces-svm/eigenfaces-svm-full-multi-script|,
+
+to sequentially deploy a VM on each of the clouds, install
+Cloudmesh-OpenAPI and the example dependencies, and start the AI
+service. Next, it conducts HTTP requests in parallel to interact with
+the services to measure the runtime for data download, training,
+uploading, and prediction.
+
+\begin{verbatim}
+$ ./tests/generator/eigenfaces-svm/benchmark-eigenfaces-multi-cloud.py run
+\end{verbatim}
+
+As above the command line argument run is used to conduct actual tests,
+and the absence of that argument simply computes statistics on existing
+output from the \\
+\verb|~/.cloudmesh/eigenfaces-svm/vm_script_output_multi/|
+directory.
+
+Statistics will be printed to the command line, and graphs will be
+displayed using plt.show() function calls as well as saved to the
+\verb|./tests/generator-eigenfaces-svm/ directory|.
+
+\subsection{Using unit tests for
+Benchmarking}\label{a.4.-using-unit-tests-for-benchmarking}
+
+\TODO{This section will be expanded upon}
+
+\begin{itemize}
+\item
+  Describe why we can unit tests
+\item
+  Describe how we access multiple clouds
+
+\begin{verbatim}
+cms set cloud=aws
+# run test
+cms set cloud=azure
+# run test
+\end{verbatim}
+\item
+  Describe the Benchmark class from cloudmesh in one sentence and how we
+  use it
+
+\subsection{APPENDIX C. - Cloudmesh
+Links}\label{appendix-c.---cloudmesh-links}
+
+We added this section so the Reader can easily find some cloudmesh
+related information Documentation for Cloudmesh can be found at \cite{cloudmesh-manual}:
+
+Code for cloud mesh can be found at \cite{cloudmesh-github}.
+
+Examples in this paper came from the cloudmesh openapi manual which is
+located here \cite{cloudmesh-openapi}.
+
+Information about cloudmesh can be found here \cite{cloudmesh-manual},
+whic includes various cloudmesh installations documentation for
+different OSes.
+
+\subsection{APPENDIX D. - Plan}\label{appendix-d.---plan}
+
+\cite{www-skikit-learn-faces}.
+
+\section{YAML}
+
+\TODO{TBD}
+
+
+\begin{figure}[!h]
+%\begin{Verbatim}[numbers=left,xleftmargin=5mm]
+\bigskip
+\begin{lstlisting}[language=Python,
+                   basicstyle=\ttfamily\footnotesize,
+                   numbers=left,                   
+                   numbersep=5pt,
+                   xleftmargin=5mm]
+openapi: 3.0.0
+info:
+  title: Calculator
+  description: "A simple calculator that allows you to do basic math operations"
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/cloudmesh
+    description: "A simple calculator that allows you to do basic math operations"
+paths:
+  /Calculator/dividefloat:
+     get:
+      summary: "Divide int by float."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: calculator.Calculator.dividefloat
+      parameters:
+        - in: query
+          name: x
+          description: "the value of input #1"
+          schema:
+            type: integer
+        - in: query
+          name: y
+          description: "the value of input #2"
+          schema:
+            type: number
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: number
+
+  /Calculator/multiplyint:
+     get:
+      summary: "Multiply int by int."
+      description: "None (Optional extended description in CommonMark or HTML)"
+      operationId: calculator.Calculator.multiplyint
+      parameters:
+        - in: query
+          name: x
+          description: "the value of input #1"
+          schema:
+            type: integer
+        - in: query
+          name: y
+          description: "the value of input #2"
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: integer
+                
+
+\end{lstlisting}
+
+\caption{YAML file generated from the python function}
+\label{fig:class-yaml}
+
+\end{figure}
+
+
+\TODO{TBD}
+
+\clearpage

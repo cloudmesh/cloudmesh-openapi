@@ -1,0 +1,61 @@
+\subsection{Service Registry}
+\label{sec:registry}
+
+Currently, the installation and setup of cloudmesh openapi involves the
+installation of MongoDB and the configuration of mongo variables. This
+is documented
+\href{https://github.com/cloudmesh/cloudmesh-openapi\#installation}{here.}
+
+There have been serveral recent cloudmesh projects involving Raspberry
+Pis. Unfortunately, the minimum version of MongoDB required for openapi
+is not available to the Raspberry Pi. Thus cloudmesh-https://www.overleaf.com/project/5fc4c48a11bb2d0ad8331f51openapi is not
+available to Pi users with MongoDB.
+
+In an effort to provide this software to all those that are interested
+regardless of OS/machine, we have added a new default storage mechanism
+that functions {\em out-of-the-box} with cloudmesh-openapi. This storage
+mechanism is implemented with python's native Pickle at the heart. All
+interfaces associated with MongoDB interactions have been extended to
+support switching to PickleDB. Thus, this addition is backwards
+compatible with previous versions of cloudmesh-openapi and requires
+little changes in the existing code base to support. Since Pickle is
+native to python, it is supported on any platform running python.
+
+It is important to note that there are essentially no security
+mechanisms with Pickle. We provide this option for users to test their
+APIs on different machines with little to no setup, but we do not
+recommend its usage in a production server.
+
+See Appendix \ref{a.6-switching-between-pickledb-and-mongodb} 
+to see how to switch between DB protocols.
+
+\subsection{A.6 Switching between PickleDB and
+MongoDB}\label{a.6-switching-between-pickledb-and-mongodb}
+
+The default ``out-of-the-box'' storage mechanism of cloudmesh-openapi is
+Pickle. This requires no setup of the DB on the user's end.
+
+To switch to MongoDB, the user must first change their config option as
+follows:
+
+\begin{verbatim}
+cms openapi register protocol mongo
+\end{verbatim}
+
+Note that by switching to mongo, certain mongo variables need to be
+filled out. Mongo may need to be installed as well. Refer to
+\href{https://github.com/cloudmesh/cloudmesh-openapi/\#installation}{this}
+documentation to see how this process can be done.
+
+One may switch back to pickle with the same command:
+
+\begin{verbatim}
+cms openapi register protocol pickle
+\end{verbatim}
+
+\subsection{APPENDIX B. - Code
+Location}\label{appendix-b.---code-location}
+
+This is temporary and will in final be moved elsewhere. Its conveniently
+for now placed on top so we can easier locate it at \cite{cloudmesh-openapi}.
+

@@ -162,6 +162,11 @@ class Server(object):
         :return: started server PID
         """
         name = Server.get_name(name, spec)
+        for active_server in Server.ps():
+            if active_server['name'] == name and os.getpid() != active_server['pid']:
+                Console.error(f'Server {name} already running on PID {active_server["pid"]}')
+                return None
+
         pid = ""
 
         if foreground:
@@ -198,6 +203,10 @@ class Server(object):
 
                 print()
 
+                try:
+                    details["info"]["title"] = name
+                except KeyError as e:
+                    Console.info("Issue setting name of server. Using spec instead")
                 registry = Registry()
                 registry.add_form_file(details,
                                        pid=pid,
@@ -227,7 +236,7 @@ class Server(object):
             if pinfo["cmdline"] is not None:
                 line = ' '.join(pinfo["cmdline"])
                 if "openapi server start" in line:
-                    print(pinfo)
+                    # print(pinfo)
                     info = line.split("start")[1].split("--")[0].strip()
                     if name is None:
                         name = os.path.basename(
@@ -243,7 +252,7 @@ class Server(object):
                     if name is None:
                         name = Path(info).stem.split("_")[0].split()
                     pids.append({"name": name, "pid": pinfo['pid'], "spec": info})
-        print(pids)
+        # print(pids)
         return pids
 
     @staticmethod

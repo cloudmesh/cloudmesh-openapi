@@ -1,0 +1,119 @@
+% \documentclass{article}
+\documentclass[acmtog,review=false]{acmart}
+
+%\usepackage[disable]{todonotes}
+\usepackage{todonotes}
+
+\input{format/packages}
+
+\newcommand{\TITLE}{Using GAS for Speedy Generation of Hybrid Multi-Cloud Auto Generated AI Services}
+
+
+\renewcommand{\shortauthors}{Gregor von Laszewski, et al.}
+
+\author{Gregor von Laszewski}
+\email{laszewski@gmail.com}
+\orcid{0000-0001-9558-179X}
+
+\author{Anthony Orlowski} % aporlows@iu.edu
+\author{Richard H. Otten} % rhotten@iu.edu
+\author{Reilly Markowitz} % rsmarkow@iu.edu
+\author{~\\Sunny Gandhi} % sugandhi@iu.edu
+\author{Adam Chai} % ajchai@iu.edu
+\author{Caleb Wilson} % on calewils@iu.edu
+
+\author{Geoffrey C. Fox} % gcfexchange@gmail.com
+\affiliation{%
+  \institution{Indiana University}
+  \streetaddress{Multidisciplinary Engineering and Sciences Hall\\
+2425 N Milo Sampson Lane}
+  \city{Bloomington}
+  \state{IN}
+  \country{USA}
+  \postcode{47408}
+}
+
+\author{Wo L. Chang} % wchang@nist.gov
+\affiliation{%
+  \institution{National Institute of Standards and Technology }
+  \streetaddress{
+  100 Bureau Drive
+  }
+  \city{Gaithersburg}
+  \state{MD}
+  \country{USA}
+  \postcode{20899}
+}
+
+\settopmatter{authorsperrow=4}
+
+\title{\TITLE}
+
+%\copyrightyear{2020}
+%\acmYear{2020}
+
+
+%% These commands are for a PROCEEDINGS abstract or paper.
+%\acmConference[Woodstock '18]{Woodstock '18: ACM Symposium on Neural
+%  Gaze Detection}{June 03--05, 2018}{Woodstock, NY}
+%\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection,
+%  June 03--05, 2018, Woodstock, NY}
+%\acmPrice{15.00}
+%\acmISBN{978-1-4503-XXXX-X/18/06}
+
+\setcopyright{none}
+%% These commands are for a PROCEEDINGS abstract or paper.
+\acmConference[Draft]{Darft}{Dec 2020}{Bloomington, IN}
+\acmBooktitle{}
+\acmDOI{http://dx.doi.org/xx.xxxx/xxxxxxx.xxxxxxx}
+% \acmPrice{15.00}
+%\acmISBN{978-1-4503-XXXX-X/18/06}
+
+%% REMOVE COPYRIGHT
+\settopmatter{printacmref=false}
+\setcopyright{none}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\pagestyle{plain}
+
+\makeatletter
+\newcommand{\verbatimfont}[1]{\renewcommand{\verbatim@font}{\ttfamily#1}}
+\makeatother
+
+\input{format/macros}
+
+\begin{document}
+
+\input{content-abstract}
+
+
+%\maketitle
+
+%\tableofcontents
+
+\verbatimfont{\footnotesize}%
+
+\maketitle
+
+\noindent\textbf{Keywords:} cloudmesh, AI service, REST, multi-cloud
+
+\bigskip
+
+\begin{footnotesize}
+\smallskip\noindent
+\textbf{Source Code:} \url{https://github.com/cloudmesh/cloudmesh-openapi}\\
+\noindent \textbf{Status:} Draft version from \today.\\
+\noindent \textbf{Link to newest version:} 
+\Link{https://github.com/cloudmesh/cloudmesh-openapi/tree/main/paper}
+\end{footnotesize}
+
+\bigskip
+
+\input{content}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bib/references}
+
+%\clearpage
+
+%\input{appendix}
+\end{document}

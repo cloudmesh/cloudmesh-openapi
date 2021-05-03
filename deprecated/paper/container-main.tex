@@ -1,0 +1,125 @@
+% \documentclass{article}
+\documentclass[acmtog, review=false]{acmart}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs,siunitx}
+\usepackage{breakurl}
+\usepackage{todonotes}
+% \usepackage[table]{xcolor} 
+\usepackage{fancyvrb}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+\author{Gregor von Laszewski}
+\email{laszewski@gmail.com}
+\orcid{0000-0001-9558-179X}
+\affiliation{%
+  \institution{$^*$Indiana University}
+  \streetaddress{Multidisciplinary Engineering and Sciences Hall\\
+2425 N Milo Sampson Lane}
+  \city{Bloomington}
+  \state{IN}
+  \country{USA}
+  \postcode{47408}
+}
+\authornotemark[1]
+%\authornote{Corresponding author}
+
+\author{Anthony Orlowski}
+\authornotemark[1]
+
+\author{Richard H. Otten}
+\authornotemark[1]
+
+\author{Caleb Wilson}
+\authornotemark[1]
+
+\author{Geoffrey C. Fox}
+\authornotemark[1]
+
+\author{~\\Wo L. Chang}
+\authornotemark[2]
+
+\author{Reilly Markowitz}
+\authornotemark[1]
+
+\author{Sunny Gandhi}
+\authornotemark[1]
+
+\affiliation{%
+  \institution{$^\textdagger$National Institute of Standards and Technology }
+  \streetaddress{
+  100 Bureau Drive
+  }
+  \city{Gaithersburg}
+  \state{MD}
+  \country{USA}
+  \postcode{20899}
+}
+
+\settopmatter{authorsperrow=4}
+
+
+\renewcommand{\shortauthors}{Gregor von Laszewski, et al.}
+
+\title{Multi-Cloud Auto Generated AI Services}
+
+%\copyrightyear{2020}
+%\acmYear{2020}
+
+
+%% These commands are for a PROCEEDINGS abstract or paper.
+%\acmConference[Woodstock '18]{Woodstock '18: ACM Symposium on Neural
+%  Gaze Detection}{June 03--05, 2018}{Woodstock, NY}
+%\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection,
+%  June 03--05, 2018, Woodstock, NY}
+%\acmPrice{15.00}
+%\acmISBN{978-1-4503-XXXX-X/18/06}
+
+\setcopyright{none}
+%% These commands are for a PROCEEDINGS abstract or paper.
+\acmConference[Draft]{Darft}{Dec 2020}{Bloomington, IN}
+\acmBooktitle{}
+\acmDOI{http://dx.doi.org/xx.xxxx/xxxxxxx.xxxxxxx}
+% \acmPrice{15.00}
+%\acmISBN{978-1-4503-XXXX-X/18/06}
+
+%% REMOVE COPYRIGHT
+\settopmatter{printacmref=false}
+\setcopyright{none}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\pagestyle{plain}
+
+\makeatletter
+\newcommand{\verbatimfont}[1]{\renewcommand{\verbatim@font}{\ttfamily#1}}
+\makeatother
+
+\begin{document}
+
+
+\tableofcontents
+
+\verbatimfont{\footnotesize}%
+
+\newcommand{\TODO}[1]{\todo[inline]{#1}}
+
+\maketitle
+
+\textbf{Keywords:} cloudmesh, AI service, REST, multi-cloud
+
+\textbf{URL to draft:} \url{https://github.com/cloudmesh/cloudmesh-openapi/blob/main/paper/}
+
+
+\input{container}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references,container}
+
+
+\end{document}

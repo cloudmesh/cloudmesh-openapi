@@ -1,0 +1,195 @@
+\section{Architecture}
+\label{sec:architecture}
+
+To satisfy our requirements, we have designed a multilayered architecture delivering a framework and toolkit to allow the easy generation and deployment of generalized AI-based REST services. 
+
+It contains two main layers. The first layer is concerned with generating the REST services, while the second focuses on easy deployment in a multi-cloud environment. However, as we also deal with hybrid infrastructure, we allow in the second layer access to HPC and local on premise resources. In addition, our architecture addresses the creation of containers and their deployment in docker and Kubernetes. This way our framework is not only capable of delopying into cloud virtual machines, but also into other infrastructure services, either offered locally or in the cloud. Both layers can be accessed and control via a convenient Command shell and client. As they are REST services, the deployed services can easily be accessed from other resources via the REST API. Next, we describe some of the important features within each of the layers while starting with the infrastructure deployment. 
+
+\subsection{IaaS Access Layer}
+
+This layer allows us to deploy different infrastructure services on demand while introducing an abstraction layer for compute resources that allow IaaS access across the different platform offerings. Here, we can leverage from the cloudmesh toolkit that provides us with the basic interfaces to virtual machines to conveniently access in homogeneous fashion AWS, Azure, Google, Oracle, and OpenStack. Access to HPC and Bare metal can be integrated and has been showcased in the past in cloudmesh. We also have prototyped in cloudmesh interfaces for accessing compute resources via docker and Kubernetes. 
+
+All of the deployment can easily be managed through a simple client shell that can also be used as a command line executor. This system is one of the key components of cloudmesh and allows easy integration of new commands and modules. This makes cloudmesh extensible, while others can provide new functionality that can be accessed in the command shell and command line interpreter. We use the cloudmesh command shell to integrate the functionality of the Generalized AI Service (GAS) Generator and describe its functionality in more detail next.
+
+\subsection{GAS Generator}
+
+The Generalized AI Service (GAS)\footnote{{\em GAS} the name GAS is derived from two different common usages. First, it refers to gasoline, referring to fuel that we need to generate the services; the second is an expandable material that fills the whole of a container. If you have better ideas or analogies for naming our framework, please get in contact with us. We love to hear from you!} Generator creates the REST service from a simple function or class definition while utilizing the newest python language features such as documented typing information integrated in the program specification. The GAS Generator provides us with the {\em fuel} that is needed as part of the service deployment. This is manifested in a number of artifacts for the deployment. The artifacts include a specification derived from the python program in OpenAPI format, the server code that is derived from the OpenAPI format, and an optional container specification file (e.g., Dockerfile). In addition, as we expect that the service is going to be reused, we use a GAS Service registry in which we record the specification description of the service as well as deployment information on which the service ought to be deployed. This deployment specification can be derived from other prototype cloudmesh components such as cloudmesh-frugal, which can obtain resources based on minimal cost. We have not explicitly included this component in our architecture picture as we have not used it as part of our benchmarks that we describe later. 
+
+% \TODO{mod image to add a backlink to the user}
+
+\OneFIGURE
+    {openapi-arch-new-2.pdf}
+    {Layered architecture of the cloudmesh OpenAPI framework.}
+    {fig:arch-new}
+
+\subsection{GAS Workflow}
+
+To showcase why the framework is so useful for data scientists, we are contrasting the definition workflow that a scientist undergoes while using OpenAPI without and with GAS Generator in  \Figure{fig:flow-schema} and \Figure{fig:flow-function}.
+
+The workflow in  \Figure{fig:flow-schema} showcases a typical workflow as promoted by the developers of Swagger codegen \cite{www-swagger-codegen}. The user identifies from his use case an OpenAPI schema that is used to generate the code. However, this is an unnecessary high entry barrier as the creation of these schemas is complex. While using the swagger code generator, a variety of code stubs in many different languages can be created. The code generated requires an unnecessary high entry barrier as we next need to identify how and where we include an implementation of a function that we want to expose as a REST service. Once complete, the rest of the activity requires the remaining steps to be executed by hand, but scripts could be developed to automatize it. 
+
+Next, we like to contrast this with our much-simplified approach. As we know, the data scientists have the knowledge to write python function (or class); we simply leverage this expertise and take the function (or class) and provide it as input (fuel) to the GAS generator. This is done with a simple one-line command invocation that just includes the name of the python program in which the function (or class) is defined. The scientist does not have to learn REST, the scientist does not have to look into a code stub that is generated for him, the scientist doe not even have to know how to instantiate or run the service. Furthermore, the scientist does not have to know about any security as we have added features to the code to leverage the existing security mechanism as a simple flag to the GAS Generator command line instantiation. This simplification allows the scientist to develop REST services in minutes rather than a month as the entry barrier is very low. Additionally, as we are integrated with cloudmesh infrastructure deployments, the instantiation of the services can also be done with a one line command under the assumption the scientist has accounts registered with cloudmesh allowing him to authenticate and authorize the deployment of the services in the cloud. 
+
+\begin{figure}[htb]
+
+\begin{minipage}[b]{0.48\columnwidth}
+\input{flow-schema}
+\end{minipage}
+\ \
+\begin{minipage}[b]{0.48\columnwidth}
+\input{flow-function}
+\end{minipage}
+
+\end{figure}
+
+
+\subsection{Scripting as Fuel for the GAS Generator}
+
+Next, we demonstrate through two examples of how simple it is to obtain Services from python specifications. In our example, we define one that uses a function definition returning a result. We chose a simple add function and list the code related to it in \Figure{fig:function}. We also expand upon the example and use a class definition to showcase how to derive services using multiple paths instead of being deployed in different services as showcased in \Figure{fig:class}. As we see from the example, other than using the new typing feature provided in Python, the example is just a regular Python program. It can be tested locally on the system to check its functionality before we generate the service.
+
+\Figure{fig:deploy-function} shows how to generate and deploy the service. As this process is the same for the class-based definition and only differs in the filename, we omitted it to include an explicit listing of the access method for it.
+
+Once the service is deployed the {\em curl} calls in \Figure{fig:function-curl} and \Figure{fig:class-curl} showcase how to interact with the service from the command line. Naturally, one can use any programming language that has built-in libraries for HTTP requests to interface with the service (such as {\em requests} in Python \cite{www-python-requests}). 
+Once we execute the following lines in a terminal, the result of the
+the addition will be calculated in the REST service, and it is returned.
+
+\newcommand{\FONT}{\tiny}
+
+
+\begin{figure}[htb]
+\begin{lstlisting}[language=Python,
+                   basicstyle=\ttfamily\FONT,
+                   numbers=left,                   
+                   numbersep=5pt,
+                   xleftmargin=5mm]
+def add(x: float, y: float) -> float:
+    """
+    adding x and y.
+    :param x: x value
+    :param y: y value
+    :return: result
+    """
+    result = x + y
+    return result
+\end{lstlisting}
+\caption{Defining an analytics function that is used to generate a REST service.}
+\label{fig:function}
+\bigskip
+\begin{lstlisting}[language=bash,
+                   firstnumber=10,
+                   basicstyle=\ttfamily\tiny,
+                   numbers=left,                   
+                   numbersep=5pt,
+                   xleftmargin=5mm]
+$ cms openapi generate add --filename=./add.py
+$ cms openapi server start ./add.yaml 
+$ curl \ 
+ -X GET "http://localhost:8080/cloudmesh/add?x=1&y=2" -H "accept: text/plain"
+# This command returns
+> 3.0
+\end{lstlisting}
+\caption{Generating, deploying, and invoking the REST service. {\color{white}aaaaaaaa}}
+\label{fig:deploy-function}
+\label{fig:function-curl}
+\bigskip
+\begin{lstlisting}[language=Python,
+                   basicstyle=\ttfamily\FONT,
+                   numbers=left,                   
+                   numbersep=5pt,
+                   xleftmargin=5mm]
+class Calculator:
+
+    @classmethod
+    def multiply(cls, x: int, y: int) -> int:
+        """
+        Multiply int by int and return an int.
+
+        :param x: the value of input #1
+        :param y: the value of input #2
+        :return: result of multiplying x by y
+        """
+        return x * y
+
+    @classmethod
+    def divide(cls, x: int, y: float) -> float:
+        """
+        Divide int by float and return a float.
+
+        :param x: the value of input #1
+        :param y: the value of input #2
+        :return: result of dividing x by y
+        """
+        return x / y
+
+if __name__ == '__main__':
+    calc = Calculator()
+    print("multiply 1 * 2: ",  calc.multiply(1, 2))
+    print("divide 6 / 3.14: ",  calc.divide(6, 2.3))
+
+\end{lstlisting}
+
+\caption{Defining an analytics function with the help of class methods to generate a REST service with multiple functions.}
+\label{fig:class}
+
+\bigskip
+\begin{lstlisting}[language=Python,
+                   firstnumber=29,
+                   basicstyle=\ttfamily\FONT,
+                   numbers=left,                   
+                   numbersep=5pt,
+                   xleftmargin=5mm]
+$ curl \ 
+  -X GET "http://localhost:8080/cloudmesh/multiply?x=1&y=2" \
+  -H "accept: text/plain"
+
+$ curl \ 
+  -X GET "http://localhost:8080/cloudmesh/divide?x=6&y=3.14" \
+  -H "accept: text/plain"
+
+\end{lstlisting}
+
+\caption{Defining an analytics function with the help of class methods to generate a REST service with multiple functions.}
+\label{fig:class-curl}
+
+\end{figure}
+
+
+\subsection{GAS Security}
+
+As we leverage OpenAPI and automatically generated OpenAPI services, it is possible to leverage security mechanisms from the underlying service implementation. To showcase this ability, we added basic authentication into our framework as an example configuration. However, it is certainly possible to extend this as the services we use also support OAuth, ApiKey Authentication, Bearer Authentication (JWT), and HTTPS support \cite{connexion-security}\cite{cloudmesh-openapi}.
+
+To demonstrate basic authentication, a cloudmesh user can create an OpenAPI server whose endpoints are only
+accessible as an authorized user. Currently, when basic auth is used, all endpoints are secured with this method. In future versions, we intend to allow securing selected methods.
+An example of the usage of basic auth is provided on our Web page at \cite{www-cloudmesh-openapi-security}.
+
+\section{Deployment Scenarios}
+
+Due to the versatility of REST and our ability to integrate with a variety of infrastructure services, a rich set of deployment scenarios is possible. Two important scenarios related to single and multiple service provider deployments are discussed next. 
+
+\subsection{Single Cloud Provider Hosted AI Service}
+
+In this scenario, a user deploys Cloudmesh OpenAPI on a virtual machine from a cloud provider and uses it to host auto-generated, RESTful, AI services. Next, the scientist constructs an AI service as a set of Python functions that implement a workflow, for example, downloading data from a remote server, training an AI model, uploading a new sample for prediction, and running a prediction on that sample. After the deployment, the service is accessible using
+standard HTTP request methods. In \Figure{fig:1} we show a remote client
+that accesses such a typical AI service workflow.
+Here the service is just deployed on a virtual
+machine from a single cloud provider. Cloudmesh provides the
+choice on which infrastructure provider to place the service. Through our security mechanism, the service can either be exposed to the public or to authenticated and authorized users.
+
+\OneFIGURE
+  {architecture-openapi-1.pdf}
+  {Example AI Service Workflow to obtain data, train, upload data for prediction, as well as the interaction with it.}
+  {fig:1}
+
+\subsection{Multi-Cloud Hosted AI Service}
+
+In our next scenario, we like to depict that it is possible to deploy the same service on multiple clouds through the use of our sophisticated but easy to use command clients. Detailed information about the exact commands are provided in our manual \cite{cloudmesh-manual}. Through this we can, for example, evaluate suitable providers for our deployment through benchmarking the service execution on each provider. This is precisely what we will be showcasing in our benchmark section and demonstrate this approach's feasibility. Thus the scientist not only obtains the ability with GAS Generator to develop and deploy services, but also to evaluate their performance on a variety of infrastructures. An example is provided in \Figure{fig:2} where a scientist deploys, for example, a service on AWS, Azure, and Google. As they are asynchronous services, the scientist can query the services simultaneously and
+gathers responses and benchmarks. Obviously, this can be used in a real scenario to  integrate compute resources from multiple providers that can be accessed via our GAS services. It also allows specific adaptations such as the integration of cloud AI services with one provider that are not accessible in another. Hence the framework can also be utilized to benchmark secondary services that are offered by a particular provider, or if they are offered by more than one, they can be comparatively evaluated. 
+
+
+\OneFIGURE
+  {architecture-openapi-2.pdf}
+  {Mult-Cloud AI Services: A client simultaneously accesses an AI service hosted
+   on three separate cloud providers, AWS, Azure, and Google, to benchmark
+   provider performance.}
+  {fig:2}
+ 

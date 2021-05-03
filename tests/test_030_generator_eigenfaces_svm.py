@@ -12,6 +12,7 @@ Here come document for test
 """
 import pytest
 from cloudmesh.common.util import HEADING
+from cloudmesh.common.util import banner
 import requests
 import os
 import subprocess
@@ -31,17 +32,27 @@ from cloudmesh.common.Shell import Shell
 from cloudmesh.common.variables import Variables
 from cloudmesh.configuration.Config import Config
 
+
+banner("test_030_generator_eigenfaces_svm")
+
 variables = Variables()
 ip = variables["host"] # to set, cms set host=localhost or ip for VM
 
+home = os.environ.get('HOME')
+cwd = os.getcwd()
+workdir = f"{home}/cm/cloudmesh-openapi"
+
+for scriptpath in [cwd,workdir]:
+    if os.path.exists(f"{scriptpath}/tests/test_030_generator_eigenfaces_svm.py"):
+        break
+workdir = scriptpath
 
 @pytest.mark.skipif(ip not in ["localhost", "127.0.0.1"],reason="testing remote server")
 @pytest.fixture(scope="class")
 def server_init(request):
-    home = os.environ.get('HOME')
-    command = f"cms openapi generate EigenfacesSVM --filename={home}/cm/cloudmesh-openapi/tests/generator-eigenfaces-svm/eigenfaces-svm-full.py --import_class --enable_upload"
+    command = f"cms openapi generate EigenfacesSVM --filename={workdir}/tests/generator-eigenfaces-svm/eigenfaces-svm-full.py --import_class --enable_upload"
     result = Shell.run(command)
-    command = f"cms openapi server start {home}/cm/cloudmesh-openapi/tests/generator-eigenfaces-svm/eigenfaces-svm-full.yaml"
+    command = f"cms openapi server start {workdir}/tests/generator-eigenfaces-svm/eigenfaces-svm-full.yaml"
     FNULL = open(os.devnull, 'w')
     subprocess.Popen([command], shell=True,stdin=None, stdout=FNULL, stderr=subprocess.STDOUT, close_fds=True)
     sleep(3)
@@ -80,7 +91,7 @@ class TestGenerator():
         Benchmark.Start()
         url = f"http://{ip}:8080/cloudmesh/upload"
         home = os.environ.get('HOME')
-        upload = {'upload': open(f'{home}/cm/cloudmesh-openapi/tests/generator-eigenfaces-svm/example_image.jpg', 'rb')}
+        upload = {'upload': open(f'{workdir}/tests/generator-eigenfaces-svm/example_image.jpg', 'rb')}
         r = requests.post(url, files=upload)
         assert r.status_code == 200
         assert r.text == 'example_image.jpg'
