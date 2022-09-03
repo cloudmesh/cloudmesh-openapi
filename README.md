@@ -1057,3 +1057,9 @@ For more information about test cases ,please check [tests info](https://github.
  * [test_server_cms_cpu](tests/test_server_cms_cpu.py)
 
 Note that there a many more tests that you can explore.
+
+## Acknowledgements
+
+Work conducted to integrate this work in research projects was funded by the NSF
+CyberTraining: CIC: CyberTraining for Students and Technologies
+from Generation Z with the awadrd numbers 1829704 and 2200409.
