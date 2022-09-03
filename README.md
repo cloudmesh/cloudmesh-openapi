@@ -1058,7 +1058,7 @@ For more information about test cases ,please check [tests info](https://github.
 
 Note that there a many more tests that you can explore.
 
-## Acknowledgements
+## Acknowledgments
 
 Work conducted to integrate this work in research projects was funded by the NSF
 CyberTraining: CIC: CyberTraining for Students and Technologies
