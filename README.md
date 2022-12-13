@@ -1,13 +1,6 @@
 # Cloudmesh OpenAPI Service Generator
 
 
-> **Note:** The README.md page is outomatically generated, do not edit it.
-> To modify  change the content in
-> <https://github.com/cloudmesh/cloudmesh-openapi/blob/main/README-source.md>
-> Curley brackets must use two in README-source.md
-
-
-
 [![image](https://img.shields.io/pypi/v/cloudmesh-openapi.svg)](https://pypi.org/project/cloudmesh-openapi/)
 [![Python](https://img.shields.io/pypi/pyversions/cloudmesh-openapi.svg)](https://pypi.python.org/pypi/cloudmesh-openapi)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-openapi/blob/main/LICENSE)
